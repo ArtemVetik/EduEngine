@@ -1,0 +1,65 @@
+#include "pch.h"
+#include "TextureD3D12.h"
+
+namespace EduEngine
+{
+	TextureD3D12::TextureD3D12(RenderDeviceD3D12*		  pDevice,
+							   const D3D12_RESOURCE_DESC& resourceDesc,
+							   const D3D12_CLEAR_VALUE&   clearValue) :
+		ResourceD3D12(pDevice)
+	{
+		pDevice->GetD3D12Device()->CreateCommittedResource(
+			&CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_DEFAULT),
+			D3D12_HEAP_FLAG_NONE,
+			&resourceDesc,
+			D3D12_RESOURCE_STATE_COMMON,
+			&clearValue,
+			IID_PPV_ARGS(m_d3d12Resource.GetAddressOf())
+		);
+	}
+
+	TextureD3D12::TextureD3D12(RenderDeviceD3D12* pDevice, Microsoft::WRL::ComPtr<ID3D12Resource> resource) :
+		ResourceD3D12(pDevice, resource)
+	{
+	}
+
+	void TextureD3D12::CreateSRVView(const D3D12_SHADER_RESOURCE_VIEW_DESC* srvDesc, bool onCpu)
+	{
+		DescriptorHeapAllocation allocation = std::move(Allocate(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV, onCpu));
+		m_Device->GetD3D12Device()->CreateShaderResourceView(m_d3d12Resource.Get(), srvDesc, allocation.GetCpuHandle());
+		m_SrvView = std::make_unique<TextureHeapView>(std::move(allocation), onCpu);
+	}
+
+	void TextureD3D12::CreateRTVView(const D3D12_RENDER_TARGET_VIEW_DESC* rtvDesc, bool onCpu)
+	{
+		DescriptorHeapAllocation allocation = std::move(Allocate(D3D12_DESCRIPTOR_HEAP_TYPE_RTV, onCpu));
+		m_Device->GetD3D12Device()->CreateRenderTargetView(m_d3d12Resource.Get(), rtvDesc, allocation.GetCpuHandle());
+		m_RtvView = std::make_unique<TextureHeapView>(std::move(allocation), onCpu);
+	}
+
+	void TextureD3D12::CreateDSVView(const D3D12_DEPTH_STENCIL_VIEW_DESC* dsvDesc, bool onCpu)
+	{
+		DescriptorHeapAllocation allocation = std::move(Allocate(D3D12_DESCRIPTOR_HEAP_TYPE_DSV, onCpu));
+		m_Device->GetD3D12Device()->CreateDepthStencilView(m_d3d12Resource.Get(), dsvDesc, allocation.GetCpuHandle());
+		m_DsvView = std::make_unique<TextureHeapView>(std::move(allocation), onCpu);
+	}
+
+	TextureHeapView* TextureD3D12::GetView(const D3D12_DESCRIPTOR_HEAP_TYPE& type) const
+	{
+		switch (type)
+		{
+		case D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV: return m_SrvView.get();
+		case D3D12_DESCRIPTOR_HEAP_TYPE_RTV: return m_RtvView.get();
+		case D3D12_DESCRIPTOR_HEAP_TYPE_DSV: return m_DsvView.get();
+		}
+
+		assert(1);
+	}
+
+	DescriptorHeapAllocation TextureD3D12::Allocate(const D3D12_DESCRIPTOR_HEAP_TYPE& type, bool onCpu)
+	{
+		return onCpu ?
+			m_Device->AllocateCPUDescriptor(type, 1) :
+			m_Device->AllocateGPUDescriptor(type, 1);
+	}
+}

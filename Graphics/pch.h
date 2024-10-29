@@ -1,0 +1,31 @@
+#pragma once
+
+#include <d3d12.h>
+#include <windows.h>
+#include <WindowsX.h>
+#include <wrl.h>
+#include <mutex>
+#include <comdef.h>
+#include <functional>
+#include <algorithm>
+#include <vector>
+#include <map>
+#include <atomic>
+#include <D3Dcompiler.h>
+#include <DirectXMath.h>
+#include <DirectXPackedVector.h>
+#include <DirectXColors.h>
+#include <DirectXCollision.h>
+#include <memory>
+#include <algorithm>
+#include <vector>
+#include <array>
+#include <deque>
+#include <unordered_map>
+#include <cstdint>
+#include <fstream>
+#include <sstream>
+#include <cassert>
+#include <dxgi1_4.h>
+
+#include "framework.h"
