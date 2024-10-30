@@ -17,6 +17,10 @@ namespace EduEngine
 		void Reset();
 		ID3D12GraphicsCommandList* Close();
 
+		void SetViewports(const D3D12_VIEWPORT* viewports, size_t count) const;
+		void SetScissorRects(const D3D12_RECT* scissorRects, size_t count) const;
+		void SetRenderTargets(UINT num, const D3D12_CPU_DESCRIPTOR_HANDLE* rtvView, BOOL isSingleHandle, const D3D12_CPU_DESCRIPTOR_HANDLE* dsvView) const;
+
 		void ResourceBarrier(const D3D12_RESOURCE_BARRIER& barrier);
 		void FlushResourceBarriers();
 

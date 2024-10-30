@@ -29,10 +29,26 @@ namespace EduEngine
         assert(m_pCurrentAllocator != nullptr);
         auto hr = m_pCommandList->Close();
         
-        QueryInterface::GetInstance().PrintInfoMessages();
         assert(SUCCEEDED(hr));
 
         return m_pCommandList.Get();
+    }
+
+    void CommandContext::SetViewports(const D3D12_VIEWPORT* viewports, size_t count) const
+    {
+        assert(count < D3D12_VIEWPORT_AND_SCISSORRECT_OBJECT_COUNT_PER_PIPELINE);
+        m_pCommandList->RSSetViewports(count, viewports);
+    }
+
+    void CommandContext::SetScissorRects(const D3D12_RECT* scissorRects, size_t count) const
+    {
+        assert(count < D3D12_VIEWPORT_AND_SCISSORRECT_OBJECT_COUNT_PER_PIPELINE);
+        m_pCommandList->RSSetScissorRects(count, scissorRects);
+    }
+
+    void CommandContext::SetRenderTargets(UINT num, const D3D12_CPU_DESCRIPTOR_HANDLE* rtvView, BOOL isSingleHandle, const D3D12_CPU_DESCRIPTOR_HANDLE* dsvView) const
+    {
+        m_pCommandList->OMSetRenderTargets(num, rtvView, isSingleHandle, dsvView);
     }
 
     void CommandContext::ResourceBarrier(const D3D12_RESOURCE_BARRIER& barrier)

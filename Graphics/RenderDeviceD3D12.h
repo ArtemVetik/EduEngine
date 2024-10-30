@@ -13,9 +13,7 @@ namespace EduEngine
 	{
 	public:
 		RenderDeviceD3D12(Microsoft::WRL::ComPtr<ID3D12Device> device);
-		~RenderDeviceD3D12() {
-		
-		};
+
 		RenderDeviceD3D12(const RenderDeviceD3D12&) = delete;
 		RenderDeviceD3D12(RenderDeviceD3D12&&) = delete;
 		RenderDeviceD3D12& operator = (const RenderDeviceD3D12&) = delete;
@@ -29,6 +27,8 @@ namespace EduEngine
 
 		virtual void SafeReleaseObject(QueueID queueId, ReleaseResourceWrapper&& wrapper) override;
 		void FinishFrame();
+		
+		void FlushQueues();
 
 		ID3D12Device* GetD3D12Device() override { return mDevice.Get(); }
 

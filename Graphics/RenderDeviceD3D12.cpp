@@ -74,6 +74,13 @@ namespace EduEngine
 
 	void RenderDeviceD3D12::FinishFrame()
 	{
+		for (int i = 0; i < 2; i++)
+			m_CommandQueues[i].ProcessReleaseQueue();
+	}
 
+	void RenderDeviceD3D12::FlushQueues()
+	{
+		for (int i = 0; i < 2; i++)
+			m_CommandQueues[i].Flush();
 	}
 }

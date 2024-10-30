@@ -26,6 +26,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance,
 	EduEngine::RenderEngine game;
 	game.StartUp();
 
+	EduEngine::Timer timer = EduEngine::Timer(window.GetMainWindow(), L"EduEngine");
+
 	MSG msg = { 0 };
 
 	while (msg.message != WM_QUIT)
@@ -37,10 +39,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance,
 		}
 		else
 		{
-
+			timer.UpdateTimer();
 			if (!window.IsPaused())
 			{
+				timer.UpdateTitleBarStats();
 				game.Update();
+				game.Draw();
 			}
 			else
 			{

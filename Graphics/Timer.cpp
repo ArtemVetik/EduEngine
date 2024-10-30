@@ -58,7 +58,7 @@ namespace EduEngine
 
 		float timeDiff = 0.0f;
 		timeDiff = totalTime - fpsTimeElapsed;
-		if (timeDiff < 1.0f)
+		if (timeDiff < 0.5f)
 			return;
 
 		// How long did each frame take?  (Approx)
@@ -72,7 +72,7 @@ namespace EduEngine
 			"    Frame time: " << mspf << " ms" << "\0";
 
 		fpsFrameCount = 0;
-		fpsTimeElapsed += 1.0f;
+		fpsTimeElapsed += 0.5f;
 
 		SetWindowText(hwnd, out.str().c_str());
 	}

@@ -19,6 +19,7 @@ namespace EduEngine
 
 	void QueryInterface::PrintInfoMessages()
 	{
+#if defined(DEGUG) || defined(_DEBUG)
 		UINT64 messageCount = mInfoQueue->GetNumStoredMessagesAllowedByRetrievalFilter();
 		for (UINT64 i = 0; i < messageCount; ++i) {
 			SIZE_T messageLength = 0;
@@ -31,5 +32,6 @@ namespace EduEngine
 			printf("D3D12 Message: %s\n", message->pDescription);
 		}
 		mInfoQueue->ClearStoredMessages();
+#endif
 	}
 }

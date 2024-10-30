@@ -60,4 +60,27 @@ namespace EduEngine
 				break;
 		}
 	}
+
+	void CommandQueueD3D12::Flush()
+	{
+		m_NextCmdList++;
+
+		// Add an instruction to the command queue to set a new fence point.  Because we 
+		// are on the GPU timeline, the new fence point won't be set until the GPU finishes
+		// processing all the commands prior to this Signal().
+		ThrowIfFailed(m_CommandQueue->Signal(m_Fence.Get(), m_NextCmdList));
+
+		// Wait until the GPU has completed commands up to this fence point.
+		if (m_Fence->GetCompletedValue() < m_NextCmdList)
+		{
+			HANDLE eventHandle = CreateEventEx(nullptr, FALSE, false, EVENT_ALL_ACCESS);
+
+			// fire event when GPU hits current fence  
+			ThrowIfFailed(m_Fence->SetEventOnCompletion(m_NextCmdList, eventHandle));
+
+			// wait until the GPU hits current fence event is fired
+			WaitForSingleObject(eventHandle, INFINITE);
+			CloseHandle(eventHandle);
+		}
+	}
 }

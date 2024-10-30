@@ -33,7 +33,7 @@ namespace EduEngine
 		bool StartUp();
 
 		void Update();
-		void Draw(const Timer& timer);
+		void Draw();
 
 		static RenderEngine* GetInstance();
 	private:

@@ -20,8 +20,8 @@ namespace EduEngine
 
 	RenderEngine::~RenderEngine()
 	{
-		/*if (m_Device.GetD3D12Device() != nullptr)
-			m_Device.Flush();*/
+		if (m_Device != nullptr)
+			m_Device->FlushQueues();
 	}
 
 	bool RenderEngine::StartUp()
@@ -58,9 +58,32 @@ namespace EduEngine
 		InputManager::GetInstance().Update();
 	}
 
-	void RenderEngine::Draw(const Timer& timer)
+	void RenderEngine::Draw()
 	{
+		auto& commandContext = m_Device->GetCommandContext(D3D12_COMMAND_LIST_TYPE_DIRECT);
+		auto& commandQueue = m_Device->GetCommandQueue(D3D12_COMMAND_LIST_TYPE_DIRECT);
 
+		D3D12_VIEWPORT ScreenViewPort;
+		D3D12_RECT ScissorRect;
+		ScreenViewPort.TopLeftX = 0;
+		ScreenViewPort.TopLeftY = 0;
+		ScreenViewPort.Width = static_cast<float>(Window::GetInstance()->GetClientWidth());
+		ScreenViewPort.Height = static_cast<float>(Window::GetInstance()->GetClientHeight());
+		ScreenViewPort.MinDepth = 0.0f;
+		ScreenViewPort.MaxDepth = 1.0f;
+
+		ScissorRect = { 0, 0, Window::GetInstance()->GetClientWidth(), Window::GetInstance()->GetClientHeight() };
+
+		commandContext.Reset();
+		commandContext.SetViewports(&ScreenViewPort, 1);
+		commandContext.SetScissorRects(&ScissorRect, 1);
+		commandContext.SetRenderTargets(1, &(m_SwapChain->CurrentBackBufferView()), true, &(m_SwapChain->DepthStencilView()));
+
+		commandContext.FlushResourceBarriers();
+		commandQueue.CloseAndExecuteCommandContext(&commandContext);
+
+		m_SwapChain->Present();
+		m_Device->FinishFrame();
 	}
 
 	void RenderEngine::Resize()
@@ -72,6 +95,7 @@ namespace EduEngine
 
 		m_SwapChain->Resize(Window::GetInstance()->GetClientWidth(), Window::GetInstance()->GetClientHeight());
 
+		commandContext.FlushResourceBarriers();
 		commandQueue.CloseAndExecuteCommandContext(&commandContext);
 	}
 }

@@ -21,6 +21,8 @@ namespace EduEngine
 		void SafeReleaseObject(ReleaseResourceWrapper&& staleObject);
 		void ProcessReleaseQueue(bool forceRelease = false);
 
+		void Flush();
+
 		ID3D12CommandQueue* GetD3D12CommandQueue() const { return m_CommandQueue.Get(); };
 		uint64_t GetCompletedFenceNum() { return m_Fence->GetCompletedValue(); }
 
