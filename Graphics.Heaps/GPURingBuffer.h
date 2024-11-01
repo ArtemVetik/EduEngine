@@ -6,6 +6,8 @@ namespace EduEngine
 {
     struct GRAPHICS_HEAPS_API DynamicAllocation
     {
+        DynamicAllocation() = default;
+
         DynamicAllocation(ID3D12Resource* pBuff, size_t thisOffset, size_t thisSize) :
             pBuffer(pBuff), Offset(thisOffset), Size(thisSize) {}
 

@@ -21,6 +21,8 @@ namespace EduEngine
 		void SetScissorRects(const D3D12_RECT* scissorRects, size_t count) const;
 		void SetRenderTargets(UINT num, const D3D12_CPU_DESCRIPTOR_HANDLE* rtvView, BOOL isSingleHandle, const D3D12_CPU_DESCRIPTOR_HANDLE* dsvView) const;
 
+		void UpdateSubresource(ID3D12Resource* dest, ID3D12Resource* intermediate, D3D12_SUBRESOURCE_DATA* pSrcData);
+
 		void ResourceBarrier(const D3D12_RESOURCE_BARRIER& barrier);
 		void FlushResourceBarriers();
 
@@ -35,5 +37,8 @@ namespace EduEngine
 		Microsoft::WRL::ComPtr<ID3D12CommandAllocator>    m_pCurrentAllocator;
 
 		std::vector<D3D12_RESOURCE_BARRIER> m_PendingResourceBarriers;
+
+	public:
+		ID3D12GraphicsCommandList* GetCmdList() const { return m_pCommandList.Get(); }
 	};
 }

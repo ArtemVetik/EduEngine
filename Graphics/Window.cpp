@@ -1,11 +1,9 @@
 #include "pch.h"
 #include "Window.h"
-#include <cassert>
+#include "RenderEngine.h"
 
 namespace EduEngine
 {
-	static Window* mInstance;
-
 	LRESULT CALLBACK
 		MainWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	{
@@ -14,15 +12,13 @@ namespace EduEngine
 		return Window::GetInstance()->MsgProc(hwnd, msg, wParam, lParam);
 	}
 
-	Window::Window(HINSTANCE hInstance) : mApplicationInstanceHandle(hInstance)
-	{
-		assert(mInstance == nullptr);
-		mInstance = this;
-	}
+	Window* Window::m_Instance = nullptr;
 
-	Window* Window::GetInstance()
+	Window::Window(HINSTANCE hInstance) :
+		mApplicationInstanceHandle(hInstance)
 	{
-		return mInstance;
+		assert(m_Instance == nullptr);
+		m_Instance = this;
 	}
 
 	bool Window::Initialize()
@@ -45,7 +41,7 @@ namespace EduEngine
 			return false;
 		}
 
-		RECT R = { 0, 0, mScreenWidth, mScreenHeight };
+		RECT R = { 0, 0, m_ScreenWidth, m_ScreenHeight };
 		AdjustWindowRect(&R, WS_OVERLAPPEDWINDOW, false);
 		int width = R.right - R.left;
 		int height = R.bottom - R.top;
@@ -66,12 +62,12 @@ namespace EduEngine
 
 	int Window::GetClientWidth() const
 	{
-		return mScreenWidth;
+		return m_ScreenWidth;
 	}
 
 	int Window::GetClientHeight() const
 	{
-		return mScreenHeight;
+		return m_ScreenHeight;
 	}
 
 	int Window::IsPaused() const
@@ -86,18 +82,23 @@ namespace EduEngine
 
 	float Window::AspectRatio() const
 	{
-		return static_cast<float>(mScreenWidth) / mScreenHeight;
+		return static_cast<float>(m_ScreenWidth) / m_ScreenHeight;
 	}
 
 	LRESULT Window::MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	{
 		//ImGui_ImplWin32_WndProcHandler(hwnd, msg, wParam, lParam);
 
+		auto Resize = [](UINT w, UINT h) 
+		{
+			if (RenderEngine::GetInstance()) RenderEngine::GetInstance()->Resize(w, h);
+		};
+
 		switch (msg)
 		{
 		case WM_SIZE:
-			mScreenWidth = LOWORD(lParam);
-			mScreenHeight = HIWORD(lParam);
+			m_ScreenWidth = LOWORD(lParam);
+			m_ScreenHeight = HIWORD(lParam);
 
 			if (wParam == SIZE_MINIMIZED)
 			{
@@ -110,7 +111,7 @@ namespace EduEngine
 				mApplicationPaused = false;
 				mApplicationMinimized = false;
 				mApplicationMaximized = true;
-				if (mResizeEvent) mResizeEvent();
+				Resize(m_ScreenWidth, m_ScreenHeight);
 			}
 			else if (wParam == SIZE_RESTORED)
 			{
@@ -119,14 +120,14 @@ namespace EduEngine
 				{
 					mApplicationPaused = false;
 					mApplicationMinimized = false;
-					if (mResizeEvent) mResizeEvent();
+					Resize(m_ScreenWidth, m_ScreenHeight);
 				}
 				// Restoring from maximized state?
 				else if (mApplicationMaximized)
 				{
 					mApplicationPaused = false;
 					mApplicationMaximized = false;
-					if (mResizeEvent) mResizeEvent();
+					Resize(m_ScreenWidth, m_ScreenHeight);
 				}
 				else if (mApplicationResizing)
 				{
@@ -141,7 +142,7 @@ namespace EduEngine
 				}
 				else // API call such as SetWindowPos or mSwapChain->SetFullscreenState.
 				{
-					if (mResizeEvent) mResizeEvent();
+					Resize(m_ScreenWidth, m_ScreenHeight);
 				}
 			}
 			return 0;
@@ -160,8 +161,8 @@ namespace EduEngine
 		return DefWindowProc(hwnd, msg, wParam, lParam);
 	}
 
-	void Window::SetResizeEvent(const std::function<void()>& resizeEvent)
+	Window* Window::GetInstance()
 	{
-		mResizeEvent = resizeEvent;
+		return m_Instance;
 	}
 }

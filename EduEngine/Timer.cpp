@@ -1,14 +1,8 @@
-#include "pch.h"
 #include "Timer.h"
 #include <sstream>
 
 namespace EduEngine
 {
-	Timer::Timer()
-	{
-
-	}
-
 	Timer::Timer(HWND handle, LPCTSTR windowTitle) : hwnd(handle), windowTitle(windowTitle)
 	{
 		fpsFrameCount = 0;

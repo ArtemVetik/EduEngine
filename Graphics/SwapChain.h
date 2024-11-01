@@ -9,7 +9,7 @@ namespace EduEngine
 	class GRAPHICS_API SwapChain
 	{
 	public:
-		SwapChain(RenderDeviceD3D12* pDevice);
+		SwapChain(RenderDeviceD3D12* pDevice, const Window& mainWindow);
 
 		void Resize(UINT width, UINT height);
 		void Present();

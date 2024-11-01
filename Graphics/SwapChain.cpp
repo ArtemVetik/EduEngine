@@ -4,7 +4,7 @@
 
 namespace EduEngine
 {
-	SwapChain::SwapChain(RenderDeviceD3D12* pDevice) :
+	SwapChain::SwapChain(RenderDeviceD3D12* pDevice, const Window& mainWindow) :
 		m_Device(pDevice),
 		m_CurrentBackBuffer(0)
 	{
@@ -18,8 +18,8 @@ namespace EduEngine
 		CreateDXGIFactory2(createFactoryFlags, IID_PPV_ARGS(&mDXGIFactory));
 
 		DXGI_SWAP_CHAIN_DESC1 swapChainDesc = {};
-		swapChainDesc.Width = Window::GetInstance()->GetClientWidth();
-		swapChainDesc.Height = Window::GetInstance()->GetClientHeight();
+		swapChainDesc.Width = mainWindow.GetClientWidth();
+		swapChainDesc.Height = mainWindow.GetClientHeight();
 		swapChainDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
 		swapChainDesc.Stereo = FALSE;
 		swapChainDesc.SampleDesc = { 1, 0 };
@@ -36,7 +36,7 @@ namespace EduEngine
 		Microsoft::WRL::ComPtr<IDXGISwapChain1> swapChain1;
 		mDXGIFactory->CreateSwapChainForHwnd(
 			m_Device->GetCommandQueue(D3D12_COMMAND_LIST_TYPE_DIRECT).GetD3D12CommandQueue(),
-			Window::GetInstance()->GetMainWindow(),
+			mainWindow.GetMainWindow(),
 			&swapChainDesc,
 			nullptr,
 			nullptr,
@@ -44,7 +44,7 @@ namespace EduEngine
 
 		// Disable the Alt+Enter fullscreen toggle feature. Switching to fullscreen
 		// will be handled manually.
-		ThrowIfFailed(mDXGIFactory->MakeWindowAssociation(Window::GetInstance()->GetMainWindow(), DXGI_MWA_NO_ALT_ENTER));
+		ThrowIfFailed(mDXGIFactory->MakeWindowAssociation(mainWindow.GetMainWindow(), DXGI_MWA_NO_ALT_ENTER));
 
 		ThrowIfFailed(swapChain1.As(&m_SwapChain));
 

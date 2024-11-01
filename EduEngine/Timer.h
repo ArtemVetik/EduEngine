@@ -1,12 +1,11 @@
 #pragma once
-#include "pch.h"
+#include <wtypes.h>
 
 namespace EduEngine
 {
-	class GRAPHICS_API Timer
+	class Timer
 	{
 	public:
-		Timer();
 		Timer(HWND handle, LPCTSTR windowTitle);
 		~Timer();
 

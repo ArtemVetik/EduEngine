@@ -51,6 +51,11 @@ namespace EduEngine
         m_pCommandList->OMSetRenderTargets(num, rtvView, isSingleHandle, dsvView);
     }
 
+    void CommandContext::UpdateSubresource(ID3D12Resource* dest, ID3D12Resource* intermediate, D3D12_SUBRESOURCE_DATA* pSrcData)
+    {
+        UpdateSubresources<1>(m_pCommandList.Get(), dest, intermediate, 0, 0, 1, pSrcData);
+    }
+
     void CommandContext::ResourceBarrier(const D3D12_RESOURCE_BARRIER& barrier)
     {
         m_PendingResourceBarriers.push_back(barrier);

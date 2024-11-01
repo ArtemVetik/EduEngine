@@ -1,4 +1,3 @@
-#include "pch.h"
 #include "InputManager.h"
 
 namespace EduEngine
@@ -98,7 +97,6 @@ namespace EduEngine
         {
             if (m_keyboardState[i] & 0x80)
             {
-                printf("%hhu -- %d\n", m_keyboardState[i], i);
                 return true;
             }
         }

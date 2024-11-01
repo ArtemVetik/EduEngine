@@ -1,13 +1,13 @@
 #pragma once
-#include "pch.h"
 
 #include <dinput.h>
+
 #pragma comment(lib, "dinput8.lib")
 #pragma comment(lib, "dxguid.lib")
 
 namespace EduEngine
 {
-    class GRAPHICS_API InputManager
+    class InputManager
     {
     public:
         static InputManager& GetInstance();

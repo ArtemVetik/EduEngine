@@ -1,5 +1,6 @@
 #pragma once
 #include "pch.h"
+#include "../Graphics.Heaps/DynamicUploadHeap.h"
 #include "../Graphics.Heaps/ReleaseResourceWrapper.h"
 #include "CommandContext.h"
 
@@ -23,6 +24,8 @@ namespace EduEngine
 
 		void Flush();
 
+		DynamicAllocation AllocateInDynamicHeap(size_t sizeInBytes);
+
 		ID3D12CommandQueue* GetD3D12CommandQueue() const { return m_CommandQueue.Get(); };
 		uint64_t GetCompletedFenceNum() { return m_Fence->GetCompletedValue(); }
 
@@ -37,6 +40,7 @@ namespace EduEngine
 
 		typedef std::pair<uint64_t, ReleaseResourceWrapper> ReleaseObject;
 
+		std::unique_ptr<DynamicUploadHeap> m_DynUploadHeap; // must be before m_ReleaseObjectsQueue
 		std::deque<ReleaseObject> m_ReleaseObjectsQueue;
 	};
 }

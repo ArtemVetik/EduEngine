@@ -17,17 +17,16 @@ namespace EduEngine
 
 		LRESULT MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
-		void SetResizeEvent(const std::function<void()>& resizeEvent);
-
 		static Window* GetInstance();
+
 	private:
-		std::function<void()> mResizeEvent;
+		static Window* m_Instance;
 
 		HINSTANCE mApplicationInstanceHandle = nullptr;
 		HWND mMainWindowHandle = nullptr;
 
-		int mScreenWidth = 1280;
-		int mScreenHeight = 720;
+		int m_ScreenWidth = 1280;
+		int m_ScreenHeight = 720;
 		bool mApplicationPaused = false;
 		bool mApplicationMinimized = false;
 		bool mApplicationMaximized = false;

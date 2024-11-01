@@ -27,12 +27,6 @@
     <ClInclude Include="RenderEngine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Timer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Window.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="QueryInterface.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -40,9 +34,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SwapChain.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="InputManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="pch.h">
@@ -72,18 +63,33 @@
     <ClInclude Include="resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="RenderObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderD3D12.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderPasses.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RootSignatureD3D12.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PipelineStateD3D12.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Window.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="RenderEngine.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Timer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Window.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="QueryInterface.cpp">
@@ -93,9 +99,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SwapChain.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="InputManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="pch.cpp">
@@ -117,6 +120,21 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="TextureD3D12.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ShaderD3D12.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="RootSignatureD3D12.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PipelineStateD3D12.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Window.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

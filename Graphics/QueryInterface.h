@@ -12,6 +12,6 @@ namespace EduEngine
 		void PrintInfoMessages();
 
 	private:
-		Microsoft::WRL::ComPtr<ID3D12InfoQueue> mInfoQueue;
+		Microsoft::WRL::ComPtr<ID3D12InfoQueue> m_InfoQueue;
 	};
 }

@@ -40,15 +40,17 @@ namespace EduEngine
 		}
 		resourceDesc.Width = maxSize;
 
-		pd3d12Device->CreateCommittedResource(
+		HRESULT hr = pd3d12Device->CreateCommittedResource(
 			&heapProps,
 			D3D12_HEAP_FLAG_NONE,
 			&resourceDesc,
 			defaultUsage,
 			nullptr,
-			__uuidof(m_pBuffer),
-			&m_pBuffer
+			IID_PPV_ARGS(&m_pBuffer)
 		);
+
+		if (FAILED(hr))
+			throw;
 
 		m_pBuffer->SetName(L"Upload Ring Buffer");
 
@@ -68,7 +70,6 @@ namespace EduEngine
 	{
 		rhs.m_CpuVirtualAddress = nullptr;
 		rhs.m_GpuVirtualAddress = 0;
-		rhs.m_pBuffer.Get()->Release();
 	}
 
 	GPURingBuffer& GPURingBuffer::operator=(GPURingBuffer&& rhs) noexcept
@@ -117,6 +118,6 @@ namespace EduEngine
 		}
 		m_CpuVirtualAddress = 0;
 		m_GpuVirtualAddress = 0;
-		m_pBuffer.Get()->Release();
+		m_pBuffer.Reset();
 	}
 }

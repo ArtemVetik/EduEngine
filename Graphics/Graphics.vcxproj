@@ -140,41 +140,47 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="BufferD3D12.h" />
+    <ClInclude Include="Camera.h" />
     <ClInclude Include="CommandContext.h" />
     <ClInclude Include="CommandListManager.h" />
     <ClInclude Include="CommandQueueD3D12.h" />
     <ClInclude Include="d3dx12.h" />
+    <ClInclude Include="RenderObject.h" />
+    <ClInclude Include="PipelineStateD3D12.h" />
     <ClInclude Include="RenderDeviceD3D12.h" />
-    <ClInclude Include="InputManager.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="RenderEngine.h" />
     <ClInclude Include="DxException.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="QueryInterface.h" />
+    <ClInclude Include="RenderPasses.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="ResourceD3D12.h" />
+    <ClInclude Include="RootSignatureD3D12.h" />
+    <ClInclude Include="ShaderD3D12.h" />
     <ClInclude Include="SwapChain.h" />
     <ClInclude Include="TextureD3D12.h" />
-    <ClInclude Include="Timer.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BufferD3D12.cpp" />
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CommandContext.cpp" />
     <ClCompile Include="CommandListManager.cpp" />
     <ClCompile Include="CommandQueueD3D12.cpp" />
+    <ClCompile Include="PipelineStateD3D12.cpp" />
     <ClCompile Include="RenderDeviceD3D12.cpp" />
     <ClCompile Include="dllmain.cpp" />
-    <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="RenderEngine.cpp" />
     <ClCompile Include="DxException.cpp" />
     <ClCompile Include="QueryInterface.cpp" />
+    <ClCompile Include="RootSignatureD3D12.cpp" />
+    <ClCompile Include="ShaderD3D12.cpp" />
     <ClCompile Include="SwapChain.cpp" />
     <ClCompile Include="TextureD3D12.cpp" />
-    <ClCompile Include="Timer.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>

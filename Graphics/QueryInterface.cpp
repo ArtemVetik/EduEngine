@@ -12,26 +12,27 @@ namespace EduEngine
 
 	void QueryInterface::Initialize(ID3D12Device* device)
 	{
-		device->QueryInterface(IID_PPV_ARGS(&mInfoQueue));
-		mInfoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_CORRUPTION, TRUE);
-		//mInfoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_ERROR, TRUE);
+		device->QueryInterface(IID_PPV_ARGS(&m_InfoQueue));
+		m_InfoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_CORRUPTION, TRUE);
+		//m_InfoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_ERROR, TRUE);
+		m_InfoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_WARNING, FALSE);
 	}
 
 	void QueryInterface::PrintInfoMessages()
 	{
 #if defined(DEGUG) || defined(_DEBUG)
-		UINT64 messageCount = mInfoQueue->GetNumStoredMessagesAllowedByRetrievalFilter();
+		UINT64 messageCount = m_InfoQueue->GetNumStoredMessagesAllowedByRetrievalFilter();
 		for (UINT64 i = 0; i < messageCount; ++i) {
 			SIZE_T messageLength = 0;
-			mInfoQueue->GetMessage(i, nullptr, &messageLength);
+			m_InfoQueue->GetMessage(i, nullptr, &messageLength);
 
 			std::vector<char> messageData(messageLength);
 			D3D12_MESSAGE* message = reinterpret_cast<D3D12_MESSAGE*>(messageData.data());
-			mInfoQueue->GetMessage(i, message, &messageLength);
+			m_InfoQueue->GetMessage(i, message, &messageLength);
 
 			printf("D3D12 Message: %s\n", message->pDescription);
 		}
-		mInfoQueue->ClearStoredMessages();
+		m_InfoQueue->ClearStoredMessages();
 #endif
 	}
 }

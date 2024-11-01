@@ -26,6 +26,8 @@ namespace EduEngine
 		virtual uint32_t GetDescriptorSize() const override { return m_DescriptorSize; }
 		virtual void FreeAllocation(DescriptorHeapAllocation&& allocation) override;
 
+		ID3D12DescriptorHeap* GetD3D12Heap() const { return m_pd3d12DescriptorHeap.Get(); }
+
 	private:
 		ID3D12DescriptorHeap* CreateHeap(ID3D12Device* device, D3D12_DESCRIPTOR_HEAP_DESC desc);
 
