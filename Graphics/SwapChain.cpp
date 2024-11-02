@@ -44,9 +44,11 @@ namespace EduEngine
 
 		// Disable the Alt+Enter fullscreen toggle feature. Switching to fullscreen
 		// will be handled manually.
-		ThrowIfFailed(mDXGIFactory->MakeWindowAssociation(mainWindow.GetMainWindow(), DXGI_MWA_NO_ALT_ENTER));
+		HRESULT hr = mDXGIFactory->MakeWindowAssociation(mainWindow.GetMainWindow(), DXGI_MWA_NO_ALT_ENTER);
+		THROW_IF_FAILED(hr, L"Failed to make window association");
 
-		ThrowIfFailed(swapChain1.As(&m_SwapChain));
+		hr = swapChain1.As(&m_SwapChain);
+		THROW_IF_FAILED(hr, L"Failed to cast swapchain");
 
 		m_SwapChain->SetMaximumFrameLatency(SwapChainBufferCount);
 	}

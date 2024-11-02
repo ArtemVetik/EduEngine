@@ -31,7 +31,8 @@ namespace EduEngine
 	{
 #if defined(DEBUG) || defined(_DEBUG) 
 		Microsoft::WRL::ComPtr<ID3D12Debug> debugController;
-		ThrowIfFailed(D3D12GetDebugInterface(IID_PPV_ARGS(&debugController)));
+		HRESULT hr = D3D12GetDebugInterface(IID_PPV_ARGS(&debugController));
+		THROW_IF_FAILED(hr, L"Failed to get debug interface");
 		debugController->EnableDebugLayer();
 #endif
 

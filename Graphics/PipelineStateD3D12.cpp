@@ -46,7 +46,9 @@ namespace EduEngine
 
 	void PipelineStateD3D12::Build(const RenderDeviceD3D12* pDevice)
 	{
-		ThrowIfFailed(pDevice->GetD3D12Device()->CreateGraphicsPipelineState(&m_Desc, IID_PPV_ARGS(&m_PSO)));
+		HRESULT hr = pDevice->GetD3D12Device()->CreateGraphicsPipelineState(&m_Desc, IID_PPV_ARGS(&m_PSO));
+		
+		THROW_IF_FAILED(hr, L"Failed to create PSO");
 	}
 
 	ID3D12PipelineState* PipelineStateD3D12::GetD3D12PipelineState() const

@@ -19,17 +19,17 @@ inline std::wstring AnsiToWString(const std::string& str)
 	return std::wstring(buffer);
 }
 
-#ifndef ThrowIfFailed
-#define ThrowIfFailed(x)                                              \
-{                                                                     \
-    HRESULT hr__ = (x);                                               \
-    std::wstring wfn = AnsiToWString(__FILE__);                       \
-    if(FAILED(hr__)) { throw DxException(hr__, L#x, wfn, __LINE__); } \
-}
-#endif
-
-#ifndef ReleaseCom
-#define ReleaseCom(x) { if(x){ x->Release(); x = 0; } }
+#ifndef THROW_IF_FAILED
+#define THROW_IF_FAILED(expr, message)                               \
+    do {                                                              \
+        if (FAILED(expr)) {                                           \
+            HRESULT hr__ = (expr);                                    \
+            std::wstring wfn = AnsiToWString(__FILE__);               \
+            DxException exc(hr__, message, L#expr, wfn, __LINE__);    \
+            OutputDebugStringW(exc.ToString().c_str());               \
+            throw exc;                                                \
+        }                                                             \
+    } while(false)
 #endif
 
 static constexpr DXGI_FORMAT BACK_BUFFER_FORMAT = DXGI_FORMAT_R8G8B8A8_UNORM;

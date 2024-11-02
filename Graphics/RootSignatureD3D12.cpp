@@ -25,13 +25,15 @@ namespace EduEngine
 		if (errorBlob != nullptr)
 			OutputDebugStringA((char*)errorBlob->GetBufferPointer());
 
-		ThrowIfFailed(hr);
+		THROW_IF_FAILED(hr, L"Failed to serialize root signature");
 
-		ThrowIfFailed(pDevice->GetD3D12Device()->CreateRootSignature(
+		hr = pDevice->GetD3D12Device()->CreateRootSignature(
 			0,
 			serializedRootSig->GetBufferPointer(),
 			serializedRootSig->GetBufferSize(),
-			IID_PPV_ARGS(&m_Signature)));
+			IID_PPV_ARGS(&m_Signature));
+
+		THROW_IF_FAILED(hr, L"Failed to create root signature");
 	}
 
 	ID3D12RootSignature* RootSignatureD3D12::GetD3D12RootSignature() const

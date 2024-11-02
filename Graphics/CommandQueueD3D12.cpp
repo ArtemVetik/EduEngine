@@ -74,7 +74,8 @@ namespace EduEngine
 		// Add an instruction to the command queue to set a new fence point.  Because we 
 		// are on the GPU timeline, the new fence point won't be set until the GPU finishes
 		// processing all the commands prior to this Signal().
-		ThrowIfFailed(m_CommandQueue->Signal(m_Fence.Get(), m_NextCmdList));
+		HRESULT hr = m_CommandQueue->Signal(m_Fence.Get(), m_NextCmdList);
+		THROW_IF_FAILED(hr, L"Failed to signal command queue");
 
 		// Wait until the GPU has completed commands up to this fence point.
 		if (m_Fence->GetCompletedValue() < m_NextCmdList)
@@ -82,7 +83,8 @@ namespace EduEngine
 			HANDLE eventHandle = CreateEventEx(nullptr, FALSE, false, EVENT_ALL_ACCESS);
 
 			// fire event when GPU hits current fence  
-			ThrowIfFailed(m_Fence->SetEventOnCompletion(m_NextCmdList, eventHandle));
+			hr = m_Fence->SetEventOnCompletion(m_NextCmdList, eventHandle);
+			THROW_IF_FAILED(hr, L"Failed to set event on completion");
 
 			// wait until the GPU hits current fence event is fired
 			WaitForSingleObject(eventHandle, INFINITE);

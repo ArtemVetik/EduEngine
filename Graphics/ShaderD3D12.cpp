@@ -26,9 +26,7 @@ namespace EduEngine
 		if (errors != nullptr)
 			OutputDebugStringA((char*)errors->GetBufferPointer());
 		
-		QueryInterface::GetInstance().PrintInfoMessages();
-		
-		ThrowIfFailed(hr);
+		THROW_IF_FAILED(hr, L"Failed to compile shader");
 
 		m_ShaderBlob = byteCode;
 	}

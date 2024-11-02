@@ -9,26 +9,30 @@ namespace EduEngine
 		ResourceD3D12(pDevice)
     {
 		// Create the actual default buffer resource.
-		ThrowIfFailed(m_Device->GetD3D12Device()->CreateCommittedResource(
+		HRESULT hr = m_Device->GetD3D12Device()->CreateCommittedResource(
 			&CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_DEFAULT),
 			D3D12_HEAP_FLAG_NONE,
 			&CD3DX12_RESOURCE_DESC::Buffer(byteSize),
 			D3D12_RESOURCE_STATE_COMMON,
 			nullptr,
-			IID_PPV_ARGS(m_d3d12Resource.GetAddressOf())));
+			IID_PPV_ARGS(m_d3d12Resource.GetAddressOf()));
+
+		THROW_IF_FAILED(hr, L"Failed to create resource in default heap");
 
 		m_d3d12Resource->SetName(L"BufferD3D12"); // TODO: set buffer name
 
 		Microsoft::WRL::ComPtr<ID3D12Resource> uploadBuffer;
 		// In order to copy CPU memory data into our default buffer, we need to create
 		// an intermediate upload heap. 
-		ThrowIfFailed(m_Device->GetD3D12Device()->CreateCommittedResource(
+		 hr = m_Device->GetD3D12Device()->CreateCommittedResource(
 			&CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD),
 			D3D12_HEAP_FLAG_NONE,
 			&CD3DX12_RESOURCE_DESC::Buffer(byteSize),
 			D3D12_RESOURCE_STATE_GENERIC_READ,
 			nullptr,
-			IID_PPV_ARGS(uploadBuffer.GetAddressOf())));
+			IID_PPV_ARGS(uploadBuffer.GetAddressOf()));
+
+		THROW_IF_FAILED(hr, L"Failed to create resource in upload heap");
 
 		// Describe the data we want to copy into the default buffer.
 		D3D12_SUBRESOURCE_DATA subResourceData = {};
