@@ -1,6 +1,5 @@
 #include "pch.h"
 #include "SwapChain.h"
-#include "QueryInterface.h"
 
 namespace EduEngine
 {

@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "PipelineStateD3D12.h"
-#include "QueryInterface.h"
+
 namespace EduEngine
 {
 	PipelineStateD3D12::PipelineStateD3D12()

@@ -1,6 +1,5 @@
 #include "pch.h"
 #include "CommandContext.h"
-#include "QueryInterface.h"
 
 namespace EduEngine
 {
