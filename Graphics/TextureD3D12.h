@@ -33,9 +33,10 @@ namespace EduEngine
 	public:
 		TextureD3D12(RenderDeviceD3D12*		    pDevice,
 					 const D3D12_RESOURCE_DESC& resourceDesc,
-					 const D3D12_CLEAR_VALUE&	clearValue);
+					 const D3D12_CLEAR_VALUE&	clearValue,
+					 QueueID					queueId);
 
-		TextureD3D12(RenderDeviceD3D12* pDevice, Microsoft::WRL::ComPtr<ID3D12Resource> resource);
+		TextureD3D12(RenderDeviceD3D12* pDevice, Microsoft::WRL::ComPtr<ID3D12Resource> resource, QueueID queueId);
 
 		void CreateSRVView(const D3D12_SHADER_RESOURCE_VIEW_DESC* srvDesc, bool onCpu);
 		void CreateRTVView(const D3D12_RENDER_TARGET_VIEW_DESC* rtvDesc, bool onCpu);

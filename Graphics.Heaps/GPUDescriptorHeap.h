@@ -19,9 +19,9 @@ namespace EduEngine
 		GPUDescriptorHeap& operator = (const GPUDescriptorHeap&) = delete;
 		GPUDescriptorHeap& operator = (GPUDescriptorHeap&&) = delete;
 
-		DescriptorHeapAllocation AllocateDynamic(uint32_t count);
+		DescriptorHeapAllocation AllocateDynamic(QueueID queueId, uint32_t count);
 
-		virtual DescriptorHeapAllocation Allocate(uint32_t count) override;
+		virtual DescriptorHeapAllocation Allocate(QueueID queueId, uint32_t count) override;
 		virtual void SafeFree(DescriptorHeapAllocation&& allocation) override;
 		virtual uint32_t GetDescriptorSize() const override { return m_DescriptorSize; }
 		virtual void FreeAllocation(DescriptorHeapAllocation&& allocation) override;

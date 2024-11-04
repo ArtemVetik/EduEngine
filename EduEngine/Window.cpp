@@ -1,11 +1,9 @@
-#include "pch.h"
 #include "Window.h"
 #include "RenderEngine.h"
 
 namespace EduEngine
 {
-	LRESULT CALLBACK
-		MainWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+	LRESULT CALLBACK MainWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	{
 		// Forward hwnd on because we can get messages (e.g., WM_CREATE)
 		// before CreateWindow returns, and thus before mhMainWnd is valid.

@@ -20,11 +20,10 @@ namespace EduEngine
 
 		void DiscardAllocations();
 
-		virtual DescriptorHeapAllocation Allocate(uint32_t count) override;
+		virtual DescriptorHeapAllocation Allocate(QueueID queueId, uint32_t count) override;
 		virtual void SafeFree(DescriptorHeapAllocation&& allocation) override;
 		virtual uint32_t GetDescriptorSize() const override { return m_ParentGPUHeap.GetDescriptorSize(); }
-
-		size_t GetSuballocationCount() const { return m_Suballocations.size(); }
+		virtual void FreeAllocation(DescriptorHeapAllocation&& allocation) override { }
 
 	private:
 		GPUDescriptorHeap& m_ParentGPUHeap;
@@ -32,9 +31,9 @@ namespace EduEngine
 
 		// List of chunks allocated from the master GPU descriptor heap. All chunks are disposed at the end
 		// of the frame
-		std::vector<DescriptorHeapAllocation> m_Suballocations;
+		std::vector<DescriptorHeapAllocation> m_Suballocations[3];
+		uint32_t m_CurrentSuballocationOffset[3] = { 0, 0, 0 };
 
-		uint32_t m_CurrentSuballocationOffset = 0;
 		uint32_t m_DynamicChunkSize = 0;
 	};
 }

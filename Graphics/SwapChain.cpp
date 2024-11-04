@@ -3,7 +3,7 @@
 
 namespace EduEngine
 {
-	SwapChain::SwapChain(RenderDeviceD3D12* pDevice, const Window& mainWindow) :
+	SwapChain::SwapChain(RenderDeviceD3D12* pDevice, UINT width, UINT height, HWND window) :
 		m_Device(pDevice),
 		m_CurrentBackBuffer(0)
 	{
@@ -17,8 +17,8 @@ namespace EduEngine
 		CreateDXGIFactory2(createFactoryFlags, IID_PPV_ARGS(&mDXGIFactory));
 
 		DXGI_SWAP_CHAIN_DESC1 swapChainDesc = {};
-		swapChainDesc.Width = mainWindow.GetClientWidth();
-		swapChainDesc.Height = mainWindow.GetClientHeight();
+		swapChainDesc.Width = width;
+		swapChainDesc.Height = height;
 		swapChainDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
 		swapChainDesc.Stereo = FALSE;
 		swapChainDesc.SampleDesc = { 1, 0 };
@@ -35,7 +35,7 @@ namespace EduEngine
 		Microsoft::WRL::ComPtr<IDXGISwapChain1> swapChain1;
 		mDXGIFactory->CreateSwapChainForHwnd(
 			m_Device->GetCommandQueue(D3D12_COMMAND_LIST_TYPE_DIRECT).GetD3D12CommandQueue(),
-			mainWindow.GetMainWindow(),
+			window,
 			&swapChainDesc,
 			nullptr,
 			nullptr,
@@ -43,7 +43,7 @@ namespace EduEngine
 
 		// Disable the Alt+Enter fullscreen toggle feature. Switching to fullscreen
 		// will be handled manually.
-		HRESULT hr = mDXGIFactory->MakeWindowAssociation(mainWindow.GetMainWindow(), DXGI_MWA_NO_ALT_ENTER);
+		HRESULT hr = mDXGIFactory->MakeWindowAssociation(window, DXGI_MWA_NO_ALT_ENTER);
 		THROW_IF_FAILED(hr, L"Failed to make window association");
 
 		hr = swapChain1.As(&m_SwapChain);
@@ -77,7 +77,7 @@ namespace EduEngine
 			Microsoft::WRL::ComPtr<ID3D12Resource> backBuffer;
 			m_SwapChain->GetBuffer(i, IID_PPV_ARGS(backBuffer.GetAddressOf()));
 
-			m_SwapChainBuffers[i] = std::make_unique<TextureD3D12>(m_Device, backBuffer);
+			m_SwapChainBuffers[i] = std::make_unique<TextureD3D12>(m_Device, backBuffer, QueueID::Direct);
 			m_SwapChainBuffers[i]->CreateRTVView(nullptr, true);
 			m_SwapChainBuffers[i]->SetName(L"SwapChain");
 		}
@@ -85,8 +85,8 @@ namespace EduEngine
 		D3D12_RESOURCE_DESC dsDesc;
 		dsDesc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
 		dsDesc.Alignment = 0;
-		dsDesc.Width = Window::GetInstance()->GetClientWidth();
-		dsDesc.Height = Window::GetInstance()->GetClientHeight();
+		dsDesc.Width = width;
+		dsDesc.Height = height;
 		dsDesc.DepthOrArraySize = 1;
 		dsDesc.MipLevels = 1;
 
@@ -108,7 +108,7 @@ namespace EduEngine
 		dsvDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
 		dsvDesc.Texture2D.MipSlice = 0;
 
-		m_DepthStencilTexture = std::make_unique<TextureD3D12>(m_Device, dsDesc, dsClear);
+		m_DepthStencilTexture = std::make_unique<TextureD3D12>(m_Device, dsDesc, dsClear, QueueID::Direct);
 		m_DepthStencilTexture->SetName(L"MainDepthStencil");
 		m_DepthStencilTexture->CreateDSVView(&dsvDesc, true);
 

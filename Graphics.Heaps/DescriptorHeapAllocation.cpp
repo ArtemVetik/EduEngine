@@ -6,24 +6,27 @@ namespace EduEngine
 	DescriptorHeapAllocation::DescriptorHeapAllocation() : 
         m_pDescriptorHeap{ nullptr },
         m_NumHandles{ 1 },
-        m_DescriptorSize{ 0 }
+        m_DescriptorSize{ 0 },
+        m_QueueId { }
     {
         m_FirstCpuHandle.ptr = 0;
         m_FirstGpuHandle.ptr = 0;
     }
 
-    DescriptorHeapAllocation::DescriptorHeapAllocation(IDescriptorAllocator& allocator,
-        ID3D12DescriptorHeap* heap,
-        D3D12_CPU_DESCRIPTOR_HANDLE cpuHandle,
-        D3D12_GPU_DESCRIPTOR_HANDLE gpuHandle,
-        uint32_t nHandles,
-        uint16_t allocationManagerId) :
+    DescriptorHeapAllocation::DescriptorHeapAllocation(IDescriptorAllocator&       allocator,
+                                                       ID3D12DescriptorHeap*       heap,
+                                                       D3D12_CPU_DESCRIPTOR_HANDLE cpuHandle,
+                                                       D3D12_GPU_DESCRIPTOR_HANDLE gpuHandle,
+                                                       uint32_t                    nHandles,
+                                                       uint16_t                    allocationManagerId,
+                                                       QueueID                     queueId) :
         m_FirstCpuHandle{ cpuHandle },
         m_FirstGpuHandle{ gpuHandle },
         m_pAllocator{ &allocator },
         m_pDescriptorHeap{ heap },
         m_NumHandles{ nHandles },
-        m_AllocationManagerId{ allocationManagerId }
+        m_AllocationManagerId{ allocationManagerId },
+        m_QueueId { queueId }
     {
         assert(m_pAllocator != nullptr && m_pDescriptorHeap != nullptr);
         auto descriptorSize = m_pAllocator->GetDescriptorSize();
@@ -39,6 +42,7 @@ namespace EduEngine
         m_pDescriptorHeap{ std::move(allocation.m_pDescriptorHeap) },
         m_NumHandles{ std::move(allocation.m_NumHandles) },
         m_AllocationManagerId{ std::move(allocation.m_AllocationManagerId) },
+        m_QueueId { std::move(allocation.m_QueueId) },
         m_DescriptorSize{ std::move(allocation.m_DescriptorSize) }
     {
         allocation.Reset();
@@ -52,6 +56,7 @@ namespace EduEngine
         m_pAllocator = std::move(allocation.m_pAllocator);
         m_AllocationManagerId = std::move(allocation.m_AllocationManagerId);
         m_pDescriptorHeap = std::move(allocation.m_pDescriptorHeap);
+        m_QueueId = std::move(allocation.m_QueueId);
         m_DescriptorSize = std::move(allocation.m_DescriptorSize);
 
         allocation.Reset();

@@ -1,10 +1,11 @@
 #include <Windows.h>
 #include <crtdbg.h>
-#include "../Graphics/Window.h"
-#include "../Graphics/RenderEngine.h"
+#include "RenderEngine.h"
 #include "Timer.h"
 #include "GeometryGenerator.h"
 #include "InputManager.h"
+#include "../GameplayCore/Scene.h"
+#include "../GameplayCore/Renderer.h"
 
 using namespace EduEngine;
 
@@ -25,47 +26,43 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance,
 	GeometryGenerator geoGen;
 	GeometryGenerator::MeshData boxMeshData = geoGen.CreateBox(25.0f, 25.0f, 25.0f, 1);
 
-	EduEngine::Window window(hInstance);
+	Window window(hInstance);
 	window.Initialize();
 
-	EduEngine::InputManager::GetInstance().Initialize(hInstance, window.GetMainWindow());
+	InputManager::GetInstance().Initialize(hInstance, window.GetMainWindow());
 
 	RenderDeviceD3D12* device;
-	EduEngine::RenderEngine renderEngine;
+	RenderEngine renderEngine;
 	renderEngine.StartUp(window, &device);
 
 	Camera mainCamera(window.GetClientWidth(), window.GetClientHeight());
 	renderEngine.SetCamera(&mainCamera);
 
-	auto& context = device->GetCommandContext(D3D12_COMMAND_LIST_TYPE_DIRECT);
-	auto& queue = device->GetCommandQueue(D3D12_COMMAND_LIST_TYPE_DIRECT);
-
-	context.Reset();
-
+	device->GetCommandContext(D3D12_COMMAND_LIST_TYPE_DIRECT).Reset();
+	
 	auto vertexBuffer = std::make_shared<VertexBufferD3D12>(device, boxMeshData.Vertices.data(),
 		sizeof(GeometryGenerator::Vertex), (UINT)boxMeshData.Vertices.size());
 	auto indexBuffer = std::make_shared<IndexBufferD3D12>(device, boxMeshData.GetIndices16().data(),
 		sizeof(GeometryGenerator::uint16), (UINT)boxMeshData.GetIndices16().size(), DXGI_FORMAT_R16_UINT);
 
-	queue.CloseAndExecuteCommandContext(&context);
-	device->FlushQueues();
+	Scene scene;
 
-	RenderObject r1;
-	DirectX::XMStoreFloat4x4(&r1.World, DirectX::XMMatrixTranspose(DirectX::XMMatrixTranslation(20, 0, 0.0f)));
-	r1.VertexBuffer = vertexBuffer.get();
-	r1.IndexBuffer = indexBuffer.get();
+	std::shared_ptr<GameObject> go1 = std::make_shared<GameObject>();
+	auto renderer1 = go1->AddComponent<Renderer>();
+	renderer1->VertexBuffer = vertexBuffer;
+	renderer1->IndexBuffer = indexBuffer;
+	go1->GetTransform()->SetPosition({-25, 0, 0});
 
-	RenderObject r2;
-	DirectX::XMStoreFloat4x4(&r2.World, DirectX::XMMatrixTranspose(DirectX::XMMatrixTranslation(-20, 0.0f, 0.0f)));
-	r2.VertexBuffer = vertexBuffer.get();
-	r2.IndexBuffer = indexBuffer.get();
+	std::shared_ptr<GameObject> go2 = std::make_shared<GameObject>();
+	auto renderer2 = go2->AddComponent<Renderer>();
+	renderer2->VertexBuffer = vertexBuffer;
+	renderer2->IndexBuffer = indexBuffer;
+	go2->GetTransform()->SetPosition({+25, 0, 0});
 
-	RenderObject renderObjects[]
-	{
-		r1, r2
-	};
+	scene.AddGameObject(go1);
+	scene.AddGameObject(go2);
 
-	renderEngine.SetRenderObjects(renderObjects, 2);
+	renderEngine.SetScene(&scene);
 
 	EduEngine::Timer timer = EduEngine::Timer(window.GetMainWindow(), L"EduEngine");
 
@@ -126,7 +123,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance,
 
 				mainCamera.Update();
 
-				renderEngine.Update();
+				for (size_t i = 0; i < scene.m_Objects.size(); i++)
+					scene.m_Objects[i]->Update();
+
 				renderEngine.Draw();
 			}
 			else

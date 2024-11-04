@@ -9,6 +9,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Graphics", "Graphics\Graphi
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Graphics.Heaps", "Graphics.Heaps\Graphics.Heaps.vcxproj", "{7A137D9B-B312-46F4-8745-BD7929C0F387}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GameplayCore", "GameplayCore\GameplayCore.vcxproj", "{13C42FD1-8FB1-4C96-BE9A-464F77B9B41C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -41,6 +43,14 @@ Global
 		{7A137D9B-B312-46F4-8745-BD7929C0F387}.Release|x64.Build.0 = Release|x64
 		{7A137D9B-B312-46F4-8745-BD7929C0F387}.Release|x86.ActiveCfg = Release|Win32
 		{7A137D9B-B312-46F4-8745-BD7929C0F387}.Release|x86.Build.0 = Release|Win32
+		{13C42FD1-8FB1-4C96-BE9A-464F77B9B41C}.Debug|x64.ActiveCfg = Debug|x64
+		{13C42FD1-8FB1-4C96-BE9A-464F77B9B41C}.Debug|x64.Build.0 = Debug|x64
+		{13C42FD1-8FB1-4C96-BE9A-464F77B9B41C}.Debug|x86.ActiveCfg = Debug|Win32
+		{13C42FD1-8FB1-4C96-BE9A-464F77B9B41C}.Debug|x86.Build.0 = Debug|Win32
+		{13C42FD1-8FB1-4C96-BE9A-464F77B9B41C}.Release|x64.ActiveCfg = Release|x64
+		{13C42FD1-8FB1-4C96-BE9A-464F77B9B41C}.Release|x64.Build.0 = Release|x64
+		{13C42FD1-8FB1-4C96-BE9A-464F77B9B41C}.Release|x86.ActiveCfg = Release|Win32
+		{13C42FD1-8FB1-4C96-BE9A-464F77B9B41C}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -8,13 +8,15 @@ namespace EduEngine
 	class GRAPHICS_API ResourceD3D12
 	{
 	public:
-		ResourceD3D12(RenderDeviceD3D12* pDevice) :
-			m_Device(pDevice)
+		ResourceD3D12(RenderDeviceD3D12* pDevice, QueueID queueId) :
+			m_Device(pDevice),
+			m_QueueId(queueId)
 		{}
 
-		ResourceD3D12(RenderDeviceD3D12* pDevice, Microsoft::WRL::ComPtr<ID3D12Resource>& resource) :
+		ResourceD3D12(RenderDeviceD3D12* pDevice, Microsoft::WRL::ComPtr<ID3D12Resource>& resource, QueueID queueId) :
 			m_Device(pDevice),
-			m_d3d12Resource(std::move(resource))
+			m_d3d12Resource(std::move(resource)),
+			m_QueueId(queueId)
 		{}
 
 		virtual ~ResourceD3D12()
@@ -22,7 +24,7 @@ namespace EduEngine
 			ReleaseResourceWrapper releaseResource;
 			releaseResource.AddResource(std::move(m_d3d12Resource));
 
-			m_Device->SafeReleaseObject(QueueID::Direct, std::move(releaseResource));
+			m_Device->SafeReleaseObject(m_QueueId, std::move(releaseResource));
 		}
 
 		ID3D12Resource* GetD3D12Resource() const { return m_d3d12Resource.Get(); }
@@ -32,5 +34,6 @@ namespace EduEngine
 	protected:
 		Microsoft::WRL::ComPtr<ID3D12Resource> m_d3d12Resource;
 		RenderDeviceD3D12* m_Device;
+		QueueID m_QueueId;
 	};
 }

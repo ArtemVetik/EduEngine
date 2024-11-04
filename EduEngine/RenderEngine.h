@@ -1,21 +1,16 @@
 #pragma once
 
-#if defined(DEBUG) || defined(_DEBUG)
-#define _CRTDBG_MAP_ALLOC
-#include <crtdbg.h>
-#endif
-
-#include "pch.h"
-#include "Window.h"
-#include "QueryInterface.h"
-#include "RenderDeviceD3D12.h"
-#include "SwapChain.h"
-#include "TextureD3D12.h"
-#include "../Graphics.Heaps/DynamicUploadHeap.h"
-#include "BufferD3D12.h"
+#include "../Graphics/framework.h"
+#include "../Graphics/QueryInterface.h"
+#include "../Graphics/RenderDeviceD3D12.h"
+#include "../Graphics/SwapChain.h"
+#include "../Graphics/TextureD3D12.h"
+#include "../Graphics/BufferD3D12.h"
+#include "../Graphics/RenderObject.h"
+#include "../Graphics/Camera.h"
+#include "../GameplayCore/Scene.h"
 #include "RenderPasses.h"
-#include "RenderObject.h"
-#include "Camera.h"
+#include "Window.h"
 
 #pragma comment(lib,"d3dcompiler.lib")
 #pragma comment(lib, "D3D12.lib")
@@ -23,7 +18,7 @@
 
 namespace EduEngine
 {
-	class GRAPHICS_API RenderEngine
+	class RenderEngine
 	{
 	public:
 		RenderEngine();
@@ -34,11 +29,10 @@ namespace EduEngine
 
 		bool StartUp(const Window& mainWindow, RenderDeviceD3D12** ppDeviceOut);
 
-		void Update();
 		void Draw();
 		void Resize(int width, int height);
 
-		void SetRenderObjects(RenderObject* pBuff, UINT count);
+		void SetScene(const Scene* scene);
 		void SetCamera(Camera* pCamera);
 
 		static RenderEngine* GetInstance();
@@ -54,7 +48,6 @@ namespace EduEngine
 
 		Camera* m_Camera;
 
-		RenderObject* m_RenderObjectsData;
-		UINT m_RenderObjectsCount;
+		const Scene* m_Scene;
 	};
 }

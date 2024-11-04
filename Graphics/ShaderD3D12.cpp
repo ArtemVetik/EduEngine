@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "ShaderD3D12.h"
+#include "d3dcompiler.h"
 
 namespace EduEngine
 {

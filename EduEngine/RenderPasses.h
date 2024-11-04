@@ -1,6 +1,5 @@
 #pragma once
-#include "pch.h"
-#include "PipelineStateD3D12.h"
+#include "../Graphics/PipelineStateD3D12.h"
 
 namespace EduEngine
 {
@@ -17,8 +16,11 @@ namespace EduEngine
 			m_VertexShader(L"Shaders/color.hlsl", EDU_SHADER_TYPE_VERTEX, nullptr, "VS", "vs_5_1"),
 			m_PixelShader(L"Shaders/color.hlsl", EDU_SHADER_TYPE_PIXEL, nullptr, "PS", "ps_5_1")
 		{
-			m_RootSignature.AddConstantBufferView(0);
-			m_RootSignature.AddConstantBufferView(1);
+			m_RootSignature.AddConstantBufferView(0); // pass constants
+
+			CD3DX12_DESCRIPTOR_RANGE objConstants;
+			objConstants.Init(D3D12_DESCRIPTOR_RANGE_TYPE_CBV, 1, 1);
+			m_RootSignature.AddDescriptorParameter(1, &objConstants); // object constants
 			m_RootSignature.Build(device);
 
 			std::vector<D3D12_INPUT_ELEMENT_DESC> mInputLayout =

@@ -5,8 +5,9 @@ namespace EduEngine
 {
     BufferD3D12::BufferD3D12(RenderDeviceD3D12*         pDevice,
                              const void*                initData,
-                             UINT64                     byteSize) :
-		ResourceD3D12(pDevice)
+                             UINT64                     byteSize,
+							 QueueID queueId) :
+		ResourceD3D12(pDevice, queueId)
     {
 		// Create the actual default buffer resource.
 		HRESULT hr = m_Device->GetD3D12Device()->CreateCommittedResource(
@@ -61,6 +62,6 @@ namespace EduEngine
 		
 		ReleaseResourceWrapper releaseObject;
 		releaseObject.AddResource(std::move(uploadBuffer));
-		m_Device->SafeReleaseObject(QueueID::Direct, std::move(releaseObject)); // TODO: queue id
+		m_Device->SafeReleaseObject(queueId, std::move(releaseObject));
     }
 }

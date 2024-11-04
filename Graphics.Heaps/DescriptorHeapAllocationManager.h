@@ -30,7 +30,7 @@ namespace EduEngine
 
         ~DescriptorHeapAllocationManager() { }
 
-        DescriptorHeapAllocation Allocate(uint32_t count);
+        DescriptorHeapAllocation Allocate(QueueID queueId, uint32_t count);
         void FreeAllocation(DescriptorHeapAllocation&& allocation);
 
         size_t GetNumAvailableDescriptors() const { return m_FreeBlockManager.GetFreeSize(); }

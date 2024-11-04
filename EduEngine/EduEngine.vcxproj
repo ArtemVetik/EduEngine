@@ -132,9 +132,17 @@
     <ClCompile Include="EduEngine.cpp" />
     <ClCompile Include="GeometryGenerator.cpp" />
     <ClCompile Include="InputManager.cpp" />
+    <ClCompile Include="RenderEngine.cpp" />
     <ClCompile Include="Timer.cpp" />
+    <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\GameplayCore\GameplayCore.vcxproj">
+      <Project>{13c42fd1-8fb1-4c96-be9a-464f77b9b41c}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Graphics.Heaps\Graphics.Heaps.vcxproj">
+      <Project>{7a137d9b-b312-46f4-8745-bd7929c0f387}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\Graphics\Graphics.vcxproj">
       <Project>{21d60465-4dec-4328-8bfb-480f0ff4adb5}</Project>
     </ProjectReference>
@@ -142,9 +150,22 @@
   <ItemGroup>
     <ClInclude Include="GeometryGenerator.h" />
     <ClInclude Include="InputManager.h" />
+    <ClInclude Include="RenderEngine.h" />
+    <ClInclude Include="RenderPasses.h" />
     <ClInclude Include="Timer.h" />
+    <ClInclude Include="Window.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
+    <Import Project="..\packages\directxtk12_desktop_2019.2024.10.29.1\build\native\directxtk12_desktop_2019.targets" Condition="Exists('..\packages\directxtk12_desktop_2019.2024.10.29.1\build\native\directxtk12_desktop_2019.targets')" />
   </ImportGroup>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\directxtk12_desktop_2019.2024.10.29.1\build\native\directxtk12_desktop_2019.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\directxtk12_desktop_2019.2024.10.29.1\build\native\directxtk12_desktop_2019.targets'))" />
+  </Target>
 </Project>

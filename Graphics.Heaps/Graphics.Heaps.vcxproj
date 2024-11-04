@@ -152,7 +152,6 @@
     <ClInclude Include="QueueID.h" />
     <ClInclude Include="ReleaseResourceWrapper.h" />
     <ClInclude Include="RingBuffer.h" />
-    <ClInclude Include="VariableSizeGPUAllocationsManager.h" />
     <ClInclude Include="VariableSizeMemoryAllocator.h" />
   </ItemGroup>
   <ItemGroup>
@@ -171,10 +170,8 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="RingBuffer.cpp" />
-    <ClCompile Include="VariableSizeGPUAllocationsManager.cpp" />
     <ClCompile Include="VariableSizeMemoryAllocator.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
-  <ImportGroup Label="ExtensionTargets">
-  </ImportGroup>
+  <ImportGroup Label="ExtensionTargets" />
 </Project>

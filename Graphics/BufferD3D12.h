@@ -9,7 +9,8 @@ namespace EduEngine
 	public:
 		BufferD3D12(RenderDeviceD3D12*		   pDevice,
 					const void*				   initData,
-					UINT64					   byteSize);
+					UINT64					   byteSize,
+					QueueID					   queueId);
 	};
 
 	class GRAPHICS_API VertexBufferD3D12 : public BufferD3D12
@@ -19,7 +20,7 @@ namespace EduEngine
 						  const void*		 initData,
 						  UINT				 byteStride,
 						  UINT				 bufferLength) :
-			BufferD3D12(pDevice, initData, byteStride * bufferLength)
+			BufferD3D12(pDevice, initData, byteStride * bufferLength, QueueID::Direct)
 		{
 			m_View.BufferLocation = m_d3d12Resource->GetGPUVirtualAddress();
 			m_View.StrideInBytes = byteStride;
@@ -40,7 +41,7 @@ namespace EduEngine
 						 UINT				byteStride,
 						 UINT				bufferLength,
 						 DXGI_FORMAT		format) :
-			BufferD3D12(pDevice, initData, byteStride * bufferLength),
+			BufferD3D12(pDevice, initData, byteStride * bufferLength, QueueID::Direct),
 			m_Length(bufferLength)
 		{
 			m_View.BufferLocation = m_d3d12Resource->GetGPUVirtualAddress();

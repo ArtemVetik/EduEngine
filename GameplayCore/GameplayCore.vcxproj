@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{21d60465-4dec-4328-8bfb-480f0ff4adb5}</ProjectGuid>
-    <RootNamespace>Graphics</RootNamespace>
+    <ProjectGuid>{13c42fd1-8fb1-4c96-be9a-464f77b9b41c}</ProjectGuid>
+    <RootNamespace>GameplayCore</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -74,7 +74,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_DEBUG;GRAPHICS_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;GAMEPLAYCORE_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
@@ -91,7 +91,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;NDEBUG;GRAPHICS_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;GAMEPLAYCORE_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
@@ -108,8 +108,8 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;GRAPHICS_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <ConformanceMode>false</ConformanceMode>
+      <PreprocessorDefinitions>_DEBUG;GAMEPLAYCORE_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
     </ClCompile>
@@ -125,9 +125,9 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;GRAPHICS_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <ConformanceMode>false</ConformanceMode>
-      <PrecompiledHeader>Create</PrecompiledHeader>
+      <PreprocessorDefinitions>NDEBUG;GAMEPLAYCORE_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
@@ -139,55 +139,45 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="BufferD3D12.h" />
-    <ClInclude Include="Camera.h" />
-    <ClInclude Include="CommandContext.h" />
-    <ClInclude Include="CommandListManager.h" />
-    <ClInclude Include="CommandQueueD3D12.h" />
-    <ClInclude Include="d3dx12.h" />
-    <ClInclude Include="DynamicUploadBuffer.h" />
-    <ClInclude Include="RenderObject.h" />
-    <ClInclude Include="PipelineStateD3D12.h" />
-    <ClInclude Include="RenderDeviceD3D12.h" />
-    <ClInclude Include="pch.h" />
-    <ClInclude Include="DxException.h" />
+    <ClInclude Include="Component.h" />
     <ClInclude Include="framework.h" />
-    <ClInclude Include="QueryInterface.h" />
-    <ClInclude Include="resource.h" />
-    <ClInclude Include="ResourceD3D12.h" />
-    <ClInclude Include="RootSignatureD3D12.h" />
-    <ClInclude Include="ShaderD3D12.h" />
-    <ClInclude Include="SwapChain.h" />
-    <ClInclude Include="TextureD3D12.h" />
+    <ClInclude Include="GameObject.h" />
+    <ClInclude Include="IDGenerator.h" />
+    <ClInclude Include="pch.h" />
+    <ClInclude Include="Renderer.h" />
+    <ClInclude Include="Scene.h" />
+    <ClInclude Include="Transform.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="BufferD3D12.cpp" />
-    <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="CommandContext.cpp" />
-    <ClCompile Include="CommandListManager.cpp" />
-    <ClCompile Include="CommandQueueD3D12.cpp" />
-    <ClCompile Include="DynamicUploadBuffer.cpp" />
-    <ClCompile Include="PipelineStateD3D12.cpp" />
-    <ClCompile Include="RenderDeviceD3D12.cpp" />
+    <ClCompile Include="Component.cpp" />
     <ClCompile Include="dllmain.cpp" />
+    <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="DxException.cpp" />
-    <ClCompile Include="QueryInterface.cpp" />
-    <ClCompile Include="RootSignatureD3D12.cpp" />
-    <ClCompile Include="ShaderD3D12.cpp" />
-    <ClCompile Include="SwapChain.cpp" />
-    <ClCompile Include="TextureD3D12.cpp" />
+    <ClCompile Include="Renderer.cpp" />
+    <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="Transform.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="Graphics.rc" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Graphics.Heaps\Graphics.Heaps.vcxproj">
-      <Project>{7a137d9b-b312-46f4-8745-bd7929c0f387}</Project>
+    <ProjectReference Include="..\Graphics\Graphics.vcxproj">
+      <Project>{21d60465-4dec-4328-8bfb-480f0ff4adb5}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
-  <ImportGroup Label="ExtensionTargets" />
+  <ImportGroup Label="ExtensionTargets">
+    <Import Project="..\packages\directxtk12_desktop_2019.2024.10.29.1\build\native\directxtk12_desktop_2019.targets" Condition="Exists('..\packages\directxtk12_desktop_2019.2024.10.29.1\build\native\directxtk12_desktop_2019.targets')" />
+  </ImportGroup>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\directxtk12_desktop_2019.2024.10.29.1\build\native\directxtk12_desktop_2019.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\directxtk12_desktop_2019.2024.10.29.1\build\native\directxtk12_desktop_2019.targets'))" />
+  </Target>
 </Project>

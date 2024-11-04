@@ -1,15 +1,15 @@
 #pragma once
-#include "pch.h"
+#include "framework.h"
 
 namespace EduEngine
 {
-	enum EDU_SHADER_TYPE
+	enum GRAPHICS_API EDU_SHADER_TYPE
 	{
 		EDU_SHADER_TYPE_VERTEX,
 		EDU_SHADER_TYPE_PIXEL,
 	};
 
-	class ShaderD3D12
+	class GRAPHICS_API ShaderD3D12
 	{
 	public:
 		ShaderD3D12(std::wstring			fileName,

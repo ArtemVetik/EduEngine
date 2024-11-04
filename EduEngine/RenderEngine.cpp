@@ -1,5 +1,6 @@
-#include "pch.h"
 #include "RenderEngine.h"
+#include "../GameplayCore/Renderer.h"
+#include "../Graphics/DynamicUploadBuffer.h"
 
 namespace EduEngine
 {
@@ -11,8 +12,7 @@ namespace EduEngine
 	}
 
 	RenderEngine::RenderEngine() :
-		m_RenderObjectsData{ nullptr },
-		m_RenderObjectsCount{ 0 },
+		m_Scene{ nullptr },
 		m_Viewport{},
 		m_ScissorRect{},
 		m_Camera{nullptr}
@@ -32,7 +32,6 @@ namespace EduEngine
 #if defined(DEBUG) || defined(_DEBUG) 
 		Microsoft::WRL::ComPtr<ID3D12Debug> debugController;
 		HRESULT hr = D3D12GetDebugInterface(IID_PPV_ARGS(&debugController));
-		THROW_IF_FAILED(hr, L"Failed to get debug interface");
 		debugController->EnableDebugLayer();
 #endif
 
@@ -51,7 +50,8 @@ namespace EduEngine
 		QueryInterface::GetInstance().Initialize(m_Device->GetD3D12Device());
 #endif
 
-		m_SwapChain = std::make_unique<SwapChain>(m_Device.get(), mainWindow);
+		m_SwapChain = std::make_unique<SwapChain>(m_Device.get(), 
+			mainWindow.GetClientWidth(), mainWindow.GetClientHeight(), mainWindow.GetMainWindow());
 
 		Resize(mainWindow.GetClientWidth(), mainWindow.GetClientHeight());
 
@@ -59,10 +59,6 @@ namespace EduEngine
 
 		*ppDeviceOut = m_Device.get();
 		return true;
-	}
-
-	void RenderEngine::Update()
-	{
 	}
 
 	void RenderEngine::Draw()
@@ -73,8 +69,8 @@ namespace EduEngine
 		PassConstants passConstants;
 		XMStoreFloat4x4(&passConstants.ViewProj, XMMatrixTranspose(m_Camera->GetViewProjMatrix()));
 
-		auto passAlloc = m_Device->GetCommandQueue(D3D12_COMMAND_LIST_TYPE_DIRECT).AllocateInDynamicHeap(sizeof(PassConstants));
-		memcpy(passAlloc.CPUAddress, &passConstants, sizeof(PassConstants));
+		DynamicUploadBuffer passUploadBuffer(m_Device.get(), QueueID::Direct);
+		passUploadBuffer.LoadData(passConstants);
 
 		auto& commandContext = m_Device->GetCommandContext(D3D12_COMMAND_LIST_TYPE_DIRECT);
 		auto& commandQueue = m_Device->GetCommandQueue(D3D12_COMMAND_LIST_TYPE_DIRECT);
@@ -97,24 +93,25 @@ namespace EduEngine
 		commandContext.GetCmdList()->SetPipelineState(m_OpaquePass->GetD3D12PipelineState());
 		commandContext.GetCmdList()->SetGraphicsRootSignature(m_OpaquePass->GetD3D12RootSignature());
 
-		for (int i = 0; i < m_RenderObjectsCount; i++)
+		for (int i = 0; i < m_Scene->m_Objects.size(); i++)
 		{
-			auto renderObject = m_RenderObjectsData[i];
+			auto renderObject = m_Scene->m_Objects[i];
 
 			ObjectConstants objConstants;
-			objConstants.World = renderObject.World;
+			objConstants.World = renderObject->GetTransform()->GetWorldMatrix().Transpose();
 
-			auto objAlloc = m_Device->GetCommandQueue(D3D12_COMMAND_LIST_TYPE_DIRECT).AllocateInDynamicHeap(sizeof(ObjectConstants));
-			memcpy(objAlloc.CPUAddress, &objConstants, sizeof(ObjectConstants));
+			DynamicUploadBuffer uploadBuffer(m_Device.get(), QueueID::Direct);
+			uploadBuffer.LoadData(objConstants);
+			uploadBuffer.CreateCBV();
 
-			commandContext.GetCmdList()->IASetVertexBuffers(0, 1, &(renderObject.VertexBuffer->GetView()));
-			commandContext.GetCmdList()->IASetIndexBuffer(&(renderObject.IndexBuffer->GetView()));
+			commandContext.GetCmdList()->IASetVertexBuffers(0, 1, &(renderObject->GetComponent<Renderer>()->VertexBuffer->GetView()));
+			commandContext.GetCmdList()->IASetIndexBuffer(&(renderObject->GetComponent<Renderer>()->IndexBuffer->GetView()));
 			commandContext.GetCmdList()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
-			commandContext.GetCmdList()->SetGraphicsRootConstantBufferView(0, passAlloc.GPUAddress);
-			commandContext.GetCmdList()->SetGraphicsRootConstantBufferView(1, objAlloc.GPUAddress);
+			commandContext.GetCmdList()->SetGraphicsRootConstantBufferView(0, passUploadBuffer.GetAllocation().GPUAddress);
+			commandContext.GetCmdList()->SetGraphicsRootDescriptorTable(1, uploadBuffer.GetCBVDescriptorGPUHandle());
 
-			commandContext.GetCmdList()->DrawIndexedInstanced(renderObject.IndexBuffer->GetLength(), 1, 0, 0, 0);
+			commandContext.GetCmdList()->DrawIndexedInstanced(renderObject->GetComponent<Renderer>()->IndexBuffer->GetLength(), 1, 0, 0, 0);
 		}
 
 		commandContext.ResourceBarrier(CD3DX12_RESOURCE_BARRIER::Transition(m_SwapChain->CurrentBackBuffer(),
@@ -126,10 +123,9 @@ namespace EduEngine
 		m_Device->FinishFrame();
 	}
 
-	void RenderEngine::SetRenderObjects(RenderObject* pBuff, UINT count)
+	void RenderEngine::SetScene(const Scene* scene)
 	{
-		m_RenderObjectsData = pBuff;
-		m_RenderObjectsCount = count;
+		m_Scene = scene;
 	}
 
 	void RenderEngine::SetCamera(Camera* pCamera)

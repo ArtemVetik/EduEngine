@@ -20,7 +20,7 @@ namespace EduEngine
 
 		~CPUDescriptorHeap();
 
-		virtual DescriptorHeapAllocation Allocate(uint32_t count) override;
+		virtual DescriptorHeapAllocation Allocate(QueueID queueId, uint32_t count) override;
 		virtual void SafeFree(DescriptorHeapAllocation&& allocation) override;
 		virtual uint32_t GetDescriptorSize() const override { return m_DescriptorSize; }
 		virtual void FreeAllocation(DescriptorHeapAllocation&& allocation) override;

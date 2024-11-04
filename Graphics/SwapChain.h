@@ -2,14 +2,13 @@
 #include "pch.h"
 #include "RenderDeviceD3D12.h"
 #include "TextureD3D12.h"
-#include "Window.h"
 
 namespace EduEngine
 {
 	class GRAPHICS_API SwapChain
 	{
 	public:
-		SwapChain(RenderDeviceD3D12* pDevice, const Window& mainWindow);
+		SwapChain(RenderDeviceD3D12* pDevice, UINT width, UINT height, HWND window);
 
 		void Resize(UINT width, UINT height);
 		void Present();

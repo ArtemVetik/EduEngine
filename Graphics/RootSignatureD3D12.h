@@ -4,12 +4,16 @@
 
 namespace EduEngine
 {
-	class RootSignatureD3D12
+	class GRAPHICS_API RootSignatureD3D12
 	{
 	public:
 		void AddConstantBufferView(UINT shaderRegister,
 								   UINT registerSpace = 0,
 								   D3D12_SHADER_VISIBILITY visibility = D3D12_SHADER_VISIBILITY_ALL);
+
+		void AddDescriptorParameter(UINT					  size,
+									CD3DX12_DESCRIPTOR_RANGE* rangeParameters,
+									D3D12_SHADER_VISIBILITY	  visibility = D3D12_SHADER_VISIBILITY_ALL);
 
 		void Build(const RenderDeviceD3D12* pDevice);
 

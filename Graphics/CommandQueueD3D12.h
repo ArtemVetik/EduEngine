@@ -28,6 +28,7 @@ namespace EduEngine
 
 		ID3D12CommandQueue* GetD3D12CommandQueue() const { return m_CommandQueue.Get(); };
 		uint64_t GetCompletedFenceNum() { return m_Fence->GetCompletedValue(); }
+		uint64_t GetNextCmdListNum() const { return m_NextCmdList.load(); }
 
 	private:
 		std::mutex m_CmdQueueMutex;

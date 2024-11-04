@@ -5,8 +5,9 @@ namespace EduEngine
 {
 	TextureD3D12::TextureD3D12(RenderDeviceD3D12*		  pDevice,
 							   const D3D12_RESOURCE_DESC& resourceDesc,
-							   const D3D12_CLEAR_VALUE&   clearValue) :
-		ResourceD3D12(pDevice)
+							   const D3D12_CLEAR_VALUE&   clearValue,
+							   QueueID					  queueId) :
+		ResourceD3D12(pDevice, queueId)
 	{
 		pDevice->GetD3D12Device()->CreateCommittedResource(
 			&CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_DEFAULT),
@@ -18,8 +19,8 @@ namespace EduEngine
 		);
 	}
 
-	TextureD3D12::TextureD3D12(RenderDeviceD3D12* pDevice, Microsoft::WRL::ComPtr<ID3D12Resource> resource) :
-		ResourceD3D12(pDevice, resource)
+	TextureD3D12::TextureD3D12(RenderDeviceD3D12* pDevice, Microsoft::WRL::ComPtr<ID3D12Resource> resource, QueueID queueId) :
+		ResourceD3D12(pDevice, resource, queueId)
 	{
 	}
 
@@ -59,7 +60,7 @@ namespace EduEngine
 	DescriptorHeapAllocation TextureD3D12::Allocate(const D3D12_DESCRIPTOR_HEAP_TYPE& type, bool onCpu)
 	{
 		return onCpu ?
-			m_Device->AllocateCPUDescriptor(type, 1) :
-			m_Device->AllocateGPUDescriptor(type, 1);
+			m_Device->AllocateCPUDescriptor(m_QueueId, type, 1) :
+			m_Device->AllocateGPUDescriptor(m_QueueId, type, 1);
 	}
 }

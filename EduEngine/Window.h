@@ -1,9 +1,9 @@
 #pragma once
-#include "pch.h"
+#include <Windows.h>
 
 namespace EduEngine
 {
-	class GRAPHICS_API Window
+	class Window
 	{
 	public:
 		Window(HINSTANCE hInstance);
@@ -33,6 +33,6 @@ namespace EduEngine
 		bool mApplicationResizing = false;
 		bool mApplicationFullScreen = false;
 
-		const wchar_t* mMainWindowCaption = L"d3d12 App";
+		const wchar_t* mMainWindowCaption = L"EduEngine";
 	};
 }

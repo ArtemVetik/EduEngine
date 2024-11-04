@@ -1,5 +1,6 @@
 #pragma once
 #include "pch.h"
+#include "QueueID.h"
 
 namespace EduEngine
 {
@@ -9,7 +10,7 @@ namespace EduEngine
 	class GRAPHICS_HEAPS_API IDescriptorAllocator
 	{
 	public:
-		virtual DescriptorHeapAllocation Allocate(uint32_t count) = 0;
+		virtual DescriptorHeapAllocation Allocate(QueueID queueId, uint32_t count) = 0;
 		virtual void SafeFree(DescriptorHeapAllocation&& allocation) = 0;
 		virtual uint32_t GetDescriptorSize() const = 0;
 		virtual void FreeAllocation(DescriptorHeapAllocation&& allocation) = 0;
@@ -27,7 +28,8 @@ namespace EduEngine
 								 D3D12_CPU_DESCRIPTOR_HANDLE cpuHandle,
 								 D3D12_GPU_DESCRIPTOR_HANDLE gpuHandle,
 								 uint32_t                    nHandles,
-								 uint16_t                    allocationManagerId);
+								 uint16_t                    allocationManagerId,
+								 QueueID queueId);
 
 		DescriptorHeapAllocation(DescriptorHeapAllocation&& allocation) noexcept;
 
@@ -48,7 +50,8 @@ namespace EduEngine
 		bool IsNull() const { return m_FirstCpuHandle.ptr == 0; }
 		bool IsShaderVisible() const { return m_FirstGpuHandle.ptr != 0; }
 		size_t GetAllocationManagerId() { return m_AllocationManagerId; }
-		uint16_t GetDescriptorSize()const { return m_DescriptorSize; }
+		uint16_t GetDescriptorSize() const { return m_DescriptorSize; }
+		QueueID GetQueueID() const { return m_QueueId; }
 
 		static constexpr uint16_t InvalidAllocationMgrId = 0xFFFF;
 
@@ -63,5 +66,6 @@ namespace EduEngine
 		uint32_t m_NumHandles = 0;
 		uint16_t m_AllocationManagerId = static_cast<uint16_t>(-1);
 		uint16_t m_DescriptorSize = 0;
+		QueueID m_QueueId;
 	};
 }

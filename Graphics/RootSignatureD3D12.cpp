@@ -12,6 +12,15 @@ namespace EduEngine
 		m_SlotParameters.emplace_back(slotParameter);
 	}
 
+	void RootSignatureD3D12::AddDescriptorParameter(UINT					  size,
+													CD3DX12_DESCRIPTOR_RANGE* rangeParameters,
+													D3D12_SHADER_VISIBILITY	  visibility /* = D3D12_SHADER_VISIBILITY_ALL */)
+	{
+		CD3DX12_ROOT_PARAMETER slotParameter;
+		slotParameter.InitAsDescriptorTable(size, rangeParameters, visibility);
+		m_SlotParameters.emplace_back(slotParameter);
+	}
+
 	void RootSignatureD3D12::Build(const RenderDeviceD3D12* pDevice)
 	{
 		CD3DX12_ROOT_SIGNATURE_DESC rootSigDesc(m_SlotParameters.size(), m_SlotParameters.data(), 0, nullptr,

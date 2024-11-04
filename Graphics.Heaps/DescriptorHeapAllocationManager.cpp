@@ -35,12 +35,12 @@ namespace EduEngine
 		m_FreeBlockManager(numDescriptors)
 	{
 		m_FirstCPUHandle = d3d12DescriptorHeap->GetCPUDescriptorHandleForHeapStart();
-		m_FirstCPUHandle.ptr += SIZE_T{ m_DescriptorSize } *SIZE_T{ firstDescriptor };
+		m_FirstCPUHandle.ptr += SIZE_T{ m_DescriptorSize } * SIZE_T{ firstDescriptor };
 
 		if (m_HeapDesc.Flags & D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE)
 		{
 			m_FirstGPUHandle = d3d12DescriptorHeap->GetGPUDescriptorHandleForHeapStart();
-			m_FirstGPUHandle.ptr += SIZE_T{ m_DescriptorSize } *SIZE_T{ firstDescriptor };
+			m_FirstGPUHandle.ptr += SIZE_T{ m_DescriptorSize } * SIZE_T{ firstDescriptor };
 		}
 	}
 
@@ -64,7 +64,7 @@ namespace EduEngine
 		rhs.m_FirstGPUHandle.ptr = 0;
 	}
 
-	DescriptorHeapAllocation DescriptorHeapAllocationManager::Allocate(uint32_t count)
+	DescriptorHeapAllocation DescriptorHeapAllocationManager::Allocate(QueueID queueId, uint32_t count)
 	{
 		std::lock_guard<std::mutex> LockGuard(m_AllocationMutex);
 
@@ -80,7 +80,7 @@ namespace EduEngine
 		if (m_HeapDesc.Flags & D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE)
 			GPUHandle.ptr += descriptorHandleOffset * m_DescriptorSize;
 
-		return DescriptorHeapAllocation(m_ParentAllocator, m_pDescriptorHeap.Get(), CPUHandle, GPUHandle, count, static_cast<uint16_t>(m_ThisManagerId));
+		return DescriptorHeapAllocation(m_ParentAllocator, m_pDescriptorHeap.Get(), CPUHandle, GPUHandle, count, static_cast<uint16_t>(m_ThisManagerId), queueId);
 	}
 
 	void DescriptorHeapAllocationManager::FreeAllocation(DescriptorHeapAllocation&& allocation)
