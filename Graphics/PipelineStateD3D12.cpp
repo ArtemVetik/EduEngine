@@ -19,6 +19,16 @@ namespace EduEngine
 		m_Desc.DSVFormat = DXGI_FORMAT_D24_UNORM_S8_UINT;
 	}
 
+	void PipelineStateD3D12::SetPrimitiveTopology(D3D12_PRIMITIVE_TOPOLOGY_TYPE topology)
+	{
+		m_Desc.PrimitiveTopologyType = topology;
+	}
+
+	void PipelineStateD3D12::SetBlendState(D3D12_BLEND_DESC blendState)
+	{
+		m_Desc.BlendState = blendState;
+	}
+
 	void PipelineStateD3D12::SetInputLayout(D3D12_INPUT_LAYOUT_DESC inputLayout)
 	{
 		m_Desc.InputLayout = inputLayout;
@@ -38,10 +48,15 @@ namespace EduEngine
 		case EDU_SHADER_TYPE_VERTEX:
 			m_Desc.VS = shader->GetShaderBytecode();
 			break;
+		case EDU_SHADER_TYPE_GEOMETRY:
+			m_Desc.GS = shader->GetShaderBytecode();
+			break;
 		case EDU_SHADER_TYPE_PIXEL:
 			m_Desc.PS = shader->GetShaderBytecode();
 			break;
 		}
+
+		assert(1);
 	}
 
 	void PipelineStateD3D12::Build(const RenderDeviceD3D12* pDevice)

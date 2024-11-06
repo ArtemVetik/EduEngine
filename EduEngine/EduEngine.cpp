@@ -24,7 +24,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance,
 #endif
 
 	GeometryGenerator geoGen;
-	GeometryGenerator::MeshData boxMeshData = geoGen.CreateBox(25.0f, 25.0f, 25.0f, 1);
+	GeometryGenerator::MeshData boxMeshData = geoGen.CreateBox(1.0f, 1.0f, 1.0f, 1);
 
 	Window window(hInstance);
 	window.Initialize();
@@ -51,13 +51,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance,
 	auto renderer1 = go1->AddComponent<Renderer>();
 	renderer1->VertexBuffer = vertexBuffer;
 	renderer1->IndexBuffer = indexBuffer;
-	go1->GetTransform()->SetPosition({-25, 0, 0});
+	go1->GetTransform()->SetPosition({-2, 0, 0});
 
 	std::shared_ptr<GameObject> go2 = std::make_shared<GameObject>();
 	auto renderer2 = go2->AddComponent<Renderer>();
 	renderer2->VertexBuffer = vertexBuffer;
 	renderer2->IndexBuffer = indexBuffer;
-	go2->GetTransform()->SetPosition({+25, 0, 0});
+	go2->GetTransform()->SetPosition({+2, 0, 0});
 
 	scene.AddGameObject(go1);
 	scene.AddGameObject(go2);
@@ -113,11 +113,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance,
 				{
 					if (mouseState.lX != 0)
 					{
-						mainCamera.RotateY(5 * mouseState.lX * timer.GetDeltaTime());
+						mainCamera.RotateY(10 * mouseState.lX * timer.GetDeltaTime());
 					}
 					if (mouseState.lY != 0)
 					{
-						mainCamera.Pitch(5 * mouseState.lY * timer.GetDeltaTime());
+						mainCamera.Pitch(10 * mouseState.lY * timer.GetDeltaTime());
 					}
 				}
 

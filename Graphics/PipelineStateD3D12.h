@@ -10,6 +10,8 @@ namespace EduEngine
 	public:
 		PipelineStateD3D12();
 
+		void SetPrimitiveTopology(D3D12_PRIMITIVE_TOPOLOGY_TYPE topology);
+		void SetBlendState(D3D12_BLEND_DESC blendState);
 		void SetInputLayout(D3D12_INPUT_LAYOUT_DESC inputLayout);
 		void SetRootSignature(RootSignatureD3D12* rootSignature);
 		void SetShader(ShaderD3D12* shader);

@@ -8,6 +8,7 @@
 #include "../Graphics/BufferD3D12.h"
 #include "../Graphics/RenderObject.h"
 #include "../Graphics/Camera.h"
+#include "../Graphics/DebugRendererSystem.h"
 #include "../GameplayCore/Scene.h"
 #include "RenderPasses.h"
 #include "Window.h"
@@ -47,6 +48,7 @@ namespace EduEngine
 		D3D12_RECT m_ScissorRect;
 
 		Camera* m_Camera;
+		std::shared_ptr<DebugRendererSystem> m_DebugRenderer;
 
 		const Scene* m_Scene;
 	};

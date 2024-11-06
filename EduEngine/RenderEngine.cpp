@@ -57,6 +57,8 @@ namespace EduEngine
 
 		m_OpaquePass = std::make_unique<OpaquePass>(m_Device.get());
 
+		m_DebugRenderer = std::make_shared<DebugRendererSystem>(m_Device.get());
+
 		*ppDeviceOut = m_Device.get();
 		return true;
 	}
@@ -83,7 +85,7 @@ namespace EduEngine
 			D3D12_RESOURCE_STATE_PRESENT, D3D12_RESOURCE_STATE_RENDER_TARGET));
 		commandContext.FlushResourceBarriers();
 
-		commandContext.GetCmdList()->ClearRenderTargetView(m_SwapChain->CurrentBackBufferView(), DirectX::Colors::LightSteelBlue, 0, nullptr);
+		commandContext.GetCmdList()->ClearRenderTargetView(m_SwapChain->CurrentBackBufferView(), DirectX::Colors::Black, 0, nullptr);
 		commandContext.GetCmdList()->ClearDepthStencilView(m_SwapChain->DepthStencilView(), D3D12_CLEAR_FLAG_DEPTH | D3D12_CLEAR_FLAG_STENCIL, 1.0f, 0, 0, nullptr);
 
 		commandContext.SetRenderTargets(1, &(m_SwapChain->CurrentBackBufferView()), true, &(m_SwapChain->DepthStencilView()));
@@ -113,6 +115,8 @@ namespace EduEngine
 
 			commandContext.GetCmdList()->DrawIndexedInstanced(renderObject->GetComponent<Renderer>()->IndexBuffer->GetLength(), 1, 0, 0, 0);
 		}
+
+		m_DebugRenderer->Render(m_Camera->GetViewProjMatrix(), m_Camera->GetPosition());
 
 		commandContext.ResourceBarrier(CD3DX12_RESOURCE_BARRIER::Transition(m_SwapChain->CurrentBackBuffer(),
 			D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PRESENT));

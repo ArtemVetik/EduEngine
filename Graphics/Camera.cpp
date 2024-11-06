@@ -7,10 +7,10 @@ namespace EduEngine
 	{
 		ResetCamera();
 
-		m_NearValue = 5.0f;
+		m_NearValue = 0.3f;
 		m_FarValue = 1000.0f;
 
-		XMVECTOR pos = XMVectorSet(0.0f, 20.0f, -150.0f, 0.0f);
+		XMVECTOR pos = XMVectorSet(0.0f, 10.0f, -20.0f, 0.0f);
 		XMVECTOR dir = XMVectorSet(0, 0, 1, 0);
 		XMVECTOR up = XMVectorSet(0, 1, 0, 0);
 
