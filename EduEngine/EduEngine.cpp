@@ -6,6 +6,7 @@
 #include "InputManager.h"
 #include "../GameplayCore/Scene.h"
 #include "../GameplayCore/Renderer.h"
+#include "../Physics/PhysicsWorld.h"
 
 using namespace EduEngine;
 
@@ -37,6 +38,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance,
 
 	Camera mainCamera(window.GetClientWidth(), window.GetClientHeight());
 	renderEngine.SetCamera(&mainCamera);
+
+	PhysicsWorld physicsWorld;
 
 	device->GetCommandContext(D3D12_COMMAND_LIST_TYPE_DIRECT).Reset();
 	
