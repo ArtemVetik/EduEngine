@@ -1,7 +1,7 @@
 #pragma once
 #include "framework.h"
 #include "Component.h"
-#include "../Graphics/BufferD3D12.h"
+#include "../RenderEngine/IRenderEngine.h"
 
 namespace EduEngine
 {
@@ -11,10 +11,15 @@ namespace EduEngine
 	{
 	public:
 		Renderer(GameObject* parent);
+		~Renderer();
 
-		std::shared_ptr<VertexBufferD3D12> VertexBuffer;
-		std::shared_ptr<IndexBufferD3D12> IndexBuffer;
+		void Initialize(IRenderEngine* renderEngine);
+		void SetMesh(MeshData meshData);
 
 		void Update() override;
+
+	private:
+		IRenderEngine* m_RenderEngine;
+		std::shared_ptr<IRenderObject> m_Object;
 	};
 }

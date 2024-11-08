@@ -11,7 +11,7 @@ namespace EduEngine
 	{
 	}
 
-	void RigidBody::Initialize(IPhysicsWorld* physicsWorld, DebugRendererSystem* debugRenderer)
+	void RigidBody::Initialize(IPhysicsWorld* physicsWorld, IDebugRendererSystem* debugRenderer)
 	{
 		m_Physics = physicsWorld;
 		m_DebugRenderer = debugRenderer;

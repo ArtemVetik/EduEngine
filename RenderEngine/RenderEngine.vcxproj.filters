@@ -13,66 +13,42 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="DescriptorHeap">
-      <UniqueIdentifier>{d6c439dd-6de1-44b7-8c4d-9dbfb3068d98}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="d3dx12.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="QueryInterface.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="DxException.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SwapChain.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="pch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CommandContext.h">
+    <ClInclude Include="RenderEngine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CommandListManager.h">
+    <ClInclude Include="RenderPasses.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="RenderDeviceD3D12.h">
+    <ClInclude Include="Window.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="BufferD3D12.h">
+    <ClInclude Include="Camera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CommandQueueD3D12.h">
+    <ClInclude Include="IRenderEngine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ResourceD3D12.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="TextureD3D12.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="resource.h">
+    <ClInclude Include="RenderEngineDefines.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="RenderObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ShaderD3D12.h">
+    <ClInclude Include="GeometryGenerator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="RootSignatureD3D12.h">
+    <ClInclude Include="DebugRendererSystem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PipelineStateD3D12.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="DynamicUploadBuffer.h">
+    <ClInclude Include="IDebugRendererSystem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -80,52 +56,32 @@
     <ClCompile Include="dllmain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="QueryInterface.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="DxException.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SwapChain.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="pch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CommandContext.cpp">
+    <ClCompile Include="Window.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CommandListManager.cpp">
+    <ClCompile Include="Camera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="RenderDeviceD3D12.cpp">
+    <ClCompile Include="RenderObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="BufferD3D12.cpp">
+    <ClCompile Include="GeometryGenerator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CommandQueueD3D12.cpp">
+    <ClCompile Include="DebugRendererSystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="TextureD3D12.cpp">
+    <ClCompile Include="RenderEngine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ShaderD3D12.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="RootSignatureD3D12.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="PipelineStateD3D12.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="DynamicUploadBuffer.cpp">
+    <ClCompile Include="IRenderEngine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="Graphics.rc">
-      <Filter>Resource Files</Filter>
-    </ResourceCompile>
+    <None Include="packages.config" />
   </ItemGroup>
 </Project>

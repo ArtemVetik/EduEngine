@@ -1,7 +1,7 @@
 #pragma once
 #include "Component.h"
 #include "../Physics/IPhysicsWorld.h"
-#include "../Graphics/DebugRendererSystem.h"
+#include "../RenderEngine/IDebugRendererSystem.h"
 
 namespace EduEngine
 {
@@ -12,7 +12,7 @@ namespace EduEngine
 	public:
 		RigidBody(GameObject* parent);
 
-		void Initialize(IPhysicsWorld* physicsWorld, DebugRendererSystem* debugRenderer);
+		void Initialize(IPhysicsWorld* physicsWorld, IDebugRendererSystem* debugRenderer);
 		void Update() override;
 		
 		void SetGeometry(ColliderShape geometry);
@@ -22,7 +22,7 @@ namespace EduEngine
 
 	private:
 		IPhysicsWorld* m_Physics;
-		DebugRendererSystem* m_DebugRenderer = nullptr;
+		IDebugRendererSystem* m_DebugRenderer = nullptr;
 
 		std::shared_ptr<IPhysicsObject> m_Body = nullptr;
 		bool m_IsStatic;

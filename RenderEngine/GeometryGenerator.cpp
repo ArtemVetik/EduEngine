@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "GeometryGenerator.h"
 #include <algorithm>
 
@@ -5,7 +6,7 @@ using namespace DirectX;
 
 namespace EduEngine
 {
-	GeometryGenerator::MeshData GeometryGenerator::CreateBox(float width, float height, float depth, uint32 numSubdivisions)
+	MeshData GeometryGenerator::CreateBox(float width, float height, float depth, uint32 numSubdivisions)
 	{
 		MeshData meshData;
 
@@ -98,7 +99,7 @@ namespace EduEngine
 		return meshData;
 	}
 
-	GeometryGenerator::MeshData GeometryGenerator::CreateSphere(float radius, uint32 sliceCount, uint32 stackCount)
+	MeshData GeometryGenerator::CreateSphere(float radius, uint32 sliceCount, uint32 stackCount)
 	{
 		MeshData meshData;
 
@@ -272,7 +273,7 @@ namespace EduEngine
 		}
 	}
 
-	GeometryGenerator::Vertex GeometryGenerator::MidPoint(const Vertex& v0, const Vertex& v1)
+	Vertex GeometryGenerator::MidPoint(const Vertex& v0, const Vertex& v1)
 	{
 		XMVECTOR p0 = XMLoadFloat3(&v0.Position);
 		XMVECTOR p1 = XMLoadFloat3(&v1.Position);
@@ -302,7 +303,7 @@ namespace EduEngine
 		return v;
 	}
 
-	GeometryGenerator::MeshData GeometryGenerator::CreateGeosphere(float radius, uint32 numSubdivisions)
+	MeshData GeometryGenerator::CreateGeosphere(float radius, uint32 numSubdivisions)
 	{
 		MeshData meshData;
 
@@ -377,7 +378,7 @@ namespace EduEngine
 		return meshData;
 	}
 
-	GeometryGenerator::MeshData GeometryGenerator::CreateCylinder(float bottomRadius, float topRadius, float height, uint32 sliceCount, uint32 stackCount)
+	MeshData GeometryGenerator::CreateCylinder(float bottomRadius, float topRadius, float height, uint32 sliceCount, uint32 stackCount)
 	{
 		MeshData meshData;
 
@@ -546,7 +547,7 @@ namespace EduEngine
 		}
 	}
 
-	GeometryGenerator::MeshData GeometryGenerator::CreateGrid(float width, float depth, uint32 m, uint32 n)
+	MeshData GeometryGenerator::CreateGrid(float width, float depth, uint32 m, uint32 n)
 	{
 		MeshData meshData;
 
@@ -611,7 +612,7 @@ namespace EduEngine
 		return meshData;
 	}
 
-	GeometryGenerator::MeshData GeometryGenerator::CreateQuad(float x, float y, float w, float h, float depth)
+	MeshData GeometryGenerator::CreateQuad(float x, float y, float w, float h, float depth)
 	{
 		MeshData meshData;
 

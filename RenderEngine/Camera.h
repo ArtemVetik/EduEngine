@@ -7,7 +7,7 @@ using namespace DirectX;
 
 namespace EduEngine
 {
-	class GRAPHICS_API Camera
+	class RENDERENGINE_API Camera
 	{
 	public:
 		Camera(UINT width, UINT height);

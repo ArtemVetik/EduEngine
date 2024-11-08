@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "RenderEngine.h"
 #include "../GameplayCore/Renderer.h"
 #include "../Graphics/DynamicUploadBuffer.h"
@@ -12,10 +13,9 @@ namespace EduEngine
 	}
 
 	RenderEngine::RenderEngine() :
-		m_Scene{ nullptr },
 		m_Viewport{},
 		m_ScissorRect{},
-		m_Camera{nullptr}
+		m_Camera{ nullptr }
 	{
 		assert(Instance == nullptr);
 		Instance = this;
@@ -23,11 +23,13 @@ namespace EduEngine
 
 	RenderEngine::~RenderEngine()
 	{
+		m_RenderObjects.clear();
+
 		if (m_Device != nullptr)
 			m_Device->FlushQueues();
 	}
 
-	bool RenderEngine::StartUp(const Window& mainWindow, RenderDeviceD3D12** ppDeviceOut)
+	bool RenderEngine::StartUp(const Window& mainWindow)
 	{
 #if defined(DEBUG) || defined(_DEBUG) 
 		Microsoft::WRL::ComPtr<ID3D12Debug> debugController;
@@ -50,17 +52,38 @@ namespace EduEngine
 		QueryInterface::GetInstance().Initialize(m_Device->GetD3D12Device());
 #endif
 
-		m_SwapChain = std::make_unique<SwapChain>(m_Device.get(), 
+		m_SwapChain = std::make_unique<SwapChain>(m_Device.get(),
 			mainWindow.GetClientWidth(), mainWindow.GetClientHeight(), mainWindow.GetMainWindow());
 
 		Resize(mainWindow.GetClientWidth(), mainWindow.GetClientHeight());
 
 		m_OpaquePass = std::make_unique<OpaquePass>(m_Device.get());
-
 		m_DebugRenderer = std::make_shared<DebugRendererSystem>(m_Device.get());
 
-		*ppDeviceOut = m_Device.get();
+		m_Device->GetCommandContext(D3D12_COMMAND_LIST_TYPE_DIRECT).Reset();
+
 		return true;
+	}
+
+	std::shared_ptr<IRenderObject> RenderEngine::AddObject(MeshData meshData)
+	{
+		auto renderObject = std::make_shared<RenderObject>();
+		renderObject->VertexBuffer = std::make_shared<VertexBufferD3D12>(m_Device.get(), meshData.Vertices.data(),
+			sizeof(Vertex), (UINT)meshData.Vertices.size());
+		renderObject->IndexBuffer = std::make_shared<IndexBufferD3D12>(m_Device.get(), meshData.GetIndices16().data(),
+			sizeof(uint16), (UINT)meshData.GetIndices16().size(), DXGI_FORMAT_R16_UINT);
+
+		m_RenderObjects.emplace_back(renderObject);
+		return renderObject;
+	}
+
+	void RenderEngine::RemoveObject(std::shared_ptr<IRenderObject> object)
+	{
+		m_RenderObjects.erase(std::remove_if(m_RenderObjects.begin(), m_RenderObjects.end(),
+			[&object](const std::shared_ptr<RenderObject>& ptr) {
+				return ptr == object;
+			}),
+			m_RenderObjects.end());
 	}
 
 	void RenderEngine::Draw()
@@ -95,25 +118,25 @@ namespace EduEngine
 		commandContext.GetCmdList()->SetPipelineState(m_OpaquePass->GetD3D12PipelineState());
 		commandContext.GetCmdList()->SetGraphicsRootSignature(m_OpaquePass->GetD3D12RootSignature());
 
-		for (int i = 0; i < m_Scene->m_Objects.size(); i++)
+		for (int i = 0; i < m_RenderObjects.size(); i++)
 		{
-			auto renderObject = m_Scene->m_Objects[i];
+			auto renderObject = m_RenderObjects[i];
 
 			ObjectConstants objConstants;
-			objConstants.World = renderObject->GetTransform()->GetWorldMatrix().Transpose();
+			objConstants.World = renderObject->WorldMatrix.Transpose();
 
 			DynamicUploadBuffer uploadBuffer(m_Device.get(), QueueID::Direct);
 			uploadBuffer.LoadData(objConstants);
 			uploadBuffer.CreateCBV();
 
-			commandContext.GetCmdList()->IASetVertexBuffers(0, 1, &(renderObject->GetComponent<Renderer>()->VertexBuffer->GetView()));
-			commandContext.GetCmdList()->IASetIndexBuffer(&(renderObject->GetComponent<Renderer>()->IndexBuffer->GetView()));
+			commandContext.GetCmdList()->IASetVertexBuffers(0, 1, &(renderObject->VertexBuffer->GetView()));
+			commandContext.GetCmdList()->IASetIndexBuffer(&(renderObject->IndexBuffer->GetView()));
 			commandContext.GetCmdList()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 			commandContext.GetCmdList()->SetGraphicsRootConstantBufferView(0, passUploadBuffer.GetAllocation().GPUAddress);
 			commandContext.GetCmdList()->SetGraphicsRootDescriptorTable(1, uploadBuffer.GetCBVDescriptorGPUHandle());
 
-			commandContext.GetCmdList()->DrawIndexedInstanced(renderObject->GetComponent<Renderer>()->IndexBuffer->GetLength(), 1, 0, 0, 0);
+			commandContext.GetCmdList()->DrawIndexedInstanced(renderObject->IndexBuffer->GetLength(), 1, 0, 0, 0);
 		}
 
 		m_DebugRenderer->Render(m_Camera->GetViewProjMatrix(), m_Camera->GetPosition());
@@ -125,11 +148,6 @@ namespace EduEngine
 
 		m_SwapChain->Present();
 		m_Device->FinishFrame();
-	}
-
-	void RenderEngine::SetScene(const Scene* scene)
-	{
-		m_Scene = scene;
 	}
 
 	void RenderEngine::SetCamera(Camera* pCamera)

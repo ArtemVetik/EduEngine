@@ -7,11 +7,13 @@
 #include "../Graphics/TextureD3D12.h"
 #include "../Graphics/BufferD3D12.h"
 #include "../Graphics/RenderObject.h"
-#include "../Graphics/Camera.h"
-#include "../Graphics/DebugRendererSystem.h"
-#include "../GameplayCore/Scene.h"
+#include "DebugRendererSystem.h"
+#include "framework.h"
+#include "IRenderEngine.h"
+#include "Camera.h"
 #include "RenderPasses.h"
 #include "Window.h"
+#include "RenderObject.h"
 
 #pragma comment(lib,"d3dcompiler.lib")
 #pragma comment(lib, "D3D12.lib")
@@ -19,7 +21,7 @@
 
 namespace EduEngine
 {
-	class RenderEngine
+	class RenderEngine : public IRenderEngine
 	{
 	public:
 		RenderEngine();
@@ -28,19 +30,22 @@ namespace EduEngine
 		RenderEngine& operator=(const RenderEngine& rhs) = delete;
 		~RenderEngine();
 
-		bool StartUp(const Window& mainWindow, RenderDeviceD3D12** ppDeviceOut);
+		bool StartUp(const Window& mainWindow);
 
-		void Draw();
+		std::shared_ptr<IRenderObject> AddObject(MeshData meshData) override;
+		void RemoveObject(std::shared_ptr<IRenderObject> object) override;
+		void SetCamera(Camera* camera) override;
+		void Draw() override;
+
 		void Resize(int width, int height);
 
-		void SetScene(const Scene* scene);
-		void SetCamera(Camera* pCamera);
-
-		DebugRendererSystem* GetDebugRender() const { return m_DebugRenderer.get(); }
+		IDebugRendererSystem* GetDebugRender() const override { return m_DebugRenderer.get(); }
 
 		static RenderEngine* GetInstance();
 	private:
 		static RenderEngine* Instance;
+
+		std::vector<std::shared_ptr<RenderObject>> m_RenderObjects;
 
 		std::unique_ptr<RenderDeviceD3D12> m_Device;
 		std::unique_ptr<SwapChain> m_SwapChain;
@@ -51,7 +56,5 @@ namespace EduEngine
 
 		Camera* m_Camera;
 		std::shared_ptr<DebugRendererSystem> m_DebugRenderer;
-
-		const Scene* m_Scene;
 	};
 }

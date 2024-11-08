@@ -1,13 +1,15 @@
 #include <Windows.h>
 #include <crtdbg.h>
-#include "RenderEngine.h"
 #include "Timer.h"
-#include "GeometryGenerator.h"
 #include "InputManager.h"
 #include "../GameplayCore/Scene.h"
 #include "../GameplayCore/Renderer.h"
 #include "../GameplayCore/RigidBody.h"
+#include "../RenderEngine/Window.h"
+#include "../RenderEngine/IRenderEngine.h"
 #include "../Physics/PhysicsFactory.h"
+#include "../RenderEngine/Camera.h"
+#include "../RenderEngine/GeometryGenerator.h"
 
 using namespace EduEngine;
 
@@ -26,50 +28,42 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance,
 #endif
 
 	GeometryGenerator geoGen;
-	GeometryGenerator::MeshData boxMeshData = geoGen.CreateBox(1.0f, 1.0f, 1.0f, 1);
 
 	Window window(hInstance);
 	window.Initialize();
 
 	InputManager::GetInstance().Initialize(hInstance, window.GetMainWindow());
 
-	RenderDeviceD3D12* device;
-	RenderEngine renderEngine;
-	renderEngine.StartUp(window, &device);
+	std::shared_ptr<IRenderEngine> renderEngine = IRenderEngine::Create(window);
 
 	Camera mainCamera(window.GetClientWidth(), window.GetClientHeight());
-	renderEngine.SetCamera(&mainCamera);
+	renderEngine->SetCamera(&mainCamera);
 
 	PhysicsFactory physicsFactory;
 	std::shared_ptr<IPhysicsWorld> physicsWorld = physicsFactory.Create();
-
-	device->GetCommandContext(D3D12_COMMAND_LIST_TYPE_DIRECT).Reset();
-
-	auto vertexBuffer = std::make_shared<VertexBufferD3D12>(device, boxMeshData.Vertices.data(),
-		sizeof(GeometryGenerator::Vertex), (UINT)boxMeshData.Vertices.size());
-	auto indexBuffer = std::make_shared<IndexBufferD3D12>(device, boxMeshData.GetIndices16().data(),
-		sizeof(GeometryGenerator::uint16), (UINT)boxMeshData.GetIndices16().size(), DXGI_FORMAT_R16_UINT);
 
 	Scene scene;
 
 	std::shared_ptr<GameObject> go1 = std::make_shared<GameObject>();
 	go1->GetTransform()->SetPosition({ 0, 20, 0 });
 	auto renderer1 = go1->AddComponent<Renderer>();
-	renderer1->VertexBuffer = vertexBuffer;
-	renderer1->IndexBuffer = indexBuffer;
+	renderer1->Initialize(renderEngine.get());
+	renderer1->SetMesh(geoGen.CreateBox(1.0f, 1.0f, 1.0f, 1));
 	auto rigidBody1 = go1->AddComponent<RigidBody>();
-	rigidBody1->Initialize(physicsWorld.get(), renderEngine.GetDebugRender());
+	rigidBody1->Initialize(physicsWorld.get(), renderEngine->GetDebugRender());
+	rigidBody1->SetGeometry(ColliderShape(0.6f, 0.6f, 0.6f));
 
 	std::shared_ptr<GameObject> go2 = std::make_shared<GameObject>();
 	auto renderer2 = go2->AddComponent<Renderer>();
-	renderer2->VertexBuffer = vertexBuffer;
-	renderer2->IndexBuffer = indexBuffer;
-	go2->GetTransform()->SetPosition({ +2, 0, 0 });
+	go2->GetTransform()->SetPosition({ 0, 30, 0 });
+	renderer2->Initialize(renderEngine.get());
+	renderer2->SetMesh(geoGen.CreateSphere(1.0f, 16, 16));
+	auto rigidBody2 = go2->AddComponent<RigidBody>();
+	rigidBody2->Initialize(physicsWorld.get(), renderEngine->GetDebugRender());
+	rigidBody2->SetGeometry(ColliderShape(1));
 
 	scene.AddGameObject(go1);
 	scene.AddGameObject(go2);
-
-	renderEngine.SetScene(&scene);
 
 	const float fixedTimeStep = 1.0f / 60.0f;
 	float physixsAccumulator = 0.0f;
@@ -150,7 +144,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance,
 				for (size_t i = 0; i < scene.m_Objects.size(); i++)
 					scene.m_Objects[i]->Update();
 
-				renderEngine.Draw();
+				renderEngine->Draw();
 			}
 			else
 			{

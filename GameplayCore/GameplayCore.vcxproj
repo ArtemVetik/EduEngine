@@ -172,11 +172,11 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Graphics\Graphics.vcxproj">
-      <Project>{21d60465-4dec-4328-8bfb-480f0ff4adb5}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\Physics\Physics.vcxproj">
       <Project>{6bbdc0a5-b642-4ca9-bd96-c658942119a5}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\RenderEngine\RenderEngine.vcxproj">
+      <Project>{8f2a71f1-7b8d-42d5-8b91-094ee2ca63ce}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

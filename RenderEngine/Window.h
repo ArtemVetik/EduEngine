@@ -1,9 +1,10 @@
 #pragma once
 #include <Windows.h>
+#include "framework.h"
 
 namespace EduEngine
 {
-	class Window
+	class RENDERENGINE_API Window
 	{
 	public:
 		Window(HINSTANCE hInstance);

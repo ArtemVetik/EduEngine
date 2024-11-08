@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "Window.h"
 #include "RenderEngine.h"
 
@@ -87,10 +88,10 @@ namespace EduEngine
 	{
 		//ImGui_ImplWin32_WndProcHandler(hwnd, msg, wParam, lParam);
 
-		auto Resize = [](UINT w, UINT h) 
-		{
-			if (RenderEngine::GetInstance()) RenderEngine::GetInstance()->Resize(w, h);
-		};
+		auto Resize = [](UINT w, UINT h)
+			{
+				if (RenderEngine::GetInstance()) RenderEngine::GetInstance()->Resize(w, h);
+			};
 
 		switch (msg)
 		{

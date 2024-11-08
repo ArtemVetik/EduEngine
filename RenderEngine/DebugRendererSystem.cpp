@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "DebugRendererSystem.h"
-#include "DynamicUploadBuffer.h"
+#include "../Graphics/DynamicUploadBuffer.h"
 
 namespace EduEngine
 {
