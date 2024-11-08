@@ -6,7 +6,8 @@
 #include "InputManager.h"
 #include "../GameplayCore/Scene.h"
 #include "../GameplayCore/Renderer.h"
-#include "../Physics/PhysicsWorld.h"
+#include "../GameplayCore/RigidBody.h"
+#include "../Physics/PhysicsFactory.h"
 
 using namespace EduEngine;
 
@@ -39,10 +40,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance,
 	Camera mainCamera(window.GetClientWidth(), window.GetClientHeight());
 	renderEngine.SetCamera(&mainCamera);
 
-	PhysicsWorld physicsWorld;
+	PhysicsFactory physicsFactory;
+	std::shared_ptr<IPhysicsWorld> physicsWorld = physicsFactory.Create();
 
 	device->GetCommandContext(D3D12_COMMAND_LIST_TYPE_DIRECT).Reset();
-	
+
 	auto vertexBuffer = std::make_shared<VertexBufferD3D12>(device, boxMeshData.Vertices.data(),
 		sizeof(GeometryGenerator::Vertex), (UINT)boxMeshData.Vertices.size());
 	auto indexBuffer = std::make_shared<IndexBufferD3D12>(device, boxMeshData.GetIndices16().data(),
@@ -51,22 +53,26 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance,
 	Scene scene;
 
 	std::shared_ptr<GameObject> go1 = std::make_shared<GameObject>();
+	go1->GetTransform()->SetPosition({ 0, 20, 0 });
 	auto renderer1 = go1->AddComponent<Renderer>();
 	renderer1->VertexBuffer = vertexBuffer;
 	renderer1->IndexBuffer = indexBuffer;
-	go1->GetTransform()->SetPosition({-2, 0, 0});
+	auto rigidBody1 = go1->AddComponent<RigidBody>();
+	rigidBody1->Initialize(physicsWorld.get(), renderEngine.GetDebugRender());
 
 	std::shared_ptr<GameObject> go2 = std::make_shared<GameObject>();
 	auto renderer2 = go2->AddComponent<Renderer>();
 	renderer2->VertexBuffer = vertexBuffer;
 	renderer2->IndexBuffer = indexBuffer;
-	go2->GetTransform()->SetPosition({+2, 0, 0});
+	go2->GetTransform()->SetPosition({ +2, 0, 0 });
 
 	scene.AddGameObject(go1);
 	scene.AddGameObject(go2);
 
 	renderEngine.SetScene(&scene);
 
+	const float fixedTimeStep = 1.0f / 60.0f;
+	float physixsAccumulator = 0.0f;
 	EduEngine::Timer timer = EduEngine::Timer(window.GetMainWindow(), L"EduEngine");
 
 	MSG msg = { 0 };
@@ -106,25 +112,40 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance,
 
 				if (InputManager::GetInstance().IsKeyPressed(DIK_E))
 					mainCamera.Shift(moveSpeed * cameraUp * timer.GetDeltaTime());
-				
+
 				if (InputManager::GetInstance().IsKeyPressed(DIK_Q))
 					mainCamera.Shift(moveSpeed * -cameraUp * timer.GetDeltaTime());
 
+				if (InputManager::GetInstance().IsKeyPressed(DIK_I))
+					rigidBody1->SetStatic(true);
+				if (InputManager::GetInstance().IsKeyPressed(DIK_O))
+					rigidBody1->SetStatic(false);
+				if (InputManager::GetInstance().IsKeyPressed(DIK_SPACE))
+					rigidBody1->AddForce({0, 0.2f, 0}, ForceMode::IMPULSE);
+
 				auto mouseState = InputManager::GetInstance().GetMouseState();
-				
+
 				if (mouseState.rgbButtons[1] & 0x80)
 				{
 					if (mouseState.lX != 0)
 					{
-						mainCamera.RotateY(10 * mouseState.lX * timer.GetDeltaTime());
+						mainCamera.RotateY(0.01f * mouseState.lX);
 					}
 					if (mouseState.lY != 0)
 					{
-						mainCamera.Pitch(10 * mouseState.lY * timer.GetDeltaTime());
+						mainCamera.Pitch(0.01f * mouseState.lY);
 					}
 				}
 
 				mainCamera.Update();
+
+				physixsAccumulator += timer.GetDeltaTime();
+
+				if (physixsAccumulator >= fixedTimeStep)
+				{
+					physicsWorld->Update();
+					physixsAccumulator = 0.0f;
+				}
 
 				for (size_t i = 0; i < scene.m_Objects.size(); i++)
 					scene.m_Objects[i]->Update();

@@ -32,6 +32,67 @@ namespace EduEngine
 		DrawLine(corners[3], corners[7], color);
 	}
 
+	void DebugRendererSystem::DrawBoundingBox(const DirectX::BoundingBox& box, DirectX::XMMATRIX transform, DirectX::XMVECTOR color)
+	{
+		DirectX::XMFLOAT3 corners[8];
+		box.GetCorners(&corners[0]);
+
+		for (size_t i = 0; i < 8; i++)
+		{
+			auto vector = DirectX::XMLoadFloat3(&corners[i]);
+			vector = DirectX::XMVector3Transform(vector, transform);
+			DirectX::XMStoreFloat3(&corners[i], vector);
+		}
+
+		DrawLine(corners[0], corners[1], color);
+		DrawLine(corners[1], corners[2], color);
+		DrawLine(corners[2], corners[3], color);
+		DrawLine(corners[3], corners[0], color);
+
+		DrawLine(corners[4], corners[5], color);
+		DrawLine(corners[5], corners[6], color);
+		DrawLine(corners[6], corners[7], color);
+		DrawLine(corners[7], corners[4], color);
+
+		DrawLine(corners[0], corners[4], color);
+		DrawLine(corners[1], corners[5], color);
+		DrawLine(corners[2], corners[6], color);
+		DrawLine(corners[3], corners[7], color);
+	}
+
+	void DebugRendererSystem::DrawCapsule(const double& radius, const double& halfHeight, const DirectX::XMVECTOR& color, const DirectX::XMMATRIX& transform, int density)
+	{
+		DrawCircle(radius, color, DirectX::XMMatrixTranslation(0, 0, halfHeight) * transform, density);
+		DrawCircle(radius, color, DirectX::XMMatrixTranslation(0, 0, -halfHeight) * transform, density);
+
+		double angleStep = DirectX::XM_PI * 2 / density;
+
+		for (int i = 0; i < density; i++)
+		{
+			DirectX::XMFLOAT3 point0
+			{
+				static_cast<float>(radius * cos(angleStep * i)),
+				static_cast<float>(radius * sin(angleStep * i)),
+				static_cast<float>(halfHeight),
+			};
+
+			DirectX::XMFLOAT3 point1
+			{
+				point0.x,
+				point0.y,
+				static_cast<float>(-halfHeight),
+			};
+
+			auto p0 = DirectX::XMVector3Transform(DirectX::XMLoadFloat3(&point0), transform);
+			auto p1 = DirectX::XMVector3Transform(DirectX::XMLoadFloat3(&point1), transform);
+
+			DirectX::XMStoreFloat3(&point0, p0);
+			DirectX::XMStoreFloat3(&point1, p1);
+
+			DrawLine(point0, point1, color);
+		}
+	}
+
 	void DebugRendererSystem::DrawSphere(const double& radius, const DirectX::XMVECTOR& color, const DirectX::XMMATRIX& transform, int density)
 	{
 		DrawCircle(radius, color, transform, density);

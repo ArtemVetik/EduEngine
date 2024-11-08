@@ -36,6 +36,8 @@ namespace EduEngine
 		void SetScene(const Scene* scene);
 		void SetCamera(Camera* pCamera);
 
+		DebugRendererSystem* GetDebugRender() const { return m_DebugRenderer.get(); }
+
 		static RenderEngine* GetInstance();
 	private:
 		static RenderEngine* Instance;

@@ -6,7 +6,7 @@ namespace EduEngine
 	Transform::Transform(GameObject* parent) :
 		Component(parent),
 		m_Position{0, 0, 0},
-		m_Rotation{0, 0, 0, 0},
+		m_Rotation{0, 0, 0, 1},
 		m_Scale{1, 1, 1},
 		m_Dirty{ false }
 	{
