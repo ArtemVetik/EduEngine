@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "PhysicsWorld.h"
 #include "PhysXObject.h"
+#include "PhysXShape.h"
 
 namespace EduEngine
 {
@@ -25,6 +26,9 @@ namespace EduEngine
 
 	PhysicsWorld::~PhysicsWorld()
 	{
+		m_Shapes.clear();
+		m_Objects.clear();
+
 		PX_RELEASE(m_Scene);
 		PX_RELEASE(m_Dispatcher);
 		PX_RELEASE(m_Physics);
@@ -37,47 +41,41 @@ namespace EduEngine
 		m_Scene->fetchResults(true);
 	}
 
-	void PhysicsWorld::RemoveActorFromScene(PxActor& actor)
+	IPhysicsObject* PhysicsWorld::AddBody(DirectX::SimpleMath::Vector3 position, DirectX::SimpleMath::Quaternion rotation, bool isStatic)
 	{
-		m_Scene->removeActor(actor);
+		auto physXObject = std::make_shared<PhysXObject>(m_Physics, m_Scene, position, rotation, isStatic);
+		m_Objects.emplace_back(physXObject);
+		return physXObject.get();
 	}
 
-	std::shared_ptr<IPhysicsObject> PhysicsWorld::AddBody(Vector3 position, Quaternion rotation, ColliderShape& geometry, bool isStatic)
+	void PhysicsWorld::RemoveBody(IPhysicsObject* object)
 	{
-		PxGeometry* pxGeo = GetGeometry(geometry);
-		PxShape* shape = m_Physics->createShape(*pxGeo, *m_Material);
+		PhysXObject* physXObject = dynamic_cast<PhysXObject*>(object);
+		assert(physXObject != nullptr);
 
-		PxRigidActor* body;
-		PxVec3 pxPos(position.x, position.y, position.z);
-		PxQuat pxQuat(rotation.x, rotation.y, rotation.z, rotation.w);
-		PxTransform pxTransform(pxPos, pxQuat);
-
-		if (isStatic)
-			body = m_Physics->createRigidStatic(pxTransform);
-		else
-			body = m_Physics->createRigidDynamic(pxTransform);
-
-		body->attachShape(*shape);
-
-		if (!isStatic)
-			PxRigidBodyExt::updateMassAndInertia(*body->is<PxRigidDynamic>(), 10.0f);
-
-		m_Scene->addActor(*body);
-
-		shape->release();
-		delete pxGeo;
-
-		return std::make_shared<PhysXObject>(body, this);
+		m_Objects.erase(std::remove_if(m_Objects.begin(), m_Objects.end(),
+			[&physXObject](const std::shared_ptr<PhysXObject>& ptr) {
+				return ptr.get() == physXObject;
+			}),
+			m_Objects.end());
 	}
 
-	PxGeometry* PhysicsWorld::GetGeometry(ColliderShape& shape)
+	IPhysicsShape* PhysicsWorld::CreateShape(ColliderShape& geometry)
 	{
-		switch (shape.type)
-		{
-		case ColliderType::Box: return new PxBoxGeometry(shape.box.width, shape.box.height, shape.box.depth);
-		case ColliderType::Capsule: return new PxCapsuleGeometry(shape.capsule.radius, shape.capsule.halfHeight);
-		case ColliderType::Sphere: return new PxSphereGeometry(shape.sphere.radius);
-		default: throw;
-		}
+		auto physXShape = std::make_shared<PhysXShape>(geometry, m_Physics);
+		m_Shapes.emplace_back(physXShape);
+		return physXShape.get();
+	}
+
+	void PhysicsWorld::RemoveShape(IPhysicsShape* shape)
+	{
+		PhysXShape* physXShape = dynamic_cast<PhysXShape*>(shape);
+		assert(physXShape != nullptr);
+
+		m_Shapes.erase(std::remove_if(m_Shapes.begin(), m_Shapes.end(),
+			[&physXShape](const std::shared_ptr<PhysXShape>& ptr) {
+				return ptr.get() == physXShape;
+			}),
+			m_Shapes.end());
 	}
 }

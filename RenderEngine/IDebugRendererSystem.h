@@ -1,7 +1,5 @@
 #pragma once
 #include "framework.h"
-#include <SimpleMath.h>
-#include <DirectXColors.h>
 
 namespace EduEngine
 {

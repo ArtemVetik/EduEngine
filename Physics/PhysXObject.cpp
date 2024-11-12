@@ -1,20 +1,42 @@
 #include "pch.h"
+#include <vector>
 #include "PhysXObject.h"
+#include "PhysXShape.h"
 
 namespace EduEngine
 {
-	PhysXObject::PhysXObject(PxRigidActor* actor, PhysicsWorld* world) :
-		m_Actor(actor),
-		m_World(world)
+	PhysXObject::PhysXObject(PxPhysics* physics, PxScene* scene, DirectX::SimpleMath::Vector3 position, DirectX::SimpleMath::Quaternion rotation, bool isStatic)
 	{
+		PxVec3 pxPos(position.x, position.y, position.z);
+		PxQuat pxQuat(rotation.x, rotation.y, rotation.z, rotation.w);
+		PxTransform pxTransform(pxPos, pxQuat);
+
+		if (isStatic)
+			m_Actor = physics->createRigidStatic(pxTransform);
+		else
+			m_Actor = physics->createRigidDynamic(pxTransform);
+
+		if (!isStatic)
+			PxRigidBodyExt::updateMassAndInertia(*m_Actor->is<PxRigidDynamic>(), 10.0f);
+
+		m_Scene = scene;
+		m_Scene->addActor(*m_Actor);
 	}
 
 	PhysXObject::~PhysXObject()
 	{
-		m_World->RemoveActorFromScene(*m_Actor);
+		auto shapeCount = m_Actor->getNbShapes();
+		std::vector<PxShape*> shapes(shapeCount);
+		m_Actor->getShapes(shapes.data(), shapeCount);
+
+		for (int i = 0; i < shapeCount; i++)
+			m_Actor->detachShape(*shapes[i]);
+
+		m_Scene->removeActor(*m_Actor);
+		PX_RELEASE(m_Actor);
 	}
 
-	void PhysXObject::AddForce(const Vector3& force, ForceMode forceMode)
+	void PhysXObject::AddForce(const DirectX::SimpleMath::Vector3& force, NativeForceMode forceMode)
 	{
 		auto dynamicActor = m_Actor->is<PxRigidDynamic>();
 
@@ -24,44 +46,31 @@ namespace EduEngine
 		}
 	}
 
-	Vector3 PhysXObject::GetPosition() const
+	DirectX::SimpleMath::Vector3 PhysXObject::GetPosition() const
 	{
 		PxTransform transform = m_Actor->getGlobalPose();
-		return Vector3(transform.p.x, transform.p.y, transform.p.z);
+		return DirectX::SimpleMath::Vector3(transform.p.x, transform.p.y, transform.p.z);
 	}
 
-	Quaternion PhysXObject::GetRotation() const
+	DirectX::SimpleMath::Quaternion PhysXObject::GetRotation() const
 	{
 		PxTransform transform = m_Actor->getGlobalPose();
-		return Quaternion(transform.q.x, transform.q.y, transform.q.z, transform.q.w);
+		return DirectX::SimpleMath::Quaternion(transform.q.x, transform.q.y, transform.q.z, transform.q.w);
 	}
 
-	ColliderShape PhysXObject::GetShape() const
+	void PhysXObject::AttachShape(IPhysicsShape* shape)
 	{
-		const PxU32 shapeCount = m_Actor->getNbShapes();
-		
-		if (shapeCount > 0) 
-		{
-			PxShape* shape;
-			m_Actor->getShapes(&shape, 1);
+		PhysXShape* physXShape = dynamic_cast<PhysXShape*>(shape);
+		assert(physXShape != nullptr);
 
-			PxGeometryHolder geom = shape->getGeometry();
+		m_Actor->attachShape(physXShape->GetPxShape());
+	}
 
-			if (geom.getType() == PxGeometryType::eBOX)
-			{
-				PxBoxGeometry boxGeom = geom.box();
-				return ColliderShape(boxGeom.halfExtents.x, boxGeom.halfExtents.y, boxGeom.halfExtents.z);
-			}
-			if (geom.getType() == PxGeometryType::eSPHERE)
-			{
-				PxSphereGeometry sphereGeom = geom.sphere();
-				return ColliderShape(sphereGeom.radius);
-			}
-			if (geom.getType() == PxGeometryType::eCAPSULE)
-			{
-				PxCapsuleGeometry capsuleGeom = geom.capsule();
-				return ColliderShape(capsuleGeom.radius, capsuleGeom.halfHeight);
-			}
-		}
+	void PhysXObject::DetachShape(IPhysicsShape* shape)
+	{
+		PhysXShape* physXShape = dynamic_cast<PhysXShape*>(shape);
+		assert(physXShape != nullptr);
+
+		m_Actor->detachShape(physXShape->GetPxShape());
 	}
 }

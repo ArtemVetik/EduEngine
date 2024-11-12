@@ -1,6 +1,5 @@
 #include "pch.h"
 #include "RenderEngine.h"
-#include "../GameplayCore/Renderer.h"
 #include "../Graphics/DynamicUploadBuffer.h"
 
 namespace EduEngine
@@ -65,23 +64,23 @@ namespace EduEngine
 		return true;
 	}
 
-	std::shared_ptr<IRenderObject> RenderEngine::AddObject(MeshData meshData)
+	IRenderObject* RenderEngine::AddObject(NativeMeshData meshData)
 	{
 		auto renderObject = std::make_shared<RenderObject>();
 		renderObject->VertexBuffer = std::make_shared<VertexBufferD3D12>(m_Device.get(), meshData.Vertices.data(),
-			sizeof(Vertex), (UINT)meshData.Vertices.size());
+			sizeof(NativeVertex), (UINT)meshData.Vertices.size());
 		renderObject->IndexBuffer = std::make_shared<IndexBufferD3D12>(m_Device.get(), meshData.GetIndices16().data(),
 			sizeof(uint16), (UINT)meshData.GetIndices16().size(), DXGI_FORMAT_R16_UINT);
 
 		m_RenderObjects.emplace_back(renderObject);
-		return renderObject;
+		return renderObject.get();
 	}
 
-	void RenderEngine::RemoveObject(std::shared_ptr<IRenderObject> object)
+	void RenderEngine::RemoveObject(IRenderObject* object)
 	{
 		m_RenderObjects.erase(std::remove_if(m_RenderObjects.begin(), m_RenderObjects.end(),
 			[&object](const std::shared_ptr<RenderObject>& ptr) {
-				return ptr == object;
+				return ptr.get() == object;
 			}),
 			m_RenderObjects.end());
 	}

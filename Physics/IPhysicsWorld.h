@@ -3,13 +3,18 @@
 #include "framework.h"
 #include "PhysicsDefinitions.h"
 #include "IPhysicsObject.h"
+#include "IPhysicsShape.h"
 
 namespace EduEngine
 {
 	class PHYSICS_API IPhysicsWorld
 	{
 	public:
-		virtual std::shared_ptr<IPhysicsObject> AddBody(Vector3 position, Quaternion rotation, ColliderShape& geometry, bool isStatic) = 0;
+		virtual IPhysicsObject* AddBody(DirectX::SimpleMath::Vector3 position, DirectX::SimpleMath::Quaternion rotation, bool isStatic) = 0;
+		virtual void RemoveBody(IPhysicsObject* object) = 0;
+		virtual IPhysicsShape* CreateShape(ColliderShape& geometry) = 0;
+		virtual void RemoveShape(IPhysicsShape* shape) = 0;
+
 		virtual void Update() = 0;
 	};
 }

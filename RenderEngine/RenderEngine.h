@@ -32,8 +32,8 @@ namespace EduEngine
 
 		bool StartUp(const Window& mainWindow);
 
-		std::shared_ptr<IRenderObject> AddObject(MeshData meshData) override;
-		void RemoveObject(std::shared_ptr<IRenderObject> object) override;
+		IRenderObject* AddObject(NativeMeshData meshData) override;
+		void RemoveObject(IRenderObject* object) override;
 		void SetCamera(Camera* camera) override;
 		void Draw() override;
 

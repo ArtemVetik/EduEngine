@@ -3,6 +3,8 @@
 #define WIN32_LEAN_AND_MEAN
 
 #include <windows.h>
+#include <DirectXColors.h>
+#include <DirectXCollision.h>
 
 #ifdef RENDERENGINE_EXPORTS
 #define RENDERENGINE_API __declspec(dllexport)

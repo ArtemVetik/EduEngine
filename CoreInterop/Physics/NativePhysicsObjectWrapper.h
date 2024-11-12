@@ -1,0 +1,36 @@
+#pragma once
+#include "../../Physics/IPhysicsObject.h"
+#include "NativePhysicsShapeWrapper.h"
+#include "ColliderData.h"
+
+using namespace System;
+
+namespace EduEngine
+{
+	public enum class ForceMode
+	{
+		FORCE,				//!< parameter has unit of mass * length / time^2, i.e., a force
+		IMPULSE,			//!< parameter has unit of mass * length / time, i.e., force * time
+		VELOCITY_CHANGE,	//!< parameter has unit of length / time, i.e., the effect is mass independent: a velocity change.
+		ACCELERATION
+	};
+
+	public ref class NativePhysicsObjectWrapper
+	{
+	private:
+		IPhysicsObject* m_NativeObject;
+
+	public:
+		NativePhysicsObjectWrapper(IPhysicsObject* nativePtr);
+		~NativePhysicsObjectWrapper();
+		!NativePhysicsObjectWrapper();
+
+		void AddForce(Numerics::Vector3 force, ForceMode forceMode);
+		void AttachShape(NativePhysicsShapeWrapper^ shape);
+		void DetachShape(NativePhysicsShapeWrapper^ shape);
+		Numerics::Vector3 GetPosition();
+		Numerics::Quaternion GetRotation();
+
+		IPhysicsObject* GetNativeObject() { return m_NativeObject; }
+	};
+}

@@ -1,8 +1,9 @@
 #pragma once
+#include "framework.h"
 
 namespace EduEngine
 {
-	enum PHYSICS_API ForceMode
+	enum class PHYSICS_API NativeForceMode
 	{
 		FORCE,				//!< parameter has unit of mass * length / time^2, i.e., a force
 		IMPULSE,			//!< parameter has unit of mass * length / time, i.e., force * time
@@ -10,7 +11,7 @@ namespace EduEngine
 		ACCELERATION
 	};
 
-	enum PHYSICS_API ColliderType
+	enum class PHYSICS_API ColliderType
 	{
 		Box,
 		Sphere,

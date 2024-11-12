@@ -1,26 +1,31 @@
 #pragma once
 #include <PxPhysicsAPI.h>
 #include "IPhysicsObject.h"
-#include "PhysicsWorld.h"
 
 namespace EduEngine
 {
     using namespace physx;
-    using namespace DirectX::SimpleMath;
 
 	class PhysXObject : public IPhysicsObject
 	{
     public:
-        PhysXObject(PxRigidActor* actor, PhysicsWorld* world);
+        PhysXObject(PxPhysics*                      physics,
+                    PxScene*                        scene,
+                    DirectX::SimpleMath::Vector3    position,
+                    DirectX::SimpleMath::Quaternion rotation,
+                    bool                            isStatic);
         ~PhysXObject();
 
-        void AddForce(const Vector3& force, ForceMode forceMode) override;
-        Vector3 GetPosition() const override;
-        Quaternion GetRotation() const override;
-        ColliderShape GetShape() const override;
+        void AddForce(const  DirectX::SimpleMath::Vector3& force, NativeForceMode forceMode) override;
+        DirectX::SimpleMath::Vector3 GetPosition() const override;
+        DirectX::SimpleMath::Quaternion GetRotation() const override;
+        void AttachShape(IPhysicsShape* shape) override;
+        void DetachShape(IPhysicsShape* shape) override;
+
+        PxRigidActor& GetActor() const { return *m_Actor; }
 
     private:
         PxRigidActor* m_Actor;
-        PhysicsWorld* m_World;
+        PxScene* m_Scene;
     };
 }

@@ -2,14 +2,13 @@
 #include <crtdbg.h>
 #include "Timer.h"
 #include "InputManager.h"
-#include "../GameplayCore/Scene.h"
-#include "../GameplayCore/Renderer.h"
-#include "../GameplayCore/RigidBody.h"
 #include "../RenderEngine/Window.h"
 #include "../RenderEngine/IRenderEngine.h"
-#include "../Physics/PhysicsFactory.h"
 #include "../RenderEngine/Camera.h"
 #include "../RenderEngine/GeometryGenerator.h"
+#include "../Physics/PhysicsFactory.h"
+#include "../CoreInterop/CoreSystems.h"
+#include "../GameplayInterop/GameplayInterop.h"
 
 using namespace EduEngine;
 
@@ -42,28 +41,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance,
 	PhysicsFactory physicsFactory;
 	std::shared_ptr<IPhysicsWorld> physicsWorld = physicsFactory.Create();
 
-	Scene scene;
+	EduEngine::CoreSystems s(renderEngine.get(), physicsWorld.get());
 
-	std::shared_ptr<GameObject> go1 = std::make_shared<GameObject>();
-	go1->GetTransform()->SetPosition({ 0, 20, 0 });
-	auto renderer1 = go1->AddComponent<Renderer>();
-	renderer1->Initialize(renderEngine.get());
-	renderer1->SetMesh(geoGen.CreateBox(1.0f, 1.0f, 1.0f, 1));
-	auto rigidBody1 = go1->AddComponent<RigidBody>();
-	rigidBody1->Initialize(physicsWorld.get(), renderEngine->GetDebugRender());
-	rigidBody1->SetGeometry(ColliderShape(0.6f, 0.6f, 0.6f));
-
-	std::shared_ptr<GameObject> go2 = std::make_shared<GameObject>();
-	auto renderer2 = go2->AddComponent<Renderer>();
-	go2->GetTransform()->SetPosition({ 0, 30, 0 });
-	renderer2->Initialize(renderEngine.get());
-	renderer2->SetMesh(geoGen.CreateSphere(1.0f, 16, 16));
-	auto rigidBody2 = go2->AddComponent<RigidBody>();
-	rigidBody2->Initialize(physicsWorld.get(), renderEngine->GetDebugRender());
-	rigidBody2->SetGeometry(ColliderShape(1));
-
-	scene.AddGameObject(go1);
-	scene.AddGameObject(go2);
+	GameplayInterop::Initialize();
 
 	const float fixedTimeStep = 1.0f / 60.0f;
 	float physixsAccumulator = 0.0f;
@@ -110,13 +90,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance,
 				if (InputManager::GetInstance().IsKeyPressed(DIK_Q))
 					mainCamera.Shift(moveSpeed * -cameraUp * timer.GetDeltaTime());
 
-				if (InputManager::GetInstance().IsKeyPressed(DIK_I))
-					rigidBody1->SetStatic(true);
-				if (InputManager::GetInstance().IsKeyPressed(DIK_O))
-					rigidBody1->SetStatic(false);
-				if (InputManager::GetInstance().IsKeyPressed(DIK_SPACE))
-					rigidBody1->AddForce({0, 0.2f, 0}, ForceMode::IMPULSE);
-
 				auto mouseState = InputManager::GetInstance().GetMouseState();
 
 				if (mouseState.rgbButtons[1] & 0x80)
@@ -141,8 +114,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance,
 					physixsAccumulator = 0.0f;
 				}
 
-				for (size_t i = 0; i < scene.m_Objects.size(); i++)
-					scene.m_Objects[i]->Update();
+				GameplayInterop::Update();
 
 				renderEngine->Draw();
 			}

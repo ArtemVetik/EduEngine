@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <sstream>
+#include <vector>
 #include "IPhysicsWorld.h"
 #include "PxPhysicsAPI.h"
 #include "PhysXAllocator.h"
@@ -10,19 +11,21 @@ namespace EduEngine
 {
 	using namespace physx;
 
+	class PhysXObject;
+	class PhysXShape;
+
 	class PhysicsWorld : public IPhysicsWorld
 	{
 	public:
 		PhysicsWorld();
 		~PhysicsWorld();
 
-		std::shared_ptr<IPhysicsObject> AddBody(Vector3 position, Quaternion rotation, ColliderShape& geometry, bool isStatic) override;
-		void Update() override;
+		IPhysicsObject* AddBody(DirectX::SimpleMath::Vector3 position, DirectX::SimpleMath::Quaternion rotation, bool isStatic) override;
+		void RemoveBody(IPhysicsObject* object) override;
+		IPhysicsShape* CreateShape(ColliderShape& geometry) override;
+		void RemoveShape(IPhysicsShape* shape) override;
 	
-		void RemoveActorFromScene(PxActor& actor);
-
-	private:
-		PxGeometry* GetGeometry(ColliderShape& shape);
+		void Update() override;
 
 	private:
 		PxFoundation* m_Foundation = NULL;
@@ -33,5 +36,8 @@ namespace EduEngine
 
 		PhysXAllocator m_Allocator = {};
 		PhysXErrorCallback m_ErrorCallback = {};
+
+		std::vector<std::shared_ptr<PhysXObject>> m_Objects;
+		std::vector<std::shared_ptr<PhysXShape>> m_Shapes;
 	};
 }

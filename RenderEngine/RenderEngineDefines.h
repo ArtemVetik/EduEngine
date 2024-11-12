@@ -7,10 +7,10 @@ namespace EduEngine
 	using uint16 = std::uint16_t;
 	using uint32 = std::uint32_t;
 
-	struct RENDERENGINE_API Vertex
+	struct RENDERENGINE_API NativeVertex
 	{
-		Vertex() = default;
-		Vertex(
+		NativeVertex() = default;
+		NativeVertex(
 			const DirectX::XMFLOAT3& p,
 			const DirectX::XMFLOAT3& n,
 			const DirectX::XMFLOAT3& t,
@@ -19,7 +19,7 @@ namespace EduEngine
 			Normal(n),
 			//TangentU(t),
 			TexC(uv) {}
-		Vertex(
+		NativeVertex(
 			float px, float py, float pz,
 			float nx, float ny, float nz,
 			float tx, float ty, float tz,
@@ -35,9 +35,9 @@ namespace EduEngine
 		DirectX::XMFLOAT2 TexC;
 	};
 
-	struct RENDERENGINE_API MeshData
+	struct RENDERENGINE_API NativeMeshData
 	{
-		std::vector<Vertex> Vertices;
+		std::vector<NativeVertex> Vertices;
 		std::vector<uint32> Indices32;
 
 		std::vector<uint16>& GetIndices16()
