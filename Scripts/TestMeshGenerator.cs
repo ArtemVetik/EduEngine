@@ -1,59 +1,9 @@
 ﻿using System.Numerics;
 
-namespace EduEngine
+namespace EduEngine.Scripts
 {
-    public class TestMain
+    public static class TestMeshGenerator
     {
-        private static GameObject _go1;
-        private static GameObject _go2;
-        private static GameObject _camGo;
-
-        public static void TestInitialize()
-        {
-            GenerateCube(out Vertex[] vertices, out uint[] indices);
-            GenerateSphere(16, 16, 1.5f, out Vertex[] svertices, out uint[] sindices);
-            
-            _go1 = new GameObject();
-            _go1.Transform.Position = Vector3.UnitY * 10;
-            var renderer = _go1.AddComponent<Renderer>();
-            renderer.SetMesh(new MeshData()
-            {
-                Vertices = vertices.ToList(),
-                Indices32 = indices.ToList(),
-            });
-            var boxCollider = _go1.AddComponent<BoxCollider>();
-            boxCollider.Setup(5.5f, 5.5f, 2.5f);
-            boxCollider.Setup(1.5f, 1.5f, 1.5f);
-            var rigidBody = _go1.AddComponent<RigidBody>();
-
-
-            _go2 = new GameObject();
-            _go2.Transform.Position = Vector3.UnitY * 15;
-            var renderer2 = _go2.AddComponent<Renderer>();
-            renderer2.SetMesh(new MeshData()
-            {
-                Vertices = svertices.ToList(),
-                Indices32 = sindices.ToList(),
-            });
-            var boxCollider2 = _go2.AddComponent<SphereCollider>();
-            boxCollider2.Setup(2);
-            var rigidBody2 = _go2.AddComponent<RigidBody>();
-
-            _camGo = new GameObject();
-            _camGo.Transform.Position = new Vector3(0, 5, -10);
-            _camGo.Transform.Rotation = Quaternion.Identity;
-            _camGo.AddComponent<Camera>();
-        }
-
-        public static void TestUpdate()
-        {
-            _go1.Update();
-            _go2.Update();
-            _camGo.Update();
-        }
-
-        #region GeometryGenerator
-
         public static void GenerateCube(out Vertex[] vertices, out uint[] indices)
         {
             vertices = new Vertex[]
@@ -124,7 +74,5 @@ namespace EduEngine
             vertices = vertexList.ToArray();
             indices = indexList.ToArray();
         }
-
-        #endregion
     }
 }

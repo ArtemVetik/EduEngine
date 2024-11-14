@@ -102,6 +102,32 @@ namespace EduEngine
 
 	void RenderEngine::Draw()
 	{
+		if (m_Cameras.size() == 0)
+		{
+			auto& commandContext = m_Device->GetCommandContext(D3D12_COMMAND_LIST_TYPE_DIRECT);
+			auto& commandQueue = m_Device->GetCommandQueue(D3D12_COMMAND_LIST_TYPE_DIRECT);
+
+			commandContext.Reset();
+			commandContext.SetViewports(&m_Viewport, 1);
+			commandContext.SetScissorRects(&m_ScissorRect, 1);
+
+			commandContext.ResourceBarrier(CD3DX12_RESOURCE_BARRIER::Transition(m_SwapChain->CurrentBackBuffer(),
+				D3D12_RESOURCE_STATE_PRESENT, D3D12_RESOURCE_STATE_RENDER_TARGET));
+			commandContext.FlushResourceBarriers();
+
+			commandContext.GetCmdList()->ClearRenderTargetView(m_SwapChain->CurrentBackBufferView(), DirectX::Colors::Black, 0, nullptr);
+			commandContext.GetCmdList()->ClearDepthStencilView(m_SwapChain->DepthStencilView(), D3D12_CLEAR_FLAG_DEPTH | D3D12_CLEAR_FLAG_STENCIL, 1.0f, 0, 0, nullptr);
+
+			commandContext.SetRenderTargets(1, &(m_SwapChain->CurrentBackBufferView()), true, &(m_SwapChain->DepthStencilView()));
+
+			commandContext.ResourceBarrier(CD3DX12_RESOURCE_BARRIER::Transition(m_SwapChain->CurrentBackBuffer(),
+				D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PRESENT));
+			commandContext.FlushResourceBarriers();
+			commandQueue.CloseAndExecuteCommandContext(&commandContext);
+
+			commandContext.Reset();
+		}
+
 		for (auto& camera : m_Cameras)
 		{
 			PassConstants passConstants;
@@ -158,6 +184,8 @@ namespace EduEngine
 				D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PRESENT));
 			commandContext.FlushResourceBarriers();
 			commandQueue.CloseAndExecuteCommandContext(&commandContext);
+
+			commandContext.Reset();
 		}
 
 		m_SwapChain->Present();

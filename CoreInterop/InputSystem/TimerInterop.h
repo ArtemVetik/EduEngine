@@ -1,7 +1,7 @@
 
 namespace EduEngine
 {
-	private ref class EduTime
+	public ref class EduTime
 	{
 	public:
 		static property float DeltaTime

@@ -16,6 +16,8 @@ namespace EduEngine
         bool Initialize(HINSTANCE hInstance, HWND hWnd);
         void Update();
         bool IsKeyPressed(BYTE key);
+        bool IsKeyDown(BYTE key);
+        bool IsKeyUp(BYTE key);
         bool IsAnyKeyPressed();
         POINT GetCursorPosition();
         DIMOUSESTATE2 GetMouseState();
@@ -36,6 +38,7 @@ namespace EduEngine
         IDirectInputDevice8* m_mouseDevice;
 
         BYTE m_keyboardState[256];
+        BYTE m_prevKeyboardState[256];
         DIMOUSESTATE2 m_mouseState;
         DIMOUSESTATE2 m_prevMouseState;
     };

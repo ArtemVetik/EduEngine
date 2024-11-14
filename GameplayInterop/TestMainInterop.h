@@ -9,12 +9,12 @@ namespace EduEngine
 	public:
 		static void Initialize()
 		{
-			TestMain::TestInitialize();
+			Scripts::TestMain::Main();
 		}
 
 		static void Update()
 		{
-			TestMain::TestUpdate();
+			GameplayFramework::Update();
 		}
 	};
 }

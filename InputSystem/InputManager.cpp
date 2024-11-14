@@ -76,6 +76,7 @@ namespace EduEngine
 	{
 		HRESULT result;
 
+		memcpy(m_prevKeyboardState, m_keyboardState, sizeof(m_keyboardState));
 		result = m_keyboardDevice->GetDeviceState(sizeof(m_keyboardState), (LPVOID)&m_keyboardState);
 		if (FAILED(result))
 		{
@@ -96,6 +97,16 @@ namespace EduEngine
 	bool InputManager::IsKeyPressed(BYTE key)
 	{
 		return m_keyboardState[key] & 0x80;
+	}
+
+	bool InputManager::IsKeyDown(BYTE key)
+	{
+		return ((m_prevKeyboardState[key] & 0x80) == 0) && ((m_keyboardState[key] & 0x80) != 0);
+	}
+
+	bool InputManager::IsKeyUp(BYTE key)
+	{
+		return ((m_prevKeyboardState[key] & 0x80) != 0) && ((m_keyboardState[key] & 0x80) == 0);
 	}
 
 	bool InputManager::IsAnyKeyPressed()

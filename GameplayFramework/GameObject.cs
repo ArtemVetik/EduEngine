@@ -10,6 +10,17 @@ namespace EduEngine
         {
             _guid = Guid.NewGuid();
             Transform = new Transform(this);
+
+            SceneManager.CurrentScene.AddGameObject(this);
+        }
+
+        public void Destroy()
+        {
+            foreach (var component in _components)
+                if (component is IDisposable disposable)
+                    disposable.Dispose();
+
+            SceneManager.CurrentScene.RemoveGameObject(this);
         }
 
         public Transform Transform { get; private set; }
@@ -58,6 +69,19 @@ namespace EduEngine
             }
 
             return components.ToArray();
+        }
+
+        public override bool Equals(object? obj)
+        {
+            if (obj is GameObject gameObject)
+                return _guid.Equals(gameObject._guid);
+
+            return false;
+        }
+
+        public override int GetHashCode()
+        {
+            return _guid.GetHashCode();
         }
     }
 }

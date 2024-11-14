@@ -13,6 +13,16 @@ namespace EduEngine
 		return InputManager::GetInstance().IsKeyPressed(key);
 	}
 
+	bool InputSystemInterop::IsKeyDown(BYTE key)
+	{
+		return InputManager::GetInstance().IsKeyDown(key);
+	}
+
+	bool InputSystemInterop::IsKeyUp(BYTE key)
+	{
+		return InputManager::GetInstance().IsKeyUp(key);
+	}
+
 	MouseStateWrapper InputSystemInterop::GetMouseState()
 	{
 		auto mouseState = InputManager::GetInstance().GetMouseState();

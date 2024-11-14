@@ -6,6 +6,8 @@ namespace EduEngine
     {
         public static bool AnyKeyPressed => InputSystemInterop.IsAnyKeyPressed();
         public static bool KeyPressed(KeyCode key) => InputSystemInterop.IsKeyPressed((byte)key);
+        public static bool KeyDown(KeyCode key) => InputSystemInterop.IsKeyDown((byte)key);
+        public static bool KeyUp(KeyCode key) => InputSystemInterop.IsKeyUp((byte)key);
         public static Vector2 MousePosition => InputSystemInterop.GetCursorPos();
         public static Vector2 MouseDelta
         {
