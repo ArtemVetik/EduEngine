@@ -4,12 +4,13 @@ namespace EduEngine
 {
 	CoreSystems* CoreSystems::m_Instance = nullptr;
 
-	CoreSystems::CoreSystems(IRenderEngine* renderEngine, IPhysicsWorld* physicsWorld)
+	CoreSystems::CoreSystems(IRenderEngine* renderEngine, IPhysicsWorld* physicsWorld, Timer* timer)
 	{
 		assert(m_Instance == nullptr);
 
 		m_RenderEngine = renderEngine;
 		m_PhysicsWorld = physicsWorld;
+		m_Timer = timer;
 		m_Instance = this;
 	}
 

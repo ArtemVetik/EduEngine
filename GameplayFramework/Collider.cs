@@ -4,7 +4,7 @@
     {
         private NativePhysicsShapeWrapper _nativeShape;
 
-        public Collider(GameObject parent, ColliderData shape)
+        internal Collider(GameObject parent, ColliderData shape)
             : base(parent)
         {
             _nativeShape = PhysicsWorldInterop.CreateShape(shape);
@@ -17,7 +17,7 @@
 
         public override void Update()
         {
-            _nativeShape.DebugDraw(Parent.Transform.WorldMatrix);
+            _nativeShape.DebugDraw(GameObject.Transform.WorldMatrix);
         }
 
         internal NativePhysicsShapeWrapper GetShape()
@@ -25,7 +25,7 @@
             return _nativeShape;
         }
 
-        protected void SetShape(ColliderData shape)
+        internal void SetShape(ColliderData shape)
         {
             _nativeShape.SetGeometry(shape);
         }

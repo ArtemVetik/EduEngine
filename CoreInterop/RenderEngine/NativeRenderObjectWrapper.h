@@ -4,7 +4,7 @@ using namespace System::Numerics;
 
 namespace EduEngine
 {
-    public ref class NativeRenderObjectWrapper
+    private ref class NativeRenderObjectWrapper
     {
     private:
         IRenderObject* m_NativeObject;

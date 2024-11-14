@@ -1,9 +1,10 @@
 #pragma once
 #include <wtypes.h>
+#include "InputSystemModule.h"
 
 namespace EduEngine
 {
-	class Timer
+	class INPUTSYSTEM_API Timer
 	{
 	public:
 		Timer(HWND handle, LPCTSTR windowTitle);

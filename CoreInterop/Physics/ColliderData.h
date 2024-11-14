@@ -5,13 +5,13 @@ using namespace System;
 
 namespace EduEngine
 {
-	public ref class ColliderData abstract
+	private ref class ColliderData abstract
 	{
 	public:
 		virtual ColliderShape ToNative() abstract;
 	};
 
-	public ref class BoxColliderData : public ColliderData
+	private ref class BoxColliderData : public ColliderData
 	{
 	private:
 		float m_Width;
@@ -30,7 +30,7 @@ namespace EduEngine
 		}
 	};
 
-	public ref class SphereColliderData : public ColliderData
+	private ref class SphereColliderData : public ColliderData
 	{
 	private:
 		float m_Radius;

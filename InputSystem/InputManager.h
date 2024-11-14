@@ -1,13 +1,14 @@
 #pragma once
 
 #include <dinput.h>
+#include "InputSystemModule.h"
 
 #pragma comment(lib, "dinput8.lib")
 #pragma comment(lib, "dxguid.lib")
 
 namespace EduEngine
 {
-    class InputManager
+    class INPUTSYSTEM_API InputManager
     {
     public:
         static InputManager& GetInstance();

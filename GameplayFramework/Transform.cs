@@ -47,6 +47,9 @@ namespace EduEngine
                 _isDirty = true;
             }
         }
+        public Vector3 Forward => Vector3.Transform(Vector3.UnitZ, Rotation);
+        public Vector3 Right => Vector3.Transform(Vector3.UnitX, Rotation);
+        public Vector3 Up => Vector3.Transform(Vector3.UnitY, Rotation);
         public Matrix4x4 WorldMatrix { get; private set; }
 
         public override void Update()

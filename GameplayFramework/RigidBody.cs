@@ -10,7 +10,7 @@ namespace EduEngine
         public RigidBody(GameObject parent)
             : base(parent)
         {
-            _physicObject = PhysicsWorldInterop.AddBody(Parent.Transform.Position, Parent.Transform.Rotation, IsStatic);
+            _physicObject = PhysicsWorldInterop.AddBody(GameObject.Transform.Position, GameObject.Transform.Rotation, IsStatic);
             AttachAllColliders();
         }
 
@@ -21,7 +21,7 @@ namespace EduEngine
             {
                 _isStatic = value;
                 PhysicsWorldInterop.RemoveBody(_physicObject);
-                _physicObject = PhysicsWorldInterop.AddBody(Parent.Transform.Position, Parent.Transform.Rotation, IsStatic);
+                _physicObject = PhysicsWorldInterop.AddBody(GameObject.Transform.Position, GameObject.Transform.Rotation, IsStatic);
                 AttachAllColliders();
             }
         }
@@ -33,8 +33,8 @@ namespace EduEngine
 
         public override void Update()
         {
-            Parent.Transform.Position = _physicObject.GetPosition();
-            Parent.Transform.Rotation = _physicObject.GetRotation();
+            GameObject.Transform.Position = _physicObject.GetPosition();
+            GameObject.Transform.Rotation = _physicObject.GetRotation();
         }
 
         public void AddForce(Vector3 force, ForceMode forceMode)
@@ -44,7 +44,7 @@ namespace EduEngine
 
         private void AttachAllColliders()
         {
-            var colliders = Parent.GetComponents<Collider>();
+            var colliders = GameObject.GetComponents<Collider>();
 
             foreach (Collider collider in colliders)
                 _physicObject.AttachShape(collider.GetShape());

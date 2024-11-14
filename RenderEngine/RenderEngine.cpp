@@ -11,10 +11,25 @@ namespace EduEngine
 		return Instance;
 	}
 
+	Camera* RenderEngine::CreateCamera()
+	{
+		auto camera = std::make_shared<Camera>(m_SwapChain->GetWidth(), m_SwapChain->GetHeight());
+		m_Cameras.emplace_back(camera);
+		return camera.get();
+	}
+
+	void RenderEngine::RemoveCamera(Camera* camera)
+	{
+		m_Cameras.erase(std::remove_if(m_Cameras.begin(), m_Cameras.end(),
+			[&camera](const std::shared_ptr<Camera>& ptr) {
+				return ptr.get() == camera;
+			}),
+			m_Cameras.end());
+	}
+
 	RenderEngine::RenderEngine() :
 		m_Viewport{},
-		m_ScissorRect{},
-		m_Camera{ nullptr }
+		m_ScissorRect{}
 	{
 		assert(Instance == nullptr);
 		Instance = this;
@@ -87,71 +102,66 @@ namespace EduEngine
 
 	void RenderEngine::Draw()
 	{
-		if (m_Camera == nullptr)
-			return;
-
-		PassConstants passConstants;
-		XMStoreFloat4x4(&passConstants.ViewProj, XMMatrixTranspose(m_Camera->GetViewProjMatrix()));
-
-		DynamicUploadBuffer passUploadBuffer(m_Device.get(), QueueID::Direct);
-		passUploadBuffer.LoadData(passConstants);
-
-		auto& commandContext = m_Device->GetCommandContext(D3D12_COMMAND_LIST_TYPE_DIRECT);
-		auto& commandQueue = m_Device->GetCommandQueue(D3D12_COMMAND_LIST_TYPE_DIRECT);
-
-		commandContext.Reset();
-		commandContext.SetViewports(&m_Viewport, 1);
-		commandContext.SetScissorRects(&m_ScissorRect, 1);
-
-		commandContext.ResourceBarrier(CD3DX12_RESOURCE_BARRIER::Transition(m_SwapChain->CurrentBackBuffer(),
-			D3D12_RESOURCE_STATE_PRESENT, D3D12_RESOURCE_STATE_RENDER_TARGET));
-		commandContext.FlushResourceBarriers();
-
-		commandContext.GetCmdList()->ClearRenderTargetView(m_SwapChain->CurrentBackBufferView(), DirectX::Colors::Black, 0, nullptr);
-		commandContext.GetCmdList()->ClearDepthStencilView(m_SwapChain->DepthStencilView(), D3D12_CLEAR_FLAG_DEPTH | D3D12_CLEAR_FLAG_STENCIL, 1.0f, 0, 0, nullptr);
-
-		commandContext.SetRenderTargets(1, &(m_SwapChain->CurrentBackBufferView()), true, &(m_SwapChain->DepthStencilView()));
-
-		ID3D12DescriptorHeap* descriptorHeaps[] = { m_Device->GetD3D12DescriptorHeap() };
-		commandContext.GetCmdList()->SetDescriptorHeaps(_countof(descriptorHeaps), descriptorHeaps);
-		commandContext.GetCmdList()->SetPipelineState(m_OpaquePass->GetD3D12PipelineState());
-		commandContext.GetCmdList()->SetGraphicsRootSignature(m_OpaquePass->GetD3D12RootSignature());
-
-		for (int i = 0; i < m_RenderObjects.size(); i++)
+		for (auto& camera : m_Cameras)
 		{
-			auto renderObject = m_RenderObjects[i];
+			PassConstants passConstants;
+			XMStoreFloat4x4(&passConstants.ViewProj, XMMatrixTranspose(camera->GetViewProjMatrix()));
 
-			ObjectConstants objConstants;
-			objConstants.World = renderObject->WorldMatrix.Transpose();
+			DynamicUploadBuffer passUploadBuffer(m_Device.get(), QueueID::Direct);
+			passUploadBuffer.LoadData(passConstants);
 
-			DynamicUploadBuffer uploadBuffer(m_Device.get(), QueueID::Direct);
-			uploadBuffer.LoadData(objConstants);
-			uploadBuffer.CreateCBV();
+			auto& commandContext = m_Device->GetCommandContext(D3D12_COMMAND_LIST_TYPE_DIRECT);
+			auto& commandQueue = m_Device->GetCommandQueue(D3D12_COMMAND_LIST_TYPE_DIRECT);
 
-			commandContext.GetCmdList()->IASetVertexBuffers(0, 1, &(renderObject->VertexBuffer->GetView()));
-			commandContext.GetCmdList()->IASetIndexBuffer(&(renderObject->IndexBuffer->GetView()));
-			commandContext.GetCmdList()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+			commandContext.Reset();
+			commandContext.SetViewports(&m_Viewport, 1);
+			commandContext.SetScissorRects(&m_ScissorRect, 1);
 
-			commandContext.GetCmdList()->SetGraphicsRootConstantBufferView(0, passUploadBuffer.GetAllocation().GPUAddress);
-			commandContext.GetCmdList()->SetGraphicsRootDescriptorTable(1, uploadBuffer.GetCBVDescriptorGPUHandle());
+			commandContext.ResourceBarrier(CD3DX12_RESOURCE_BARRIER::Transition(m_SwapChain->CurrentBackBuffer(),
+				D3D12_RESOURCE_STATE_PRESENT, D3D12_RESOURCE_STATE_RENDER_TARGET));
+			commandContext.FlushResourceBarriers();
 
-			commandContext.GetCmdList()->DrawIndexedInstanced(renderObject->IndexBuffer->GetLength(), 1, 0, 0, 0);
+			commandContext.GetCmdList()->ClearRenderTargetView(m_SwapChain->CurrentBackBufferView(), DirectX::Colors::Black, 0, nullptr);
+			commandContext.GetCmdList()->ClearDepthStencilView(m_SwapChain->DepthStencilView(), D3D12_CLEAR_FLAG_DEPTH | D3D12_CLEAR_FLAG_STENCIL, 1.0f, 0, 0, nullptr);
+
+			commandContext.SetRenderTargets(1, &(m_SwapChain->CurrentBackBufferView()), true, &(m_SwapChain->DepthStencilView()));
+
+			ID3D12DescriptorHeap* descriptorHeaps[] = { m_Device->GetD3D12DescriptorHeap() };
+			commandContext.GetCmdList()->SetDescriptorHeaps(_countof(descriptorHeaps), descriptorHeaps);
+			commandContext.GetCmdList()->SetPipelineState(m_OpaquePass->GetD3D12PipelineState());
+			commandContext.GetCmdList()->SetGraphicsRootSignature(m_OpaquePass->GetD3D12RootSignature());
+
+			for (int i = 0; i < m_RenderObjects.size(); i++)
+			{
+				auto renderObject = m_RenderObjects[i];
+
+				ObjectConstants objConstants;
+				objConstants.World = renderObject->WorldMatrix.Transpose();
+
+				DynamicUploadBuffer uploadBuffer(m_Device.get(), QueueID::Direct);
+				uploadBuffer.LoadData(objConstants);
+				uploadBuffer.CreateCBV();
+
+				commandContext.GetCmdList()->IASetVertexBuffers(0, 1, &(renderObject->VertexBuffer->GetView()));
+				commandContext.GetCmdList()->IASetIndexBuffer(&(renderObject->IndexBuffer->GetView()));
+				commandContext.GetCmdList()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+				commandContext.GetCmdList()->SetGraphicsRootConstantBufferView(0, passUploadBuffer.GetAllocation().GPUAddress);
+				commandContext.GetCmdList()->SetGraphicsRootDescriptorTable(1, uploadBuffer.GetCBVDescriptorGPUHandle());
+
+				commandContext.GetCmdList()->DrawIndexedInstanced(renderObject->IndexBuffer->GetLength(), 1, 0, 0, 0);
+			}
+
+			m_DebugRenderer->Render(camera->GetViewProjMatrix(), camera->GetPosition());
+
+			commandContext.ResourceBarrier(CD3DX12_RESOURCE_BARRIER::Transition(m_SwapChain->CurrentBackBuffer(),
+				D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PRESENT));
+			commandContext.FlushResourceBarriers();
+			commandQueue.CloseAndExecuteCommandContext(&commandContext);
 		}
-
-		m_DebugRenderer->Render(m_Camera->GetViewProjMatrix(), m_Camera->GetPosition());
-
-		commandContext.ResourceBarrier(CD3DX12_RESOURCE_BARRIER::Transition(m_SwapChain->CurrentBackBuffer(),
-			D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PRESENT));
-		commandContext.FlushResourceBarriers();
-		commandQueue.CloseAndExecuteCommandContext(&commandContext);
 
 		m_SwapChain->Present();
 		m_Device->FinishFrame();
-	}
-
-	void RenderEngine::SetCamera(Camera* pCamera)
-	{
-		m_Camera = pCamera;
 	}
 
 	void RenderEngine::Resize(int width, int height)
@@ -175,7 +185,7 @@ namespace EduEngine
 
 		m_ScissorRect = { 0, 0, width, height };
 
-		if (m_Camera)
-			m_Camera->SetProjectionMatrix(width, height);
+		for (auto camera : m_Cameras)
+			camera->SetProjectionMatrix(width, height);
 	}
 }

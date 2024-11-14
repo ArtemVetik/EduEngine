@@ -14,5 +14,6 @@ using namespace System::Security::Permissions;
 [assembly:AssemblyCultureAttribute(L"")];
 
 [assembly:AssemblyVersionAttribute(L"1.0.*")];
+[assembly:InternalsVisibleTo("GameplayFramework")]
 
 [assembly:ComVisible(false)];

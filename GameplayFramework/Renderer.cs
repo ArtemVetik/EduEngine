@@ -12,14 +12,12 @@
 
         public override void Update()
         {
-            _renderObject?.SetWorldMatrix(Parent.Transform.WorldMatrix);
+            _renderObject?.SetWorldMatrix(GameObject.Transform.WorldMatrix);
         }
 
         public void SetMesh(MeshData mesh)
         {
-            if (_renderObject != null)
-                RenderEngineInterop.RemoveObject(_renderObject);
-            
+            _renderObject?.Dispose();
             _renderObject = RenderEngineInterop.AddObject(mesh);
         }
 

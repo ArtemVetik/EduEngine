@@ -8,7 +8,7 @@ using namespace System;
 
 namespace EduEngine
 {
-	public ref class PhysicsWorldInterop
+	private ref class PhysicsWorldInterop
 	{
 	public:
 		static NativePhysicsObjectWrapper^ AddBody(Numerics::Vector3 position, Numerics::Quaternion rotation, bool isStatic);

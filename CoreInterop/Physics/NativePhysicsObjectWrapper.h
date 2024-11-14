@@ -15,7 +15,7 @@ namespace EduEngine
 		ACCELERATION
 	};
 
-	public ref class NativePhysicsObjectWrapper
+	private ref class NativePhysicsObjectWrapper
 	{
 	private:
 		IPhysicsObject* m_NativeObject;

@@ -6,6 +6,7 @@ namespace EduEngine
     {
         private static GameObject _go1;
         private static GameObject _go2;
+        private static GameObject _camGo;
 
         public static void TestInitialize()
         {
@@ -37,12 +38,18 @@ namespace EduEngine
             var boxCollider2 = _go2.AddComponent<SphereCollider>();
             boxCollider2.Setup(2);
             var rigidBody2 = _go2.AddComponent<RigidBody>();
+
+            _camGo = new GameObject();
+            _camGo.Transform.Position = new Vector3(0, 5, -10);
+            _camGo.Transform.Rotation = Quaternion.Identity;
+            _camGo.AddComponent<Camera>();
         }
 
         public static void TestUpdate()
         {
             _go1.Update();
             _go2.Update();
+            _camGo.Update();
         }
 
         #region GeometryGenerator

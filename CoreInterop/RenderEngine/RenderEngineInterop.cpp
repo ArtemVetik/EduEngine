@@ -8,8 +8,9 @@ namespace EduEngine
 		return gcnew NativeRenderObjectWrapper(renderObject);
 	}
 
-	void RenderEngineInterop::RemoveObject(NativeRenderObjectWrapper^ renderObject)
+	NativeCameraWrapper^ RenderEngineInterop::CreateCamera()
 	{
-		CoreSystems::GetInstance()->GetRenderEngine()->RemoveObject(renderObject->GetNativeObject());
+		auto camera = CoreSystems::GetInstance()->GetRenderEngine()->CreateCamera();
+		return gcnew NativeCameraWrapper(camera);
 	}
 }

@@ -34,7 +34,8 @@ namespace EduEngine
 
 		IRenderObject* AddObject(NativeMeshData meshData) override;
 		void RemoveObject(IRenderObject* object) override;
-		void SetCamera(Camera* camera) override;
+		Camera* CreateCamera() override;
+		void RemoveCamera(Camera* camera) override;
 		void Draw() override;
 
 		void Resize(int width, int height);
@@ -46,6 +47,7 @@ namespace EduEngine
 		static RenderEngine* Instance;
 
 		std::vector<std::shared_ptr<RenderObject>> m_RenderObjects;
+		std::vector<std::shared_ptr<Camera>> m_Cameras;
 
 		std::unique_ptr<RenderDeviceD3D12> m_Device;
 		std::unique_ptr<SwapChain> m_SwapChain;
@@ -54,7 +56,6 @@ namespace EduEngine
 		D3D12_VIEWPORT m_Viewport;
 		D3D12_RECT m_ScissorRect;
 
-		Camera* m_Camera;
 		std::shared_ptr<DebugRendererSystem> m_DebugRenderer;
 	};
 }

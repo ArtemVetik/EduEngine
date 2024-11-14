@@ -20,8 +20,8 @@ namespace EduEngine
 	public:
 		virtual IRenderObject* AddObject(NativeMeshData meshData) = 0;
 		virtual void RemoveObject(IRenderObject* object) = 0;
-
-		virtual void SetCamera(Camera* camera) = 0;
+		virtual Camera* CreateCamera() = 0;
+		virtual void RemoveCamera(Camera* camera) = 0;
 		virtual IDebugRendererSystem* GetDebugRender() const = 0;
 
 		virtual void Draw() = 0;

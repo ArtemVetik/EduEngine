@@ -12,22 +12,14 @@ namespace EduEngine
 	public:
 		Camera(UINT width, UINT height);
 
-		void Shift(XMVECTOR shift);
-		void Pitch(float angle);
-		void RotateY(float angle);
-
 		void SetProjectionMatrix(UINT newWidth, UINT newHeight);
 
-		void Update();
-		void ResetCamera();
+		void Update(DirectX::XMFLOAT3 look, DirectX::XMFLOAT3 right, DirectX::XMFLOAT3 up, DirectX::XMFLOAT3 pos);
 
 		XMFLOAT4X4 GetViewMatrix() const;
 		XMFLOAT4X4 GetProjectionMatrix() const;
 		XMMATRIX GetViewProjMatrix() const;
-		XMFLOAT3 GetPosition() const;
-		XMFLOAT3 GetLook();
-		XMFLOAT3 GetRight();
-		XMFLOAT3 GetUp();
+		XMFLOAT3 GetPosition();
 		float GetNear() const;
 		float GetFar() const;
 		float GetFov() const;
@@ -36,10 +28,6 @@ namespace EduEngine
 		UINT m_ScreenWidth;
 		UINT m_ScreenHeight;
 
-		XMFLOAT3 m_Position = { 0.0f, 0.0f, 0.0f };
-		XMFLOAT3 m_Right = { 1.0f, 0.0f, 0.0f };
-		XMFLOAT3 m_Up = { 0.0f, 1.0f, 0.0f };
-		XMFLOAT3 m_Look = { 0.0f, 0.0f, 1.0f };
 		float m_Fov = 55.0f;
 
 		XMFLOAT4X4 m_ViewMatrix;
@@ -47,6 +35,6 @@ namespace EduEngine
 		float m_NearValue;
 		float m_FarValue;
 
-		bool m_ViewDirty = true;
+		XMFLOAT3 m_Position;
 	};
 }

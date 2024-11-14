@@ -10,7 +10,7 @@ namespace EduEngine
 		static void DebugDraw(DirectX::SimpleMath::Matrix transformMatrix, ColliderShape geometry);
 	};
 
-	public ref class NativePhysicsShapeWrapper
+	private ref class NativePhysicsShapeWrapper
 	{
 	private:
 		IPhysicsShape* m_NativeShape;

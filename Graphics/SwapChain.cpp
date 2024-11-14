@@ -16,6 +16,9 @@ namespace EduEngine
 
 		CreateDXGIFactory2(createFactoryFlags, IID_PPV_ARGS(&mDXGIFactory));
 
+		m_Width = width;
+		m_Height = height;
+
 		DXGI_SWAP_CHAIN_DESC1 swapChainDesc = {};
 		swapChainDesc.Width = width;
 		swapChainDesc.Height = height;
@@ -54,6 +57,9 @@ namespace EduEngine
 
 	void SwapChain::Resize(UINT width, UINT height)
 	{
+		m_Width = width;
+		m_Height = height;
+
 		for (int i = 0; i < SwapChainBufferCount; ++i)
 			m_SwapChainBuffers[i].reset();
 

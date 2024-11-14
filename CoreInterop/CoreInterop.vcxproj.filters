@@ -19,6 +19,9 @@
     <Filter Include="Physics">
       <UniqueIdentifier>{9fad9a40-c7bf-4be7-a38b-2cf7c88e30cb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="InputSystem">
+      <UniqueIdentifier>{9243c7ca-739e-48ea-a934-d55b5294d374}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Resource.h">
@@ -48,6 +51,15 @@
     <ClInclude Include="RenderEngine\NativeRenderObjectWrapper.h">
       <Filter>RenderEngine</Filter>
     </ClInclude>
+    <ClInclude Include="RenderEngine\NativeCameraWrapper.h">
+      <Filter>RenderEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="InputSystem\InputSystemInterop.h">
+      <Filter>InputSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="InputSystem\TimerInterop.h">
+      <Filter>InputSystem</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp">
@@ -70,6 +82,15 @@
     </ClCompile>
     <ClCompile Include="RenderEngine\NativeRenderObjectWrapper.cpp">
       <Filter>RenderEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderEngine\NativeCameraWrapper.cpp">
+      <Filter>RenderEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="InputSystem\InputSystemInterop.cpp">
+      <Filter>InputSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="InputSystem\TimerInterop.cpp">
+      <Filter>InputSystem</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

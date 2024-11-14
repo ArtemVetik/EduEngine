@@ -21,6 +21,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CoreInterop", "CoreInterop\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameplayFramework", "GameplayFramework\GameplayFramework.csproj", "{C5A54D47-3738-4497-B787-7E0FF03DC6AF}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "InputSystem", "InputSystem\InputSystem.vcxproj", "{32AC94C6-EF33-4ADD-92F9-41270D16E447}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -139,6 +141,18 @@ Global
 		{C5A54D47-3738-4497-B787-7E0FF03DC6AF}.Release|x64.Build.0 = Release|Any CPU
 		{C5A54D47-3738-4497-B787-7E0FF03DC6AF}.Release|x86.ActiveCfg = Release|Any CPU
 		{C5A54D47-3738-4497-B787-7E0FF03DC6AF}.Release|x86.Build.0 = Release|Any CPU
+		{32AC94C6-EF33-4ADD-92F9-41270D16E447}.Debug|Any CPU.ActiveCfg = Debug|x64
+		{32AC94C6-EF33-4ADD-92F9-41270D16E447}.Debug|Any CPU.Build.0 = Debug|x64
+		{32AC94C6-EF33-4ADD-92F9-41270D16E447}.Debug|x64.ActiveCfg = Debug|x64
+		{32AC94C6-EF33-4ADD-92F9-41270D16E447}.Debug|x64.Build.0 = Debug|x64
+		{32AC94C6-EF33-4ADD-92F9-41270D16E447}.Debug|x86.ActiveCfg = Debug|Win32
+		{32AC94C6-EF33-4ADD-92F9-41270D16E447}.Debug|x86.Build.0 = Debug|Win32
+		{32AC94C6-EF33-4ADD-92F9-41270D16E447}.Release|Any CPU.ActiveCfg = Release|x64
+		{32AC94C6-EF33-4ADD-92F9-41270D16E447}.Release|Any CPU.Build.0 = Release|x64
+		{32AC94C6-EF33-4ADD-92F9-41270D16E447}.Release|x64.ActiveCfg = Release|x64
+		{32AC94C6-EF33-4ADD-92F9-41270D16E447}.Release|x64.Build.0 = Release|x64
+		{32AC94C6-EF33-4ADD-92F9-41270D16E447}.Release|x86.ActiveCfg = Release|Win32
+		{32AC94C6-EF33-4ADD-92F9-41270D16E447}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

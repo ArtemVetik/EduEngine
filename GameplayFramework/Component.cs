@@ -2,14 +2,14 @@
 {
     public class Component
     {
-        private readonly GameObject _parent;
+        private readonly GameObject _gameObject;
 
         public Component(GameObject parent)
         {
-            _parent = parent;
+            _gameObject = parent;
         }
 
-        public GameObject Parent => _parent;
+        public GameObject GameObject => _gameObject;
 
         public virtual void Update() { }
     }
