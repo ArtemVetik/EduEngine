@@ -1,4 +1,5 @@
 #include "../../RenderEngine/IRenderEngine.h"
+#include "MeshData.h"
 
 using namespace System::Numerics;
 
@@ -10,7 +11,7 @@ namespace EduEngine
         IRenderObject* m_NativeObject;
 
     public:
-        NativeRenderObjectWrapper(IRenderObject* nativePtr);
+        NativeRenderObjectWrapper(MeshData^ meshData);
         ~NativeRenderObjectWrapper();
         !NativeRenderObjectWrapper();
 

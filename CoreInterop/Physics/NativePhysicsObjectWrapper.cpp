@@ -4,9 +4,13 @@
 
 namespace EduEngine
 {
-	NativePhysicsObjectWrapper::NativePhysicsObjectWrapper(IPhysicsObject* nativePtr)
+	NativePhysicsObjectWrapper::NativePhysicsObjectWrapper(Numerics::Vector3 position, Numerics::Quaternion rotation, bool isStatic)
 	{
-		m_NativeObject = nativePtr;
+		m_NativeObject = CoreSystems::GetInstance()->GetPhysicsWorld()->AddBody(
+			{ position.X, position.Y, position.Z },
+			{ rotation.X, rotation.Y, rotation.Z, rotation.W },
+			isStatic
+		);
 	}
 
 	NativePhysicsObjectWrapper::~NativePhysicsObjectWrapper()

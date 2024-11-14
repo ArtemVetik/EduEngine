@@ -16,7 +16,7 @@ namespace EduEngine
 		IPhysicsShape* m_NativeShape;
 
 	public:
-		NativePhysicsShapeWrapper(IPhysicsShape* nativeShape);
+		NativePhysicsShapeWrapper(ColliderData^ shape);
 		~NativePhysicsShapeWrapper();
 		!NativePhysicsShapeWrapper();
 

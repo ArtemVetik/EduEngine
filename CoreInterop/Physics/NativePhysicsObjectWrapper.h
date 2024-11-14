@@ -21,7 +21,7 @@ namespace EduEngine
 		IPhysicsObject* m_NativeObject;
 
 	public:
-		NativePhysicsObjectWrapper(IPhysicsObject* nativePtr);
+		NativePhysicsObjectWrapper(Numerics::Vector3 position, Numerics::Quaternion rotation, bool isStatic);
 		~NativePhysicsObjectWrapper();
 		!NativePhysicsObjectWrapper();
 

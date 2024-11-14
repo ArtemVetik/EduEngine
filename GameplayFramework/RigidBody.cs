@@ -10,7 +10,7 @@ namespace EduEngine
         public RigidBody(GameObject parent)
             : base(parent)
         {
-            _physicObject = PhysicsWorldInterop.AddBody(GameObject.Transform.Position, GameObject.Transform.Rotation, IsStatic);
+            _physicObject = new NativePhysicsObjectWrapper(GameObject.Transform.Position, GameObject.Transform.Rotation, IsStatic);
             AttachAllColliders();
         }
 
@@ -19,9 +19,12 @@ namespace EduEngine
             get => _isStatic;
             set
             {
+                if (_physicObject == null)
+                    return;
+
                 _isStatic = value;
-                PhysicsWorldInterop.RemoveBody(_physicObject);
-                _physicObject = PhysicsWorldInterop.AddBody(GameObject.Transform.Position, GameObject.Transform.Rotation, IsStatic);
+                _physicObject.Dispose();
+                _physicObject = new NativePhysicsObjectWrapper(GameObject.Transform.Position, GameObject.Transform.Rotation, IsStatic);
                 AttachAllColliders();
             }
         }
@@ -29,17 +32,21 @@ namespace EduEngine
         public void Dispose()
         {
             _physicObject.Dispose();
+            _physicObject = null;
         }
 
         public override void Update()
         {
+            if (_physicObject == null)
+                return;
+
             GameObject.Transform.Position = _physicObject.GetPosition();
             GameObject.Transform.Rotation = _physicObject.GetRotation();
         }
 
         public void AddForce(Vector3 force, ForceMode forceMode)
         {
-            _physicObject.AddForce(force, forceMode);
+            _physicObject?.AddForce(force, forceMode);
         }
 
         private void AttachAllColliders()
@@ -47,7 +54,7 @@ namespace EduEngine
             var colliders = GameObject.GetComponents<Collider>();
 
             foreach (Collider collider in colliders)
-                _physicObject.AttachShape(collider.GetShape());
+                _physicObject?.AttachShape(collider.GetShape());
         }
     }
 }

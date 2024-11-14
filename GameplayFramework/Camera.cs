@@ -9,7 +9,7 @@ namespace EduEngine
         public Camera(GameObject parent)
             : base(parent)
         {
-            _camera = RenderEngineInterop.CreateCamera();
+            _camera = new NativeCameraWrapper();
         }
 
         public override void Update()
@@ -43,7 +43,7 @@ namespace EduEngine
                 GameObject.Transform.Rotation = Quaternion.Multiply(pitch, GameObject.Transform.Rotation);
             }
 
-            _camera.Update(GameObject.Transform.Forward, GameObject.Transform.Right, GameObject.Transform.Up, GameObject.Transform.Position);
+            _camera?.Update(GameObject.Transform.Forward, GameObject.Transform.Right, GameObject.Transform.Up, GameObject.Transform.Position);
         }
 
         public void Dispose()

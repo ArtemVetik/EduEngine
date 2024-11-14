@@ -11,7 +11,7 @@ namespace EduEngine
 		Camera* m_NativeCamera;
 
 	public:
-		NativeCameraWrapper(Camera* nativeCamera);
+		NativeCameraWrapper();
 		~NativeCameraWrapper();
 		!NativeCameraWrapper();
 

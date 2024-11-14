@@ -3,9 +3,9 @@
 
 namespace EduEngine
 {
-	NativePhysicsShapeWrapper::NativePhysicsShapeWrapper(IPhysicsShape* nativeShape)
+	NativePhysicsShapeWrapper::NativePhysicsShapeWrapper(ColliderData^ shape)
 	{
-		m_NativeShape = nativeShape;
+		m_NativeShape = CoreSystems::GetInstance()->GetPhysicsWorld()->CreateShape(shape->ToNative());
 	}
 
 	NativePhysicsShapeWrapper::~NativePhysicsShapeWrapper()

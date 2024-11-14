@@ -33,12 +33,6 @@
     <ClInclude Include="RenderEngine\MeshData.h">
       <Filter>RenderEngine</Filter>
     </ClInclude>
-    <ClInclude Include="RenderEngine\RenderEngineInterop.h">
-      <Filter>RenderEngine</Filter>
-    </ClInclude>
-    <ClInclude Include="Physics\PhysicsWorldInterop.h">
-      <Filter>Physics</Filter>
-    </ClInclude>
     <ClInclude Include="Physics\NativePhysicsShapeWrapper.h">
       <Filter>Physics</Filter>
     </ClInclude>
@@ -68,16 +62,10 @@
     <ClCompile Include="CoreSystems.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="RenderEngine\RenderEngineInterop.cpp">
-      <Filter>RenderEngine</Filter>
-    </ClCompile>
     <ClCompile Include="Physics\NativePhysicsObjectWrapper.cpp">
       <Filter>Physics</Filter>
     </ClCompile>
     <ClCompile Include="Physics\NativePhysicsShapeWrapper.cpp">
-      <Filter>Physics</Filter>
-    </ClCompile>
-    <ClCompile Include="Physics\PhysicsWorldInterop.cpp">
       <Filter>Physics</Filter>
     </ClCompile>
     <ClCompile Include="RenderEngine\NativeRenderObjectWrapper.cpp">

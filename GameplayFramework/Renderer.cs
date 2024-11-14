@@ -18,7 +18,7 @@
         public void SetMesh(MeshData mesh)
         {
             _renderObject?.Dispose();
-            _renderObject = RenderEngineInterop.AddObject(mesh);
+            _renderObject = new NativeRenderObjectWrapper(mesh);
         }
 
         public void Dispose()

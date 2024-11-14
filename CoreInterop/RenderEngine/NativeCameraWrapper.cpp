@@ -3,9 +3,9 @@
 
 namespace EduEngine
 {
-	NativeCameraWrapper::NativeCameraWrapper(Camera* nativeCamera)
+	NativeCameraWrapper::NativeCameraWrapper()
 	{
-		m_NativeCamera = nativeCamera;
+		m_NativeCamera = CoreSystems::GetInstance()->GetRenderEngine()->CreateCamera();;
 	}
 
 	NativeCameraWrapper::~NativeCameraWrapper()

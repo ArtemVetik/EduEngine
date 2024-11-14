@@ -7,17 +7,18 @@
         internal Collider(GameObject parent, ColliderData shape)
             : base(parent)
         {
-            _nativeShape = PhysicsWorldInterop.CreateShape(shape);
+            _nativeShape =  new NativePhysicsShapeWrapper(shape);
         }
 
         public void Dispose()
         {
             _nativeShape.Dispose();
+            _nativeShape = null;
         }
 
         public override void Update()
         {
-            _nativeShape.DebugDraw(GameObject.Transform.WorldMatrix);
+            _nativeShape?.DebugDraw(GameObject.Transform.WorldMatrix);
         }
 
         internal NativePhysicsShapeWrapper GetShape()
@@ -27,7 +28,7 @@
 
         internal void SetShape(ColliderData shape)
         {
-            _nativeShape.SetGeometry(shape);
+            _nativeShape?.SetGeometry(shape);
         }
     }
 }
