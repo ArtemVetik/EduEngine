@@ -17,7 +17,9 @@ namespace EduEngine
         void Update();
         bool IsKeyPressed(BYTE key);
         bool IsAnyKeyPressed();
+        POINT GetCursorPosition();
         DIMOUSESTATE2 GetMouseState();
+        DIMOUSESTATE2 GetPrevMouseState();
 
     private:
         InputManager();
@@ -35,5 +37,6 @@ namespace EduEngine
 
         BYTE m_keyboardState[256];
         DIMOUSESTATE2 m_mouseState;
+        DIMOUSESTATE2 m_prevMouseState;
     };
 }

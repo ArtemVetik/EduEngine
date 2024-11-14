@@ -20,25 +20,23 @@ namespace EduEngine
 
             var moveSpeed = 50.0f;
 
-            if (InputSystemInterop.IsKeyPressed(0x11)) // W
+            if (Input.KeyPressed(KeyCode.W))
                 GameObject.Transform.Position += moveSpeed * forward * EduTime.DeltaTime;
-            if (InputSystemInterop.IsKeyPressed(0x1F)) // S
+            if (Input.KeyPressed(KeyCode.S))
                 GameObject.Transform.Position += moveSpeed * -forward * EduTime.DeltaTime;
-            if (InputSystemInterop.IsKeyPressed(0x20)) // D
+            if (Input.KeyPressed(KeyCode.D))
                 GameObject.Transform.Position += moveSpeed * right * EduTime.DeltaTime;
-            if (InputSystemInterop.IsKeyPressed(0x1E)) // A
+            if (Input.KeyPressed(KeyCode.A))
                 GameObject.Transform.Position += moveSpeed * -right * EduTime.DeltaTime;
-            if (InputSystemInterop.IsKeyPressed(0x12)) // E
+            if (Input.KeyPressed(KeyCode.E))
                 GameObject.Transform.Position += moveSpeed * up * EduTime.DeltaTime;
-            if (InputSystemInterop.IsKeyPressed(0x10)) // Q
+            if (Input.KeyPressed(KeyCode.Q))
                 GameObject.Transform.Position += moveSpeed * -up * EduTime.DeltaTime;
 
-            var mouseState = InputSystemInterop.GetMouseState();
-
-            if ((mouseState.rgbButtons[1] & 0x80) != 0)
+            if (Input.MouseButtonPressed(MouseCode.Mouse1))
             {
-                var yaw = Quaternion.CreateFromAxisAngle(Vector3.UnitY, 0.01f * mouseState.lX);
-                var pitch = Quaternion.CreateFromAxisAngle(GameObject.Transform.Right, 0.01f * mouseState.lY);
+                var yaw = Quaternion.CreateFromAxisAngle(Vector3.UnitY, 0.01f * Input.MouseDelta.X);
+                var pitch = Quaternion.CreateFromAxisAngle(GameObject.Transform.Right, 0.01f * Input.MouseDelta.Y);
                 GameObject.Transform.Rotation = Quaternion.Multiply(yaw, GameObject.Transform.Rotation);
                 GameObject.Transform.Rotation = Quaternion.Multiply(pitch, GameObject.Transform.Rotation);
             }

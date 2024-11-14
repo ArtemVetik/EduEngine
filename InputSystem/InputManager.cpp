@@ -7,7 +7,8 @@ namespace EduEngine
 		m_keyboardDevice(nullptr),
 		m_mouseDevice(nullptr),
 		m_keyboardState{},
-		m_mouseState{}
+		m_mouseState{},
+		m_prevMouseState{}
 	{ }
 
 	InputManager::~InputManager()
@@ -82,6 +83,8 @@ namespace EduEngine
 			m_keyboardDevice->GetDeviceState(sizeof(m_keyboardState), (LPVOID)&m_keyboardState);
 		}
 
+		m_prevMouseState = m_mouseState;
+
 		result = m_mouseDevice->GetDeviceState(sizeof(DIMOUSESTATE2), (LPVOID)&m_mouseState);
 		if (FAILED(result))
 		{
@@ -107,9 +110,21 @@ namespace EduEngine
 		return false;
 	}
 
+	POINT InputManager::GetCursorPosition()
+	{
+		POINT p;
+		GetCursorPos(&p);
+		return p;
+	}
+
 	DIMOUSESTATE2 InputManager::GetMouseState()
 	{
 		return m_mouseState;
+	}
+
+	DIMOUSESTATE2 InputManager::GetPrevMouseState()
+	{
+		return m_prevMouseState;
 	}
 
 	void InputManager::ReleaseDevices()

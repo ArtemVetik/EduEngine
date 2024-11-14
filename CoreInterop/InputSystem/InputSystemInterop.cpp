@@ -29,4 +29,27 @@ namespace EduEngine
 
 		return managedMouseState;
 	}
+
+	MouseStateWrapper InputSystemInterop::GetPrevMouseState()
+	{
+		auto mouseState = InputManager::GetInstance().GetPrevMouseState();
+
+		MouseStateWrapper managedMouseState;
+		managedMouseState.lX = mouseState.lX;
+		managedMouseState.lY = mouseState.lY;
+		managedMouseState.lZ = mouseState.lZ;
+
+		managedMouseState.rgbButtons = gcnew cli::array<BYTE>(8);
+
+		for (size_t i = 0; i < 8; i++)
+			managedMouseState.rgbButtons[i] = mouseState.rgbButtons[i];
+
+		return managedMouseState;
+	}
+
+	System::Numerics::Vector2 InputSystemInterop::GetCursorPos()
+	{
+		auto pos = InputManager::GetInstance().GetCursorPosition();
+		return System::Numerics::Vector2(pos.x, pos.y);
+	}
 }

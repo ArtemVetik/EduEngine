@@ -17,5 +17,7 @@ namespace EduEngine
 		static bool IsAnyKeyPressed();
 		static bool IsKeyPressed(BYTE key);
 		static MouseStateWrapper GetMouseState();
+		static MouseStateWrapper GetPrevMouseState();
+		static System::Numerics::Vector2 GetCursorPos();
 	};
 }
