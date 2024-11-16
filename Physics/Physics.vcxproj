@@ -178,6 +178,11 @@
       <Project>{8daf5452-17db-4977-805a-3f1705c82625}</Project>
     </ProjectReference>
   </ItemGroup>
+  <Target Name="CopyDll" AfterTargets="Build">
+    <Copy SourceFiles="..\Plugins\PhysX\lib\$(Configuration)\PhysXCommon_64.dll" DestinationFolder="$(OutDir)" />
+    <Copy SourceFiles="..\Plugins\PhysX\lib\$(Configuration)\PhysXFoundation_64.dll" DestinationFolder="$(OutDir)" />
+    <Copy SourceFiles="..\Plugins\PhysX\lib\$(Configuration)\PhysX_64.dll" DestinationFolder="$(OutDir)" />
+  </Target>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />
 </Project>
