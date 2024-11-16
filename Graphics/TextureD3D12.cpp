@@ -5,7 +5,7 @@ namespace EduEngine
 {
 	TextureD3D12::TextureD3D12(RenderDeviceD3D12*		  pDevice,
 							   const D3D12_RESOURCE_DESC& resourceDesc,
-							   const D3D12_CLEAR_VALUE&   clearValue,
+							   const D3D12_CLEAR_VALUE*   clearValue,
 							   QueueID					  queueId) :
 		ResourceD3D12(pDevice, queueId)
 	{
@@ -14,7 +14,7 @@ namespace EduEngine
 			D3D12_HEAP_FLAG_NONE,
 			&resourceDesc,
 			D3D12_RESOURCE_STATE_COMMON,
-			&clearValue,
+			clearValue,
 			IID_PPV_ARGS(m_d3d12Resource.GetAddressOf())
 		);
 	}
@@ -22,6 +22,28 @@ namespace EduEngine
 	TextureD3D12::TextureD3D12(RenderDeviceD3D12* pDevice, Microsoft::WRL::ComPtr<ID3D12Resource> resource, QueueID queueId) :
 		ResourceD3D12(pDevice, resource, queueId)
 	{
+	}
+
+	void TextureD3D12::LoadData(void* dataPtr)
+	{
+		UINT64 uploadBufferSize = 0;
+		m_Device->GetD3D12Device()->GetCopyableFootprints(&m_d3d12Resource->GetDesc(), 0, 1, 0, nullptr, nullptr, nullptr, &uploadBufferSize);
+
+		auto uploadBuff = m_Device->AllocateDynamicUploadGPUDescriptor(QueueID::Direct, uploadBufferSize);
+		memcpy(uploadBuff.CPUAddress, dataPtr, uploadBufferSize);
+
+		D3D12_TEXTURE_COPY_LOCATION dst = {};
+		dst.pResource = m_d3d12Resource.Get();
+		dst.Type = D3D12_TEXTURE_COPY_TYPE_SUBRESOURCE_INDEX;
+		dst.SubresourceIndex = 0;
+
+		D3D12_TEXTURE_COPY_LOCATION src = {};
+		src.pResource = uploadBuff.pBuffer;
+		src.PlacedFootprint.Offset = uploadBuff.Offset;
+		src.Type = D3D12_TEXTURE_COPY_TYPE_PLACED_FOOTPRINT;
+
+		m_Device->GetD3D12Device()->GetCopyableFootprints(&m_d3d12Resource->GetDesc(), 0, 1, uploadBuff.Offset, &src.PlacedFootprint, nullptr, nullptr, nullptr);
+		m_Device->GetCommandContext(D3D12_COMMAND_LIST_TYPE_DIRECT).GetCmdList()->CopyTextureRegion(&dst, 0, 0, 0, &src, nullptr);
 	}
 
 	void TextureD3D12::CreateSRVView(const D3D12_SHADER_RESOURCE_VIEW_DESC* srvDesc, bool onCpu)

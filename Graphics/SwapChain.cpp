@@ -114,7 +114,7 @@ namespace EduEngine
 		dsvDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
 		dsvDesc.Texture2D.MipSlice = 0;
 
-		m_DepthStencilTexture = std::make_unique<TextureD3D12>(m_Device, dsDesc, dsClear, QueueID::Direct);
+		m_DepthStencilTexture = std::make_unique<TextureD3D12>(m_Device, dsDesc, &dsClear, QueueID::Direct);
 		m_DepthStencilTexture->SetName(L"MainDepthStencil");
 		m_DepthStencilTexture->CreateDSVView(&dsvDesc, true);
 
