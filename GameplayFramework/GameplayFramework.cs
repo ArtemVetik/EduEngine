@@ -1,5 +1,4 @@
-﻿
-namespace EduEngine
+﻿namespace EduEngine
 {
     public class GameplayFramework
     {

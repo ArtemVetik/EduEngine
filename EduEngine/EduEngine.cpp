@@ -42,6 +42,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance,
 	EduEngine::CoreSystems s(renderEngine.get(), physicsWorld.get(), &timer);
 
 	GameplayInterop::Initialize();
+	EditorInterop::Initialize();
 
 	const float fixedTimeStep = 1.0f / 60.0f;
 	float physixsAccumulator = 0.0f;
@@ -73,6 +74,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance,
 				}
 
 				GameplayInterop::Update();
+				EditorInterop::Update();
 
 				renderEngine->Draw();
 			}
@@ -82,6 +84,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance,
 			}
 		}
 	}
+
+	EditorInterop::Destroy();
 
 	return 0;
 }

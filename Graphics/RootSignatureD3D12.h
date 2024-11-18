@@ -20,6 +20,9 @@ namespace EduEngine
 		ID3D12RootSignature* GetD3D12RootSignature() const;
 
 	private:
+		std::array<const CD3DX12_STATIC_SAMPLER_DESC, 7> GetStaticSamplers();
+
+	private:
 		std::vector<CD3DX12_ROOT_PARAMETER> m_SlotParameters;
 		Microsoft::WRL::ComPtr<ID3D12RootSignature> m_Signature;
 	};

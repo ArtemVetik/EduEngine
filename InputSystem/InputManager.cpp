@@ -1,4 +1,5 @@
 #include "InputManager.h"
+#include <iostream>
 
 namespace EduEngine
 {
@@ -7,6 +8,7 @@ namespace EduEngine
 		m_keyboardDevice(nullptr),
 		m_mouseDevice(nullptr),
 		m_keyboardState{},
+		m_prevKeyboardState{},
 		m_mouseState{},
 		m_prevMouseState{}
 	{ }
@@ -30,6 +32,8 @@ namespace EduEngine
 
 	bool InputManager::Initialize(HINSTANCE hInstance, HWND hWnd)
 	{
+		m_window = hWnd;
+
 		DirectInput8Create(hInstance, DIRECTINPUT_VERSION, IID_IDirectInput8, (void**)&m_directInput, nullptr);
 		InitKeyboard(hWnd);
 		InitMouse(hWnd);
@@ -124,7 +128,10 @@ namespace EduEngine
 	POINT InputManager::GetCursorPosition()
 	{
 		POINT p;
-		GetCursorPos(&p);
+		if (GetCursorPos(&p))
+		{
+			ScreenToClient(m_window, &p);
+		}
 		return p;
 	}
 

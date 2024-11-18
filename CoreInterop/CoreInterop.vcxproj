@@ -129,6 +129,7 @@
     <ClInclude Include="RenderEngine\MeshData.h" />
     <ClInclude Include="RenderEngine\NativeCameraWrapper.h" />
     <ClInclude Include="RenderEngine\NativeRenderObjectWrapper.h" />
+    <ClInclude Include="RenderEngine\RenderEngineInterop.h" />
     <ClInclude Include="Resource.h" />
   </ItemGroup>
   <ItemGroup>
@@ -140,6 +141,7 @@
     <ClCompile Include="Physics\NativePhysicsShapeWrapper.cpp" />
     <ClCompile Include="RenderEngine\NativeCameraWrapper.cpp" />
     <ClCompile Include="RenderEngine\NativeRenderObjectWrapper.cpp" />
+    <ClCompile Include="RenderEngine\RenderEngineInterop.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="app.rc" />

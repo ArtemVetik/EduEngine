@@ -144,6 +144,13 @@
     <ClInclude Include="framework.h" />
     <ClInclude Include="GeometryGenerator.h" />
     <ClInclude Include="IDebugRendererSystem.h" />
+    <ClInclude Include="ImGuiD3D12Impl.h" />
+    <ClInclude Include="imgui\imconfig.h" />
+    <ClInclude Include="imgui\imgui.h" />
+    <ClInclude Include="imgui\imgui_internal.h" />
+    <ClInclude Include="imgui\imstb_rectpack.h" />
+    <ClInclude Include="imgui\imstb_textedit.h" />
+    <ClInclude Include="imgui\imstb_truetype.h" />
     <ClInclude Include="IRenderEngine.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="RenderEngine.h" />
@@ -157,6 +164,7 @@
     <ClCompile Include="DebugRendererSystem.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="GeometryGenerator.cpp" />
+    <ClCompile Include="ImGuiD3D12Impl.cpp" />
     <ClCompile Include="IRenderEngine.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

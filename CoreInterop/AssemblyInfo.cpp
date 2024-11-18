@@ -15,5 +15,6 @@ using namespace System::Security::Permissions;
 
 [assembly:AssemblyVersionAttribute(L"1.0.*")];
 [assembly:InternalsVisibleTo("GameplayFramework")]
+[assembly:InternalsVisibleTo("EduEditor")]
 
 [assembly:ComVisible(false)];

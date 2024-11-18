@@ -13,6 +13,9 @@ namespace EduEngine
 		void SetPrimitiveTopology(D3D12_PRIMITIVE_TOPOLOGY_TYPE topology);
 		void SetBlendState(D3D12_BLEND_DESC blendState);
 		void SetInputLayout(D3D12_INPUT_LAYOUT_DESC inputLayout);
+		void SetRasterizerState(D3D12_RASTERIZER_DESC rasterizerDesc);
+		void SetDepthStencilState(D3D12_DEPTH_STENCIL_DESC depthStencilDesc);
+		void SetDepthStencilFormat(DXGI_FORMAT format);
 		void SetRootSignature(RootSignatureD3D12* rootSignature);
 		void SetShader(ShaderD3D12* shader);
 

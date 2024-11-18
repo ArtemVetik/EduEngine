@@ -14,4 +14,12 @@ namespace EduEngine
 		static void Initialize();
 		static void Update();
 	};
+
+	class GAMEPLAYINTEROP_API EditorInterop
+	{
+	public:
+		static void Initialize();
+		static void Update();
+		static void Destroy();
+	};
 }

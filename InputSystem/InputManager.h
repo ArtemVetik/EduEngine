@@ -41,5 +41,7 @@ namespace EduEngine
         BYTE m_prevKeyboardState[256];
         DIMOUSESTATE2 m_mouseState;
         DIMOUSESTATE2 m_prevMouseState;
+
+        HWND m_window;
     };
 }

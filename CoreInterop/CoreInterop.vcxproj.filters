@@ -54,6 +54,9 @@
     <ClInclude Include="InputSystem\TimerInterop.h">
       <Filter>InputSystem</Filter>
     </ClInclude>
+    <ClInclude Include="RenderEngine\RenderEngineInterop.h">
+      <Filter>RenderEngine</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp">
@@ -79,6 +82,9 @@
     </ClCompile>
     <ClCompile Include="InputSystem\TimerInterop.cpp">
       <Filter>InputSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderEngine\RenderEngineInterop.cpp">
+      <Filter>RenderEngine</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

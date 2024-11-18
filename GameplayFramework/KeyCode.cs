@@ -15,16 +15,16 @@
     public enum KeyCode : byte
     {
         ESCAPE          = 0x01,
-        A1               = 0x02,
-        A2               = 0x03,
-        A3               = 0x04,
-        A4               = 0x05,
-        A5               = 0x06,
-        A6               = 0x07,
-        A7               = 0x08,
-        A8               = 0x09,
-        A9               = 0x0A,
-        A0               = 0x0B,
+        A1              = 0x02,
+        A2              = 0x03,
+        A3              = 0x04,
+        A4              = 0x05,
+        A5              = 0x06,
+        A6              = 0x07,
+        A7              = 0x08,
+        A8              = 0x09,
+        A9              = 0x0A,
+        A0              = 0x0B,
         MINUS           = 0x0C,    /* - on main keyboard */
         EQUALS          = 0x0D,
         BACK            = 0x0E,    /* backspace */

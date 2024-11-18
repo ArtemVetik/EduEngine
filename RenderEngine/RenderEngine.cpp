@@ -29,7 +29,9 @@ namespace EduEngine
 
 	RenderEngine::RenderEngine() :
 		m_Viewport{},
-		m_ScissorRect{}
+		m_ScissorRect{},
+		m_ImGuiPass{},
+		m_EditorUI{}
 	{
 		assert(Instance == nullptr);
 		Instance = this;
@@ -102,60 +104,35 @@ namespace EduEngine
 
 	void RenderEngine::Draw()
 	{
-		if (m_Cameras.size() == 0)
-		{
-			auto& commandContext = m_Device->GetCommandContext(D3D12_COMMAND_LIST_TYPE_DIRECT);
-			auto& commandQueue = m_Device->GetCommandQueue(D3D12_COMMAND_LIST_TYPE_DIRECT);
+		auto& commandContext = m_Device->GetCommandContext(D3D12_COMMAND_LIST_TYPE_DIRECT);
+		auto& commandQueue = m_Device->GetCommandQueue(D3D12_COMMAND_LIST_TYPE_DIRECT);
+		
+		commandContext.Reset();
+		commandContext.SetViewports(&m_Viewport, 1);
+		commandContext.SetScissorRects(&m_ScissorRect, 1);
 
-			commandContext.Reset();
-			commandContext.SetViewports(&m_Viewport, 1);
-			commandContext.SetScissorRects(&m_ScissorRect, 1);
+		commandContext.ResourceBarrier(CD3DX12_RESOURCE_BARRIER::Transition(m_SwapChain->CurrentBackBuffer(),
+			D3D12_RESOURCE_STATE_PRESENT, D3D12_RESOURCE_STATE_RENDER_TARGET));
+		commandContext.FlushResourceBarriers();
 
-			commandContext.ResourceBarrier(CD3DX12_RESOURCE_BARRIER::Transition(m_SwapChain->CurrentBackBuffer(),
-				D3D12_RESOURCE_STATE_PRESENT, D3D12_RESOURCE_STATE_RENDER_TARGET));
-			commandContext.FlushResourceBarriers();
+		commandContext.GetCmdList()->ClearRenderTargetView(m_SwapChain->CurrentBackBufferView(), DirectX::Colors::Black, 0, nullptr);
+		commandContext.GetCmdList()->ClearDepthStencilView(m_SwapChain->DepthStencilView(), D3D12_CLEAR_FLAG_DEPTH | D3D12_CLEAR_FLAG_STENCIL, 1.0f, 0, 0, nullptr);
 
-			commandContext.GetCmdList()->ClearRenderTargetView(m_SwapChain->CurrentBackBufferView(), DirectX::Colors::Black, 0, nullptr);
-			commandContext.GetCmdList()->ClearDepthStencilView(m_SwapChain->DepthStencilView(), D3D12_CLEAR_FLAG_DEPTH | D3D12_CLEAR_FLAG_STENCIL, 1.0f, 0, 0, nullptr);
+		commandContext.SetRenderTargets(1, &(m_SwapChain->CurrentBackBufferView()), true, &(m_SwapChain->DepthStencilView()));
 
-			commandContext.SetRenderTargets(1, &(m_SwapChain->CurrentBackBufferView()), true, &(m_SwapChain->DepthStencilView()));
-
-			commandContext.ResourceBarrier(CD3DX12_RESOURCE_BARRIER::Transition(m_SwapChain->CurrentBackBuffer(),
-				D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PRESENT));
-			commandContext.FlushResourceBarriers();
-			commandQueue.CloseAndExecuteCommandContext(&commandContext);
-
-			commandContext.Reset();
-		}
+		ID3D12DescriptorHeap* descriptorHeaps[] = { m_Device->GetD3D12DescriptorHeap() };
+		commandContext.GetCmdList()->SetDescriptorHeaps(_countof(descriptorHeaps), descriptorHeaps);
 
 		for (auto& camera : m_Cameras)
 		{
+			commandContext.GetCmdList()->SetPipelineState(m_OpaquePass->GetD3D12PipelineState());
+			commandContext.GetCmdList()->SetGraphicsRootSignature(m_OpaquePass->GetD3D12RootSignature());
+
 			PassConstants passConstants;
 			XMStoreFloat4x4(&passConstants.ViewProj, XMMatrixTranspose(camera->GetViewProjMatrix()));
 
 			DynamicUploadBuffer passUploadBuffer(m_Device.get(), QueueID::Direct);
 			passUploadBuffer.LoadData(passConstants);
-
-			auto& commandContext = m_Device->GetCommandContext(D3D12_COMMAND_LIST_TYPE_DIRECT);
-			auto& commandQueue = m_Device->GetCommandQueue(D3D12_COMMAND_LIST_TYPE_DIRECT);
-
-			commandContext.Reset();
-			commandContext.SetViewports(&m_Viewport, 1);
-			commandContext.SetScissorRects(&m_ScissorRect, 1);
-
-			commandContext.ResourceBarrier(CD3DX12_RESOURCE_BARRIER::Transition(m_SwapChain->CurrentBackBuffer(),
-				D3D12_RESOURCE_STATE_PRESENT, D3D12_RESOURCE_STATE_RENDER_TARGET));
-			commandContext.FlushResourceBarriers();
-
-			commandContext.GetCmdList()->ClearRenderTargetView(m_SwapChain->CurrentBackBufferView(), DirectX::Colors::Black, 0, nullptr);
-			commandContext.GetCmdList()->ClearDepthStencilView(m_SwapChain->DepthStencilView(), D3D12_CLEAR_FLAG_DEPTH | D3D12_CLEAR_FLAG_STENCIL, 1.0f, 0, 0, nullptr);
-
-			commandContext.SetRenderTargets(1, &(m_SwapChain->CurrentBackBufferView()), true, &(m_SwapChain->DepthStencilView()));
-
-			ID3D12DescriptorHeap* descriptorHeaps[] = { m_Device->GetD3D12DescriptorHeap() };
-			commandContext.GetCmdList()->SetDescriptorHeaps(_countof(descriptorHeaps), descriptorHeaps);
-			commandContext.GetCmdList()->SetPipelineState(m_OpaquePass->GetD3D12PipelineState());
-			commandContext.GetCmdList()->SetGraphicsRootSignature(m_OpaquePass->GetD3D12RootSignature());
 
 			for (int i = 0; i < m_RenderObjects.size(); i++)
 			{
@@ -179,14 +156,16 @@ namespace EduEngine
 			}
 
 			m_DebugRenderer->Render(camera->GetViewProjMatrix(), camera->GetPosition());
-
-			commandContext.ResourceBarrier(CD3DX12_RESOURCE_BARRIER::Transition(m_SwapChain->CurrentBackBuffer(),
-				D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PRESENT));
-			commandContext.FlushResourceBarriers();
-			commandQueue.CloseAndExecuteCommandContext(&commandContext);
-
-			commandContext.Reset();
 		}
+
+		m_EditorUI->Draw(m_SwapChain->GetWidth(), m_SwapChain->GetHeight());
+
+		commandContext.ResourceBarrier(CD3DX12_RESOURCE_BARRIER::Transition(m_SwapChain->CurrentBackBuffer(),
+			D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PRESENT));
+		commandContext.FlushResourceBarriers();
+		commandQueue.CloseAndExecuteCommandContext(&commandContext);
+
+		commandContext.Reset();
 
 		m_SwapChain->Present();
 		m_Device->FinishFrame();
@@ -215,5 +194,24 @@ namespace EduEngine
 
 		for (auto camera : m_Cameras)
 			camera->SetProjectionMatrix(width, height);
+	}
+
+	DirectX::SimpleMath::Vector2 RenderEngine::GetScreenSize() const
+	{
+		return DirectX::SimpleMath::Vector2(m_SwapChain->GetWidth(), m_SwapChain->GetHeight());
+	}
+
+	void RenderEngine::UpdateEditor(ImDrawData* drawData)
+	{
+		m_EditorUI->Update(drawData);
+	}
+
+	void* RenderEngine::CreateEditorImGuiUI(void* pixels, int texWidth, int texHeight, int bytesPerPixel)
+	{
+		if (m_ImGuiPass == nullptr)
+			m_ImGuiPass = std::make_unique<ImGuiPass>(m_Device.get());
+		
+		m_EditorUI = std::make_unique<ImGuiD3D12Impl>(m_Device.get(), m_ImGuiPass.get(), pixels, texWidth, texHeight, bytesPerPixel);
+		return m_EditorUI->GetFontTexturePtr();
 	}
 }

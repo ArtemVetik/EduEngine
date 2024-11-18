@@ -34,6 +34,21 @@ namespace EduEngine
 		m_Desc.InputLayout = inputLayout;
 	}
 
+	void PipelineStateD3D12::SetRasterizerState(D3D12_RASTERIZER_DESC rasterizerDesc)
+	{
+		m_Desc.RasterizerState = rasterizerDesc;
+	}
+
+	void PipelineStateD3D12::SetDepthStencilState(D3D12_DEPTH_STENCIL_DESC depthStencilDesc)
+	{
+		m_Desc.DepthStencilState = depthStencilDesc;
+	}
+
+	void PipelineStateD3D12::SetDepthStencilFormat(DXGI_FORMAT format)
+	{
+		m_Desc.DSVFormat = format;
+	}
+
 	void PipelineStateD3D12::SetRootSignature(RootSignatureD3D12* rootSignature)
 	{
 		m_Desc.pRootSignature = rootSignature->GetD3D12RootSignature();

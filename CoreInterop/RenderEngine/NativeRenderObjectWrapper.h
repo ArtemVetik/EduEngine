@@ -1,3 +1,4 @@
+#pragma once
 #include "../../RenderEngine/IRenderEngine.h"
 #include "MeshData.h"
 

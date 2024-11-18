@@ -121,12 +121,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="GameplayInterop.h" />
-    <ClInclude Include="TestMainInterop.h" />
+    <ClInclude Include="TestGameplayInterop.h" />
     <ClInclude Include="Resource.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp" />
-    <ClCompile Include="GameplayInterop.cpp" />
+    <ClCompile Include="TestGameplayInterop.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="app.rc" />
@@ -135,6 +135,9 @@
     <Image Include="app.ico" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\EduEditor\EduEditor.csproj">
+      <Project>{85f23792-124e-4ea8-aa4e-d734925629f4}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\GameplayFramework\GameplayFramework.csproj">
       <Project>{c5a54d47-3738-4497-b787-7e0ff03dc6af}</Project>
     </ProjectReference>
