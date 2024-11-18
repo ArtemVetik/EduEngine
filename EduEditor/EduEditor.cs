@@ -1,4 +1,5 @@
 ﻿using ImGuiNET;
+using ImGuizmoNET;
 using System.Numerics;
 
 namespace EduEngine.Editor
@@ -22,8 +23,10 @@ namespace EduEngine.Editor
             void* texId = RenderEngineInterop.CreateImGuiEditor((void*)pixels, width, height, bytesPerPixel);
             io.Fonts.SetTexID((IntPtr)texId);
             io.Fonts.ClearTexData();
-        }
 
+            ImGuizmo.SetImGuiContext(ImGui.GetCurrentContext());
+        }
+        
         public static unsafe void Update()
         {
             _input.ProcessInput();
@@ -37,6 +40,7 @@ namespace EduEngine.Editor
 
         public static void Destroy()
         {
+            ImGuizmo.SetImGuiContext(0);
             ImGui.DestroyContext(ImGui.GetCurrentContext());
         }
     }
