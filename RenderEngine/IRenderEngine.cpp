@@ -4,7 +4,7 @@
 
 namespace EduEngine
 {
-    std::shared_ptr<IRenderEngine> IRenderEngine::Create(const Window& mainWindow)
+    std::shared_ptr<IRenderEngine> IRenderEngine::Create(const RuntimeWindow& mainWindow)
     {
         auto renderEngine = std::make_shared<RenderEngine>();
         renderEngine->StartUp(mainWindow);

@@ -157,7 +157,8 @@
     <ClInclude Include="RenderEngineDefines.h" />
     <ClInclude Include="RenderObject.h" />
     <ClInclude Include="RenderPasses.h" />
-    <ClInclude Include="Window.h" />
+    <ClInclude Include="RuntimeWindow.h" />
+    <ClInclude Include="WindowBase.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
@@ -174,7 +175,8 @@
     </ClCompile>
     <ClCompile Include="RenderEngine.cpp" />
     <ClCompile Include="RenderObject.cpp" />
-    <ClCompile Include="Window.cpp" />
+    <ClCompile Include="RuntimeWindow.cpp" />
+    <ClCompile Include="WindowBase.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\EduMath\EduMath.vcxproj">

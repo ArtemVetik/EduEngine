@@ -45,7 +45,7 @@ namespace EduEngine
 			m_Device->FlushQueues();
 	}
 
-	bool RenderEngine::StartUp(const Window& mainWindow)
+	bool RenderEngine::StartUp(const RuntimeWindow& mainWindow)
 	{
 #if defined(DEBUG) || defined(_DEBUG) 
 		Microsoft::WRL::ComPtr<ID3D12Debug> debugController;

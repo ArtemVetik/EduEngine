@@ -2,7 +2,7 @@
 #include <crtdbg.h>
 #include "../InputSystem/Timer.h"
 #include "../InputSystem/InputManager.h"
-#include "../RenderEngine/Window.h"
+#include "../RenderEngine/RuntimeWindow.h"
 #include "../RenderEngine/IRenderEngine.h"
 #include "../RenderEngine/Camera.h"
 #include "../RenderEngine/GeometryGenerator.h"
@@ -28,7 +28,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance,
 
 	GeometryGenerator geoGen;
 
-	Window window(hInstance);
+	RuntimeWindow window(hInstance, 1280, 720);
 	window.Initialize();
 
 	InputManager::GetInstance().Initialize(hInstance, window.GetMainWindow());

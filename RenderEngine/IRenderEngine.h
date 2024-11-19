@@ -6,7 +6,7 @@
 #include "imgui/imgui.h"
 #include "IDebugRendererSystem.h"
 #include "Camera.h"
-#include "Window.h"
+#include "RuntimeWindow.h"
 
 namespace EduEngine
 {
@@ -31,6 +31,6 @@ namespace EduEngine
 		virtual void UpdateEditor(ImDrawData* drawData) = 0;
 		virtual void* CreateEditorImGuiUI(void* pixels, int texWidth, int texHeight, int bytesPerPixel) = 0;
 
-		static std::shared_ptr<IRenderEngine> Create(const Window& mainWindow);
+		static std::shared_ptr<IRenderEngine> Create(const RuntimeWindow& mainWindow);
 	};
 }

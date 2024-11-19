@@ -12,7 +12,7 @@
 #include "IRenderEngine.h"
 #include "Camera.h"
 #include "RenderPasses.h"
-#include "Window.h"
+#include "RuntimeWindow.h"
 #include "RenderObject.h"
 #include "ImGuiD3D12Impl.h"
 
@@ -31,7 +31,7 @@ namespace EduEngine
 		RenderEngine& operator=(const RenderEngine& rhs) = delete;
 		~RenderEngine();
 
-		bool StartUp(const Window& mainWindow);
+		bool StartUp(const RuntimeWindow& mainWindow);
 
 		IRenderObject* AddObject(NativeMeshData meshData) override;
 		void RemoveObject(IRenderObject* object) override;
