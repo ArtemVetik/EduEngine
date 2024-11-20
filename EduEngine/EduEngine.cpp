@@ -1,5 +1,8 @@
 #include <Windows.h>
 #include <crtdbg.h>
+#include <thread>
+#include <future>
+#include <sstream>
 #include "../InputSystem/Timer.h"
 #include "../InputSystem/InputManager.h"
 #include "../RenderEngine/RuntimeWindow.h"
@@ -11,6 +14,22 @@
 #include "../GameplayInterop/GameplayInterop.h"
 
 using namespace EduEngine;
+
+void UpdateWindowTitle(HWND window, int rFps, float rMspf, int eFps, float eMspf)
+{
+	std::wstringstream out;
+	out.precision(6);
+
+	out << "Runtime (" << " fps: " << rFps << " frame time: " << rMspf << " ms)" <<
+		   "\tEditor (" << "fps: " << eFps << " frame time: " << eMspf << " ms)" << "\0";
+
+	SetWindowText(window, out.str().c_str());
+}
+
+template<typename T>
+bool future_is_ready(std::future<T>& t) {
+	return t.wait_for(std::chrono::seconds(0)) == std::future_status::ready;
+}
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance,
 	PSTR cmdLine, int showCmd)
@@ -41,9 +60,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance,
 
 	PhysicsFactory physicsFactory;
 	std::shared_ptr<IPhysicsWorld> physicsWorld = physicsFactory.Create();
-	Timer timer = Timer(runtimeWindow.GetMainWindow(), L"EduEngine");
 
-	CoreSystems coreSystems(renderEngine.get(), editorRenderEngine.get(), physicsWorld.get(), &timer);
+	Timer runtimeTimer = Timer(runtimeWindow.GetMainWindow(), L"EduEngine");
+	Timer editorTimer = Timer(editorWindow.GetMainWindow(), L"EduEngine");
+
+	CoreSystems coreSystems(renderEngine.get(), editorRenderEngine.get(), physicsWorld.get(), &runtimeTimer);
 
 	GameplayInterop::Initialize();
 	EditorInterop::Initialize();
@@ -52,6 +73,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance,
 	float physixsAccumulator = 0.0f;
 
 	MSG msg = { 0 };
+
+	std::future<void> runtimeThread;
+	std::future<void> editorThread;
+
+	int runtimeFps = 0, editorFps = 0;
+	float runtimeMspf = 0.0f, editorMspf = 0.0f;
 
 	while (msg.message != WM_QUIT)
 	{
@@ -62,33 +89,55 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance,
 		}
 		else
 		{
-			timer.UpdateTimer();
-			if (!editorWindow.IsPaused())
+			if (!runtimeThread.valid() || future_is_ready(runtimeThread))
 			{
-				timer.UpdateTitleBarStats();
-
-				InputManager::GetInstance().Update();
-
-				physixsAccumulator += timer.GetDeltaTime();
-
-				if (physixsAccumulator >= fixedTimeStep)
+				runtimeTimer.UpdateTimer();
+				if (!runtimeWindow.IsPaused())
 				{
-					physicsWorld->Update();
-					physixsAccumulator = 0.0f;
+					if (runtimeTimer.UpdateTitleBarStats(runtimeFps, runtimeMspf))
+						UpdateWindowTitle(editorWindow.GetHostWindow(), runtimeFps, runtimeMspf, editorFps, editorMspf);
+
+					InputManager::GetInstance().Update();
+
+					physixsAccumulator += runtimeTimer.GetDeltaTime();
+
+					if (physixsAccumulator >= fixedTimeStep)
+					{
+						physicsWorld->Update();
+						physixsAccumulator = 0.0f;
+					}
+
+					GameplayInterop::Update();
+					runtimeThread = std::async(std::launch::async, &IRenderEngine::Draw, renderEngine.get());
 				}
-
-				GameplayInterop::Update();
-				EditorInterop::Update();
-
-				renderEngine->Draw();
-				editorRenderEngine->Draw();
+				else
+				{
+					Sleep(100);
+				}
 			}
-			else
+			if (!editorThread.valid() || future_is_ready(editorThread))
 			{
-				Sleep(100);
+				editorTimer.UpdateTimer();
+				if (!editorWindow.IsPaused())
+				{
+					if (editorTimer.UpdateTitleBarStats(editorFps, editorMspf))
+						UpdateWindowTitle(editorWindow.GetHostWindow(), runtimeFps, runtimeMspf, editorFps, editorMspf);
+
+					InputManager::GetInstance().Update();
+					
+					EditorInterop::Update();
+					editorThread = std::async(std::launch::async, &IEditorRenderEngine::Draw, editorRenderEngine.get());
+				}
+				else
+				{
+					Sleep(100);
+				}
 			}
 		}
 	}
+
+	editorThread.get();
+	runtimeThread.get();
 
 	EditorInterop::Destroy();
 

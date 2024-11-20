@@ -39,7 +39,7 @@ namespace EduEngine
 			return false;
 		}
 
-		auto hostWindowHandle = CreateWindowEx(
+		m_HostWindow = CreateWindowEx(
 			0,
 			L"HostWindow",
 			L"Host Window",
@@ -54,14 +54,14 @@ namespace EduEngine
 			NULL
 		);
 
-		if (!hostWindowHandle)
+		if (!m_HostWindow)
 		{
 			MessageBox(0, L"CreateWindow Failed.", 0, 0);
 			return false;
 		}
 
-		ShowWindow(hostWindowHandle, SW_SHOWNORMAL);
-		UpdateWindow(hostWindowHandle);
+		ShowWindow(m_HostWindow, SW_SHOWNORMAL);
+		UpdateWindow(m_HostWindow);
 
 		wc = { 0 };
 		wc.style = CS_HREDRAW | CS_VREDRAW;
@@ -90,7 +90,7 @@ namespace EduEngine
 			CW_USEDEFAULT,
 			GetClientWidth(),
 			GetClientHeight(),
-			hostWindowHandle,
+			m_HostWindow,
 			0,
 			GetModuleHandle(NULL),
 			0

@@ -14,7 +14,7 @@ namespace EduEngine
 		float GetTotalTime() const;
 
 		void UpdateTimer();
-		void UpdateTitleBarStats();
+		bool UpdateTitleBarStats(int& fps, float& mspf);
 
 	private:
 		double perfCounterSeconds;

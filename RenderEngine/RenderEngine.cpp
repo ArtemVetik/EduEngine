@@ -90,6 +90,13 @@ namespace EduEngine
 
 	void RenderEngine::Draw()
 	{
+		if (m_PendingResize != EmptyResize)
+		{
+			RuntimeWindow::GetInstance()->SetPosition(m_PendingResize.x, m_PendingResize.y, m_PendingResize.width, m_PendingResize.height);
+			Resize(m_PendingResize.width, m_PendingResize.height);
+			m_PendingResize = EmptyResize;
+		}
+
 		auto& commandContext = m_Device->GetCommandContext(D3D12_COMMAND_LIST_TYPE_DIRECT);
 		auto& commandQueue = m_Device->GetCommandQueue(D3D12_COMMAND_LIST_TYPE_DIRECT);
 
@@ -161,10 +168,7 @@ namespace EduEngine
 		RuntimeWindow::GetInstance()->GetPosition(lx, ly, lw, lh);
 
 		if (lx != x || ly != y || lw != w || lh != h)
-		{
-			RuntimeWindow::GetInstance()->SetPosition(x, y, w, h);
-			Resize(w, h);
-		}
+			m_PendingResize = {(long)x, (long)y, (long)w, (long)h};
 	}
 
 	void RenderEngine::Resize(UINT w, UINT h)

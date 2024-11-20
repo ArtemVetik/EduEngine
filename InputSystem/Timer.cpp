@@ -46,28 +46,23 @@ namespace EduEngine
 		previousTime = currentTime;
 	}
 
-	void Timer::UpdateTitleBarStats()
+	bool Timer::UpdateTitleBarStats(int& fps, float& mspf)
 	{
 		fpsFrameCount++;
 
 		float timeDiff = 0.0f;
 		timeDiff = totalTime - fpsTimeElapsed;
-		if (timeDiff < 0.5f)
-			return;
+
+		if (timeDiff < 1.0f)
+			return false;
 
 		// How long did each frame take?  (Approx)
-		float mspf = 1000.0f / (float)fpsFrameCount;
-
-		std::wstringstream out;
-		out.precision(6);
-
-		out << windowTitle <<
-			"    FPS : " << fpsFrameCount <<
-			"    Frame time: " << mspf << " ms" << "\0";
+		mspf = 1000.0f / (float)fpsFrameCount;
+		fps = fpsFrameCount;
 
 		fpsFrameCount = 0;
-		fpsTimeElapsed += 0.5f;
+		fpsTimeElapsed += 1.0f;
 
-		SetWindowText(hwnd, out.str().c_str());
+		return true;
 	}
 }

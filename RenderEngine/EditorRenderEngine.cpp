@@ -44,6 +44,8 @@ namespace EduEngine
 
 	void EditorRenderEngine::Resize(UINT width, UINT height)
 	{
+		m_Device->FlushQueues();
+
 		auto& commandContext = m_Device->GetCommandContext(D3D12_COMMAND_LIST_TYPE_DIRECT);
 		auto& commandQueue = m_Device->GetCommandQueue(D3D12_COMMAND_LIST_TYPE_DIRECT);
 
@@ -70,6 +72,7 @@ namespace EduEngine
 		auto& commandQueue = m_Device->GetCommandQueue(D3D12_COMMAND_LIST_TYPE_DIRECT);
 
 		commandContext.Reset();
+
 		commandContext.SetViewports(&m_Viewport, 1);
 		commandContext.SetScissorRects(&m_ScissorRect, 1);
 
