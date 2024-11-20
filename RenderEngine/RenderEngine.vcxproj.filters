@@ -78,6 +78,15 @@
     <ClInclude Include="RuntimeWindow.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="EditorRenderEngine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderEngineInternal.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorWindow.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -111,6 +120,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="RuntimeWindow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EditorRenderEngine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EditorWindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

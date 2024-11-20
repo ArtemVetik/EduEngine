@@ -126,6 +126,7 @@
     <ClInclude Include="Physics\ColliderData.h" />
     <ClInclude Include="Physics\NativePhysicsObjectWrapper.h" />
     <ClInclude Include="Physics\NativePhysicsShapeWrapper.h" />
+    <ClInclude Include="RenderEngine\EditorRenderEngineInterop.h" />
     <ClInclude Include="RenderEngine\MeshData.h" />
     <ClInclude Include="RenderEngine\NativeCameraWrapper.h" />
     <ClInclude Include="RenderEngine\NativeRenderObjectWrapper.h" />
@@ -139,6 +140,7 @@
     <ClCompile Include="InputSystem\TimerInterop.cpp" />
     <ClCompile Include="Physics\NativePhysicsObjectWrapper.cpp" />
     <ClCompile Include="Physics\NativePhysicsShapeWrapper.cpp" />
+    <ClCompile Include="RenderEngine\EditorRenderEngineInterop.cpp" />
     <ClCompile Include="RenderEngine\NativeCameraWrapper.cpp" />
     <ClCompile Include="RenderEngine\NativeRenderObjectWrapper.cpp" />
     <ClCompile Include="RenderEngine\RenderEngineInterop.cpp" />

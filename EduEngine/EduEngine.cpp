@@ -28,18 +28,22 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance,
 
 	GeometryGenerator geoGen;
 
-	RuntimeWindow window(hInstance, 1280, 720);
-	window.Initialize();
+	EditorWindow editorWindow(hInstance, 1280, 720);
+	editorWindow.Initialize();
 
-	InputManager::GetInstance().Initialize(hInstance, window.GetMainWindow());
+	RuntimeWindow runtimeWindow(hInstance, 800, 400, editorWindow.GetMainWindow());
+	runtimeWindow.Initialize();
 
-	std::shared_ptr<IRenderEngine> renderEngine = IRenderEngine::Create(window);
+	InputManager::GetInstance().Initialize(hInstance, editorWindow.GetMainWindow());
+
+	std::shared_ptr<IRenderEngine> renderEngine = IRenderEngine::Create(runtimeWindow);
+	std::shared_ptr<IEditorRenderEngine> editorRenderEngine = IEditorRenderEngine::Create(editorWindow);
 
 	PhysicsFactory physicsFactory;
 	std::shared_ptr<IPhysicsWorld> physicsWorld = physicsFactory.Create();
-	EduEngine::Timer timer = EduEngine::Timer(window.GetMainWindow(), L"EduEngine");
+	Timer timer = Timer(runtimeWindow.GetMainWindow(), L"EduEngine");
 
-	EduEngine::CoreSystems s(renderEngine.get(), physicsWorld.get(), &timer);
+	CoreSystems coreSystems(renderEngine.get(), editorRenderEngine.get(), physicsWorld.get(), &timer);
 
 	GameplayInterop::Initialize();
 	EditorInterop::Initialize();
@@ -59,7 +63,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance,
 		else
 		{
 			timer.UpdateTimer();
-			if (!window.IsPaused())
+			if (!editorWindow.IsPaused())
 			{
 				timer.UpdateTitleBarStats();
 
@@ -77,6 +81,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance,
 				EditorInterop::Update();
 
 				renderEngine->Draw();
+				editorRenderEngine->Draw();
 			}
 			else
 			{

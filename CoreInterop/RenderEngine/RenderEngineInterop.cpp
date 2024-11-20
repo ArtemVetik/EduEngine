@@ -9,13 +9,8 @@ namespace EduEngine
         return System::Numerics::Vector2(size.x, size.y);
     }
 
-    void* RenderEngineInterop::CreateImGuiEditor(void* pixels, int texWidth, int texHeight, int bytesPerPixel)
+    void RenderEngineInterop::MoveAndResize(int x, int y, int w, int h)
     {
-        return CoreSystems::GetInstance()->GetRenderEngine()->CreateEditorImGuiUI(pixels, texWidth, texHeight, bytesPerPixel);
-    }
-
-    void RenderEngineInterop::UpdateImGui(void* drawData)
-    {
-        CoreSystems::GetInstance()->GetRenderEngine()->UpdateEditor(static_cast<ImDrawData*>(drawData));
+        CoreSystems::GetInstance()->GetRenderEngine()->MoveAndResize(x, y, w, h);
     }
 }

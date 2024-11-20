@@ -7,7 +7,10 @@ namespace EduEngine
 	class RENDERENGINE_API RuntimeWindow : public WindowBase
 	{
 	public:
-		RuntimeWindow(HINSTANCE hInstance, int width, int height);
+		RuntimeWindow(HINSTANCE hInstance, int width, int height, HWND parent = 0);
+
+		void GetPosition(UINT &x, UINT &y, UINT &w, UINT &h);
+		void SetPosition(UINT x, UINT y, UINT w, UINT h);
 
 		static RuntimeWindow* GetInstance() { return m_Instance; }
 
@@ -17,5 +20,7 @@ namespace EduEngine
 
 	private:
 		static RuntimeWindow* m_Instance;
+
+		HWND m_Parent;
 	};
 }

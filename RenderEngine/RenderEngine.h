@@ -38,18 +38,18 @@ namespace EduEngine
 		Camera* CreateCamera() override;
 		void RemoveCamera(Camera* camera) override;
 		void Draw() override;
+		void MoveAndResize(UINT x, UINT y, UINT w, UINT h) override;
 
-		void Resize(int width, int height);
+		void Resize(UINT w, UINT h);
 
 		DirectX::SimpleMath::Vector2 GetScreenSize() const override;
-		void UpdateEditor(ImDrawData* drawData) override;
-		void* CreateEditorImGuiUI(void* pixels, int texWidth, int texHeight, int bytesPerPixel) override;
 
 		IDebugRendererSystem* GetDebugRender() const override { return m_DebugRenderer.get(); }
 
 		static RenderEngine* GetInstance();
+
 	private:
-		static RenderEngine* Instance;
+		static RenderEngine* m_Instance;
 
 		std::vector<std::shared_ptr<RenderObject>> m_RenderObjects;
 		std::vector<std::shared_ptr<Camera>> m_Cameras;
@@ -58,11 +58,9 @@ namespace EduEngine
 		std::unique_ptr<SwapChain> m_SwapChain;
 
 		std::unique_ptr<OpaquePass> m_OpaquePass;
-		std::unique_ptr<ImGuiPass> m_ImGuiPass;
 		D3D12_VIEWPORT m_Viewport;
 		D3D12_RECT m_ScissorRect;
 
-		std::unique_ptr<ImGuiD3D12Impl> m_EditorUI;
 		std::shared_ptr<DebugRendererSystem> m_DebugRenderer;
 	};
 }

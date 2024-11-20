@@ -15,27 +15,39 @@ namespace EduEngine.Editor
             io.BackendFlags |= ImGuiBackendFlags.RendererHasVtxOffset;
             io.ConfigFlags |= ImGuiConfigFlags.NavEnableKeyboard | ImGuiConfigFlags.DockingEnable;
             io.Fonts.Flags |= ImFontAtlasFlags.NoBakedLines;
-            io.DisplaySize = Screen.Size;
+            io.DisplaySize = EditorRenderEngineInterop.GetEditorSize();
             io.DisplayFramebufferScale = Vector2.One;
             io.DeltaTime = 1f / 60f;
 
             io.Fonts.GetTexDataAsRGBA32(out IntPtr pixels, out int width, out int height, out int bytesPerPixel);
-            void* texId = RenderEngineInterop.CreateImGuiEditor((void*)pixels, width, height, bytesPerPixel);
+            void* texId = EditorRenderEngineInterop.CreateImGuiEditor((void*)pixels, width, height, bytesPerPixel);
             io.Fonts.SetTexID((IntPtr)texId);
             io.Fonts.ClearTexData();
 
             ImGuizmo.SetImGuiContext(ImGui.GetCurrentContext());
         }
-        
+
         public static unsafe void Update()
         {
             _input.ProcessInput();
 
             ImGui.NewFrame();
+
+            ImGui.PushStyleColor(ImGuiCol.WindowBg, Vector4.Zero);
+
+            var centerId = ImGui.DockSpaceOverViewport(0, ImGui.GetMainViewport(), ImGuiDockNodeFlags.NoDockingOverCentralNode | ImGuiDockNodeFlags.PassthruCentralNode);
+            ImGui.SetNextWindowDockID(centerId, ImGuiCond.Always);
+            ImGui.Begin("Scene");
+            ImGui.Text("Scene view!");
+            RenderEngineInterop.MoveAndResize((int)ImGui.GetWindowPos().X, (int)ImGui.GetWindowPos().Y, (int)ImGui.GetWindowSize().X, (int)ImGui.GetWindowSize().Y);
+            ImGui.PopStyleColor();
+            ImGui.End();
+
             ImGui.ShowDemoWindow();
+
             ImGui.Render();
 
-            RenderEngineInterop.UpdateImGui(ImGui.GetDrawData().NativePtr);
+            EditorRenderEngineInterop.UpdateImGui(ImGui.GetDrawData().NativePtr);
         }
 
         public static void Destroy()

@@ -6,7 +6,6 @@ namespace EduEngine
 	{
 	public:
 		static System::Numerics::Vector2 GetScreenSize();
-		static void* CreateImGuiEditor(void* pixels, int texWidth, int texHeight, int bytesPerPixel);
-		static void UpdateImGui(void* drawData);
+		static void MoveAndResize(int x, int y, int w, int h);
 	};
 }

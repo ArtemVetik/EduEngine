@@ -141,6 +141,8 @@
   <ItemGroup>
     <ClInclude Include="Camera.h" />
     <ClInclude Include="DebugRendererSystem.h" />
+    <ClInclude Include="EditorRenderEngine.h" />
+    <ClInclude Include="EditorWindow.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="GeometryGenerator.h" />
     <ClInclude Include="IDebugRendererSystem.h" />
@@ -155,6 +157,7 @@
     <ClInclude Include="pch.h" />
     <ClInclude Include="RenderEngine.h" />
     <ClInclude Include="RenderEngineDefines.h" />
+    <ClInclude Include="RenderEngineInternal.h" />
     <ClInclude Include="RenderObject.h" />
     <ClInclude Include="RenderPasses.h" />
     <ClInclude Include="RuntimeWindow.h" />
@@ -164,6 +167,8 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="DebugRendererSystem.cpp" />
     <ClCompile Include="dllmain.cpp" />
+    <ClCompile Include="EditorRenderEngine.cpp" />
+    <ClCompile Include="EditorWindow.cpp" />
     <ClCompile Include="GeometryGenerator.cpp" />
     <ClCompile Include="ImGuiD3D12Impl.cpp" />
     <ClCompile Include="IRenderEngine.cpp" />

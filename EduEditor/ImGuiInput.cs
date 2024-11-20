@@ -19,7 +19,7 @@ namespace EduEngine.Editor
         public void ProcessInput()
         {
             ImGuiIOPtr io = ImGui.GetIO();
-            io.DisplaySize = Screen.Size;
+            io.DisplaySize = EditorRenderEngineInterop.GetEditorSize();
             io.DisplayFramebufferScale = Vector2.One;
             io.DeltaTime = EduTime.DeltaTime;
             io.AddMousePosEvent(Input.MousePosition.X, Input.MousePosition.Y);

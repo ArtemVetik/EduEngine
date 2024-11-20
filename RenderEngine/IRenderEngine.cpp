@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "IRenderEngine.h"
 #include "RenderEngine.h"
+#include "EditorRenderEngine.h"
 
 namespace EduEngine
 {
@@ -10,5 +11,13 @@ namespace EduEngine
         renderEngine->StartUp(mainWindow);
 
         return renderEngine;
+    }
+
+    std::shared_ptr<IEditorRenderEngine> IEditorRenderEngine::Create(const EditorWindow& mainWindow)
+    {
+        auto editorRenderEngine = std::make_shared<EditorRenderEngine>();
+        editorRenderEngine->StartUp(mainWindow);
+
+        return editorRenderEngine;
     }
 }

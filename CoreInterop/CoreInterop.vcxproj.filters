@@ -57,6 +57,9 @@
     <ClInclude Include="RenderEngine\RenderEngineInterop.h">
       <Filter>RenderEngine</Filter>
     </ClInclude>
+    <ClInclude Include="RenderEngine\EditorRenderEngineInterop.h">
+      <Filter>RenderEngine</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp">
@@ -84,6 +87,9 @@
       <Filter>InputSystem</Filter>
     </ClCompile>
     <ClCompile Include="RenderEngine\RenderEngineInterop.cpp">
+      <Filter>RenderEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderEngine\EditorRenderEngineInterop.cpp">
       <Filter>RenderEngine</Filter>
     </ClCompile>
   </ItemGroup>

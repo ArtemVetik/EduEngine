@@ -25,7 +25,7 @@ namespace EduEngine
 		RenderDeviceD3D12* m_Device;
 		std::shared_ptr<TextureD3D12> m_FontTexture;
 
-		ImGuiPass* m_RenderPass;
-		ImDrawData* m_DrawData;
+		ImGuiPass* m_RenderPass = nullptr;
+		ImDrawData* m_DrawData = nullptr;
 	};
 }

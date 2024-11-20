@@ -1,14 +1,15 @@
 #include "pch.h"
 #include "RenderEngine.h"
 #include "../Graphics/DynamicUploadBuffer.h"
+#include "RenderEngineInternal.h"
 
 namespace EduEngine
 {
-	RenderEngine* RenderEngine::Instance = nullptr;
+	RenderEngine* RenderEngine::m_Instance = nullptr;
 
 	RenderEngine* RenderEngine::GetInstance()
 	{
-		return Instance;
+		return m_Instance;
 	}
 
 	Camera* RenderEngine::CreateCamera()
@@ -29,12 +30,10 @@ namespace EduEngine
 
 	RenderEngine::RenderEngine() :
 		m_Viewport{},
-		m_ScissorRect{},
-		m_ImGuiPass{},
-		m_EditorUI{}
+		m_ScissorRect{}
 	{
-		assert(Instance == nullptr);
-		Instance = this;
+		assert(m_Instance == nullptr);
+		m_Instance = this;
 	}
 
 	RenderEngine::~RenderEngine()
@@ -47,25 +46,12 @@ namespace EduEngine
 
 	bool RenderEngine::StartUp(const RuntimeWindow& mainWindow)
 	{
-#if defined(DEBUG) || defined(_DEBUG) 
-		Microsoft::WRL::ComPtr<ID3D12Debug> debugController;
-		HRESULT hr = D3D12GetDebugInterface(IID_PPV_ARGS(&debugController));
-		debugController->EnableDebugLayer();
-#endif
-
-		Microsoft::WRL::ComPtr<ID3D12Device> device;
-		HRESULT hardwareResult = D3D12CreateDevice(
-			nullptr,
-			D3D_FEATURE_LEVEL_11_0,
-			IID_PPV_ARGS(device.GetAddressOf()));
-
-		if (FAILED(hardwareResult))
-			throw;
+		auto device = RenderEngineInternal::GetInstance().GetDevice();
 
 		m_Device = std::make_unique<RenderDeviceD3D12>(device);
 
 #if defined(DEGUG) || defined(_DEBUG)
-		QueryInterface::GetInstance().Initialize(m_Device->GetD3D12Device());
+		QueryInterface::GetInstance().Initialize(device);
 #endif
 
 		m_SwapChain = std::make_unique<SwapChain>(m_Device.get(),
@@ -106,7 +92,7 @@ namespace EduEngine
 	{
 		auto& commandContext = m_Device->GetCommandContext(D3D12_COMMAND_LIST_TYPE_DIRECT);
 		auto& commandQueue = m_Device->GetCommandQueue(D3D12_COMMAND_LIST_TYPE_DIRECT);
-		
+
 		commandContext.Reset();
 		commandContext.SetViewports(&m_Viewport, 1);
 		commandContext.SetScissorRects(&m_ScissorRect, 1);
@@ -158,8 +144,6 @@ namespace EduEngine
 			m_DebugRenderer->Render(camera->GetViewProjMatrix(), camera->GetPosition());
 		}
 
-		m_EditorUI->Draw(m_SwapChain->GetWidth(), m_SwapChain->GetHeight());
-
 		commandContext.ResourceBarrier(CD3DX12_RESOURCE_BARRIER::Transition(m_SwapChain->CurrentBackBuffer(),
 			D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PRESENT));
 		commandContext.FlushResourceBarriers();
@@ -171,47 +155,45 @@ namespace EduEngine
 		m_Device->FinishFrame();
 	}
 
-	void RenderEngine::Resize(int width, int height)
+	void RenderEngine::MoveAndResize(UINT x, UINT y, UINT w, UINT h)
+	{
+		UINT lx, ly, lw, lh;
+		RuntimeWindow::GetInstance()->GetPosition(lx, ly, lw, lh);
+
+		if (lx != x || ly != y || lw != w || lh != h)
+		{
+			RuntimeWindow::GetInstance()->SetPosition(x, y, w, h);
+			Resize(w, h);
+		}
+	}
+
+	void RenderEngine::Resize(UINT w, UINT h)
 	{
 		auto& commandContext = m_Device->GetCommandContext(D3D12_COMMAND_LIST_TYPE_DIRECT);
 		auto& commandQueue = m_Device->GetCommandQueue(D3D12_COMMAND_LIST_TYPE_DIRECT);
 
 		commandContext.Reset();
 
-		m_SwapChain->Resize(width, height);
+		m_SwapChain->Resize(w, h);
 
 		commandContext.FlushResourceBarriers();
 		commandQueue.CloseAndExecuteCommandContext(&commandContext);
 
 		m_Viewport.TopLeftX = 0;
 		m_Viewport.TopLeftY = 0;
-		m_Viewport.Width = width;
-		m_Viewport.Height = height;
+		m_Viewport.Width = w;
+		m_Viewport.Height = h;
 		m_Viewport.MinDepth = 0.0f;
 		m_Viewport.MaxDepth = 1.0f;
 
-		m_ScissorRect = { 0, 0, width, height };
+		m_ScissorRect = { 0, 0, (int)w, (int)h };
 
 		for (auto camera : m_Cameras)
-			camera->SetProjectionMatrix(width, height);
+			camera->SetProjectionMatrix(w, h);
 	}
 
 	DirectX::SimpleMath::Vector2 RenderEngine::GetScreenSize() const
 	{
 		return DirectX::SimpleMath::Vector2(m_SwapChain->GetWidth(), m_SwapChain->GetHeight());
-	}
-
-	void RenderEngine::UpdateEditor(ImDrawData* drawData)
-	{
-		m_EditorUI->Update(drawData);
-	}
-
-	void* RenderEngine::CreateEditorImGuiUI(void* pixels, int texWidth, int texHeight, int bytesPerPixel)
-	{
-		if (m_ImGuiPass == nullptr)
-			m_ImGuiPass = std::make_unique<ImGuiPass>(m_Device.get());
-		
-		m_EditorUI = std::make_unique<ImGuiD3D12Impl>(m_Device.get(), m_ImGuiPass.get(), pixels, texWidth, texHeight, bytesPerPixel);
-		return m_EditorUI->GetFontTexturePtr();
 	}
 }

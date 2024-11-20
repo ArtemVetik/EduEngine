@@ -3,9 +3,10 @@
 
 namespace EduEngine
 {
-	SwapChain::SwapChain(RenderDeviceD3D12* pDevice, UINT width, UINT height, HWND window) :
+	SwapChain::SwapChain(RenderDeviceD3D12* pDevice, UINT width, UINT height, HWND window, bool transparent /* = false */) :
 		m_Device(pDevice),
-		m_CurrentBackBuffer(0)
+		m_CurrentBackBuffer(0),
+		m_Transparent(transparent)
 	{
 		m_SwapChain.Reset();
 
@@ -29,20 +30,66 @@ namespace EduEngine
 		swapChainDesc.BufferCount = SwapChainBufferCount;
 		swapChainDesc.Scaling = DXGI_SCALING_STRETCH;
 		swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD;
-		swapChainDesc.AlphaMode = DXGI_ALPHA_MODE_UNSPECIFIED;
+		if (transparent)
+			swapChainDesc.AlphaMode = DXGI_ALPHA_MODE_PREMULTIPLIED;
+		else
+			swapChainDesc.AlphaMode = DXGI_ALPHA_MODE_UNSPECIFIED;
 
-		//swapChainDesc.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_TEARING;
-		//swapChainDesc.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
 		swapChainDesc.Flags = DXGI_SWAP_CHAIN_FLAG_FRAME_LATENCY_WAITABLE_OBJECT;
 
 		Microsoft::WRL::ComPtr<IDXGISwapChain1> swapChain1;
-		mDXGIFactory->CreateSwapChainForHwnd(
-			m_Device->GetCommandQueue(D3D12_COMMAND_LIST_TYPE_DIRECT).GetD3D12CommandQueue(),
-			window,
-			&swapChainDesc,
-			nullptr,
-			nullptr,
-			&swapChain1);
+
+		if (transparent)
+		{
+			mDXGIFactory->CreateSwapChainForComposition(
+				m_Device->GetCommandQueue(D3D12_COMMAND_LIST_TYPE_DIRECT).GetD3D12CommandQueue(),
+				&swapChainDesc,
+				nullptr,
+				&swapChain1
+			);
+
+			//------------------------------------------------------------------
+			// Set up DirectComposition
+			//------------------------------------------------------------------
+			
+			// Create the DirectComposition device
+			HRESULT hr = DCompositionCreateDevice(
+				nullptr,
+				IID_PPV_ARGS(m_DcompDevice.ReleaseAndGetAddressOf()));
+			if (FAILED(hr)) throw;
+
+			// Create a DirectComposition target associated with the window (pass in hWnd here)
+			hr = (m_DcompDevice->CreateTargetForHwnd(
+				window,
+				true,
+				m_DcompTarget.ReleaseAndGetAddressOf()));
+			if (FAILED(hr)) throw;
+
+			// Create a DirectComposition "visual"
+			hr = (m_DcompDevice->CreateVisual(m_DcompVisual.ReleaseAndGetAddressOf()));
+			if (FAILED(hr)) throw;
+
+			// Associate the visual with the swap chain
+			hr = (m_DcompVisual->SetContent(swapChain1.Get()));
+			if (FAILED(hr)) throw;
+
+			// Set the visual as the root of the DirectComposition target's composition tree
+			hr = (m_DcompTarget->SetRoot(m_DcompVisual.Get()));
+			if (FAILED(hr)) throw;
+
+			hr = (m_DcompDevice->Commit());
+			if (FAILED(hr)) throw;
+		}
+		else
+		{
+			mDXGIFactory->CreateSwapChainForHwnd(
+				m_Device->GetCommandQueue(D3D12_COMMAND_LIST_TYPE_DIRECT).GetD3D12CommandQueue(),
+				window,
+				&swapChainDesc,
+				nullptr,
+				nullptr,
+				&swapChain1);
+		}
 
 		// Disable the Alt+Enter fullscreen toggle feature. Switching to fullscreen
 		// will be handled manually.
@@ -131,7 +178,11 @@ namespace EduEngine
 			true
 		);
 
-		m_SwapChain->Present(0, 0);
+		if (m_Transparent)
+			m_SwapChain->Present(1, 0);
+		else
+			m_SwapChain->Present(0, 0);
+		
 		m_CurrentBackBuffer = m_SwapChain->GetCurrentBackBufferIndex();
 	}
 
