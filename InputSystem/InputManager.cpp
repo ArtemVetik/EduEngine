@@ -30,6 +30,12 @@ namespace EduEngine
 		return instance;
 	}
 
+	InputManager& InputManager::GetEditorInstance()
+	{
+		static InputManager editorInstance;
+		return editorInstance;
+	}
+
 	bool InputManager::Initialize(HINSTANCE hInstance, HWND hWnd)
 	{
 		m_window = hWnd;

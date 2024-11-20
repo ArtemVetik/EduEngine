@@ -12,7 +12,7 @@ namespace EduEngine.Scripts
 
         public override void Update()
         {
-            if (Input.KeyDown(KeyCode.P))
+            if (Input.Runtime.KeyDown(KeyCode.P))
             {
                 TestMeshGenerator.GenerateCube(out Vertex[] vertices, out uint[] indices);
                 var cube = new GameObject();
@@ -26,7 +26,7 @@ namespace EduEngine.Scripts
                 cube.AddComponent<RigidBody>();
                 _spawned.Add(cube);
             }
-            if (Input.KeyDown(KeyCode.O))
+            if (Input.Runtime.KeyDown(KeyCode.O))
             {
                 float radius = 0.2f + (float)Random.Shared.NextDouble() * 1.5f;
                 TestMeshGenerator.GenerateSphere(32, 32, radius, out Vertex[] vertices, out uint[] indices);
@@ -41,7 +41,7 @@ namespace EduEngine.Scripts
                 sphere.AddComponent<RigidBody>();
                 _spawned.Add(sphere);
             }
-            if (Input.KeyDown(KeyCode.C))
+            if (Input.Runtime.KeyDown(KeyCode.C))
             {
                 foreach (var item in _spawned)
                     item.Destroy();

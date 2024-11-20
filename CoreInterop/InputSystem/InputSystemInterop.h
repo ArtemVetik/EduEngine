@@ -1,5 +1,6 @@
 #pragma once
 #include <wtypes.h>
+#include "../../InputSystem/InputManager.h"
 
 namespace EduEngine
 {
@@ -14,12 +15,17 @@ namespace EduEngine
 	private ref class InputSystemInterop
 	{
 	public:
-		static bool IsAnyKeyPressed();
-		static bool IsKeyPressed(BYTE key);
-		static bool IsKeyDown(BYTE key);
-		static bool IsKeyUp(BYTE key);
-		static MouseStateWrapper GetMouseState();
-		static MouseStateWrapper GetPrevMouseState();
-		static System::Numerics::Vector2 GetCursorPos();
+		InputSystemInterop(bool editor);
+
+		bool IsAnyKeyPressed();
+		bool IsKeyPressed(BYTE key);
+		bool IsKeyDown(BYTE key);
+		bool IsKeyUp(BYTE key);
+		MouseStateWrapper GetMouseState();
+		MouseStateWrapper GetPrevMouseState();
+		System::Numerics::Vector2 GetCursorPos();
+
+	private:
+		InputManager* m_Input;
 	};
 }

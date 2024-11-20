@@ -23,23 +23,23 @@ namespace EduEngine.Scripts
             var right = GameObject.Transform.Right;
             var up = GameObject.Transform.Up;
 
-            if (Input.KeyPressed(KeyCode.W))
+            if (Input.Runtime.KeyPressed(KeyCode.W))
                 _targetPosition += _moveSpeed * forward * EduTime.DeltaTime;
-            if (Input.KeyPressed(KeyCode.S))
+            if (Input.Runtime.KeyPressed(KeyCode.S))
                 _targetPosition += _moveSpeed  * - forward * EduTime.DeltaTime;
-            if (Input.KeyPressed(KeyCode.D))
+            if (Input.Runtime.KeyPressed(KeyCode.D))
                 _targetPosition += _moveSpeed * right * EduTime.DeltaTime;
-            if (Input.KeyPressed(KeyCode.A))
+            if (Input.Runtime.KeyPressed(KeyCode.A))
                 _targetPosition += _moveSpeed * -right * EduTime.DeltaTime;
-            if (Input.KeyPressed(KeyCode.E))
+            if (Input.Runtime.KeyPressed(KeyCode.E))
                 _targetPosition += _moveSpeed * up * EduTime.DeltaTime;
-            if (Input.KeyPressed(KeyCode.Q))
+            if (Input.Runtime.KeyPressed(KeyCode.Q))
                 _targetPosition += _moveSpeed  * - up * EduTime.DeltaTime;
 
-            if (Input.MouseButtonPressed(MouseCode.Mouse1))
+            if (Input.Runtime.MouseButtonPressed(MouseCode.Mouse1))
             {
-                var yaw = Quaternion.CreateFromAxisAngle(Vector3.UnitY, 0.01f * Input.MouseDelta.X);
-                var pitch = Quaternion.CreateFromAxisAngle(Vector3.Transform(Vector3.UnitX, _targetRotation), 0.01f * Input.MouseDelta.Y);
+                var yaw = Quaternion.CreateFromAxisAngle(Vector3.UnitY, 0.01f * Input.Runtime.MouseDelta.X);
+                var pitch = Quaternion.CreateFromAxisAngle(Vector3.Transform(Vector3.UnitX, _targetRotation), 0.01f * Input.Runtime.MouseDelta.Y);
                 _targetRotation = Quaternion.Multiply(yaw, _targetRotation);
                 _targetRotation = Quaternion.Multiply(pitch, _targetRotation);
             }

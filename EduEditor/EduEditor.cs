@@ -25,6 +25,15 @@ namespace EduEngine.Editor
             io.Fonts.ClearTexData();
 
             ImGuizmo.SetImGuiContext(ImGui.GetCurrentContext());
+
+            var style = ImGui.GetStyle();
+
+            for (int i = 0; i < (int)ImGuiCol.COUNT; i++)
+            {
+                var color = style.Colors[i];
+                color.W = 1f;
+                style.Colors[i] = color;
+            }
         }
 
         public static unsafe void Update()
@@ -38,7 +47,9 @@ namespace EduEngine.Editor
             var centerId = ImGui.DockSpaceOverViewport(0, ImGui.GetMainViewport(), ImGuiDockNodeFlags.NoDockingOverCentralNode | ImGuiDockNodeFlags.PassthruCentralNode);
             ImGui.SetNextWindowDockID(centerId, ImGuiCond.Always);
             ImGui.Begin("Scene");
-            ImGui.Text("Scene view!");
+
+            ImGui.Text(Input.Runtime.MousePosition.ToString());
+
             RenderEngineInterop.MoveAndResize((int)ImGui.GetWindowPos().X, (int)ImGui.GetWindowPos().Y, (int)ImGui.GetWindowSize().X, (int)ImGui.GetWindowSize().Y);
             ImGui.PopStyleColor();
             ImGui.End();

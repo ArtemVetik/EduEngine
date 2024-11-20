@@ -22,19 +22,19 @@ namespace EduEngine.Editor
             io.DisplaySize = EditorRenderEngineInterop.GetEditorSize();
             io.DisplayFramebufferScale = Vector2.One;
             io.DeltaTime = EduTime.DeltaTime;
-            io.AddMousePosEvent(Input.MousePosition.X, Input.MousePosition.Y);
-            io.AddMouseButtonEvent(0, Input.MouseButtonPressed(MouseCode.Mouse0));
-            io.AddMouseButtonEvent(1, Input.MouseButtonPressed(MouseCode.Mouse1));
-            io.AddMouseButtonEvent(2, Input.MouseButtonPressed(MouseCode.Mouse2));
-            io.AddMouseButtonEvent(3, Input.MouseButtonPressed(MouseCode.Mouse3));
-            io.AddMouseButtonEvent(4, Input.MouseButtonPressed(MouseCode.Mouse4));
-            io.AddMouseWheelEvent(0f, Input.ScrollDelta.Y);
+            io.AddMousePosEvent(Input.Editor.MousePosition.X, Input.Editor.MousePosition.Y);
+            io.AddMouseButtonEvent(0, Input.Editor.MouseButtonPressed(MouseCode.Mouse0));
+            io.AddMouseButtonEvent(1, Input.Editor.MouseButtonPressed(MouseCode.Mouse1));
+            io.AddMouseButtonEvent(2, Input.Editor.MouseButtonPressed(MouseCode.Mouse2));
+            io.AddMouseButtonEvent(3, Input.Editor.MouseButtonPressed(MouseCode.Mouse3));
+            io.AddMouseButtonEvent(4, Input.Editor.MouseButtonPressed(MouseCode.Mouse4));
+            io.AddMouseWheelEvent(0f, Input.Editor.ScrollDelta.Y);
 
             var keyCodes = Enum.GetValues<KeyCode>();
 
             for (int i = 0; i < keyCodes.Length; i++)
             {
-                if (Input.KeyDown(keyCodes[i]))
+                if (Input.Editor.KeyDown(keyCodes[i]))
                 {
                     io.AddInputCharacter(keyCodes[i].ToChar());
                     io.AddKeyEvent(keyCodes[i].ToImGuiKey(), true);
@@ -43,7 +43,7 @@ namespace EduEngine.Editor
                     _pressedKey.NextPressTime = EduTime.TotalTime + FirstInputDelay;
                 }
 
-                if (Input.KeyPressed(keyCodes[i]))
+                if (Input.Editor.KeyPressed(keyCodes[i]))
                 {
                     if (keyCodes[i] == _pressedKey.keyCode && EduTime.TotalTime > _pressedKey.NextPressTime)
                     {
@@ -54,7 +54,7 @@ namespace EduEngine.Editor
                     }
                 }
 
-                if (Input.KeyUp(keyCodes[i]))
+                if (Input.Editor.KeyUp(keyCodes[i]))
                 {
                     io.AddKeyEvent(keyCodes[i].ToImGuiKey(), false);
 

@@ -12,6 +12,7 @@ namespace EduEngine
     {
     public:
         static InputManager& GetInstance();
+        static InputManager& GetEditorInstance();
 
         bool Initialize(HINSTANCE hInstance, HWND hWnd);
         void Update();

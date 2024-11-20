@@ -53,7 +53,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance,
 	RuntimeWindow runtimeWindow(hInstance, 800, 400, editorWindow.GetMainWindow());
 	runtimeWindow.Initialize();
 
-	InputManager::GetInstance().Initialize(hInstance, editorWindow.GetMainWindow());
+	InputManager::GetEditorInstance().Initialize(hInstance, editorWindow.GetMainWindow());
+	InputManager::GetInstance().Initialize(hInstance, runtimeWindow.GetMainWindow());
 
 	std::shared_ptr<IRenderEngine> renderEngine = IRenderEngine::Create(runtimeWindow);
 	std::shared_ptr<IEditorRenderEngine> editorRenderEngine = IEditorRenderEngine::Create(editorWindow);
@@ -123,7 +124,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance,
 					if (editorTimer.UpdateTitleBarStats(editorFps, editorMspf))
 						UpdateWindowTitle(editorWindow.GetHostWindow(), runtimeFps, runtimeMspf, editorFps, editorMspf);
 
-					InputManager::GetInstance().Update();
+					InputManager::GetEditorInstance().Update();
 					
 					EditorInterop::Update();
 					editorThread = std::async(std::launch::async, &IEditorRenderEngine::Draw, editorRenderEngine.get());

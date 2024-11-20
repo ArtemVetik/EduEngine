@@ -1,31 +1,37 @@
 #include "InputSystemInterop.h"
-#include "../../InputSystem/InputManager.h"
 
 namespace EduEngine
 {
+	InputSystemInterop::InputSystemInterop(bool editor)
+	{
+		if (editor)
+			m_Input = &InputManager::GetEditorInstance();
+		else
+			m_Input = &InputManager::GetInstance();
+	}
 	bool InputSystemInterop::IsAnyKeyPressed()
 	{
-		return InputManager::GetInstance().IsAnyKeyPressed();
+		return m_Input->IsAnyKeyPressed();
 	}
 
 	bool InputSystemInterop::IsKeyPressed(BYTE key)
 	{
-		return InputManager::GetInstance().IsKeyPressed(key);
+		return m_Input->IsKeyPressed(key);
 	}
 
 	bool InputSystemInterop::IsKeyDown(BYTE key)
 	{
-		return InputManager::GetInstance().IsKeyDown(key);
+		return m_Input->IsKeyDown(key);
 	}
 
 	bool InputSystemInterop::IsKeyUp(BYTE key)
 	{
-		return InputManager::GetInstance().IsKeyUp(key);
+		return m_Input->IsKeyUp(key);
 	}
 
 	MouseStateWrapper InputSystemInterop::GetMouseState()
 	{
-		auto mouseState = InputManager::GetInstance().GetMouseState();
+		auto mouseState = m_Input->GetMouseState();
 
 		MouseStateWrapper managedMouseState;
 		managedMouseState.lX = mouseState.lX;
@@ -42,7 +48,7 @@ namespace EduEngine
 
 	MouseStateWrapper InputSystemInterop::GetPrevMouseState()
 	{
-		auto mouseState = InputManager::GetInstance().GetPrevMouseState();
+		auto mouseState = m_Input->GetPrevMouseState();
 
 		MouseStateWrapper managedMouseState;
 		managedMouseState.lX = mouseState.lX;
@@ -59,7 +65,7 @@ namespace EduEngine
 
 	System::Numerics::Vector2 InputSystemInterop::GetCursorPos()
 	{
-		auto pos = InputManager::GetInstance().GetCursorPosition();
+		auto pos = m_Input->GetCursorPosition();
 		return System::Numerics::Vector2(pos.x, pos.y);
 	}
 }
