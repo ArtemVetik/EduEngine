@@ -2,18 +2,28 @@
 {
     public class SphereCollider : Collider
     {
-        private SphereColliderData _colliderData;
+        [SerializeField] private float _radius = 1.0f;
 
         public SphereCollider(GameObject parent)
             : base(parent, new SphereColliderData(1))
+        { }
+
+        public override void OnDeserialized()
         {
-            _colliderData = new SphereColliderData(1);
+            Setup(_radius);
+        }
+
+        public override void OnCreate()
+        {
+            Setup(_radius);
         }
 
         public void Setup(float radius)
         {
-            _colliderData = new SphereColliderData(radius);
-            SetShape(_colliderData);
+            _radius = radius;
+
+            var colliderData = new SphereColliderData(_radius);
+            SetShape(colliderData);
         }
     }
 }

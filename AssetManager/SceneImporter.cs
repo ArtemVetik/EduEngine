@@ -80,32 +80,13 @@ namespace EduEngine
 
                         var scriptPath = AssetDataBase.GetPathByGUID((string)guid);
                         var type = ScriptParser.FindComponent(scriptPath);
-                        var component = go.AddComponent(type);
-
-                        foreach (var parameter in cData.Parameters)
-                        {
-                            if (parameter.Key == "script_guid")
-                                continue;
-
-                            var field = type.GetField(parameter.Key, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
-
-                            if (field != null)
-                                field.SetValue(component, parameter.Value);
-                        }
+                        var component = go.AddComponent(type, cData.Parameters);
                     }
                     else
                     {
                         var gameplayAssembly = Assembly.Load("GameplayFramework");
                         var type = gameplayAssembly.GetType(cData.Type);
-                        var component = go.AddComponent(type);
-
-                        foreach (var parameter in cData.Parameters)
-                        {
-                            var field = type.GetField(parameter.Key, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
-
-                            if (field != null)
-                                field.SetValue(component, parameter.Value);
-                        }
+                        var component = go.AddComponent(type, cData.Parameters);
                     }
                 }
             }

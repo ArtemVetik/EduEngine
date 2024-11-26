@@ -11,6 +11,9 @@
 
         public GameObject GameObject => _gameObject;
 
+        public virtual void OnDeserialized() { }
+        public virtual void OnCreate() { }
+        public virtual void OnDestroy() { }
         public virtual void Update() { }
     }
 }

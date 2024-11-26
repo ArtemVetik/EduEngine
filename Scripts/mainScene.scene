@@ -1,17 +1,17 @@
 {
   "GameObjects": [
     {
-      "FileId": 3,
+      "FileId": 4,
       "LocalPosition": {
-        "X": -15.041922,
-        "Y": 14.4867325,
-        "Z": -26.699802
+        "X": -0.98921025,
+        "Y": 0.90418035,
+        "Z": -2.0215924
       },
       "LocalRotation": {
-        "X": 0.06901718,
-        "Y": 0.14393426,
-        "Z": -0.012188736,
-        "W": 0.9871024,
+        "X": -0.011961337,
+        "Y": 0.009875135,
+        "Z": -0.006315013,
+        "W": 0.99985987,
         "IsIdentity": false
       },
       "LocalScale": {
@@ -22,14 +22,92 @@
       "Components": [
         0,
         1,
-        2
+        2,
+        3
       ]
     },
     {
-      "FileId": 7,
+      "FileId": 8,
       "LocalPosition": {
-        "X": 3.0,
-        "Y": 10.661876,
+        "X": 28.436802,
+        "Y": 11.717983,
+        "Z": -23.3848
+      },
+      "LocalRotation": {
+        "X": 0.07371618,
+        "Y": -0.40200073,
+        "Z": 0.030789765,
+        "W": 0.9121477,
+        "IsIdentity": false
+      },
+      "LocalScale": {
+        "X": 1.0,
+        "Y": 1.0,
+        "Z": 1.0
+      },
+      "Components": [
+        5,
+        6,
+        7
+      ]
+    },
+    {
+      "FileId": 13,
+      "LocalPosition": {
+        "X": -8.000005,
+        "Y": 1.0000008,
+        "Z": -9.0000925
+      },
+      "LocalRotation": {
+        "X": 3.4343677E-05,
+        "Y": 8.5935235E-12,
+        "Z": -1.5996531E-05,
+        "W": 1.0,
+        "IsIdentity": false
+      },
+      "LocalScale": {
+        "X": 1.0,
+        "Y": 1.0,
+        "Z": 1.0
+      },
+      "Components": [
+        9,
+        10,
+        11,
+        12
+      ]
+    },
+    {
+      "FileId": 18,
+      "LocalPosition": {
+        "X": -1.0,
+        "Y": 9.386651,
+        "Z": 2.0
+      },
+      "LocalRotation": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 0.0,
+        "W": 1.0,
+        "IsIdentity": true
+      },
+      "LocalScale": {
+        "X": 1.0,
+        "Y": 1.0,
+        "Z": 1.0
+      },
+      "Components": [
+        14,
+        15,
+        16,
+        17
+      ]
+    },
+    {
+      "FileId": 23,
+      "LocalPosition": {
+        "X": -7.0,
+        "Y": 3.7954001,
         "Z": 4.0
       },
       "LocalRotation": {
@@ -45,17 +123,44 @@
         "Z": 1.0
       },
       "Components": [
-        4,
-        5,
-        6
+        19,
+        20,
+        21,
+        22
       ]
     },
     {
-      "FileId": 11,
+      "FileId": 28,
       "LocalPosition": {
-        "X": 7.0,
-        "Y": 3.6537747,
-        "Z": 8.0
+        "X": 0.953808,
+        "Y": 2.5983858,
+        "Z": -1.4682137
+      },
+      "LocalRotation": {
+        "X": 0.19121079,
+        "Y": -0.019390723,
+        "Z": 0.72773767,
+        "W": 0.65837705,
+        "IsIdentity": false
+      },
+      "LocalScale": {
+        "X": 1.0,
+        "Y": 1.0,
+        "Z": 1.0
+      },
+      "Components": [
+        24,
+        25,
+        26,
+        27
+      ]
+    },
+    {
+      "FileId": 33,
+      "LocalPosition": {
+        "X": -7.0,
+        "Y": 11.302251,
+        "Z": 4.0
       },
       "LocalRotation": {
         "X": 0.0,
@@ -70,61 +175,350 @@
         "Z": 1.0
       },
       "Components": [
-        8,
-        9,
-        10
+        29,
+        30,
+        31,
+        32
+      ]
+    },
+    {
+      "FileId": 38,
+      "LocalPosition": {
+        "X": 6.999373,
+        "Y": 1.2405177,
+        "Z": -9.999838
+      },
+      "LocalRotation": {
+        "X": -2.4855906E-05,
+        "Y": 3.5114049E-06,
+        "Z": 0.00019845118,
+        "W": 1.0,
+        "IsIdentity": false
+      },
+      "LocalScale": {
+        "X": 1.0,
+        "Y": 1.0,
+        "Z": 1.0
+      },
+      "Components": [
+        34,
+        35,
+        36,
+        37
+      ]
+    },
+    {
+      "FileId": 43,
+      "LocalPosition": {
+        "X": 4.0,
+        "Y": 2.18515,
+        "Z": -4.0
+      },
+      "LocalRotation": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 0.0,
+        "W": 1.0,
+        "IsIdentity": true
+      },
+      "LocalScale": {
+        "X": 1.0,
+        "Y": 1.0,
+        "Z": 1.0
+      },
+      "Components": [
+        39,
+        40,
+        41,
+        42
+      ]
+    },
+    {
+      "FileId": 48,
+      "LocalPosition": {
+        "X": 5.0,
+        "Y": 9.471275,
+        "Z": 0.0
+      },
+      "LocalRotation": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 0.0,
+        "W": 1.0,
+        "IsIdentity": true
+      },
+      "LocalScale": {
+        "X": 1.0,
+        "Y": 1.0,
+        "Z": 1.0
+      },
+      "Components": [
+        44,
+        45,
+        46,
+        47
       ]
     }
   ],
   "Components": [
     {
-      "Type": "Script",
+      "Type": "EduEngine.Renderer",
       "FileId": 0,
+      "Parameters": {}
+    },
+    {
+      "Type": "EduEngine.SphereCollider",
+      "FileId": 1,
+      "Parameters": {
+        "_radius": 0.90418035
+      }
+    },
+    {
+      "Type": "EduEngine.RigidBody",
+      "FileId": 2,
+      "Parameters": {}
+    },
+    {
+      "Type": "Script",
+      "FileId": 3,
+      "Parameters": {
+        "_cube": false,
+        "_radius": 0.90418035,
+        "script_guid": "9f06d4f6-2658-4feb-bcfb-25aefee84749"
+      }
+    },
+    {
+      "Type": "Script",
+      "FileId": 5,
       "Parameters": {
         "script_guid": "4af7daf5-7b3b-4417-960b-72f62e4ef965"
       }
     },
     {
       "Type": "EduEngine.Camera",
-      "FileId": 1,
+      "FileId": 6,
       "Parameters": {}
     },
     {
       "Type": "Script",
-      "FileId": 2,
+      "FileId": 7,
       "Parameters": {
         "script_guid": "af0434e5-bf53-4ff7-af80-844a45df9e27"
       }
     },
     {
       "Type": "EduEngine.Renderer",
-      "FileId": 4,
-      "Parameters": {}
-    },
-    {
-      "Type": "EduEngine.BoxCollider",
-      "FileId": 5,
-      "Parameters": {}
-    },
-    {
-      "Type": "EduEngine.RigidBody",
-      "FileId": 6,
-      "Parameters": {}
-    },
-    {
-      "Type": "EduEngine.Renderer",
-      "FileId": 8,
-      "Parameters": {}
-    },
-    {
-      "Type": "EduEngine.SphereCollider",
       "FileId": 9,
       "Parameters": {}
     },
     {
-      "Type": "EduEngine.RigidBody",
+      "Type": "EduEngine.SphereCollider",
       "FileId": 10,
+      "Parameters": {
+        "_radius": 1.0
+      }
+    },
+    {
+      "Type": "EduEngine.RigidBody",
+      "FileId": 11,
       "Parameters": {}
+    },
+    {
+      "Type": "Script",
+      "FileId": 12,
+      "Parameters": {
+        "_cube": false,
+        "_radius": 0.6893075,
+        "script_guid": "9f06d4f6-2658-4feb-bcfb-25aefee84749"
+      }
+    },
+    {
+      "Type": "EduEngine.Renderer",
+      "FileId": 14,
+      "Parameters": {}
+    },
+    {
+      "Type": "EduEngine.BoxCollider",
+      "FileId": 15,
+      "Parameters": {
+        "_width": 1.2,
+        "_height": 1.2,
+        "_depth": 1.2
+      }
+    },
+    {
+      "Type": "EduEngine.RigidBody",
+      "FileId": 16,
+      "Parameters": {}
+    },
+    {
+      "Type": "Script",
+      "FileId": 17,
+      "Parameters": {
+        "_cube": true,
+        "_radius": 1.0,
+        "script_guid": "9f06d4f6-2658-4feb-bcfb-25aefee84749"
+      }
+    },
+    {
+      "Type": "EduEngine.Renderer",
+      "FileId": 19,
+      "Parameters": {}
+    },
+    {
+      "Type": "EduEngine.SphereCollider",
+      "FileId": 20,
+      "Parameters": {
+        "_radius": 0.7619794
+      }
+    },
+    {
+      "Type": "EduEngine.RigidBody",
+      "FileId": 21,
+      "Parameters": {}
+    },
+    {
+      "Type": "Script",
+      "FileId": 22,
+      "Parameters": {
+        "_cube": false,
+        "_radius": 0.7619794,
+        "script_guid": "9f06d4f6-2658-4feb-bcfb-25aefee84749"
+      }
+    },
+    {
+      "Type": "EduEngine.Renderer",
+      "FileId": 24,
+      "Parameters": {}
+    },
+    {
+      "Type": "EduEngine.BoxCollider",
+      "FileId": 25,
+      "Parameters": {
+        "_width": 1.2,
+        "_height": 1.2,
+        "_depth": 1.2
+      }
+    },
+    {
+      "Type": "EduEngine.RigidBody",
+      "FileId": 26,
+      "Parameters": {}
+    },
+    {
+      "Type": "Script",
+      "FileId": 27,
+      "Parameters": {
+        "_cube": true,
+        "_radius": 1.0,
+        "script_guid": "9f06d4f6-2658-4feb-bcfb-25aefee84749"
+      }
+    },
+    {
+      "Type": "EduEngine.Renderer",
+      "FileId": 29,
+      "Parameters": {}
+    },
+    {
+      "Type": "EduEngine.SphereCollider",
+      "FileId": 30,
+      "Parameters": {
+        "_radius": 0.5281838
+      }
+    },
+    {
+      "Type": "EduEngine.RigidBody",
+      "FileId": 31,
+      "Parameters": {}
+    },
+    {
+      "Type": "Script",
+      "FileId": 32,
+      "Parameters": {
+        "_cube": false,
+        "_radius": 0.5281838,
+        "script_guid": "9f06d4f6-2658-4feb-bcfb-25aefee84749"
+      }
+    },
+    {
+      "Type": "EduEngine.Renderer",
+      "FileId": 34,
+      "Parameters": {}
+    },
+    {
+      "Type": "EduEngine.BoxCollider",
+      "FileId": 35,
+      "Parameters": {
+        "_width": 1.2,
+        "_height": 1.2,
+        "_depth": 1.2
+      }
+    },
+    {
+      "Type": "EduEngine.RigidBody",
+      "FileId": 36,
+      "Parameters": {}
+    },
+    {
+      "Type": "Script",
+      "FileId": 37,
+      "Parameters": {
+        "_cube": true,
+        "_radius": 1.0,
+        "script_guid": "9f06d4f6-2658-4feb-bcfb-25aefee84749"
+      }
+    },
+    {
+      "Type": "EduEngine.Renderer",
+      "FileId": 39,
+      "Parameters": {}
+    },
+    {
+      "Type": "EduEngine.SphereCollider",
+      "FileId": 40,
+      "Parameters": {
+        "_radius": 0.81645715
+      }
+    },
+    {
+      "Type": "EduEngine.RigidBody",
+      "FileId": 41,
+      "Parameters": {}
+    },
+    {
+      "Type": "Script",
+      "FileId": 42,
+      "Parameters": {
+        "_cube": false,
+        "_radius": 0.81645715,
+        "script_guid": "9f06d4f6-2658-4feb-bcfb-25aefee84749"
+      }
+    },
+    {
+      "Type": "EduEngine.Renderer",
+      "FileId": 44,
+      "Parameters": {}
+    },
+    {
+      "Type": "EduEngine.SphereCollider",
+      "FileId": 45,
+      "Parameters": {
+        "_radius": 0.49066642
+      }
+    },
+    {
+      "Type": "EduEngine.RigidBody",
+      "FileId": 46,
+      "Parameters": {}
+    },
+    {
+      "Type": "Script",
+      "FileId": 47,
+      "Parameters": {
+        "_cube": false,
+        "_radius": 0.49066642,
+        "script_guid": "9f06d4f6-2658-4feb-bcfb-25aefee84749"
+      }
     }
   ]
 }

@@ -1,4 +1,6 @@
 ﻿
+using System.Reflection;
+
 namespace EduEngine
 {
     public class GameObject
@@ -14,11 +16,18 @@ namespace EduEngine
             SceneManager.CurrentScene.AddGameObject(this);
         }
 
+        internal virtual bool EnableCallbacks { get; } = true;
+
         public void Destroy()
         {
             foreach (var component in _components)
+            {
+                if (EnableCallbacks)
+                    component.OnDestroy();
+
                 if (component is IDisposable disposable)
                     disposable.Dispose();
+            }
 
             SceneManager.CurrentScene.RemoveGameObject(this);
         }
@@ -44,10 +53,16 @@ namespace EduEngine
                 throw new InvalidOperationException();
 
             _components.Add((T)component);
+
+            ((T)component).OnDeserialized();
+
+            if (EnableCallbacks)
+                ((T)component).OnCreate();
+
             return (T)component;
         }
 
-        public object? AddComponent(Type type)
+        public object? AddComponent(Type type, IReadOnlyDictionary<string, object> parameters = null)
         {
             if (type.IsSubclassOf(typeof(Component)) == false)
                 return null;
@@ -60,7 +75,24 @@ namespace EduEngine
             if (component == null)
                 throw new InvalidOperationException();
 
+            if (parameters != null)
+            {
+                foreach (var parameter in parameters)
+                {
+                    var field = type.GetField(parameter.Key, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+                    
+                    if (field != null)
+                        field.SetValue(component, Convert.ChangeType(parameter.Value, field.FieldType));
+                }
+            }
+
             _components.Add((Component)component);
+
+            ((Component)component).OnDeserialized();
+
+            if (EnableCallbacks)
+                ((Component)component).OnCreate();
+
             return component;
         }
 
