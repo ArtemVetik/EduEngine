@@ -3,6 +3,7 @@
 #include <thread>
 #include <future>
 #include <sstream>
+#include <shobjidl.h>
 #include "../InputSystem/Timer.h"
 #include "../InputSystem/InputManager.h"
 #include "../RenderEngine/RuntimeWindow.h"
@@ -14,6 +15,41 @@
 #include "../GameplayInterop/GameplayInterop.h"
 
 using namespace EduEngine;
+
+std::wstring OpenFolderDialog()
+{
+	CoInitialize(nullptr);
+
+	std::wstring selectedFolder;
+
+	IFileDialog* pFileDialog = nullptr;
+	HRESULT hr = CoCreateInstance(CLSID_FileOpenDialog, nullptr, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&pFileDialog));
+
+	if (SUCCEEDED(hr)) {
+		DWORD options = 0;
+		pFileDialog->GetOptions(&options);
+		pFileDialog->SetOptions(options | FOS_PICKFOLDERS);
+
+		hr = pFileDialog->Show(nullptr);
+		if (SUCCEEDED(hr)) {
+			IShellItem* pItem = nullptr;
+			hr = pFileDialog->GetResult(&pItem);
+			if (SUCCEEDED(hr)) {
+				PWSTR folderPath = nullptr;
+				hr = pItem->GetDisplayName(SIGDN_FILESYSPATH, &folderPath);
+				if (SUCCEEDED(hr)) {
+					selectedFolder = folderPath;
+					CoTaskMemFree(folderPath);
+				}
+				pItem->Release();
+			}
+		}
+		pFileDialog->Release();
+	}
+
+	CoUninitialize();
+	return selectedFolder;
+}
 
 void UpdateWindowTitle(HWND window, int rFps, float rMspf, int eFps, float eMspf)
 {
@@ -45,6 +81,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance,
 	freopen_s(&fp, "CONOUT$", "w", stderr);
 #endif
 
+	std::wstring folderPath = OpenFolderDialog();
+
+	if (folderPath.empty())
+		return 0;
+
 	GeometryGenerator geoGen;
 
 	EditorWindow editorWindow(hInstance, 1280, 720);
@@ -68,7 +109,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance,
 	CoreSystems coreSystems(renderEngine.get(), editorRenderEngine.get(), physicsWorld.get(), &runtimeTimer);
 
 	GameplayInterop::Initialize();
-	EditorInterop::Initialize();
+	EditorInterop::Initialize(folderPath);
 
 	const float fixedTimeStep = 1.0f / 60.0f;
 	float physixsAccumulator = 0.0f;

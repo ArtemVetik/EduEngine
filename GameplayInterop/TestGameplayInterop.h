@@ -1,4 +1,5 @@
 #pragma once
+#include <string>
 
 using namespace System;
 
@@ -21,9 +22,10 @@ namespace EduEngine
 	public ref class TestEditorInterop
 	{
 	public:
-		static void Initialize()
+		static void Initialize(std::wstring rootPath)
 		{
-			Editor::EduEditor::Initialize();
+			String^ s = gcnew String(rootPath.c_str());
+			Editor::EduEditor::Initialize(s);
 		}
 
 		static void Update()

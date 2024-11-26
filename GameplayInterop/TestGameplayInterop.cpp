@@ -13,9 +13,9 @@ namespace EduEngine
 		TestGameplayInterop::Update();
 	}
 
-	void EditorInterop::Initialize()
+	void EditorInterop::Initialize(std::wstring rootPath)
 	{
-		TestEditorInterop::Initialize();
+		TestEditorInterop::Initialize(rootPath);
 	}
 
 	void EditorInterop::Update()

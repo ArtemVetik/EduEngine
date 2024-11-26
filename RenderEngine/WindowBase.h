@@ -1,5 +1,7 @@
 #pragma once
 #include "framework.h"
+#include <vector>
+#include <functional>
 
 namespace EduEngine
 {
@@ -14,6 +16,11 @@ namespace EduEngine
 		int IsPaused() const { return m_ApplicationPaused; }
 		HWND GetMainWindow() const { return m_MainWindowHandle; }
 		float AspectRatio() const { return static_cast<float>(m_ScreenWidth) / m_ScreenHeight; }
+
+		using FocusCallback = std::function<void(bool)>;
+
+		void AddFocusCallback(FocusCallback callback);
+		void RemoveFocusCallback(FocusCallback callback);
 
 		LRESULT MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
@@ -32,5 +39,8 @@ namespace EduEngine
 		bool m_ApplicationMaximized = false;
 		bool m_ApplicationResizing = false;
 		bool m_ApplicationFullScreen = false;
+
+
+		std::vector<FocusCallback> m_FocusCallbacks;
 	};
 }

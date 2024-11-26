@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "WindowBase.h"
-
+#include <iostream>
 namespace EduEngine
 {
 	WindowBase::WindowBase(HINSTANCE hInstance, int width, int height) :
@@ -16,10 +16,36 @@ namespace EduEngine
 		return true;
 	}
 
+	void WindowBase::AddFocusCallback(FocusCallback callback)
+	{
+		m_FocusCallbacks.push_back(callback);
+		printf("Add Callback! %d", m_FocusCallbacks.size());
+	}
+
+	void WindowBase::RemoveFocusCallback(FocusCallback callbackToRemove)
+	{
+		m_FocusCallbacks.erase(std::remove_if(m_FocusCallbacks.begin(), m_FocusCallbacks.end(),
+			[&callbackToRemove](const FocusCallback& callback)
+			{
+				return callback.target_type() == callbackToRemove.target_type() &&
+					callback.target<void(bool)>() == callbackToRemove.target<void(bool)>();
+			}),
+			m_FocusCallbacks.end());
+		printf("Remove Callback! %d", m_FocusCallbacks.size());
+	}
+
 	LRESULT WindowBase::MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	{
 		switch (msg)
 		{
+		case WM_KILLFOCUS:
+			for (auto& callback : m_FocusCallbacks)
+				callback(false);
+			break;
+		case WM_SETFOCUS:
+			for (auto& callback : m_FocusCallbacks)
+				callback(true);
+			break;
 		case WM_SIZE:
 			m_ScreenWidth = LOWORD(lParam);
 			m_ScreenHeight = HIWORD(lParam);

@@ -31,6 +31,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImGui.NET", "ImGui.NET\src\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImGuizmo.NET", "ImGui.NET\src\ImGuizmo.NET\ImGuizmo.NET.csproj", "{591537A4-4F79-4EBC-944F-91A9CED9A8C3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssetManager", "AssetManager\AssetManager.csproj", "{C8D6BF28-84A9-4639-BE86-BA3962F20FF4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -209,6 +211,18 @@ Global
 		{591537A4-4F79-4EBC-944F-91A9CED9A8C3}.Release|x64.Build.0 = Release|Any CPU
 		{591537A4-4F79-4EBC-944F-91A9CED9A8C3}.Release|x86.ActiveCfg = Release|Any CPU
 		{591537A4-4F79-4EBC-944F-91A9CED9A8C3}.Release|x86.Build.0 = Release|Any CPU
+		{C8D6BF28-84A9-4639-BE86-BA3962F20FF4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C8D6BF28-84A9-4639-BE86-BA3962F20FF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C8D6BF28-84A9-4639-BE86-BA3962F20FF4}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{C8D6BF28-84A9-4639-BE86-BA3962F20FF4}.Debug|x64.Build.0 = Debug|Any CPU
+		{C8D6BF28-84A9-4639-BE86-BA3962F20FF4}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C8D6BF28-84A9-4639-BE86-BA3962F20FF4}.Debug|x86.Build.0 = Debug|Any CPU
+		{C8D6BF28-84A9-4639-BE86-BA3962F20FF4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C8D6BF28-84A9-4639-BE86-BA3962F20FF4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C8D6BF28-84A9-4639-BE86-BA3962F20FF4}.Release|x64.ActiveCfg = Release|Any CPU
+		{C8D6BF28-84A9-4639-BE86-BA3962F20FF4}.Release|x64.Build.0 = Release|Any CPU
+		{C8D6BF28-84A9-4639-BE86-BA3962F20FF4}.Release|x86.ActiveCfg = Release|Any CPU
+		{C8D6BF28-84A9-4639-BE86-BA3962F20FF4}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

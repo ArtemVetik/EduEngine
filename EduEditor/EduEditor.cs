@@ -8,7 +8,7 @@ namespace EduEngine.Editor
     {
         private static ImGuiInput _input = new ImGuiInput();
 
-        public static unsafe void Initialize()
+        public static unsafe void Initialize(string rootPath)
         {
             ImGui.CreateContext();
             var io = ImGui.GetIO();
@@ -34,6 +34,9 @@ namespace EduEngine.Editor
                 color.W = 1f;
                 style.Colors[i] = color;
             }
+
+            AssetDataBase.Initialize(rootPath);
+            EditorWindowEventInterop.AddFocusCallback(OnFocusChanged);
         }
 
         public static unsafe void Update()
@@ -56,6 +59,16 @@ namespace EduEngine.Editor
 
             ImGui.ShowDemoWindow();
 
+            if (ImGui.Begin("Resources Window"))
+            {
+                ImGui.Text("List of Resources:");
+
+                foreach (var resource in AssetDataBase.AllAssets)
+                    ImGui.Button(Path.GetFileName(resource.Value));
+
+                ImGui.End();
+            }
+
             ImGui.Render();
 
             EditorRenderEngineInterop.UpdateImGui(ImGui.GetDrawData().NativePtr);
@@ -65,6 +78,15 @@ namespace EduEngine.Editor
         {
             ImGuizmo.SetImGuiContext(0);
             ImGui.DestroyContext(ImGui.GetCurrentContext());
+
+            EditorWindowEventInterop.RemoveFocusCallback(OnFocusChanged);
+            AssetDataBase.Dispose();
+        }
+
+        private static void OnFocusChanged(bool focus)
+        {
+            if (focus && AssetDataBase.IsDirty)
+                AssetDataBase.Resolve();
         }
     }
 }

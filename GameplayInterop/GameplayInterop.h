@@ -6,6 +6,8 @@
 #define GAMEPLAYINTEROP_API __declspec(dllimport)
 #endif
 
+#include <string>
+
 namespace EduEngine
 {
 	class GAMEPLAYINTEROP_API GameplayInterop
@@ -18,7 +20,7 @@ namespace EduEngine
 	class GAMEPLAYINTEROP_API EditorInterop
 	{
 	public:
-		static void Initialize();
+		static void Initialize(std::wstring rootPath);
 		static void Update();
 		static void Destroy();
 	};
