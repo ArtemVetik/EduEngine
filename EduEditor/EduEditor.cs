@@ -69,6 +69,22 @@ namespace EduEngine.Editor
                 ImGui.End();
             }
 
+            ImGui.Begin("Test Panel");
+
+            if (ImGui.Button("Save Scene"))
+            {
+                var sceneData = SceneImporter.ToSceneData(SceneManager.CurrentScene);
+                AssetDataBase.CreateScene("mainScene", sceneData);
+            }
+
+            if (ImGui.Button("Load Scene"))
+            {
+                AssetDataBase.LoadScene("mainScene", out SceneData? scene);
+                SceneImporter.LoadScene(scene);
+            }
+
+            ImGui.End();
+
             ImGui.Render();
 
             EditorRenderEngineInterop.UpdateImGui(ImGui.GetDrawData().NativePtr);

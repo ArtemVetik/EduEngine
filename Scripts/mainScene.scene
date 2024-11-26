@@ -1,0 +1,130 @@
+{
+  "GameObjects": [
+    {
+      "FileId": 3,
+      "LocalPosition": {
+        "X": -15.041922,
+        "Y": 14.4867325,
+        "Z": -26.699802
+      },
+      "LocalRotation": {
+        "X": 0.06901718,
+        "Y": 0.14393426,
+        "Z": -0.012188736,
+        "W": 0.9871024,
+        "IsIdentity": false
+      },
+      "LocalScale": {
+        "X": 1.0,
+        "Y": 1.0,
+        "Z": 1.0
+      },
+      "Components": [
+        0,
+        1,
+        2
+      ]
+    },
+    {
+      "FileId": 7,
+      "LocalPosition": {
+        "X": 3.0,
+        "Y": 10.661876,
+        "Z": 4.0
+      },
+      "LocalRotation": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 0.0,
+        "W": 1.0,
+        "IsIdentity": true
+      },
+      "LocalScale": {
+        "X": 1.0,
+        "Y": 1.0,
+        "Z": 1.0
+      },
+      "Components": [
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "FileId": 11,
+      "LocalPosition": {
+        "X": 7.0,
+        "Y": 3.6537747,
+        "Z": 8.0
+      },
+      "LocalRotation": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 0.0,
+        "W": 1.0,
+        "IsIdentity": true
+      },
+      "LocalScale": {
+        "X": 1.0,
+        "Y": 1.0,
+        "Z": 1.0
+      },
+      "Components": [
+        8,
+        9,
+        10
+      ]
+    }
+  ],
+  "Components": [
+    {
+      "Type": "Script",
+      "FileId": 0,
+      "Parameters": {
+        "script_guid": "4af7daf5-7b3b-4417-960b-72f62e4ef965"
+      }
+    },
+    {
+      "Type": "EduEngine.Camera",
+      "FileId": 1,
+      "Parameters": {}
+    },
+    {
+      "Type": "Script",
+      "FileId": 2,
+      "Parameters": {
+        "script_guid": "af0434e5-bf53-4ff7-af80-844a45df9e27"
+      }
+    },
+    {
+      "Type": "EduEngine.Renderer",
+      "FileId": 4,
+      "Parameters": {}
+    },
+    {
+      "Type": "EduEngine.BoxCollider",
+      "FileId": 5,
+      "Parameters": {}
+    },
+    {
+      "Type": "EduEngine.RigidBody",
+      "FileId": 6,
+      "Parameters": {}
+    },
+    {
+      "Type": "EduEngine.Renderer",
+      "FileId": 8,
+      "Parameters": {}
+    },
+    {
+      "Type": "EduEngine.SphereCollider",
+      "FileId": 9,
+      "Parameters": {}
+    },
+    {
+      "Type": "EduEngine.RigidBody",
+      "FileId": 10,
+      "Parameters": {}
+    }
+  ]
+}

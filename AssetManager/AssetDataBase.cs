@@ -27,13 +27,12 @@ namespace EduEngine
             if (_assetResolver == null)
                 return false;
 
-            if (_assetResolver.IsPathInside(assetPath) == false)
+            var fullPath = $"{_assetResolver.RootPath}\\{assetPath}.scene";
+
+            if (_assetResolver.IsPathInside(fullPath) == false)
                 return false;
 
-            if (Directory.Exists(assetPath) == false)
-                return false;
-
-            File.WriteAllText(assetPath, JsonConvert.SerializeObject(scene));
+            File.WriteAllText(fullPath, JsonConvert.SerializeObject(scene, Formatting.Indented));
             Resolve();
             return true;
         }
@@ -45,13 +44,15 @@ namespace EduEngine
             if (_assetResolver == null)
                 return false;
 
-            if (_assetResolver.IsPathInside(assetPath) == false)
+            var fullPath = $"{_assetResolver.RootPath}\\{assetPath}.scene";
+
+            if (_assetResolver.IsPathInside(fullPath) == false)
                 return false;
 
-            if (File.Exists(assetPath) == false)
+            if (File.Exists(fullPath) == false)
                 return false;
 
-            scene = JsonConvert.DeserializeObject<SceneData>(File.ReadAllText(assetPath));
+            scene = JsonConvert.DeserializeObject<SceneData>(File.ReadAllText(fullPath));
             return scene != null;
         }
 
@@ -61,7 +62,9 @@ namespace EduEngine
 
             foreach (var script in scripts)
             {
-                if (Path.GetFileNameWithoutExtension(script.Value) == scriptType.Name)
+                var type = ScriptParser.FindComponent(script.Value);
+
+                if (type == scriptType)
                     return script.Key;
             }
 

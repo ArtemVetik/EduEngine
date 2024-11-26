@@ -47,6 +47,23 @@ namespace EduEngine
             return (T)component;
         }
 
+        public object? AddComponent(Type type)
+        {
+            if (type.IsSubclassOf(typeof(Component)) == false)
+                return null;
+
+            if (type == typeof(Transform))
+                return null;
+
+            var component = Activator.CreateInstance(type, this);
+
+            if (component == null)
+                throw new InvalidOperationException();
+
+            _components.Add((Component)component);
+            return component;
+        }
+
         public T GetComponent<T>() where T : Component
         {
             foreach (var component in _components)

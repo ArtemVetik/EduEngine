@@ -29,6 +29,7 @@ namespace EduEngine
             _fileSystemWatcher.EnableRaisingEvents = true;
         }
 
+        public string RootPath => _path;
         public bool HasChanges { get; private set; }
 
         public bool IsPathInside(string filePath)

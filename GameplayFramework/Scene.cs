@@ -2,6 +2,8 @@
 {
     public class Scene
     {
+        public IReadOnlyCollection<GameObject> Objects => _gameObjects;
+
         public void Clear()
         {
             foreach (var gameObject in _gameObjects)

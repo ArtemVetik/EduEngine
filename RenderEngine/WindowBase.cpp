@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "WindowBase.h"
-#include <iostream>
+
 namespace EduEngine
 {
 	WindowBase::WindowBase(HINSTANCE hInstance, int width, int height) :
@@ -19,7 +19,6 @@ namespace EduEngine
 	void WindowBase::AddFocusCallback(FocusCallback callback)
 	{
 		m_FocusCallbacks.push_back(callback);
-		printf("Add Callback! %d", m_FocusCallbacks.size());
 	}
 
 	void WindowBase::RemoveFocusCallback(FocusCallback callbackToRemove)
@@ -31,7 +30,6 @@ namespace EduEngine
 					callback.target<void(bool)>() == callbackToRemove.target<void(bool)>();
 			}),
 			m_FocusCallbacks.end());
-		printf("Remove Callback! %d", m_FocusCallbacks.size());
 	}
 
 	LRESULT WindowBase::MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
