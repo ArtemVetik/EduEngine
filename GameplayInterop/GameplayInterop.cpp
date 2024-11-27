@@ -28,8 +28,18 @@ namespace EduEngine
 		InternalEditorInterop::Update();
 	}
 
+	void EditorInterop::RenderScene()
+	{
+		InternalEditorInterop::RenderScene();
+	}
+
 	void EditorInterop::Destroy()
 	{
 		InternalEditorInterop::Destroy();
+	}
+
+	EngineState EditorInterop::GetEngineState()
+	{
+		return InternalEditorInterop::GetEngineState();
 	}
 }

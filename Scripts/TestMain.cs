@@ -6,7 +6,7 @@ namespace EduEngine.Scripts
     {
         public static void Main()
         {
-            var go = new GameObject();
+            var go = new EditorGameObject();
             go.Transform.Position = new Vector3(0, 5, -10);
             go.AddComponent<Root>();
             go.AddComponent<Camera>();

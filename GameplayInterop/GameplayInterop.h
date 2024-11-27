@@ -10,6 +10,12 @@
 
 namespace EduEngine
 {
+	enum class EngineState
+	{
+		Editor,
+		Runtime
+	};
+
 	class GAMEPLAYINTEROP_API GameplayInterop
 	{
 	public:
@@ -23,6 +29,8 @@ namespace EduEngine
 	public:
 		static void Initialize(std::wstring rootPath);
 		static void Update();
+		static void RenderScene();
 		static void Destroy();
+		static EngineState GetEngineState();
 	};
 }

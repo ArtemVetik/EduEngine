@@ -59,13 +59,18 @@ namespace EduEngine
             return data;
         }
 
-        public static void LoadScene(SceneData data)
+        public static void LoadScene(SceneData data, bool runtime)
         {
             SceneManager.CurrentScene.Clear();
 
             foreach (var goData in data.GameObjects)
             {
-                var go = new GameObject();
+                GameObject go;
+                if (runtime)
+                    go = new GameObject();
+                else
+                    go = new EditorGameObject();
+
                 go.Transform.Position = goData.LocalPosition;
                 go.Transform.Rotation = goData.LocalRotation;
                 go.Transform.LocalScale = goData.LocalScale;

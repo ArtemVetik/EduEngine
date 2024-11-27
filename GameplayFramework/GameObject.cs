@@ -16,13 +16,13 @@ namespace EduEngine
             SceneManager.CurrentScene.AddGameObject(this);
         }
 
-        internal virtual bool EnableCallbacks { get; } = true;
+        internal virtual bool IsRuntime { get; } = true;
 
         public void Destroy()
         {
             foreach (var component in _components)
             {
-                if (EnableCallbacks)
+                if (IsRuntime)
                     component.OnDestroy();
 
                 if (component is IDisposable disposable)
@@ -39,7 +39,12 @@ namespace EduEngine
             Transform.Update();
 
             foreach (var component in _components)
-                component.Update();
+            {
+                if (IsRuntime)
+                    component.Update();
+                else
+                    component.UpdateEditor();
+            }
         }
 
         public T AddComponent<T>() where T : Component
@@ -56,7 +61,7 @@ namespace EduEngine
 
             ((T)component).OnDeserialized();
 
-            if (EnableCallbacks)
+            if (IsRuntime)
                 ((T)component).OnCreate();
 
             return (T)component;
@@ -90,7 +95,7 @@ namespace EduEngine
 
             ((Component)component).OnDeserialized();
 
-            if (EnableCallbacks)
+            if (IsRuntime)
                 ((Component)component).OnCreate();
 
             return component;

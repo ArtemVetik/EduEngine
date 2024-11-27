@@ -4,9 +4,20 @@ using System.Numerics;
 
 namespace EduEngine.Editor
 {
+    public enum EngineState
+    {
+        Editor,
+        Runtime,
+    }
+    public static class EngineStateManager
+    {
+        public static EngineState CurrentState { get; internal set; } = EngineState.Editor;
+    }
     public class EduEditor
     {
         private static ImGuiInput _input = new ImGuiInput();
+        private static EditorCamera _camera = new EditorCamera();
+        private static SceneData _sceneData;
 
         public static unsafe void Initialize(string rootPath)
         {
@@ -80,14 +91,67 @@ namespace EduEngine.Editor
             if (ImGui.Button("Load Scene"))
             {
                 AssetDataBase.LoadScene("mainScene", out SceneData? scene);
-                SceneImporter.LoadScene(scene);
+                SceneImporter.LoadScene(scene, false);
             }
 
             ImGui.End();
 
+            ImGui.BeginMainMenuBar();
+
+            float panel_width = ImGui.GetContentRegionAvail().X;
+            float button_width = 100.0f;
+
+            float offset_x = (panel_width - button_width) * 0.5f;
+
+            if (offset_x > 0.0f)
+            {
+                ImGui.SetCursorPosX(ImGui.GetCursorPosX() + offset_x);
+            }
+
+            bool disabled = false;
+            if (EngineStateManager.CurrentState == EngineState.Runtime)
+            {
+                ImGui.BeginDisabled();
+                disabled = true;
+            }
+
+            if (ImGui.Button("Play", new Vector2(button_width, 0)))
+            {
+                EngineStateManager.CurrentState = EngineState.Runtime;
+                _sceneData = SceneImporter.ToSceneData(SceneManager.CurrentScene);
+                SceneImporter.LoadScene(_sceneData, true);
+            }
+            
+            if (disabled)
+                ImGui.EndDisabled();
+
+            disabled = false;
+            if (EngineStateManager.CurrentState == EngineState.Editor)
+            {
+                ImGui.BeginDisabled();
+                disabled = true;
+            }
+
+            if (ImGui.Button("Stop", new Vector2(button_width, 0)))
+            {
+                EngineStateManager.CurrentState = EngineState.Editor;
+                SceneImporter.LoadScene(_sceneData, false);
+            }
+
+            if (disabled)
+                ImGui.EndDisabled();
+
+            ImGui.EndMainMenuBar();
+
             ImGui.Render();
 
             EditorRenderEngineInterop.UpdateImGui(ImGui.GetDrawData().NativePtr);
+        }
+
+        public static void RenderScene()
+        {
+            _camera.Update();
+            _camera.Render();
         }
 
         public static void Destroy()

@@ -15,6 +15,7 @@
         public virtual void OnCreate() { }
         public virtual void OnDestroy() { }
         public virtual void Update() { }
+        public virtual void UpdateEditor() { }
         public virtual void OnRender() { }
     }
 }

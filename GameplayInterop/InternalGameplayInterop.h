@@ -38,9 +38,19 @@ namespace EduEngine
 			Editor::EduEditor::Update();
 		}
 
+		static void RenderScene()
+		{
+			Editor::EduEditor::RenderScene();
+		}
+
 		static void Destroy()
 		{
 			Editor::EduEditor::Destroy();
+		}
+
+		static EngineState GetEngineState()
+		{
+			return (EngineState)Editor::EngineStateManager::CurrentState;
 		}
 	};
 }

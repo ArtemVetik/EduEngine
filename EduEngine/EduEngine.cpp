@@ -30,6 +30,13 @@ public:
 		m_RenderEngine->EndDraw();
 	}
 
+	void RenderEditor()
+	{
+		m_RenderEngine->BeginDraw();
+		EditorInterop::RenderScene();
+		m_RenderEngine->EndDraw();
+	}
+
 private:
 	IRenderEngine* m_RenderEngine;
 };
@@ -156,21 +163,29 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance,
 				runtimeTimer.UpdateTimer();
 				if (!runtimeWindow.IsPaused())
 				{
+					InputManager::GetInstance().Update();
+					
 					if (runtimeTimer.UpdateTitleBarStats(runtimeFps, runtimeMspf))
 						UpdateWindowTitle(editorWindow.GetHostWindow(), runtimeFps, runtimeMspf, editorFps, editorMspf);
 
-					InputManager::GetInstance().Update();
-
-					physixsAccumulator += runtimeTimer.GetDeltaTime();
-
-					if (physixsAccumulator >= fixedTimeStep)
+					if (EditorInterop::GetEngineState() == EngineState::Runtime)
 					{
-						physicsWorld->Update();
-						physixsAccumulator = 0.0f;
-					}
+						physixsAccumulator += runtimeTimer.GetDeltaTime();
 
-					GameplayInterop::Update();
-					runtimeThread = std::async(std::launch::async, &RuntimeRender::RenderRuntime, runtimeRender);
+						if (physixsAccumulator >= fixedTimeStep)
+						{
+							physicsWorld->Update();
+							physixsAccumulator = 0.0f;
+						}
+
+						GameplayInterop::Update();
+						runtimeThread = std::async(std::launch::async, &RuntimeRender::RenderRuntime, runtimeRender);
+					}
+					else if (EditorInterop::GetEngineState() == EngineState::Editor)
+					{
+						GameplayInterop::Update();
+						runtimeThread = std::async(std::launch::async, &RuntimeRender::RenderEditor, runtimeRender);
+					}
 				}
 				else
 				{
