@@ -88,7 +88,7 @@ namespace EduEngine
 			m_RenderObjects.end());
 	}
 
-	void RenderEngine::Draw()
+	void RenderEngine::BeginDraw()
 	{
 		if (m_PendingResize != EmptyResize)
 		{
@@ -98,7 +98,6 @@ namespace EduEngine
 		}
 
 		auto& commandContext = m_Device->GetCommandContext(D3D12_COMMAND_LIST_TYPE_DIRECT);
-		auto& commandQueue = m_Device->GetCommandQueue(D3D12_COMMAND_LIST_TYPE_DIRECT);
 
 		commandContext.Reset();
 		commandContext.SetViewports(&m_Viewport, 1);
@@ -115,41 +114,49 @@ namespace EduEngine
 
 		ID3D12DescriptorHeap* descriptorHeaps[] = { m_Device->GetD3D12DescriptorHeap() };
 		commandContext.GetCmdList()->SetDescriptorHeaps(_countof(descriptorHeaps), descriptorHeaps);
+	}
 
-		for (auto& camera : m_Cameras)
+	void RenderEngine::Draw(Camera* camera)
+	{
+		auto& commandContext = m_Device->GetCommandContext(D3D12_COMMAND_LIST_TYPE_DIRECT);
+
+		commandContext.GetCmdList()->SetPipelineState(m_OpaquePass->GetD3D12PipelineState());
+		commandContext.GetCmdList()->SetGraphicsRootSignature(m_OpaquePass->GetD3D12RootSignature());
+
+		PassConstants passConstants;
+		XMStoreFloat4x4(&passConstants.ViewProj, XMMatrixTranspose(camera->GetViewProjMatrix()));
+
+		DynamicUploadBuffer passUploadBuffer(m_Device.get(), QueueID::Direct);
+		passUploadBuffer.LoadData(passConstants);
+
+		for (int i = 0; i < m_RenderObjects.size(); i++)
 		{
-			commandContext.GetCmdList()->SetPipelineState(m_OpaquePass->GetD3D12PipelineState());
-			commandContext.GetCmdList()->SetGraphicsRootSignature(m_OpaquePass->GetD3D12RootSignature());
+			auto renderObject = m_RenderObjects[i];
 
-			PassConstants passConstants;
-			XMStoreFloat4x4(&passConstants.ViewProj, XMMatrixTranspose(camera->GetViewProjMatrix()));
+			ObjectConstants objConstants;
+			objConstants.World = renderObject->WorldMatrix.Transpose();
 
-			DynamicUploadBuffer passUploadBuffer(m_Device.get(), QueueID::Direct);
-			passUploadBuffer.LoadData(passConstants);
+			DynamicUploadBuffer uploadBuffer(m_Device.get(), QueueID::Direct);
+			uploadBuffer.LoadData(objConstants);
+			uploadBuffer.CreateCBV();
 
-			for (int i = 0; i < m_RenderObjects.size(); i++)
-			{
-				auto renderObject = m_RenderObjects[i];
+			commandContext.GetCmdList()->IASetVertexBuffers(0, 1, &(renderObject->VertexBuffer->GetView()));
+			commandContext.GetCmdList()->IASetIndexBuffer(&(renderObject->IndexBuffer->GetView()));
+			commandContext.GetCmdList()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
-				ObjectConstants objConstants;
-				objConstants.World = renderObject->WorldMatrix.Transpose();
+			commandContext.GetCmdList()->SetGraphicsRootConstantBufferView(0, passUploadBuffer.GetAllocation().GPUAddress);
+			commandContext.GetCmdList()->SetGraphicsRootDescriptorTable(1, uploadBuffer.GetCBVDescriptorGPUHandle());
 
-				DynamicUploadBuffer uploadBuffer(m_Device.get(), QueueID::Direct);
-				uploadBuffer.LoadData(objConstants);
-				uploadBuffer.CreateCBV();
-
-				commandContext.GetCmdList()->IASetVertexBuffers(0, 1, &(renderObject->VertexBuffer->GetView()));
-				commandContext.GetCmdList()->IASetIndexBuffer(&(renderObject->IndexBuffer->GetView()));
-				commandContext.GetCmdList()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-
-				commandContext.GetCmdList()->SetGraphicsRootConstantBufferView(0, passUploadBuffer.GetAllocation().GPUAddress);
-				commandContext.GetCmdList()->SetGraphicsRootDescriptorTable(1, uploadBuffer.GetCBVDescriptorGPUHandle());
-
-				commandContext.GetCmdList()->DrawIndexedInstanced(renderObject->IndexBuffer->GetLength(), 1, 0, 0, 0);
-			}
-
-			m_DebugRenderer->Render(camera->GetViewProjMatrix(), camera->GetPosition());
+			commandContext.GetCmdList()->DrawIndexedInstanced(renderObject->IndexBuffer->GetLength(), 1, 0, 0, 0);
 		}
+
+		m_DebugRenderer->Render(camera->GetViewProjMatrix(), camera->GetPosition());
+	}
+
+	void RenderEngine::EndDraw()
+	{
+		auto& commandContext = m_Device->GetCommandContext(D3D12_COMMAND_LIST_TYPE_DIRECT);
+		auto& commandQueue = m_Device->GetCommandQueue(D3D12_COMMAND_LIST_TYPE_DIRECT);
 
 		commandContext.ResourceBarrier(CD3DX12_RESOURCE_BARRIER::Transition(m_SwapChain->CurrentBackBuffer(),
 			D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PRESENT));

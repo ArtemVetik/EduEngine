@@ -16,6 +16,11 @@ namespace EduEngine
             _camera?.Update(GameObject.Transform.Forward, GameObject.Transform.Right, GameObject.Transform.Up, GameObject.Transform.Position);
         }
 
+        public override void OnRender()
+        {
+            _camera.Render();
+        }
+
         public void Dispose()
         {
             _camera.Dispose();

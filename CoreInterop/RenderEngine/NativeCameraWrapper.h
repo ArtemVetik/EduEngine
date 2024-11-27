@@ -16,6 +16,7 @@ namespace EduEngine
 		!NativeCameraWrapper();
 
 		void Update(Vector3 look, Vector3 right, Vector3 up, Vector3 pos);
+		void Render();
 
 		Camera* GetNative() { return m_NativeCamera; }
 	};

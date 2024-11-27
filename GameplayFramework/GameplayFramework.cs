@@ -6,5 +6,10 @@
         {
             SceneManager.CurrentScene.Update();
         }
+
+        public static void Render()
+        {
+            SceneManager.CurrentScene.Render();
+        }
     }
 }

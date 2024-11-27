@@ -121,12 +121,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="GameplayInterop.h" />
-    <ClInclude Include="TestGameplayInterop.h" />
+    <ClInclude Include="InternalGameplayInterop.h" />
     <ClInclude Include="Resource.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp" />
-    <ClCompile Include="TestGameplayInterop.cpp" />
+    <ClCompile Include="GameplayInterop.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="app.rc" />

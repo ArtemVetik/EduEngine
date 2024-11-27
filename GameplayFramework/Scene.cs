@@ -36,6 +36,12 @@
             _pendingRemoveGameObjects.Clear();
         }
 
+        internal void Render()
+        {
+            foreach (var gameObject in _gameObjects)
+                gameObject.Render();
+        }
+
         private HashSet<GameObject> _gameObjects = new HashSet<GameObject>();
         private HashSet<GameObject> _pendingAddGameObjects = new HashSet<GameObject>();
         private HashSet<GameObject> _pendingRemoveGameObjects = new HashSet<GameObject>();

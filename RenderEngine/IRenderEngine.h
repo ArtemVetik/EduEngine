@@ -25,7 +25,9 @@ namespace EduEngine
 		virtual Camera* CreateCamera() = 0;
 		virtual void RemoveCamera(Camera* camera) = 0;
 
-		virtual void Draw() = 0;
+		virtual void BeginDraw() = 0;
+		virtual void Draw(Camera* camera) = 0;
+		virtual void EndDraw() = 0;
 		virtual void MoveAndResize(UINT x, UINT y, UINT w, UINT h) = 0;
 
 		virtual DirectX::SimpleMath::Vector2 GetScreenSize() const = 0;

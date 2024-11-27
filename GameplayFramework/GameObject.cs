@@ -132,5 +132,11 @@ namespace EduEngine
         {
             return _guid.GetHashCode();
         }
+
+        internal void Render()
+        {
+            foreach (var component in _components)
+                component.OnRender();
+        }
     }
 }

@@ -16,6 +16,24 @@
 
 using namespace EduEngine;
 
+class RuntimeRender
+{
+public:
+	RuntimeRender(IRenderEngine* renderEngine) :
+		m_RenderEngine(renderEngine)
+	{ }
+
+	void RenderRuntime()
+	{
+		m_RenderEngine->BeginDraw();
+		GameplayInterop::Render();
+		m_RenderEngine->EndDraw();
+	}
+
+private:
+	IRenderEngine* m_RenderEngine;
+};
+
 std::wstring OpenFolderDialog()
 {
 	CoInitialize(nullptr);
@@ -111,6 +129,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance,
 	GameplayInterop::Initialize();
 	EditorInterop::Initialize(folderPath);
 
+	RuntimeRender runtimeRender(renderEngine.get());
+
 	const float fixedTimeStep = 1.0f / 60.0f;
 	float physixsAccumulator = 0.0f;
 
@@ -150,7 +170,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance,
 					}
 
 					GameplayInterop::Update();
-					runtimeThread = std::async(std::launch::async, &IRenderEngine::Draw, renderEngine.get());
+					runtimeThread = std::async(std::launch::async, &RuntimeRender::RenderRuntime, runtimeRender);
 				}
 				else
 				{

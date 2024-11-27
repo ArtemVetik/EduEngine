@@ -5,7 +5,7 @@ using namespace System;
 
 namespace EduEngine
 {
-	public ref class TestGameplayInterop
+	public ref class InternalGameplayInterop
 	{
 	public:
 		static void Initialize()
@@ -17,9 +17,14 @@ namespace EduEngine
 		{
 			GameplayFramework::Update();
 		}
+
+		static void Render()
+		{
+			GameplayFramework::Render();
+		}
 	};
 
-	public ref class TestEditorInterop
+	public ref class InternalEditorInterop
 	{
 	public:
 		static void Initialize(std::wstring rootPath)

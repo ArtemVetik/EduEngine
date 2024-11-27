@@ -37,7 +37,9 @@ namespace EduEngine
 		void RemoveObject(IRenderObject* object) override;
 		Camera* CreateCamera() override;
 		void RemoveCamera(Camera* camera) override;
-		void Draw() override;
+		void BeginDraw() override;
+		void Draw(Camera* camera) override;
+		void EndDraw() override;
 		void MoveAndResize(UINT x, UINT y, UINT w, UINT h) override;
 
 		void Resize(UINT w, UINT h);

@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="TestGameplayInterop.h">
+    <ClInclude Include="InternalGameplayInterop.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Resource.h">
@@ -29,7 +29,7 @@
     <ClCompile Include="AssemblyInfo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="TestGameplayInterop.cpp">
+    <ClCompile Include="GameplayInterop.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -31,4 +31,8 @@ namespace EduEngine
 			{ pos.X, pos.Y, pos.Z }
 		);
 	}
+	void NativeCameraWrapper::Render()
+	{
+		CoreSystems::GetInstance()->GetRenderEngine()->Draw(m_NativeCamera);
+	}
 }
