@@ -8,11 +8,6 @@ namespace EduEngine
 	public ref class InternalGameplayInterop
 	{
 	public:
-		static void Initialize()
-		{
-			Scripts::TestMain::Main();
-		}
-
 		static void Update()
 		{
 			GameplayFramework::Update();

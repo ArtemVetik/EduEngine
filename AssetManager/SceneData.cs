@@ -19,6 +19,7 @@ namespace EduEngine
             public Vector3 LocalPosition { get; set; }
             public Quaternion LocalRotation { get; set; }
             public Vector3 LocalScale { get; set; }
+            public string Name { get; set; }
             public required List<int> Components { get; set; }
         }
 

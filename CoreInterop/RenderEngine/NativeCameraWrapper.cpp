@@ -35,4 +35,26 @@ namespace EduEngine
 	{
 		CoreSystems::GetInstance()->GetRenderEngine()->Draw(m_NativeCamera);
 	}
+	
+	System::Numerics::Matrix4x4 NativeCameraWrapper::GetView()
+	{
+		auto nativeMatrix = m_NativeCamera->GetViewMatrix();
+		return System::Numerics::Matrix4x4(
+			nativeMatrix.m[0][0], nativeMatrix.m[0][1], nativeMatrix.m[0][2], nativeMatrix.m[0][3],
+			nativeMatrix.m[1][0], nativeMatrix.m[1][1], nativeMatrix.m[1][2], nativeMatrix.m[1][3],
+			nativeMatrix.m[2][0], nativeMatrix.m[2][1], nativeMatrix.m[2][2], nativeMatrix.m[2][3],
+			nativeMatrix.m[3][0], nativeMatrix.m[3][1], nativeMatrix.m[3][2], nativeMatrix.m[3][3]
+		);
+	}
+
+	System::Numerics::Matrix4x4 NativeCameraWrapper::GetProjection()
+	{
+		auto nativeMatrix = m_NativeCamera->GetProjectionMatrix();
+		return System::Numerics::Matrix4x4(
+			nativeMatrix.m[0][0], nativeMatrix.m[0][1], nativeMatrix.m[0][2], nativeMatrix.m[0][3],
+			nativeMatrix.m[1][0], nativeMatrix.m[1][1], nativeMatrix.m[1][2], nativeMatrix.m[1][3],
+			nativeMatrix.m[2][0], nativeMatrix.m[2][1], nativeMatrix.m[2][2], nativeMatrix.m[2][3],
+			nativeMatrix.m[3][0], nativeMatrix.m[3][1], nativeMatrix.m[3][2], nativeMatrix.m[3][3]
+		);
+	}
 }

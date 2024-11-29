@@ -49,6 +49,7 @@ namespace EduEngine
                 data.GameObjects.Add(new SceneData.GameObjectItem()
                 {
                     FileId = id++,
+                    Name = item.Name,
                     LocalPosition = item.Transform.Position,
                     LocalRotation = item.Transform.Rotation,
                     LocalScale = item.Transform.LocalScale,
@@ -74,6 +75,7 @@ namespace EduEngine
                 go.Transform.Position = goData.LocalPosition;
                 go.Transform.Rotation = goData.LocalRotation;
                 go.Transform.LocalScale = goData.LocalScale;
+                go.Name = goData.Name;
 
                 foreach (var componentId in goData.Components)
                 {

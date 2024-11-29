@@ -15,6 +15,7 @@ namespace EduEngine.Scripts
             if (Input.Runtime.KeyDown(KeyCode.P))
             {
                 var cube = new GameObject();
+                cube.Name = "Cube";
                 cube.Transform.Position = new Vector3(Random.Shared.Next(-10, 10), Random.Shared.Next(0, 20), Random.Shared.Next(-10, 10));
                 cube.AddComponent<Renderer>();
                 cube.AddComponent<BoxCollider>().Setup(1.2f, 1.2f, 1.2f);
@@ -27,6 +28,7 @@ namespace EduEngine.Scripts
             {
                 float radius = 0.2f + (float)Random.Shared.NextDouble() * 1.5f;
                 var sphere = new GameObject();
+                sphere.Name = "Sphere";
                 sphere.Transform.Position = new Vector3(Random.Shared.Next(-10, 10), Random.Shared.Next(0, 20), Random.Shared.Next(-10, 10));
                 sphere.AddComponent<Renderer>();
                 sphere.AddComponent<SphereCollider>().Setup(radius + 0.1f);

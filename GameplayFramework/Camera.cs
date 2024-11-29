@@ -1,4 +1,5 @@
-﻿
+﻿using System.Numerics;
+
 namespace EduEngine
 {
     public class Camera : Component, IDisposable
@@ -10,6 +11,9 @@ namespace EduEngine
         {
             _camera = new NativeCameraWrapper();
         }
+
+        public Matrix4x4 ViewMatrix => _camera.GetView();
+        public Matrix4x4 ProjectionMatrix => _camera.GetProjection();
 
         public override void Update()
         {

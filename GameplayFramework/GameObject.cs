@@ -8,14 +8,18 @@ namespace EduEngine
         private Guid _guid;
         private List<Component> _components = new();
 
+        public string Name;
+
         public GameObject()
         {
             _guid = Guid.NewGuid();
             Transform = new Transform(this);
+            Name = "New GameObject";
 
             SceneManager.CurrentScene.AddGameObject(this);
         }
 
+        public Guid Guid => _guid;
         internal virtual bool IsRuntime { get; } = true;
 
         public void Destroy()

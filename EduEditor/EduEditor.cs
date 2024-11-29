@@ -4,20 +4,14 @@ using System.Numerics;
 
 namespace EduEngine.Editor
 {
-    public enum EngineState
-    {
-        Editor,
-        Runtime,
-    }
-    public static class EngineStateManager
-    {
-        public static EngineState CurrentState { get; internal set; } = EngineState.Editor;
-    }
     public class EduEditor
     {
         private static ImGuiInput _input = new ImGuiInput();
         private static EditorCamera _camera = new EditorCamera();
         private static SceneData _sceneData;
+        private static HierarchyWindow _hierarchyWindow = new HierarchyWindow();
+        private static PropertyWindow _propertyWindow = new PropertyWindow();
+        private static GuizmoRenderer _gizmoRenderer = new GuizmoRenderer();
 
         public static unsafe void Initialize(string rootPath)
         {
@@ -55,18 +49,30 @@ namespace EduEngine.Editor
             _input.ProcessInput();
 
             ImGui.NewFrame();
+            ImGuizmo.BeginFrame();
 
             ImGui.PushStyleColor(ImGuiCol.WindowBg, Vector4.Zero);
 
             var centerId = ImGui.DockSpaceOverViewport(0, ImGui.GetMainViewport(), ImGuiDockNodeFlags.NoDockingOverCentralNode | ImGuiDockNodeFlags.PassthruCentralNode);
             ImGui.SetNextWindowDockID(centerId, ImGuiCond.Always);
-            ImGui.Begin("Scene");
+            ImGui.Begin("Scene", ImGuiWindowFlags.NoBackground);
 
             ImGui.Text(Input.Runtime.MousePosition.ToString());
 
-            RenderEngineInterop.MoveAndResize((int)ImGui.GetWindowPos().X, (int)ImGui.GetWindowPos().Y, (int)ImGui.GetWindowSize().X, (int)ImGui.GetWindowSize().Y);
+            ImGuizmo.SetDrawlist(ImGui.GetWindowDrawList());
+
+            var x = (int)ImGui.GetWindowPos().X;
+            var y =(int)ImGui.GetWindowPos().Y;
+            var w = (int)ImGui.GetWindowSize().X;
+            var h = (int)ImGui.GetWindowSize().Y;
+
+            _gizmoRenderer.Render(_hierarchyWindow.Seleted, _camera, x,y,w,h);
+
+            RenderEngineInterop.MoveAndResize(x, y, w, h);
             ImGui.PopStyleColor();
+
             ImGui.End();
+
 
             ImGui.ShowDemoWindow();
 
@@ -96,7 +102,17 @@ namespace EduEngine.Editor
 
             ImGui.End();
 
+            _hierarchyWindow.Render();
+            _propertyWindow.Render(_hierarchyWindow.Seleted);
+
             ImGui.BeginMainMenuBar();
+
+            if (ImGui.Button("T"))
+                _gizmoRenderer.SetOperation(OPERATION.TRANSLATE);
+            if (ImGui.Button("R"))
+                _gizmoRenderer.SetOperation(OPERATION.ROTATE);
+            if (ImGui.Button("S"))
+                _gizmoRenderer.SetOperation(OPERATION.SCALE);
 
             float panel_width = ImGui.GetContentRegionAvail().X;
             float button_width = 100.0f;
@@ -121,7 +137,7 @@ namespace EduEngine.Editor
                 _sceneData = SceneImporter.ToSceneData(SceneManager.CurrentScene);
                 SceneImporter.LoadScene(_sceneData, true);
             }
-            
+
             if (disabled)
                 ImGui.EndDisabled();
 

@@ -133,7 +133,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance,
 
 	CoreSystems coreSystems(renderEngine.get(), editorRenderEngine.get(), physicsWorld.get(), &runtimeTimer);
 
-	GameplayInterop::Initialize();
 	EditorInterop::Initialize(folderPath);
 
 	RuntimeRender runtimeRender(renderEngine.get());

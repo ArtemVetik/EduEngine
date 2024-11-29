@@ -18,10 +18,13 @@ namespace EduEngine.Editor
         public Vector3 Forward => Vector3.Transform(Vector3.UnitZ, _rotation);
         public Vector3 Right => Vector3.Transform(Vector3.UnitX, _rotation);
         public Vector3 Up => Vector3.Transform(Vector3.UnitY, _rotation);
+        public Matrix4x4 ViewMatrix => _nativeCamera.GetView();
+        public Matrix4x4 ProjectionMatrix => _nativeCamera.GetProjection();
 
         public EditorCamera()
         {
-            _position = Vector3.Zero;
+            _position = new Vector3(0, 5, -10);
+            _targetPosition = _position;
             _rotation = Quaternion.Identity;
             _targetRotation = _rotation;
 

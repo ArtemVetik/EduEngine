@@ -19,7 +19,6 @@ namespace EduEngine
 	class GAMEPLAYINTEROP_API GameplayInterop
 	{
 	public:
-		static void Initialize();
 		static void Update();
 		static void Render();
 	};

@@ -3,11 +3,6 @@
 
 namespace EduEngine
 {
-	void GameplayInterop::Initialize()
-	{
-		InternalGameplayInterop::Initialize();
-	}
-
 	void GameplayInterop::Update()
 	{
 		InternalGameplayInterop::Update();

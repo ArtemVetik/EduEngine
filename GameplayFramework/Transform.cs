@@ -60,6 +60,16 @@ namespace EduEngine
             UpdateWorldMatrix();
         }
 
+        public void SetWorldMatrix(Matrix4x4 matrix)
+        {
+            WorldMatrix = matrix;
+
+            Matrix4x4.Decompose(matrix, out Vector3 scale, out Quaternion rotation, out Vector3 translation);
+            Position = translation;
+            Rotation = rotation;
+            LocalScale = scale;
+        }
+
         private void UpdateWorldMatrix()
         {
             WorldMatrix = Matrix4x4.CreateScale(LocalScale) *
