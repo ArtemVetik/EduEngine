@@ -2,11 +2,11 @@
 
 namespace EduEngine
 {
-    public class Camera : Component, IDisposable
+    public class GameCamera : Component, IDisposable
     {
         private NativeCameraWrapper _camera;
 
-        public Camera(GameObject parent)
+        public GameCamera(GameObject parent)
             : base(parent)
         {
             _camera = new NativeCameraWrapper();

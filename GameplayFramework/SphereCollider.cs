@@ -1,6 +1,6 @@
 ﻿namespace EduEngine
 {
-    public class SphereCollider : Collider
+    public class SphereCollider : Collider, ISerializeCallback
     {
         [SerializeField] private float _radius = 1.0f;
 
@@ -24,6 +24,11 @@
 
             var colliderData = new SphereColliderData(_radius);
             SetShape(colliderData);
+        }
+
+        void ISerializeCallback.OnDeserialize()
+        {
+            Setup(_radius);
         }
     }
 }

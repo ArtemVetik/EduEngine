@@ -142,6 +142,14 @@ namespace EduEngine
             return _guid.GetHashCode();
         }
 
+        internal void RemoveComponent(Component component)
+        {
+            if (component is IDisposable disposable)
+                disposable.Dispose();
+
+            _components.Remove(component);
+        }
+
         internal void Render()
         {
             foreach (var component in _components)

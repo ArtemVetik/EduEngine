@@ -21,6 +21,11 @@
             _nativeShape?.DebugDraw(GameObject.Transform.WorldMatrix);
         }
 
+        public override void UpdateEditor()
+        {
+            _nativeShape?.DebugDraw(GameObject.Transform.WorldMatrix);
+        }
+
         internal NativePhysicsShapeWrapper GetShape()
         {
             return _nativeShape;

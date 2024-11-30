@@ -4,9 +4,10 @@ namespace EduEngine.Scripts
 {
     public class TestCameraController : Component
     {
-        private float _moveSpeed = 20.0f;
-        private float _moveStrength = 8.0f;
-        private float _rotateStrength = 20.0f;
+        [SerializeField] private float _moveSpeed = 20.0f;
+        [SerializeField] private float _moveStrength = 8.0f;
+        [SerializeField] private float _rotateStrength = 20.0f;
+        
         private Vector3 _targetPosition;
         private Quaternion _targetRotation;
 

@@ -1,6 +1,6 @@
 ﻿namespace EduEngine
 {
-    public class BoxCollider : Collider
+    public class BoxCollider : Collider, ISerializeCallback
     {
         [SerializeField] private float _width = 1;
         [SerializeField] private float _height = 1;
@@ -28,6 +28,11 @@
 
             var colliderData = new BoxColliderData(_width, _height, _depth);
             SetShape(colliderData);
+        }
+
+        void ISerializeCallback.OnDeserialize()
+        {
+            Setup(_width, _height, _depth);
         }
     }
 }
