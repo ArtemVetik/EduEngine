@@ -38,25 +38,29 @@ namespace EduEngine.Editor
 
         public void Update()
         {
-            if (Input.Runtime.KeyPressed(KeyCode.W))
-                _targetPosition += _moveSpeed * Forward * EduTime.DeltaTime;
-            if (Input.Runtime.KeyPressed(KeyCode.S))
-                _targetPosition += _moveSpeed * -Forward * EduTime.DeltaTime;
-            if (Input.Runtime.KeyPressed(KeyCode.D))
-                _targetPosition += _moveSpeed * Right * EduTime.DeltaTime;
-            if (Input.Runtime.KeyPressed(KeyCode.A))
-                _targetPosition += _moveSpeed * -Right * EduTime.DeltaTime;
-            if (Input.Runtime.KeyPressed(KeyCode.E))
-                _targetPosition += _moveSpeed * Up * EduTime.DeltaTime;
-            if (Input.Runtime.KeyPressed(KeyCode.Q))
-                _targetPosition += _moveSpeed * -Up * EduTime.DeltaTime;
-
             if (Input.Runtime.MouseButtonPressed(MouseCode.Mouse1))
             {
+                if (Input.Runtime.MousePosition.X < 0 || Input.Runtime.MousePosition.Y < 0 ||
+                    Input.Runtime.MousePosition.X > Screen.Size.X || Input.Runtime.MousePosition.Y > Screen.Size.Y)
+                    return;
+
                 var yaw = Quaternion.CreateFromAxisAngle(Vector3.UnitY, 0.01f * Input.Runtime.MouseDelta.X);
                 var pitch = Quaternion.CreateFromAxisAngle(Vector3.Transform(Vector3.UnitX, _targetRotation), 0.01f * Input.Runtime.MouseDelta.Y);
                 _targetRotation = Quaternion.Multiply(yaw, _targetRotation);
                 _targetRotation = Quaternion.Multiply(pitch, _targetRotation);
+
+                if (Input.Runtime.KeyPressed(KeyCode.W))
+                    _targetPosition += _moveSpeed * Forward * EduTime.DeltaTime;
+                if (Input.Runtime.KeyPressed(KeyCode.S))
+                    _targetPosition += _moveSpeed * -Forward * EduTime.DeltaTime;
+                if (Input.Runtime.KeyPressed(KeyCode.D))
+                    _targetPosition += _moveSpeed * Right * EduTime.DeltaTime;
+                if (Input.Runtime.KeyPressed(KeyCode.A))
+                    _targetPosition += _moveSpeed * -Right * EduTime.DeltaTime;
+                if (Input.Runtime.KeyPressed(KeyCode.E))
+                    _targetPosition += _moveSpeed * Up * EduTime.DeltaTime;
+                if (Input.Runtime.KeyPressed(KeyCode.Q))
+                    _targetPosition += _moveSpeed * -Up * EduTime.DeltaTime;
             }
 
             _position = Vector3.Lerp(_position, _targetPosition, _moveStrength * EduTime.DeltaTime);
