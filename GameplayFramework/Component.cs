@@ -3,12 +3,15 @@
     public class Component
     {
         private readonly GameObject _gameObject;
+        private readonly Guid _guid;
 
         public Component(GameObject parent)
         {
             _gameObject = parent;
+            _guid = Guid.NewGuid();
         }
 
+        public Guid GUID => _guid;
         public GameObject GameObject => _gameObject;
 
         public virtual void OnDeserialized() { }

@@ -49,12 +49,11 @@ namespace EduEngine.Editor
         {
             var components = go.GetComponents<Component>();
 
-            int i = 0;
             foreach (var component in components)
             {
                 ImGui.Separator();
 
-                if (ImGui.CollapsingHeader($"{component}##{i++}"))
+                if (ImGui.CollapsingHeader($"{component}##header{component.GUID}"))
                 {
                     ImGui.Indent();
 
@@ -68,7 +67,7 @@ namespace EduEngine.Editor
 
                     foreach (var field in fields)
                     {
-                        var fieldName = field.Name + $"##{i++}";
+                        var fieldName = field.Name + $"##field{component.GUID}";
                         var fieldValue = field.GetValue(component);
 
                         if (fieldValue is int intValue)
@@ -104,7 +103,7 @@ namespace EduEngine.Editor
                         }
                     }
 
-                    if (ImGui.Button("Remove Component"))
+                    if (ImGui.Button($"Remove Component##button{component.GUID}"))
                     {
                         go.RemoveComponent(component);
                     }
