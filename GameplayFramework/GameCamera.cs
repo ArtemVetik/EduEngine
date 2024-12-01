@@ -2,8 +2,12 @@
 
 namespace EduEngine
 {
-    public class GameCamera : Component, IDisposable
+    public class GameCamera : Component, IDisposable, ISerializeCallback
     {
+        [SerializeField] private float _fov = 55.0f;
+        [SerializeField] private float _near = 0.3f;
+        [SerializeField] private float _far = 1000.0f;
+
         private NativeCameraWrapper _camera;
 
         public GameCamera(GameObject parent)
@@ -15,20 +19,36 @@ namespace EduEngine
         public Matrix4x4 ViewMatrix => _camera.GetView();
         public Matrix4x4 ProjectionMatrix => _camera.GetProjection();
 
+        public override void OnCreate()
+        {
+            _camera.SetProjectionMatrix(_fov, _near, _far);
+        }
+
         public override void Update()
         {
             _camera?.Update(GameObject.Transform.Forward, GameObject.Transform.Right, GameObject.Transform.Up, GameObject.Transform.Position);
         }
 
+        public override void UpdateEditor()
+        {
+            _camera?.Update(GameObject.Transform.Forward, GameObject.Transform.Right, GameObject.Transform.Up, GameObject.Transform.Position);
+            _camera?.DebugRender();
+        }
+
         public override void OnRender()
         {
-            _camera.Render();
+            _camera?.Render();
         }
 
         public void Dispose()
         {
             _camera.Dispose();
             _camera = null;
+        }
+
+        void ISerializeCallback.OnDeserialize()
+        {
+            _camera.SetProjectionMatrix(_fov, _near, _far);
         }
     }
 }

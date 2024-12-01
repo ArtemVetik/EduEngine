@@ -24,6 +24,7 @@ namespace EduEngine
 		void DrawLine(const DirectX::XMFLOAT3& pos0, const DirectX::XMFLOAT3& pos1, const DirectX::XMVECTOR& color = DirectX::Colors::Green) override;
 		void DrawLine(const DirectX::XMVECTOR& pos0, const DirectX::XMVECTOR& pos1, const DirectX::XMVECTOR& color = DirectX::Colors::Green) override;
 		void DrawPlane(const DirectX::XMFLOAT4& p, const DirectX::XMVECTOR& color, float sizeWidth, float sizeNormal, bool drawCenterCross) override;
+		void DrawFrustrum(const DirectX::XMMATRIX& view, const DirectX::XMMATRIX& proj) override;
 
 		void Render(DirectX::XMMATRIX, DirectX::XMFLOAT3 cameraPosition);
 

@@ -33,7 +33,23 @@ namespace EduEngine
 	}
 	void NativeCameraWrapper::Render()
 	{
+		if (!m_NativeCamera)
+			return;
+
 		CoreSystems::GetInstance()->GetRenderEngine()->Draw(m_NativeCamera);
+	}
+
+	void NativeCameraWrapper::DebugRender()
+	{
+		if (!m_NativeCamera)
+			return;
+
+		NativeCameraWrapperUnmanaged::DebugDraw(m_NativeCamera);
+	}
+
+	void NativeCameraWrapper::SetProjectionMatrix(float fov, float nearView, float farView)
+	{
+		m_NativeCamera->SetProjectionMatrix(&fov, &nearView, &farView);
 	}
 	
 	System::Numerics::Matrix4x4 NativeCameraWrapper::GetView()
@@ -56,5 +72,27 @@ namespace EduEngine
 			nativeMatrix.m[2][0], nativeMatrix.m[2][1], nativeMatrix.m[2][2], nativeMatrix.m[2][3],
 			nativeMatrix.m[3][0], nativeMatrix.m[3][1], nativeMatrix.m[3][2], nativeMatrix.m[3][3]
 		);
+	}
+
+	float NativeCameraWrapper::GetFov()
+	{
+		return m_NativeCamera->GetFov();
+	}
+
+	float NativeCameraWrapper::GetNear()
+	{
+		return m_NativeCamera->GetNear();
+	}
+
+	float NativeCameraWrapper::GetFar()
+	{
+		return m_NativeCamera->GetFar();
+	}
+
+	void NativeCameraWrapperUnmanaged::DebugDraw(Camera* nativeCamera)
+	{
+		auto view = DirectX::XMLoadFloat4x4(&nativeCamera->GetViewMatrix());
+		auto proj = DirectX::XMLoadFloat4x4(&nativeCamera->GetProjectionMatrix());
+		CoreSystems::GetInstance()->GetRenderEngine()->GetDebugRender()->DrawFrustrum(view, proj);
 	}
 }

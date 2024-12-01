@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "DebugRendererSystem.h"
 #include "../Graphics/DynamicUploadBuffer.h"
+#include <DirectXCollision.h>
 
 namespace EduEngine
 {
@@ -267,6 +268,40 @@ namespace EduEngine
 
 		DrawPoint(posF, 0.5f, color);
 		DrawArrow(posF, arrowP2, color, rightF);
+	}
+
+	void DebugRendererSystem::DrawFrustrum(const DirectX::XMMATRIX& view, const DirectX::XMMATRIX& proj)
+	{
+		DirectX::BoundingFrustum frustum = DirectX::BoundingFrustum::BoundingFrustum(proj);
+		frustum.Transform(frustum, DirectX::XMMatrixInverse(nullptr, view));
+
+		std::array<DirectX::XMFLOAT3, 8> corners;
+		frustum.GetCorners(corners.data());
+
+		/*for (int i = 0; i < corners.size(); ++i) 
+		{
+			DrawPoint(corners[i], 0.2f * (i+1), DirectX::Colors::Blue);
+		}*/
+	
+		auto invView = DirectX::XMMatrixInverse(nullptr, view);
+		DirectX::XMFLOAT3 translation;
+		DirectX::XMStoreFloat3(&translation, invView.r[3]);
+		DrawPoint(translation, 1.0f, DirectX::Colors::Red);
+
+		DrawLine(corners[0], corners[1], {0.0f, 0.0f, 1.0f, 1.0f});
+		DrawLine(corners[2], corners[3], {0.0f, 0.0f, 1.0f, 1.0f});
+		DrawLine(corners[4], corners[5], {0.0f, 0.0f, 1.0f, 1.0f});
+		DrawLine(corners[6], corners[7], {0.0f, 0.0f, 1.0f, 1.0f});
+										  
+		DrawLine(corners[0], corners[2], {0.0f, 1.0f, 0.0f, 1.0f});
+		DrawLine(corners[1], corners[3], {0.0f, 0.5f, 0.0f, 1.0f});
+		DrawLine(corners[4], corners[6], {0.0f, 1.0f, 0.0f, 1.0f});
+		DrawLine(corners[5], corners[7], {0.0f, 0.5f, 0.0f, 1.0f});
+										  
+		DrawLine(corners[0], corners[4], {1.0f, 0.0f, 0.0f, 1.0f});
+		DrawLine(corners[1], corners[5], {0.5f, 0.0f, 0.0f, 1.0f});
+		DrawLine(corners[2], corners[6], {1.0f, 0.0f, 0.0f, 1.0f});
+		DrawLine(corners[3], corners[7], { 0.5f, 0.0f, 0.0f, 1.0f });
 	}
 
 	void DebugRendererSystem::DrawInfiniteGrid(const DirectX::XMFLOAT3& cameraPosition, int gridSize, int gridLines)

@@ -69,7 +69,24 @@ namespace EduEngine
 
 	void Camera::SetProjectionMatrix(UINT newWidth, UINT newHeight)
 	{
-		XMMATRIX P = XMMatrixPerspectiveFovLH(m_Fov * (3.14f / 180.0f), (float)newWidth / (float)newHeight, m_NearValue, m_FarValue);
+		m_ScreenWidth = newWidth;
+		m_ScreenHeight = newHeight;
+
+		SetProjectionMatrix();
+	}
+
+	void Camera::SetProjectionMatrix(float* fov, float* nearView, float* farView)
+	{
+		if (fov) m_Fov = *fov;
+		if (nearView) m_NearValue = *nearView;
+		if (farView) m_FarValue = *farView;
+
+		XMMATRIX P = XMMatrixPerspectiveFovLH(
+			m_Fov * (3.14f / 180.0f),
+			(float)m_ScreenWidth / (float)m_ScreenHeight, 
+			m_NearValue,
+			m_FarValue
+		);
 		XMStoreFloat4x4(&m_ProjectionMatrix, (P));
 	}
 

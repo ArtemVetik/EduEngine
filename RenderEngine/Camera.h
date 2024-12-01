@@ -13,6 +13,7 @@ namespace EduEngine
 		Camera(UINT width, UINT height);
 
 		void SetProjectionMatrix(UINT newWidth, UINT newHeight);
+		void SetProjectionMatrix(float* fov = nullptr, float* nearView = nullptr, float* farView = nullptr);
 
 		void Update(DirectX::XMFLOAT3 look, DirectX::XMFLOAT3 right, DirectX::XMFLOAT3 up, DirectX::XMFLOAT3 pos);
 
