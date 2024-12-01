@@ -62,29 +62,20 @@ namespace EduEngine.Editor
             ImGuizmo.SetDrawlist(ImGui.GetWindowDrawList());
 
             var x = (int)ImGui.GetWindowPos().X;
-            var y =(int)ImGui.GetWindowPos().Y;
+            var y = (int)ImGui.GetWindowPos().Y;
             var w = (int)ImGui.GetWindowSize().X;
             var h = (int)ImGui.GetWindowSize().Y;
 
-            _gizmoRenderer.Render(_hierarchyWindow.Seleted, _camera, x,y,w,h);
+            _gizmoRenderer.Render(_hierarchyWindow.Seleted, _camera, x, y, w, h);
 
             RenderEngineInterop.MoveAndResize(x, y, w, h);
             ImGui.PopStyleColor();
 
             ImGui.End();
 
-
             ImGui.ShowDemoWindow();
 
-            if (ImGui.Begin("Resources Window"))
-            {
-                ImGui.Text("List of Resources:");
-
-                foreach (var resource in AssetDataBase.AllAssets)
-                    ImGui.Button(Path.GetFileName(resource.Value));
-
-                ImGui.End();
-            }
+            AssetWindow.Render();
 
             ImGui.Begin("Test Panel");
 

@@ -114,5 +114,23 @@ namespace EduEngine
                     return null;
             }
         }
+
+        public static AssetType GetType(string guid)
+        {
+            _assets.TryGetValue(guid, out string assetPath);
+
+            if (assetPath == null)
+                return AssetType.Invalid;
+
+            var extention = Path.GetExtension(assetPath);
+
+            switch (extention)
+            {
+                case ".scene": return AssetType.Scene;
+                case ".fbx": return AssetType.Mesh;
+                case ".cs": return AssetType.Script;
+                default: return AssetType.Invalid;
+            }
+        }
     }
 }

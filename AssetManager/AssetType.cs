@@ -5,5 +5,6 @@
         Scene,
         Script,
         Mesh,
+        Invalid,
     }
 }
