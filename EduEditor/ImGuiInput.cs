@@ -5,8 +5,8 @@ namespace EduEngine.Editor
 {
     internal class ImGuiInput
     {
-        private const float FirstInputDelay = 1.0f / 2.0f;
-        private const float InputDelay = 1.0f / 30.0f;
+        private const float FirstInputDelay = 0.5f;
+        private const float InputDelay = 0.05f;
 
         private struct PressedKey
         {
@@ -21,7 +21,9 @@ namespace EduEngine.Editor
             ImGuiIOPtr io = ImGui.GetIO();
             io.DisplaySize = EditorRenderEngineInterop.GetEditorSize();
             io.DisplayFramebufferScale = Vector2.One;
-            io.DeltaTime = EduTime.DeltaTime;
+            io.DeltaTime = EditorTime.DeltaTime;
+            io.KeyRepeatRate = InputDelay;
+            io.KeyRepeatDelay = FirstInputDelay;
             io.AddMousePosEvent(Input.Editor.MousePosition.X, Input.Editor.MousePosition.Y);
             io.AddMouseButtonEvent(0, Input.Editor.MouseButtonPressed(MouseCode.Mouse0));
             io.AddMouseButtonEvent(1, Input.Editor.MouseButtonPressed(MouseCode.Mouse1));
@@ -36,21 +38,23 @@ namespace EduEngine.Editor
             {
                 if (Input.Editor.KeyDown(keyCodes[i]))
                 {
-                    io.AddInputCharacter(keyCodes[i].ToChar());
+                    if (keyCodes[i] == KeyCode.LSHIFT || keyCodes[i] == KeyCode.RSHIFT)
+                        io.KeyShift = true;
+
+                    io.AddInputCharacter(keyCodes[i].ToChar(io.KeyShift ^ Input.Editor.CapsLockEnabled()));
                     io.AddKeyEvent(keyCodes[i].ToImGuiKey(), true);
 
                     _pressedKey.keyCode = keyCodes[i];
-                    _pressedKey.NextPressTime = EduTime.TotalTime + FirstInputDelay;
+                    _pressedKey.NextPressTime = EditorTime.TotalTime + FirstInputDelay;
                 }
-
                 if (Input.Editor.KeyPressed(keyCodes[i]))
                 {
-                    if (keyCodes[i] == _pressedKey.keyCode && EduTime.TotalTime > _pressedKey.NextPressTime)
+                    if (keyCodes[i] == _pressedKey.keyCode && EditorTime.TotalTime >= _pressedKey.NextPressTime)
                     {
-                        io.AddInputCharacter(keyCodes[i].ToChar());
+                        io.AddInputCharacter(keyCodes[i].ToChar(io.KeyShift ^ Input.Editor.CapsLockEnabled()));
                         io.AddKeyEvent(keyCodes[i].ToImGuiKey(), true);
 
-                        _pressedKey.NextPressTime = EduTime.TotalTime + InputDelay;
+                        _pressedKey.NextPressTime = EditorTime.TotalTime + InputDelay;
                     }
                 }
 
@@ -58,10 +62,13 @@ namespace EduEngine.Editor
                 {
                     io.AddKeyEvent(keyCodes[i].ToImGuiKey(), false);
 
+                    if (keyCodes[i] == KeyCode.LSHIFT || keyCodes[i] == KeyCode.RSHIFT)
+                        io.KeyShift = false;
+
                     if (keyCodes[i] == _pressedKey.keyCode)
                         _pressedKey = default;
                     else
-                        _pressedKey.NextPressTime = EduTime.TotalTime + FirstInputDelay;
+                        _pressedKey.NextPressTime = EditorTime.TotalTime + FirstInputDelay;
                 }
             }
         }

@@ -20,6 +20,7 @@ namespace EduEngine
         bool IsKeyDown(BYTE key);
         bool IsKeyUp(BYTE key);
         bool IsAnyKeyPressed();
+        bool IsCapsLockEnabled();
         POINT GetCursorPosition();
         DIMOUSESTATE2 GetMouseState();
         DIMOUSESTATE2 GetPrevMouseState();

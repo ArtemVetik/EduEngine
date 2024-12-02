@@ -131,6 +131,11 @@ namespace EduEngine
 		return false;
 	}
 
+	bool InputManager::IsCapsLockEnabled()
+	{
+		return (GetKeyState(VK_CAPITAL) & 0x0001) != 0;
+	}
+
 	POINT InputManager::GetCursorPosition()
 	{
 		POINT p;

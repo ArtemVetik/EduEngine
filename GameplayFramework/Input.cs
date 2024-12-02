@@ -20,6 +20,7 @@ namespace EduEngine
             public bool KeyPressed(KeyCode key) => _input.IsKeyPressed((byte)key);
             public bool KeyDown(KeyCode key) => _input.IsKeyDown((byte)key);
             public bool KeyUp(KeyCode key) => _input.IsKeyUp((byte)key);
+            public bool CapsLockEnabled() => _input.IsCapsLockEnabled();
             public Vector2 MousePosition => _input.GetCursorPos();
             public Vector2 MouseDelta
             {

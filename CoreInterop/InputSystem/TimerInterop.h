@@ -14,4 +14,17 @@ namespace EduEngine
 			float get();
 		}
 	};
+
+	public ref class EditorTime
+	{
+	public:
+		static property float DeltaTime
+		{
+			float get();
+		}
+		static property float TotalTime
+		{
+			float get();
+		}
+	};
 }

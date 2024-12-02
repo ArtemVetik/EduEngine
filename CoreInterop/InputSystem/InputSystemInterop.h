@@ -21,6 +21,7 @@ namespace EduEngine
 		bool IsKeyPressed(BYTE key);
 		bool IsKeyDown(BYTE key);
 		bool IsKeyUp(BYTE key);
+		bool IsCapsLockEnabled();
 		MouseStateWrapper GetMouseState();
 		MouseStateWrapper GetPrevMouseState();
 		System::Numerics::Vector2 GetCursorPos();

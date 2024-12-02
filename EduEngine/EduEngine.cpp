@@ -131,7 +131,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance,
 	Timer runtimeTimer = Timer(runtimeWindow.GetMainWindow(), L"EduEngine");
 	Timer editorTimer = Timer(editorWindow.GetMainWindow(), L"EduEngine");
 
-	CoreSystems coreSystems(renderEngine.get(), editorRenderEngine.get(), physicsWorld.get(), &runtimeTimer);
+	CoreSystems coreSystems(renderEngine.get(), editorRenderEngine.get(), physicsWorld.get(), &runtimeTimer, &editorTimer);
 
 	EditorInterop::Initialize(folderPath);
 

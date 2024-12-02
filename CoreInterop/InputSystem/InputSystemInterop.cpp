@@ -29,6 +29,11 @@ namespace EduEngine
 		return m_Input->IsKeyUp(key);
 	}
 
+	bool InputSystemInterop::IsCapsLockEnabled()
+	{
+		return m_Input->IsCapsLockEnabled();
+	}
+
 	MouseStateWrapper InputSystemInterop::GetMouseState()
 	{
 		auto mouseState = m_Input->GetMouseState();
