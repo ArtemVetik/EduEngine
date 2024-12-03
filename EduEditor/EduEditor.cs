@@ -12,6 +12,8 @@ namespace EduEngine.Editor
         private static HierarchyWindow _hierarchyWindow = new HierarchyWindow();
         private static PropertyWindow _propertyWindow = new PropertyWindow();
         private static GuizmoRenderer _gizmoRenderer = new GuizmoRenderer();
+        private static AssetWindow _assetWindow = new AssetWindow();
+        private static AssetInfoWindow _assetInfo = new AssetInfoWindow();
 
         public static unsafe void Initialize(string rootPath)
         {
@@ -66,7 +68,7 @@ namespace EduEngine.Editor
             var w = (int)ImGui.GetWindowSize().X;
             var h = (int)ImGui.GetWindowSize().Y;
 
-            _gizmoRenderer.Render(_hierarchyWindow.Seleted, _camera, x, y, w, h);
+            _gizmoRenderer.Render(_hierarchyWindow.Selected, _camera, x, y, w, h);
 
             RenderEngineInterop.MoveAndResize(x, y, w, h);
             ImGui.PopStyleColor();
@@ -75,7 +77,8 @@ namespace EduEngine.Editor
 
             ImGui.ShowDemoWindow();
 
-            AssetWindow.Render();
+            _assetWindow.Render();
+            _assetInfo.Render(_assetWindow.SelectedAsset);
 
             ImGui.Begin("Test Panel");
 
@@ -94,7 +97,7 @@ namespace EduEngine.Editor
             ImGui.End();
 
             _hierarchyWindow.Render();
-            _propertyWindow.Render(_hierarchyWindow.Seleted);
+            _propertyWindow.Render(_hierarchyWindow.Selected);
 
             ImGui.BeginMainMenuBar();
 

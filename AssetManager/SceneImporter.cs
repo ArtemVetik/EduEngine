@@ -85,7 +85,7 @@ namespace EduEngine
                     {
                         var guid = cData.Parameters["script_guid"];
 
-                        var scriptPath = AssetDataBase.GetPathByGUID((string)guid);
+                        var scriptPath = AssetDataBase.GetGlobalPathByGUID((string)guid);
                         var type = ScriptParser.FindComponent(scriptPath);
                         var component = go.AddComponent(type, cData.Parameters);
                     }

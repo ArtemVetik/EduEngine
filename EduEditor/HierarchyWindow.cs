@@ -4,7 +4,7 @@ namespace EduEngine.Editor
 {
     internal class HierarchyWindow
     {
-        public GameObject Seleted { get; private set; }
+        public GameObject Selected { get; private set; }
 
         public void Render()
         {
@@ -41,11 +41,12 @@ namespace EduEngine.Editor
             {
                 foreach (var item in SceneManager.CurrentScene.Objects)
                 {
-                    if (ImGui.Selectable(item.Name + "##" + item.Guid.ToString(), item == Seleted))
+                    if (ImGui.Selectable(item.Name + "##" + item.Guid.ToString(), item == Selected))
                     {
-                        Seleted = item;
+                        Selected = item;
+                        ImGui.SetWindowFocus("PropertyWindow");
                     }
-                    if (item == Seleted && ImGui.IsItemClicked(ImGuiMouseButton.Right))
+                    if (item == Selected && ImGui.IsItemClicked(ImGuiMouseButton.Right))
                     {
                         ImGui.OpenPopup("HierarchyItem##" + item.Guid.ToString());
                     }
@@ -67,7 +68,7 @@ namespace EduEngine.Editor
                 ImGui.IsMouseReleased(ImGuiMouseButton.Left) &&
                 !ImGui.IsAnyItemHovered())
             {
-                Seleted = null;
+                Selected = null;
             }
 
             foreach (var item in deleteItems)

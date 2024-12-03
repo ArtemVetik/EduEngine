@@ -1,6 +1,6 @@
 ﻿namespace EduEngine
 {
-    internal class AssetMetaData
+    public class AssetMetaData
     {
         public string GUID { get; set; }
         public bool IsFolder { get; set; }

@@ -67,7 +67,7 @@ namespace EduEngine
             return resources;
         }
 
-        private static void ProcessTargetFile(string file, ref Dictionary<string, string> resources)
+        private void ProcessTargetFile(string file, ref Dictionary<string, string> resources)
         {
             var metaFile = file + ".meta";
             if (File.Exists(metaFile))
@@ -80,17 +80,17 @@ namespace EduEngine
                     File.WriteAllText(metaFile, JsonConvert.SerializeObject(metaData));
                 }
 
-                resources[metaData.GUID] = file;
+                resources[metaData.GUID] = ToLocalPath(file);
             }
             else
             {
                 var meta = AssetMetaData.NewData(false);
                 File.WriteAllText(metaFile, JsonConvert.SerializeObject(meta));
-                resources[meta.GUID] = file;
+                resources[meta.GUID] = ToLocalPath(file);
             }
         }
 
-        private static void ProcessMetaFile(string file, ref Dictionary<string, string> resources)
+        private void ProcessMetaFile(string file, ref Dictionary<string, string> resources)
         {
             var metaData = JsonConvert.DeserializeObject<AssetMetaData>(File.ReadAllText(file));
 
@@ -113,7 +113,7 @@ namespace EduEngine
 
             if (File.Exists(targetFile))
             {
-                resources[metaData.GUID] = targetFile;
+                resources[metaData.GUID] = ToLocalPath(targetFile);
             }
             else
             {
@@ -121,7 +121,7 @@ namespace EduEngine
             }
         }
 
-        private static void ProcessFolder(string file, ref Dictionary<string, string> resources)
+        private void ProcessFolder(string file, ref Dictionary<string, string> resources)
         {
             var metaFile = file + ".meta";
             if (File.Exists(metaFile))
@@ -134,20 +134,20 @@ namespace EduEngine
                     File.WriteAllText(metaFile, JsonConvert.SerializeObject(metaData));
                 }
 
-                resources.Add(metaData.GUID, file);
+                resources.Add(metaData.GUID, ToLocalPath(file));
             }
             else
             {
                 var meta = AssetMetaData.NewData(true);
                 File.WriteAllText(metaFile, JsonConvert.SerializeObject(meta));
-                resources.Add(meta.GUID, file);
+                resources.Add(meta.GUID, ToLocalPath(file));
             }
         }
 
-        private static bool IsValidMetaFile(AssetMetaData? metaData, string targetFile, bool isFolder, ref Dictionary<string, string> resources)
+        private bool IsValidMetaFile(AssetMetaData? metaData, string targetFile, bool isFolder, ref Dictionary<string, string> resources)
         {
             return metaData != null && metaData.IsFolder == isFolder &&
-                (resources.TryGetValue(metaData.GUID, out string? outFile) == false || outFile == targetFile);
+                (resources.TryGetValue(metaData.GUID, out string? outFile) == false || outFile == ToLocalPath(targetFile));
         }
 
         private static bool IsFolder(string path)
@@ -192,6 +192,14 @@ namespace EduEngine
         {
             if (IsTargetFile(e.FullPath) || IsMetaFile(e.FullPath) || IsFolder(e.FullPath))
                 HasChanges = true;
+        }
+
+        private string ToLocalPath(string path)
+        {
+            if (path.StartsWith(_path))
+                return path.Remove(0, _path.Length);
+
+            return path;
         }
 
         public void Dispose()

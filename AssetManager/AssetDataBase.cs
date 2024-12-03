@@ -44,7 +44,13 @@ namespace EduEngine
             if (_assetResolver == null)
                 return false;
 
-            var fullPath = $"{_assetResolver.RootPath}\\{assetPath}.scene";
+            if (Path.GetExtension(assetPath) == ".scene")
+                assetPath = Path.Combine(
+                   Path.GetDirectoryName(assetPath) ?? string.Empty,
+                   Path.GetFileNameWithoutExtension(assetPath)
+                );
+
+            var fullPath = $"{_assetResolver.RootPath}{assetPath}.scene";
 
             if (_assetResolver.IsPathInside(fullPath) == false)
                 return false;
@@ -62,7 +68,7 @@ namespace EduEngine
 
             foreach (var script in scripts)
             {
-                var type = ScriptParser.FindComponent(script.Value);
+                var type = ScriptParser.FindComponent(_assetResolver.RootPath + script.Value);
 
                 if (type == scriptType)
                     return script.Key;
@@ -71,9 +77,14 @@ namespace EduEngine
             return null;
         }
 
-        public static string GetPathByGUID(string guid)
+        public static string GetLocalPathByGUID(string guid)
         {
             return _assets[guid];
+        }
+
+        public static string GetGlobalPathByGUID(string guid)
+        {
+            return _assetResolver.RootPath + _assets[guid];
         }
 
         public static void Resolve()
@@ -131,6 +142,12 @@ namespace EduEngine
                 case ".cs": return AssetType.Script;
                 default: return AssetType.Invalid;
             }
+        }
+
+        public static AssetMetaData GetMetaData(string guid)
+        {
+            var assetPath = GetGlobalPathByGUID(guid) + ".meta";
+            return JsonConvert.DeserializeObject<AssetMetaData>(File.ReadAllText(assetPath));
         }
     }
 }
