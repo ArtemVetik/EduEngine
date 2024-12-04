@@ -10,32 +10,57 @@ namespace EduEngine.Editor
         {
             ImGui.Begin("Hierarchy");
 
-            if (SceneManager.CurrentScene.Objects.Count < 3)
+            if (SceneManager.CurrentScene == null)
             {
-                if (ImGui.IsWindowHovered(ImGuiHoveredFlags.None) &&
-                    ImGui.IsMouseReleased(ImGuiMouseButton.Right) &&
-                    !ImGui.IsAnyItemHovered())
-                {
-                    ImGui.OpenPopup("HierarchyContextMenu");
-                }
+                ImGui.Text("Scene not loaded");
+                ImGui.End();
+                return;
+            }
 
-                if (ImGui.BeginPopup("HierarchyContextMenu"))
+            if (ImGui.IsWindowHovered(ImGuiHoveredFlags.None) &&
+                ImGui.IsMouseReleased(ImGuiMouseButton.Right) &&
+                !ImGui.IsAnyItemHovered())
+            {
+                ImGui.OpenPopup("HierarchyContextMenu");
+            }
+
+            if (ImGui.BeginPopup("HierarchyContextMenu"))
+            {
+                if (ImGui.BeginMenu("Create"))
                 {
-                    if (ImGui.BeginMenu("Create"))
+                    if (ImGui.MenuItem("GameObject"))
                     {
-                        if (ImGui.MenuItem("GameObject"))
-                        {
-                            new EditorGameObject();
-                        }
-
-                        ImGui.EndMenu();
+                        new EditorGameObject();
                     }
 
-                    ImGui.EndPopup();
+                    ImGui.EndMenu();
                 }
+
+                if (EngineStateManager.CurrentState != EngineState.Editor)
+                    ImGui.BeginDisabled();
+
+                if (ImGui.MenuItem("Save Scene"))
+                {
+                    SceneImporter.SaveCurrentScene();
+                }
+
+                if (EngineStateManager.CurrentState != EngineState.Editor)
+                    ImGui.EndDisabled();
+
+                ImGui.EndPopup();
             }
 
             var deleteItems = new List<GameObject>();
+
+            if (AssetDataBase.HasGUID(SceneManager.CurrentScene.GUID))
+            {
+                var path = AssetDataBase.GetLocalPathByGUID(SceneManager.CurrentScene.GUID);
+                ImGui.Text(Path.GetFileName(path));
+            }
+            else
+            {
+                ImGui.Text("New Scene");
+            }
 
             if (ImGui.TreeNode("SceneTree"))
             {

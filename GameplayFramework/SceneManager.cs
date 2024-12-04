@@ -4,13 +4,12 @@
     {
         private static Scene _currentScene = null;
 
-        public static Scene CurrentScene
+        public static Scene CurrentScene => _currentScene;
+
+        internal static void OpenScene(Scene scene)
         {
-            get
-            {
-                _currentScene ??= new Scene();
-                return _currentScene;
-            }
+            _currentScene?.Clear();
+            _currentScene = scene;
         }
     }
 }

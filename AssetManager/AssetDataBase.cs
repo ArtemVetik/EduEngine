@@ -8,6 +8,7 @@ namespace EduEngine
         private static Dictionary<string, string> _assets = new();
 
         public static bool IsDirty => _assetResolver.HasChanges;
+        public static string RootPath => _assetResolver.RootPath;
 
         public static Dictionary<string, string> AllAssets => _assets;
 
@@ -27,7 +28,7 @@ namespace EduEngine
             if (_assetResolver == null)
                 return false;
 
-            var fullPath = $"{_assetResolver.RootPath}\\{assetPath}.scene";
+            var fullPath = $"{_assetResolver.RootPath}{assetPath}.scene";
 
             if (_assetResolver.IsPathInside(fullPath) == false)
                 return false;
@@ -77,6 +78,8 @@ namespace EduEngine
             return null;
         }
 
+        public static bool HasGUID(string guid) => _assets.ContainsKey(guid);
+
         public static string GetLocalPathByGUID(string guid)
         {
             return _assets[guid];
@@ -85,6 +88,17 @@ namespace EduEngine
         public static string GetGlobalPathByGUID(string guid)
         {
             return _assetResolver.RootPath + _assets[guid];
+        }
+
+        public static string GetGUIDByLocalPath(string localPath)
+        {
+            return _assets.FirstOrDefault(asset => asset.Value == localPath).Key;
+        }
+
+        public static string GetGUIDByGlobalPath(string globalPath)
+        {
+            var localPath = globalPath.Remove(0, _assetResolver.RootPath.Length);
+            return GetGUIDByLocalPath(localPath);
         }
 
         public static void Resolve()

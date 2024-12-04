@@ -2,6 +2,13 @@
 {
     public class Scene
     {
+        internal readonly string GUID;
+
+        internal Scene(string guid)
+        {
+            GUID = guid;
+        }
+
         public IReadOnlyCollection<GameObject> Objects => _gameObjects;
 
         public void Clear()

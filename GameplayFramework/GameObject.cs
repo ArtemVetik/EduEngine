@@ -12,6 +12,9 @@ namespace EduEngine
 
         public GameObject()
         {
+            if (SceneManager.CurrentScene == null)
+                throw new InvalidOperationException();
+
             _guid = Guid.NewGuid();
             Transform = new Transform(this);
             Name = "New GameObject";
@@ -33,7 +36,7 @@ namespace EduEngine
                     disposable.Dispose();
             }
 
-            SceneManager.CurrentScene.RemoveGameObject(this);
+            SceneManager.CurrentScene?.RemoveGameObject(this);
         }
 
         public Transform Transform { get; private set; }

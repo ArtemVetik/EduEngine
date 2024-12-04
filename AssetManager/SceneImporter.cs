@@ -1,4 +1,6 @@
-﻿using System.Reflection;
+using Newtonsoft.Json;
+using System;
+using System.Reflection;
 
 namespace EduEngine
 {
@@ -60,9 +62,18 @@ namespace EduEngine
             return data;
         }
 
-        public static void LoadScene(SceneData data, bool runtime)
+        public static void LoadScene(string guid, bool runtime)
         {
-            SceneManager.CurrentScene.Clear();
+            var scenePath = AssetDataBase.GetLocalPathByGUID(guid);
+            AssetDataBase.LoadScene(scenePath, out SceneData? data);
+
+            LoadScene(data, guid, runtime);
+        }
+
+        public static void LoadScene(SceneData data, string guid, bool runtime)
+        {
+            var scene = new Scene(guid);
+            SceneManager.OpenScene(scene);
 
             foreach (var goData in data.GameObjects)
             {
@@ -83,9 +94,9 @@ namespace EduEngine
 
                     if (cData.Type == "Script")
                     {
-                        var guid = cData.Parameters["script_guid"];
+                        var scriptGuid = cData.Parameters["script_guid"];
 
-                        var scriptPath = AssetDataBase.GetGlobalPathByGUID((string)guid);
+                        var scriptPath = AssetDataBase.GetGlobalPathByGUID((string)scriptGuid);
                         var type = ScriptParser.FindComponent(scriptPath);
                         var component = go.AddComponent(type, cData.Parameters);
                     }
@@ -96,6 +107,24 @@ namespace EduEngine
                         var component = go.AddComponent(type, cData.Parameters);
                     }
                 }
+            }
+        }
+
+        public static void SaveCurrentScene()
+        {
+            var sceneData = ToSceneData(SceneManager.CurrentScene);
+
+            if (AssetDataBase.HasGUID(SceneManager.CurrentScene.GUID))
+            {
+                var scenePath = AssetDataBase.GetGlobalPathByGUID(SceneManager.CurrentScene.GUID);
+                File.WriteAllText(scenePath, JsonConvert.SerializeObject(sceneData));
+            }
+            else
+            {
+                var sceneName = $"\\Scene_{DateTime.Now.Ticks}";
+                AssetDataBase.CreateScene(sceneName, sceneData);
+                var guid = AssetDataBase.GetGUIDByLocalPath(sceneName + ".scene");
+                LoadScene(guid, false);
             }
         }
     }

@@ -54,8 +54,7 @@ namespace EduEngine.Editor
 
                 if (ImGui.Button("Load Scene"))
                 {
-                    AssetDataBase.LoadScene(AssetDataBase.GetLocalPathByGUID(_guid), out SceneData? scene);
-                    SceneImporter.LoadScene(scene, false);
+                    SceneImporter.LoadScene(_guid, false);
                 }
 
                 if (EngineStateManager.CurrentState == EngineState.Runtime)

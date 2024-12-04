@@ -4,12 +4,12 @@
     {
         public static void Update()
         {
-            SceneManager.CurrentScene.Update();
+            SceneManager.CurrentScene?.Update();
         }
 
         public static void Render()
         {
-            SceneManager.CurrentScene.Render();
+            SceneManager.CurrentScene?.Render();
         }
     }
 }

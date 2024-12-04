@@ -80,22 +80,6 @@ namespace EduEngine.Editor
             _assetWindow.Render();
             _assetInfo.Render(_assetWindow.SelectedAsset);
 
-            ImGui.Begin("Test Panel");
-
-            if (ImGui.Button("Save Scene"))
-            {
-                var sceneData = SceneImporter.ToSceneData(SceneManager.CurrentScene);
-                AssetDataBase.CreateScene("mainScene", sceneData);
-            }
-
-            if (ImGui.Button("Load Scene"))
-            {
-                AssetDataBase.LoadScene("mainScene", out SceneData? scene);
-                SceneImporter.LoadScene(scene, false);
-            }
-
-            ImGui.End();
-
             _hierarchyWindow.Render();
             _propertyWindow.Render(_hierarchyWindow.Selected);
 
@@ -119,7 +103,7 @@ namespace EduEngine.Editor
             }
 
             bool disabled = false;
-            if (EngineStateManager.CurrentState == EngineState.Runtime)
+            if (EngineStateManager.CurrentState == EngineState.Runtime || SceneManager.CurrentScene == null)
             {
                 ImGui.BeginDisabled();
                 disabled = true;
@@ -129,7 +113,7 @@ namespace EduEngine.Editor
             {
                 EngineStateManager.CurrentState = EngineState.Runtime;
                 _sceneData = SceneImporter.ToSceneData(SceneManager.CurrentScene);
-                SceneImporter.LoadScene(_sceneData, true);
+                SceneImporter.LoadScene(_sceneData, SceneManager.CurrentScene.GUID, true);
             }
 
             if (disabled)
@@ -145,7 +129,7 @@ namespace EduEngine.Editor
             if (ImGui.Button("Stop", new Vector2(button_width, 0)))
             {
                 EngineStateManager.CurrentState = EngineState.Editor;
-                SceneImporter.LoadScene(_sceneData, false);
+                SceneImporter.LoadScene(_sceneData, SceneManager.CurrentScene.GUID, false);
             }
 
             if (disabled)
