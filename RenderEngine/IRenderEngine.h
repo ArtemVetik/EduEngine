@@ -17,11 +17,20 @@ namespace EduEngine
 		DirectX::SimpleMath::Matrix WorldMatrix;
 	};
 
+	class RENDERENGINE_API IMesh
+	{
+	public:
+		virtual int GetVertexCount() = 0;
+		virtual int GetIndexCount() = 0;
+	};
+
 	class RENDERENGINE_API IRenderEngine
 	{
 	public:
-		virtual IRenderObject* AddObject(NativeMeshData meshData) = 0;
+		virtual IRenderObject* AddObject(IMesh* mesh) = 0;
 		virtual void RemoveObject(IRenderObject* object) = 0;
+		virtual IMesh* CreateMesh(const char* filePath) = 0;
+		virtual void RemoveMesh(IMesh* mesh) = 0;
 		virtual Camera* CreateCamera() = 0;
 		virtual void RemoveCamera(Camera* camera) = 0;
 

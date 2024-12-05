@@ -1,6 +1,6 @@
 #include "pch.h"
-#include "RenderEngine.h"
 #include "../Graphics/DynamicUploadBuffer.h"
+#include "RenderEngine.h"
 #include "RenderEngineInternal.h"
 
 namespace EduEngine
@@ -67,14 +67,12 @@ namespace EduEngine
 		return true;
 	}
 
-	IRenderObject* RenderEngine::AddObject(NativeMeshData meshData)
+	IRenderObject* RenderEngine::AddObject(IMesh* mesh)
 	{
-		auto renderObject = std::make_shared<RenderObject>();
-		renderObject->VertexBuffer = std::make_shared<VertexBufferD3D12>(m_Device.get(), meshData.Vertices.data(),
-			sizeof(NativeVertex), (UINT)meshData.Vertices.size());
-		renderObject->IndexBuffer = std::make_shared<IndexBufferD3D12>(m_Device.get(), meshData.GetIndices16().data(),
-			sizeof(uint16), (UINT)meshData.GetIndices16().size(), DXGI_FORMAT_R16_UINT);
+		SharedMeshD3D12Impl* meshD3D12 = dynamic_cast<SharedMeshD3D12Impl*>(mesh);
+		assert(meshD3D12 != nullptr);
 
+		auto renderObject = std::make_shared<RenderObject>(meshD3D12);
 		m_RenderObjects.emplace_back(renderObject);
 		return renderObject.get();
 	}
@@ -86,6 +84,24 @@ namespace EduEngine
 				return ptr.get() == object;
 			}),
 			m_RenderObjects.end());
+	}
+
+	IMesh* RenderEngine::CreateMesh(const char* filePath)
+	{
+		const aiScene* scene = m_AssimpImporter.ReadFile(filePath, aiProcess_PreTransformVertices | aiProcessPreset_TargetRealtime_Fast);
+		
+		auto mesh = std::make_shared<SharedMeshD3D12Impl>(m_Device.get(), scene);
+		m_SharedMeshes.emplace_back(mesh);
+		return mesh.get();
+	}
+
+	void RenderEngine::RemoveMesh(IMesh* mesh)
+	{
+		m_SharedMeshes.erase(std::remove_if(m_SharedMeshes.begin(), m_SharedMeshes.end(),
+			[&mesh](const std::shared_ptr<IMesh>& ptr) {
+				return ptr.get() == mesh;
+			}),
+			m_SharedMeshes.end());
 	}
 
 	void RenderEngine::BeginDraw()
@@ -133,6 +149,9 @@ namespace EduEngine
 		{
 			auto renderObject = m_RenderObjects[i];
 
+			if (renderObject->GetVertexBuffer() == nullptr || renderObject->GetIndexBuffer() == nullptr)
+				continue;
+
 			ObjectConstants objConstants;
 			objConstants.World = renderObject->WorldMatrix.Transpose();
 
@@ -140,14 +159,14 @@ namespace EduEngine
 			uploadBuffer.LoadData(objConstants);
 			uploadBuffer.CreateCBV();
 
-			commandContext.GetCmdList()->IASetVertexBuffers(0, 1, &(renderObject->VertexBuffer->GetView()));
-			commandContext.GetCmdList()->IASetIndexBuffer(&(renderObject->IndexBuffer->GetView()));
+			commandContext.GetCmdList()->IASetVertexBuffers(0, 1, &(renderObject->GetVertexBuffer()->GetView()));
+			commandContext.GetCmdList()->IASetIndexBuffer(&(renderObject->GetIndexBuffer()->GetView()));
 			commandContext.GetCmdList()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 			commandContext.GetCmdList()->SetGraphicsRootConstantBufferView(0, passUploadBuffer.GetAllocation().GPUAddress);
 			commandContext.GetCmdList()->SetGraphicsRootDescriptorTable(1, uploadBuffer.GetCBVDescriptorGPUHandle());
 
-			commandContext.GetCmdList()->DrawIndexedInstanced(renderObject->IndexBuffer->GetLength(), 1, 0, 0, 0);
+			commandContext.GetCmdList()->DrawIndexedInstanced(renderObject->GetIndexBuffer()->GetLength(), 1, 0, 0, 0);
 		}
 
 		m_DebugRenderer->Render(camera->GetViewProjMatrix(), camera->GetPosition());

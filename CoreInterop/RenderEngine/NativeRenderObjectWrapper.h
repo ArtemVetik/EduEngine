@@ -1,6 +1,7 @@
 #pragma once
 #include "../../RenderEngine/IRenderEngine.h"
 #include "MeshData.h"
+#include "SharedMeshWrapper.h"
 
 using namespace System::Numerics;
 
@@ -12,7 +13,7 @@ namespace EduEngine
         IRenderObject* m_NativeObject;
 
     public:
-        NativeRenderObjectWrapper(MeshData^ meshData);
+        NativeRenderObjectWrapper(SharedMeshWrapper^ mesh);
         ~NativeRenderObjectWrapper();
         !NativeRenderObjectWrapper();
 

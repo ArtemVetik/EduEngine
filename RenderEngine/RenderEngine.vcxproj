@@ -164,6 +164,7 @@
     <ClInclude Include="imgui\imstb_textedit.h" />
     <ClInclude Include="imgui\imstb_truetype.h" />
     <ClInclude Include="IRenderEngine.h" />
+    <ClInclude Include="SharedMeshD3D12Impl.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="RenderEngine.h" />
     <ClInclude Include="RenderEngineDefines.h" />
@@ -182,6 +183,7 @@
     <ClCompile Include="GeometryGenerator.cpp" />
     <ClCompile Include="ImGuiD3D12Impl.cpp" />
     <ClCompile Include="IRenderEngine.cpp" />
+    <ClCompile Include="SharedMeshD3D12Impl.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

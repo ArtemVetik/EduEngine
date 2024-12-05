@@ -15,10 +15,10 @@
             _renderObject?.SetWorldMatrix(GameObject.Transform.WorldMatrix);
         }
 
-        public void SetMesh(MeshData mesh)
+        public void SetMesh(SharedMesh mesh)
         {
             _renderObject?.Dispose();
-            _renderObject = new NativeRenderObjectWrapper(mesh);
+            _renderObject = new NativeRenderObjectWrapper(mesh.GetWrapper());
         }
 
         public void Dispose()

@@ -26,6 +26,7 @@
     <RootNamespace>CoreInterop</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
     <TargetFramework>net8.0</TargetFramework>
+    <WindowsTargetPlatformMinVersion>7.0</WindowsTargetPlatformMinVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -48,6 +49,7 @@
     <PlatformToolset>v143</PlatformToolset>
     <CLRSupport>NetCore</CLRSupport>
     <CharacterSet>Unicode</CharacterSet>
+    <VCToolsVersion>14.38.33130</VCToolsVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
@@ -55,6 +57,7 @@
     <PlatformToolset>v143</PlatformToolset>
     <CLRSupport>NetCore</CLRSupport>
     <CharacterSet>Unicode</CharacterSet>
+    <VCToolsVersion>14.38.33130</VCToolsVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -81,6 +84,7 @@
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>_DEBUG;COREINTERLOP_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <LanguageStandard>Default</LanguageStandard>
     </ClCompile>
     <Link>
       <AdditionalDependencies />
@@ -114,6 +118,7 @@
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>NDEBUG;COREINTERLOP_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <LanguageStandard>Default</LanguageStandard>
     </ClCompile>
     <Link>
       <AdditionalDependencies />
@@ -129,10 +134,12 @@
     <ClInclude Include="RenderEngine\EditorRenderEngineInterop.h" />
     <ClInclude Include="RenderEngine\EditorWindowEventInterop.h" />
     <ClInclude Include="RenderEngine\MeshData.h" />
+    <ClInclude Include="RenderEngine\SharedMeshWrapper.h" />
     <ClInclude Include="RenderEngine\NativeCameraWrapper.h" />
     <ClInclude Include="RenderEngine\NativeRenderObjectWrapper.h" />
     <ClInclude Include="RenderEngine\RenderEngineInterop.h" />
     <ClInclude Include="Resource.h" />
+    <ClInclude Include="Utils.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp" />
@@ -143,6 +150,7 @@
     <ClCompile Include="Physics\NativePhysicsShapeWrapper.cpp" />
     <ClCompile Include="RenderEngine\EditorRenderEngineInterop.cpp" />
     <ClCompile Include="RenderEngine\EditorWindowEventInterop.cpp" />
+    <ClCompile Include="RenderEngine\SharedMeshWrapper.cpp" />
     <ClCompile Include="RenderEngine\NativeCameraWrapper.cpp" />
     <ClCompile Include="RenderEngine\NativeRenderObjectWrapper.cpp" />
     <ClCompile Include="RenderEngine\RenderEngineInterop.cpp" />

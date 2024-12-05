@@ -5,10 +5,13 @@ namespace EduEngine.Scripts
     public class Root : Component
     {
         private List<GameObject> _spawned = new List<GameObject>();
+        private SharedMesh _mesh;
 
         public Root(GameObject parent)
             : base(parent)
-        { }
+        {
+            _mesh = new SharedMesh("Models/Teapot.fbx");
+        }
 
         public override void Update()
         {
@@ -17,10 +20,9 @@ namespace EduEngine.Scripts
                 var cube = new GameObject();
                 cube.Name = "Cube";
                 cube.Transform.Position = new Vector3(Random.Shared.Next(-10, 10), Random.Shared.Next(0, 20), Random.Shared.Next(-10, 10));
-                cube.AddComponent<Renderer>();
+                cube.AddComponent<Renderer>().SetMesh(_mesh);
                 cube.AddComponent<BoxCollider>().Setup(1.2f, 1.2f, 1.2f);
                 cube.AddComponent<RigidBody>();
-                var meshGenerator = cube.AddComponent<ProcedureMesh>();
 
                 _spawned.Add(cube);
             }
@@ -33,8 +35,6 @@ namespace EduEngine.Scripts
                 sphere.AddComponent<Renderer>();
                 sphere.AddComponent<SphereCollider>().Setup(radius + 0.1f);
                 sphere.AddComponent<RigidBody>();
-                var meshGenerator = sphere.AddComponent<ProcedureMesh>();
-                meshGenerator.SetupMesh(false, radius + 0.1f);
 
                 _spawned.Add(sphere);
             }

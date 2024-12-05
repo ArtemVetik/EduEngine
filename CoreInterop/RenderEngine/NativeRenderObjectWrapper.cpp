@@ -3,9 +3,9 @@
 
 namespace EduEngine
 {
-	NativeRenderObjectWrapper::NativeRenderObjectWrapper(MeshData^ meshData)
+	NativeRenderObjectWrapper::NativeRenderObjectWrapper(SharedMeshWrapper^ mesh)
 	{
-		m_NativeObject = CoreSystems::GetInstance()->GetRenderEngine()->AddObject(meshData->ToNative());
+		m_NativeObject = CoreSystems::GetInstance()->GetRenderEngine()->AddObject(mesh->GetNative());
 	}
 
 	NativeRenderObjectWrapper::~NativeRenderObjectWrapper()
