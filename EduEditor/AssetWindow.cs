@@ -71,7 +71,7 @@ namespace EduEngine.Editor
 
                 if (ImGui.Button("OK"))
                 {
-                    AssetDataBase.CreateScene(_popupInput, new SceneData());
+                    SceneImporter.CreateSceneFile(_popupInput, new SceneData());
                     _popupInput = string.Empty;
                     ImGui.CloseCurrentPopup();
                 }
@@ -121,7 +121,7 @@ namespace EduEngine.Editor
 
             foreach (var asset in AssetDataBase.AllAssets)
             {
-                var type = AssetDataBase.GetType(asset.Key);
+                var type = AssetDataBase.GetAssetData(asset.Key).Type;
 
                 if (_currentFilter != null && type != _currentFilter)
                     continue;

@@ -35,7 +35,7 @@ namespace EduEngine
 
                     if (type == "Script")
                     {
-                        var guid = AssetDataBase.GetScriptGUID(component.GetType());
+                        var guid = GetScriptGUID(component.GetType());
                         parameters.Add("script_guid", guid);
                     }
 
@@ -64,10 +64,25 @@ namespace EduEngine
 
         public static void LoadScene(string guid, bool runtime)
         {
-            var scenePath = AssetDataBase.GetLocalPathByGUID(guid);
-            AssetDataBase.LoadScene(scenePath, out SceneData? data);
+            var scenePath = AssetDataBase.GetAssetData(guid).LocalPath;
 
-            LoadScene(data, guid, runtime);
+            if (Path.GetExtension(scenePath) == ".scene")
+                scenePath = Path.Combine(
+                   Path.GetDirectoryName(scenePath) ?? string.Empty,
+                   Path.GetFileNameWithoutExtension(scenePath)
+                );
+
+            var fullPath = $"{AssetDataBase.RootPath}{scenePath}.scene";
+
+            if (File.Exists(fullPath) == false)
+                return;
+
+            var sceneData = JsonConvert.DeserializeObject<SceneData>(File.ReadAllText(fullPath));
+
+            if (sceneData == null)
+                return;
+
+            LoadScene(sceneData, guid, runtime);
         }
 
         public static void LoadScene(SceneData data, string guid, bool runtime)
@@ -96,7 +111,7 @@ namespace EduEngine
                     {
                         var scriptGuid = cData.Parameters["script_guid"];
 
-                        var scriptPath = AssetDataBase.GetGlobalPathByGUID((string)scriptGuid);
+                        var scriptPath = AssetDataBase.GetAssetData((string)scriptGuid).GlobalPath;
                         var type = ScriptParser.FindComponent(scriptPath);
                         var parameters = ConvertAssetParameters(type, cData.Parameters);
                         var component = go.AddComponent(type, parameters);
@@ -118,16 +133,24 @@ namespace EduEngine
 
             if (AssetDataBase.HasGUID(SceneManager.CurrentScene.GUID))
             {
-                var scenePath = AssetDataBase.GetGlobalPathByGUID(SceneManager.CurrentScene.GUID);
+                var scenePath = AssetDataBase.GetAssetData(SceneManager.CurrentScene.GUID).GlobalPath;
                 File.WriteAllText(scenePath, JsonConvert.SerializeObject(sceneData, Formatting.Indented));
             }
             else
             {
                 var sceneName = $"\\Scene_{DateTime.Now.Ticks}";
-                AssetDataBase.CreateScene(sceneName, sceneData);
+                CreateSceneFile(sceneName, sceneData);
                 var guid = AssetDataBase.GetGUIDByLocalPath(sceneName + ".scene");
                 LoadScene(guid, false);
             }
+        }
+
+        public static void CreateSceneFile(string sceneName, SceneData scene)
+        {
+            var fullPath = $"{AssetDataBase.RootPath}{sceneName}.scene";
+
+            File.WriteAllText(fullPath, JsonConvert.SerializeObject(scene, Formatting.Indented));
+            AssetDataBase.Resolve();
         }
 
         private static void ParseParameter(FieldInfo fieldInfo, object obj, out string fieldName, out object fieldValue)
@@ -159,7 +182,7 @@ namespace EduEngine
                         var assetGUID = (string)parameter.Value;
 
                         if (assetGUID != null && AssetDataBase.HasGUID(assetGUID))
-                            outParameters[parameter.Key] = AssetDataBase.GetByGUID(assetGUID).Asset;
+                            outParameters[parameter.Key] = AssetDataBase.GetAssetData(assetGUID).Asset;
                         else
                             outParameters[parameter.Key] = null;
                     }
@@ -171,6 +194,21 @@ namespace EduEngine
             }
 
             return outParameters;
+        }
+
+        private static string GetScriptGUID(Type scriptType)
+        {
+            var scripts = AssetDataBase.AllAssets.Where(asset => asset.Value.Type == AssetType.Script);
+
+            foreach (var script in scripts)
+            {
+                var type = ScriptParser.FindComponent(script.Value.GlobalPath);
+
+                if (type == scriptType)
+                    return script.Key;
+            }
+
+            return null;
         }
     }
 }

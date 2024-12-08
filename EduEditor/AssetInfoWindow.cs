@@ -14,10 +14,10 @@ namespace EduEngine.Editor
             if (guid != _guid)
             {
                 _guid = guid;
-                _metaData = AssetDataBase.GetMetaData(guid);
-                _assetType = AssetDataBase.GetType(guid);
+                _metaData = AssetDataBase.GetAssetData(guid).MetaData;
+                _assetType = AssetDataBase.GetAssetData(guid).Type;
 
-                var sourcePath = AssetDataBase.GetGlobalPathByGUID(guid);
+                var sourcePath = AssetDataBase.GetAssetData(guid).GlobalPath;
                 _sourceInfo = new FileInfo(sourcePath);
 
                 ImGui.SetWindowFocus("AssetInfo");

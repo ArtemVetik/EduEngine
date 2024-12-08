@@ -108,9 +108,10 @@ namespace EduEngine.Editor
                             }
                             else
                             {
-                                var assets = AssetDataBase.GetByAssetType(field.FieldType);
+                                var assets = AssetDataBase.AllAssets.Where(asset => asset.Value.Asset != null &&
+                                                                                    asset.Value.Asset.GetType() == field.FieldType);
 
-                                if (ImGui.BeginCombo(field.Name, currentAsset == null ? "null" : AssetDataBase.GetLocalPathByGUID(currentAsset.GUID)))
+                                if (ImGui.BeginCombo(field.Name, currentAsset == null ? "null" : AssetDataBase.GetAssetData(currentAsset.GUID).LocalPath))
                                 {
                                     if (ImGui.Selectable("null"))
                                     {
@@ -120,9 +121,9 @@ namespace EduEngine.Editor
 
                                     foreach (var asset in assets)
                                     {
-                                        if (ImGui.Selectable(asset.LocalPath))
+                                        if (ImGui.Selectable(asset.Value.LocalPath))
                                         {
-                                            field.SetValue(component, asset.Asset);
+                                            field.SetValue(component, asset.Value.Asset);
                                             serializeCallback?.OnDeserialize();
                                         }
                                     }

@@ -10,7 +10,7 @@ namespace EduEngine.Scripts
         public Root(GameObject parent)
             : base(parent)
         {
-            var mesh = AssetDataBase.GetByType(AssetType.Mesh).First();
+            var mesh = AssetDataBase.AllAssets.First(asset => asset.Value.Type == AssetType.Mesh);
             _mesh = mesh.Value.Asset as SharedMesh;
         }
 

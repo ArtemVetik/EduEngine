@@ -54,7 +54,7 @@ namespace EduEngine.Editor
 
             if (AssetDataBase.HasGUID(SceneManager.CurrentScene.GUID))
             {
-                var path = AssetDataBase.GetLocalPathByGUID(SceneManager.CurrentScene.GUID);
+                var path = AssetDataBase.GetAssetData(SceneManager.CurrentScene.GUID).LocalPath;
                 ImGui.Text(Path.GetFileName(path));
             }
             else
