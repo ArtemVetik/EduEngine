@@ -16,7 +16,7 @@ namespace EduEngine
                .DescendantNodes()
                .OfType<ClassDeclarationSyntax>();
 
-            var scriptAssembly = Assembly.Load("Scripts");
+            var scriptAssembly = Assembly.LoadFrom(AssetDataBase.DllPath);
 
             foreach (var classDeclaration in classDeclarations)
             {

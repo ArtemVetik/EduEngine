@@ -72,7 +72,7 @@ namespace EduEngine
                    Path.GetFileNameWithoutExtension(scenePath)
                 );
 
-            var fullPath = $"{AssetDataBase.RootPath}{scenePath}.scene";
+            var fullPath = $"{AssetDataBase.AssetsPath}{scenePath}.scene";
 
             if (File.Exists(fullPath) == false)
                 return;
@@ -147,7 +147,7 @@ namespace EduEngine
 
         public static void CreateSceneFile(string sceneName, SceneData scene)
         {
-            var fullPath = $"{AssetDataBase.RootPath}{sceneName}.scene";
+            var fullPath = $"{AssetDataBase.AssetsPath}{sceneName}.scene";
 
             File.WriteAllText(fullPath, JsonConvert.SerializeObject(scene, Formatting.Indented));
             AssetDataBase.Resolve();

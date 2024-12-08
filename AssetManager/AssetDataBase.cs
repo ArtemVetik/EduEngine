@@ -8,13 +8,15 @@ namespace EduEngine
         private static Dictionary<string, AssetData> _assets = new();
 
         public static bool IsDirty => _assetResolver.HasChanges;
-        public static string RootPath => _assetResolver.RootPath;
+        public static string AssetsPath => _assetResolver.AssetsPath;
+        public static string DllPath { get; private set; }
 
         public static Dictionary<string, AssetData> AllAssets => _assets;
 
-        public static void Initialize(string rootPath)
+        public static void Initialize(string assetsPath, string dllPath)
         {
-            _assetResolver = new AssetResolver(rootPath);
+            DllPath = dllPath;
+            _assetResolver = new AssetResolver(assetsPath);
             Resolve();
         }
 
@@ -61,10 +63,10 @@ namespace EduEngine
 
             foreach (var item in assets)
             {
-                var metadataPath = RootPath + item.Value + ".meta";
+                var metadataPath = AssetsPath + item.Value + ".meta";
                 var metaData = JsonConvert.DeserializeObject<AssetMetaData>(File.ReadAllText(metadataPath));
 
-                _assets.Add(item.Key, new AssetData(RootPath, item.Value, metaData));
+                _assets.Add(item.Key, new AssetData(AssetsPath, item.Value, metaData));
                 _assets[item.Key].Asset = CreateAsset(item.Key);
             }
         }

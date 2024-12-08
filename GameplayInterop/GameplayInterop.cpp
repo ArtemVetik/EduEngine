@@ -13,9 +13,9 @@ namespace EduEngine
 		InternalGameplayInterop::Render();
 	}
 
-	void EditorInterop::Initialize(std::wstring rootPath)
+	void EditorInterop::Initialize(std::wstring assetsPath, std::wstring dllPath)
 	{
-		InternalEditorInterop::Initialize(rootPath);
+		InternalEditorInterop::Initialize(assetsPath, dllPath);
 	}
 
 	void EditorInterop::Update()

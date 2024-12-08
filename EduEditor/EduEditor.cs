@@ -15,7 +15,7 @@ namespace EduEngine.Editor
         private static AssetWindow _assetWindow = new AssetWindow();
         private static AssetInfoWindow _assetInfo = new AssetInfoWindow();
 
-        public static unsafe void Initialize(string rootPath)
+        public static unsafe void Initialize(string assetsPath, string dllPath)
         {
             ImGui.CreateContext();
             var io = ImGui.GetIO();
@@ -42,7 +42,7 @@ namespace EduEngine.Editor
                 style.Colors[i] = color;
             }
 
-            AssetDataBase.Initialize(rootPath);
+            AssetDataBase.Initialize(assetsPath, dllPath);
             EditorWindowEventInterop.AddFocusCallback(OnFocusChanged);
         }
 

@@ -41,7 +41,7 @@ private:
 	IRenderEngine* m_RenderEngine;
 };
 
-std::wstring OpenFolderDialog()
+std::wstring OpenFolderDialog(bool folder = true)
 {
 	CoInitialize(nullptr);
 
@@ -53,7 +53,7 @@ std::wstring OpenFolderDialog()
 	if (SUCCEEDED(hr)) {
 		DWORD options = 0;
 		pFileDialog->GetOptions(&options);
-		pFileDialog->SetOptions(options | FOS_PICKFOLDERS);
+		pFileDialog->SetOptions(options | (folder ? FOS_PICKFOLDERS : FOS_FILEMUSTEXIST));
 
 		hr = pFileDialog->Show(nullptr);
 		if (SUCCEEDED(hr)) {
@@ -107,8 +107,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance,
 #endif
 
 	std::wstring folderPath = OpenFolderDialog();
-
 	if (folderPath.empty())
+		return 0;
+
+	std::wstring dllPath = OpenFolderDialog(false);
+	if (dllPath.empty())
 		return 0;
 
 	GeometryGenerator geoGen;
@@ -133,7 +136,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance,
 
 	CoreSystems coreSystems(renderEngine.get(), editorRenderEngine.get(), physicsWorld.get(), &runtimeTimer, &editorTimer);
 
-	EditorInterop::Initialize(folderPath);
+	EditorInterop::Initialize(folderPath, dllPath);
 
 	RuntimeRender runtimeRender(renderEngine.get());
 

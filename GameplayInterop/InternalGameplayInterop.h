@@ -22,10 +22,11 @@ namespace EduEngine
 	public ref class InternalEditorInterop
 	{
 	public:
-		static void Initialize(std::wstring rootPath)
+		static void Initialize(std::wstring assetsPath, std::wstring dllPath)
 		{
-			String^ s = gcnew String(rootPath.c_str());
-			Editor::EduEditor::Initialize(s);
+			String^ cAssetPath = gcnew String(assetsPath.c_str());
+			String^ cDllPath = gcnew String(dllPath.c_str());
+			Editor::EduEditor::Initialize(cAssetPath, cDllPath);
 		}
 
 		static void Update()

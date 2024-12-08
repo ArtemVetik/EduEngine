@@ -152,8 +152,8 @@ namespace EduEngine.Editor
             var assemblies = new Assembly[]
             {
                 Assembly.Load("GameplayFramework"),
-                Assembly.Load("Scripts"),
-            };
+                Assembly.LoadFrom(AssetDataBase.DllPath),
+        };
             var derivedTypes = new List<Type>();
 
             foreach (var assembly in assemblies)

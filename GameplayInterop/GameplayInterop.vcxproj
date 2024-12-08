@@ -141,9 +141,6 @@
     <ProjectReference Include="..\GameplayFramework\GameplayFramework.csproj">
       <Project>{c5a54d47-3738-4497-b787-7e0ff03dc6af}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\Scripts\Scripts.csproj">
-      <Project>{77e2444d-fda8-4680-bab5-b19e0e3abb98}</Project>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
