@@ -5,12 +5,12 @@ namespace EduEngine
     public static class AssetDataBase
     {
         private static AssetResolver _assetResolver = null;
-        private static Dictionary<string, string> _assets = new();
+        private static Dictionary<string, AssetData> _assets = new();
 
         public static bool IsDirty => _assetResolver.HasChanges;
         public static string RootPath => _assetResolver.RootPath;
 
-        public static Dictionary<string, string> AllAssets => _assets;
+        public static Dictionary<string, AssetData> AllAssets => _assets;
 
         public static void Initialize(string rootPath)
         {
@@ -69,7 +69,7 @@ namespace EduEngine
 
             foreach (var script in scripts)
             {
-                var type = ScriptParser.FindComponent(_assetResolver.RootPath + script.Value);
+                var type = ScriptParser.FindComponent(_assetResolver.RootPath + script.Value.LocalPath);
 
                 if (type == scriptType)
                     return script.Key;
@@ -82,17 +82,22 @@ namespace EduEngine
 
         public static string GetLocalPathByGUID(string guid)
         {
+            return _assets[guid].LocalPath;
+        }
+
+        public static AssetData GetByGUID(string guid)
+        {
             return _assets[guid];
         }
 
         public static string GetGlobalPathByGUID(string guid)
         {
-            return _assetResolver.RootPath + _assets[guid];
+            return _assetResolver.RootPath + _assets[guid].LocalPath;
         }
 
         public static string GetGUIDByLocalPath(string localPath)
         {
-            return _assets.FirstOrDefault(asset => asset.Value == localPath).Key;
+            return _assets.FirstOrDefault(asset => asset.Value.LocalPath == localPath).Key;
         }
 
         public static string GetGUIDByGlobalPath(string globalPath)
@@ -119,22 +124,28 @@ namespace EduEngine
             }
 
             foreach (var guid in deleteId)
+            {
+                _assets[guid].Asset?.Delete();
                 _assets.Remove(guid);
-
+            }
+            
             foreach (var item in assets)
-                _assets.Add(item.Key, item.Value);
+            {
+                _assets.Add(item.Key, new AssetData() { LocalPath = item.Value });
+                _assets[item.Key] = CreateAssetData(item.Key);
+            }
         }
 
-        public static IEnumerable<KeyValuePair<string, string>> GetByType(AssetType type)
+        public static IEnumerable<KeyValuePair<string, AssetData>> GetByType(AssetType type)
         {
             switch (type)
             {
                 case AssetType.Scene:
-                    return _assets.Where(data => Path.GetExtension(data.Value) == ".scene");
+                    return _assets.Where(data => Path.GetExtension(data.Value.LocalPath) == ".scene");
                 case AssetType.Script:
-                    return _assets.Where(data => Path.GetExtension(data.Value) == ".cs");
+                    return _assets.Where(data => Path.GetExtension(data.Value.LocalPath) == ".cs");
                 case AssetType.Mesh:
-                    return _assets.Where(data => Path.GetExtension(data.Value) == ".fbx");
+                    return _assets.Where(data => Path.GetExtension(data.Value.LocalPath) == ".fbx");
                 default:
                     return null;
             }
@@ -142,12 +153,12 @@ namespace EduEngine
 
         public static AssetType GetType(string guid)
         {
-            _assets.TryGetValue(guid, out string assetPath);
+            _assets.TryGetValue(guid, out AssetData assetPath);
 
             if (assetPath == null)
                 return AssetType.Invalid;
 
-            var extention = Path.GetExtension(assetPath);
+            var extention = Path.GetExtension(assetPath.LocalPath);
 
             switch (extention)
             {
@@ -162,6 +173,40 @@ namespace EduEngine
         {
             var assetPath = GetGlobalPathByGUID(guid) + ".meta";
             return JsonConvert.DeserializeObject<AssetMetaData>(File.ReadAllText(assetPath));
+        }
+
+        public static AssetData[] GetByAssetType(Type type)
+        {
+            var assets = new List<AssetData>();
+
+            foreach (var item in _assets)
+            {
+                if (item.Value.Asset != null && item.Value.Asset.GetType() == type)
+                    assets.Add(item.Value);
+            }
+
+            return assets.ToArray();
+        }
+
+        private static AssetData CreateAssetData(string guid)
+        {
+            var type = GetType(guid);
+            var globalPath = GetGlobalPathByGUID(guid);
+            var localPath = GetLocalPathByGUID(guid);
+            Asset asset = null;
+
+            switch (type)
+            {
+                case AssetType.Mesh:
+                    asset = new SharedMesh(guid, globalPath);
+                    break;
+            }
+
+            return new AssetData()
+            {
+                LocalPath = localPath,
+                Asset = asset,
+            };
         }
     }
 }

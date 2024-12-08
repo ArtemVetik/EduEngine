@@ -97,9 +97,42 @@ namespace EduEngine.Editor
                                 serializeCallback?.OnDeserialize();
                             }
                         }
+                        else if (field.FieldType.IsSubclassOf(typeof(Asset)))
+                        {
+                            Asset currentAsset = fieldValue as Asset;
+
+                            if (currentAsset != null && currentAsset.IsValid == false)
+                            {
+                                field.SetValue(component, null);
+                                serializeCallback?.OnDeserialize();
+                            }
+                            else
+                            {
+                                var assets = AssetDataBase.GetByAssetType(field.FieldType);
+
+                                if (ImGui.BeginCombo(field.Name, currentAsset == null ? "null" : AssetDataBase.GetLocalPathByGUID(currentAsset.GUID)))
+                                {
+                                    if (ImGui.Selectable("null"))
+                                    {
+                                        field.SetValue(component, null);
+                                        serializeCallback?.OnDeserialize();
+                                    }
+
+                                    foreach (var asset in assets)
+                                    {
+                                        if (ImGui.Selectable(asset.LocalPath))
+                                        {
+                                            field.SetValue(component, asset.Asset);
+                                            serializeCallback?.OnDeserialize();
+                                        }
+                                    }
+                                    ImGui.EndCombo();
+                                }
+                            }
+                        }
                         else
                         {
-                            ImGui.Text($"{fieldName}: Unsupported type ({fieldValue.GetType().Name})");
+                            ImGui.Text($"{field.Name}: Unsupported type ({field.FieldType.Name})");
                         }
                     }
 
@@ -151,7 +184,7 @@ namespace EduEngine.Editor
 
                 ImGui.Separator();
 
-                foreach (var option in FilterOptions(derivedTypes))
+                foreach (var option in FilterScripts(derivedTypes))
                 {
                     if (ImGui.Selectable(option.Name))
                     {
@@ -166,7 +199,7 @@ namespace EduEngine.Editor
             }
         }
 
-        private static IEnumerable<Type> FilterOptions(List<Type> types)
+        private static IEnumerable<Type> FilterScripts(List<Type> types)
         {
             for (int i = 0; i < types.Count; i++)
             {

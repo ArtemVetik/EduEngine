@@ -12,9 +12,10 @@ namespace EduEngine
 		RenderObject(SharedMeshD3D12Impl* mesh);
 		~RenderObject();
 		
-		VertexBufferD3D12* GetVertexBuffer() const { return m_Mesh->GetVertexBuffer(); }
-		IndexBufferD3D12* GetIndexBuffer() const { return m_Mesh->GetIndexBuffer(); }
-
+		VertexBufferD3D12* GetVertexBuffer() const;
+		IndexBufferD3D12* GetIndexBuffer() const;
+	
+		void RemoveMesh(SharedMeshD3D12Impl* mesh);
 	private:
 		SharedMeshD3D12Impl* m_Mesh;
 	};

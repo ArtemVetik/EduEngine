@@ -66,7 +66,7 @@ namespace EduEngine
 
             _components.Add((T)component);
 
-            ((T)component).OnDeserialized();
+            ((T)component).OnAddComponent();
 
             if (IsRuntime)
                 ((T)component).OnCreate();
@@ -100,7 +100,7 @@ namespace EduEngine
 
             _components.Add((Component)component);
 
-            ((Component)component).OnDeserialized();
+            ((Component)component).OnAddComponent();
 
             if (IsRuntime)
                 ((Component)component).OnCreate();

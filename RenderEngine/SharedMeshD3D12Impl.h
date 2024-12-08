@@ -9,6 +9,7 @@ namespace EduEngine
 	{
 	public:
 		SharedMeshD3D12Impl(RenderDeviceD3D12* device, const aiScene* scene);
+		~SharedMeshD3D12Impl();
 
 		void Load();
 		void Free();

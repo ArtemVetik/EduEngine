@@ -130,7 +130,7 @@ namespace EduEngine.Editor
                 ImGui.PushStyleColor(ImGuiCol.ButtonHovered, _assetColors[type] * 1.1f);
                 ImGui.PushStyleColor(ImGuiCol.ButtonActive, _assetColors[type] * 0.9f);
 
-                if (ImGui.Button(Path.GetFileNameWithoutExtension(asset.Value) + $"##{asset.Key}", new Vector2(_buttonSize, _buttonSize)))
+                if (ImGui.Button(Path.GetFileNameWithoutExtension(asset.Value.LocalPath) + $"##{asset.Key}", new Vector2(_buttonSize, _buttonSize)))
                 {
                     _selectedAsset = asset.Key;
                 }
@@ -139,10 +139,9 @@ namespace EduEngine.Editor
                 ImGui.PopStyleColor();
                 ImGui.PopStyleColor();
 
-
                 if (ImGui.IsItemHovered())
                 {
-                    ImGui.SetTooltip(asset.Value);
+                    ImGui.SetTooltip(asset.Value.LocalPath);
                 }
 
                 columnIndex++;

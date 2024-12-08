@@ -1,5 +1,4 @@
 using Newtonsoft.Json;
-using System;
 using System.Reflection;
 
 namespace EduEngine
@@ -28,7 +27,8 @@ namespace EduEngine
 
                     foreach (var field in fields)
                     {
-                        parameters.Add(field.Name, field.GetValue(component));
+                        ParseParameter(field, component, out string filedName, out object fieldValue);
+                        parameters.Add(filedName, fieldValue);
                     }
 
                     var type = component.GetType().Assembly == typeof(GameObject).Assembly ? component.GetType().FullName : "Script";
@@ -98,13 +98,15 @@ namespace EduEngine
 
                         var scriptPath = AssetDataBase.GetGlobalPathByGUID((string)scriptGuid);
                         var type = ScriptParser.FindComponent(scriptPath);
-                        var component = go.AddComponent(type, cData.Parameters);
+                        var parameters = ConvertAssetParameters(type, cData.Parameters);
+                        var component = go.AddComponent(type, parameters);
                     }
                     else
                     {
                         var gameplayAssembly = Assembly.Load("GameplayFramework");
                         var type = gameplayAssembly.GetType(cData.Type);
-                        var component = go.AddComponent(type, cData.Parameters);
+                        var parameters = ConvertAssetParameters(type, cData.Parameters);
+                        var component = go.AddComponent(type, parameters);
                     }
                 }
             }
@@ -117,7 +119,7 @@ namespace EduEngine
             if (AssetDataBase.HasGUID(SceneManager.CurrentScene.GUID))
             {
                 var scenePath = AssetDataBase.GetGlobalPathByGUID(SceneManager.CurrentScene.GUID);
-                File.WriteAllText(scenePath, JsonConvert.SerializeObject(sceneData));
+                File.WriteAllText(scenePath, JsonConvert.SerializeObject(sceneData, Formatting.Indented));
             }
             else
             {
@@ -126,6 +128,49 @@ namespace EduEngine
                 var guid = AssetDataBase.GetGUIDByLocalPath(sceneName + ".scene");
                 LoadScene(guid, false);
             }
+        }
+
+        private static void ParseParameter(FieldInfo fieldInfo, object obj, out string fieldName, out object fieldValue)
+        {
+            fieldName = fieldInfo.Name;
+            fieldValue = fieldInfo.GetValue(obj);
+
+            if (fieldInfo.FieldType.IsSubclassOf(typeof(Asset)))
+            {
+                if (fieldValue != null)
+                {
+                    fieldValue = ((Asset)fieldValue).GUID;
+                }
+            }
+        }
+
+        private static Dictionary<string, object> ConvertAssetParameters(Type type, Dictionary<string, object> parameters)
+        {
+            var outParameters = new Dictionary<string, object>(parameters.Count);
+
+            foreach (var parameter in parameters)
+            {
+                var field = type.GetField(parameter.Key, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+
+                if (field != null)
+                {
+                    if (field.FieldType.IsSubclassOf(typeof(Asset)))
+                    {
+                        var assetGUID = (string)parameter.Value;
+
+                        if (assetGUID != null && AssetDataBase.HasGUID(assetGUID))
+                            outParameters[parameter.Key] = AssetDataBase.GetByGUID(assetGUID).Asset;
+                        else
+                            outParameters[parameter.Key] = null;
+                    }
+                    else
+                    {
+                        outParameters[parameter.Key] = parameter.Value;
+                    }
+                }
+            }
+
+            return outParameters;
         }
     }
 }

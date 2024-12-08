@@ -10,6 +10,14 @@ namespace EduEngine
 	{
 	}
 
+	SharedMeshD3D12Impl::~SharedMeshD3D12Impl()
+	{
+		m_RefCount = 0;
+		m_Scene = nullptr;
+		m_VertexBuffer.reset();
+		m_IndexBuffer.reset();
+	}
+
 	void SharedMeshD3D12Impl::Load()
 	{
 		if (m_RefCount > 0)
@@ -23,12 +31,14 @@ namespace EduEngine
 		{
 			auto aiVertex = m_Scene->mMeshes[0]->mVertices[i];
 			auto aiNormal = m_Scene->mMeshes[0]->mNormals[i];
+			auto aiTangents = m_Scene->mMeshes[0]->mTangents ? m_Scene->mMeshes[0]->mTangents[i] : aiVector3D();
+			auto aiTexC = m_Scene->mMeshes[0]->mTextureCoords[0] ? m_Scene->mMeshes[0]->mTextureCoords[0][i] : aiVector3D();
 
 			meshData.Vertices.push_back(NativeVertex(
-				{ aiVertex.x, aiVertex.y, aiVertex.z }, // p
-				{ aiNormal.x, aiNormal.y, aiNormal.z }, // n
-				{ }, // t
-				{ } // uv
+				{ aiVertex.x, aiVertex.y, aiVertex.z },
+				{ aiNormal.x, aiNormal.y, aiNormal.z },
+				{ aiTangents.x, aiTangents.y, aiTangents.z },
+				{ aiTexC.x, aiTexC.y }
 			));
 		}
 

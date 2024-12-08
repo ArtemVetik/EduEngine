@@ -8,7 +8,7 @@
             : base(parent, new SphereColliderData(1))
         { }
 
-        public override void OnDeserialized()
+        public override void OnAddComponent()
         {
             Setup(_radius);
         }

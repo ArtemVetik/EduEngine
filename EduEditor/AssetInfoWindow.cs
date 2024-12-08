@@ -45,23 +45,42 @@ namespace EduEngine.Editor
             ImGui.Separator();
 
             if (_assetType == AssetType.Scene)
-            {
-                if (EngineStateManager.CurrentState == EngineState.Runtime)
-                {
-                    ImGui.Text("Scene cannot be loaded in a runtime state");
-                    ImGui.BeginDisabled();
-                }
-
-                if (ImGui.Button("Load Scene"))
-                {
-                    SceneImporter.LoadScene(_guid, false);
-                }
-
-                if (EngineStateManager.CurrentState == EngineState.Runtime)
-                    ImGui.EndDisabled();
-            }
+                RenderSceneInfo();
+            else if (_assetType == AssetType.Mesh)
+                RenderMeshInfo();
 
             ImGui.End();
+        }
+
+        private void RenderSceneInfo()
+        {
+            if (EngineStateManager.CurrentState == EngineState.Runtime)
+            {
+                ImGui.Text("Scene cannot be loaded in a runtime state");
+                ImGui.BeginDisabled();
+            }
+
+            if (ImGui.Button("Load Scene"))
+            {
+                SceneImporter.LoadScene(_guid, false);
+            }
+
+            if (EngineStateManager.CurrentState == EngineState.Runtime)
+                ImGui.EndDisabled();
+        }
+
+        private void RenderMeshInfo()
+        {
+            var meshObject = AssetDataBase.AllAssets[_guid].Asset as SharedMesh;
+
+            if (meshObject == null)
+            {
+                ImGui.Text("Invalid mesh object");
+                return;
+            }
+
+            ImGui.Text($"Vertices: {meshObject.VertexCount}");
+            ImGui.Text($"Indices: {meshObject.IndexCount}");
         }
     }
 }

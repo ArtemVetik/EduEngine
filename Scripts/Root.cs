@@ -10,7 +10,8 @@ namespace EduEngine.Scripts
         public Root(GameObject parent)
             : base(parent)
         {
-            _mesh = new SharedMesh("Models/Teapot.fbx");
+            var mesh = AssetDataBase.GetByType(AssetType.Mesh).First();
+            _mesh = mesh.Value.Asset as SharedMesh;
         }
 
         public override void Update()

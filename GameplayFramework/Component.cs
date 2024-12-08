@@ -14,7 +14,7 @@
         public Guid GUID => _guid;
         public GameObject GameObject => _gameObject;
 
-        public virtual void OnDeserialized() { }
+        public virtual void OnAddComponent() { }
         public virtual void OnCreate() { }
         public virtual void OnDestroy() { }
         public virtual void Update() { }

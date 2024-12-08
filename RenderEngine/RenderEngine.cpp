@@ -71,7 +71,7 @@ namespace EduEngine
 	{
 		SharedMeshD3D12Impl* meshD3D12 = dynamic_cast<SharedMeshD3D12Impl*>(mesh);
 		assert(meshD3D12 != nullptr);
-
+	
 		auto renderObject = std::make_shared<RenderObject>(meshD3D12);
 		m_RenderObjects.emplace_back(renderObject);
 		return renderObject.get();
@@ -88,8 +88,7 @@ namespace EduEngine
 
 	IMesh* RenderEngine::CreateMesh(const char* filePath)
 	{
-		const aiScene* scene = m_AssimpImporter.ReadFile(filePath, aiProcess_PreTransformVertices | aiProcessPreset_TargetRealtime_Fast);
-		
+		const aiScene* scene = m_AssimpImporter[m_SharedMeshes.size()].ReadFile(filePath, aiProcess_PreTransformVertices | aiProcessPreset_TargetRealtime_Fast);
 		auto mesh = std::make_shared<SharedMeshD3D12Impl>(m_Device.get(), scene);
 		m_SharedMeshes.emplace_back(mesh);
 		return mesh.get();
@@ -97,6 +96,11 @@ namespace EduEngine
 
 	void RenderEngine::RemoveMesh(IMesh* mesh)
 	{
+		SharedMeshD3D12Impl* meshD3D12 = dynamic_cast<SharedMeshD3D12Impl*>(mesh);
+
+		for (auto& renderObject : m_RenderObjects)
+			renderObject->RemoveMesh(meshD3D12);
+
 		m_SharedMeshes.erase(std::remove_if(m_SharedMeshes.begin(), m_SharedMeshes.end(),
 			[&mesh](const std::shared_ptr<IMesh>& ptr) {
 				return ptr.get() == mesh;
