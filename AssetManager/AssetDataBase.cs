@@ -44,6 +44,7 @@ namespace EduEngine
             {
                 if (assets.ContainsKey(item.Key))
                 {
+                    _assets[item.Key].LocalPath = assets[item.Key];
                     assets.Remove(item.Key);
                 }
                 else

@@ -11,16 +11,22 @@ namespace EduEngine.Editor
 
         public void Render(string guid)
         {
+            if (string.IsNullOrEmpty(guid))
+                return;
+
             if (guid != _guid)
             {
                 _guid = guid;
                 _metaData = AssetDataBase.GetAssetData(guid).MetaData;
                 _assetType = AssetDataBase.GetAssetData(guid).Type;
 
+                ImGui.SetWindowFocus("AssetInfo");
+            }
+
+            if (_sourceInfo == null || _sourceInfo.Exists == false)
+            {
                 var sourcePath = AssetDataBase.GetAssetData(guid).GlobalPath;
                 _sourceInfo = new FileInfo(sourcePath);
-
-                ImGui.SetWindowFocus("AssetInfo");
             }
 
             ImGui.Begin("AssetInfo");

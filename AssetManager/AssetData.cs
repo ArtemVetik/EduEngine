@@ -3,7 +3,6 @@
     public class AssetData
     {
         private readonly string _rootPath;
-        public readonly string LocalPath;
         public readonly AssetMetaData MetaData;
 
         internal AssetData(string rootPath, string localPath, AssetMetaData metaData)
@@ -14,6 +13,7 @@
         }
 
         public string GlobalPath => _rootPath + LocalPath;
+        public string LocalPath { get; internal set; }
         public Asset? Asset { get; internal set; }
 
         public AssetType Type
