@@ -3,6 +3,7 @@
 #include "../Graphics/RenderDeviceD3D12.h"
 #include "../Graphics/SwapChain.h"
 #include "ImGuiD3D12Impl.h"
+#include "TextureD3D12Impl.h"
 
 #pragma comment(lib,"d3dcompiler.lib")
 #pragma comment(lib, "D3D12.lib")
@@ -25,6 +26,8 @@ namespace EduEngine
 		void* CreateEditorImGuiUI(void* pixels, int texWidth, int texHeight, int bytesPerPixel) override;
 		DirectX::SimpleMath::Vector2 GetScreenSize() const override;
 
+		void* PreviewTexture(const wchar_t* filePath) override;
+
 		static EditorRenderEngine* GetInstance() { return m_Instance; }
 
 	private:
@@ -32,6 +35,8 @@ namespace EduEngine
 
 		std::unique_ptr<RenderDeviceD3D12> m_Device;
 		std::unique_ptr<SwapChain> m_SwapChain;
+
+		std::shared_ptr<TextureD3D12Impl> m_PreviewTex;
 
 		std::unique_ptr<ImGuiPass> m_ImGuiPass;
 

@@ -90,6 +90,9 @@
     <ClInclude Include="SharedMeshD3D12Impl.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="TextureD3D12Impl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -132,6 +135,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SharedMeshD3D12Impl.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureD3D12Impl.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -108,6 +108,22 @@ namespace EduEngine
 			m_SharedMeshes.end());
 	}
 
+	ITexture* RenderEngine::CreateTexture(const wchar_t* filePath)
+	{
+		auto texture = std::make_shared<TextureD3D12Impl>(m_Device.get(), filePath);
+		m_Textures.emplace_back(texture);
+		return texture.get();
+	}
+
+	void RenderEngine::RemoveTexture(ITexture* texture)
+	{
+		m_Textures.erase(std::remove_if(m_Textures.begin(), m_Textures.end(),
+			[&texture](const std::shared_ptr<ITexture>& ptr) {
+				return ptr.get() == texture;
+			}),
+			m_Textures.end());
+	}
+
 	void RenderEngine::BeginDraw()
 	{
 		if (m_PendingResize != EmptyResize)

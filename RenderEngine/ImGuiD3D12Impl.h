@@ -16,7 +16,7 @@ namespace EduEngine
 					   int				  height,
 					   int				  bytesPerPixel);
 
-		void* GetFontTexturePtr() const { return static_cast<void*>(m_FontTexture.get()); }
+		void* GetFontTexturePtr() const { return reinterpret_cast<void*>(m_FontTexture->GetView(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV)->GetGpuHandle().ptr); }
 
 		void Update(ImDrawData* drawData);
 		void Draw(float displayWidth, float displayHeight);

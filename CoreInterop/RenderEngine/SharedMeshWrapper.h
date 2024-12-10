@@ -1,7 +1,6 @@
 #pragma once
 #include "../../RenderEngine/IRenderEngine.h"
-#include <memory>
-#include <gcroot.h>
+
 namespace EduEngine
 {
 	using namespace System;

@@ -111,10 +111,13 @@ namespace EduEngine
                     {
                         var scriptGuid = cData.Parameters["script_guid"];
 
-                        var scriptPath = AssetDataBase.GetAssetData((string)scriptGuid).GlobalPath;
-                        var type = ScriptParser.FindComponent(scriptPath);
-                        var parameters = ConvertAssetParameters(type, cData.Parameters);
-                        var component = go.AddComponent(type, parameters);
+                        if (AssetDataBase.HasGUID((string)scriptGuid))
+                        {
+                            var scriptPath = AssetDataBase.GetAssetData((string)scriptGuid).GlobalPath;
+                            var type = ScriptParser.FindComponent(scriptPath);
+                            var parameters = ConvertAssetParameters(type, cData.Parameters);
+                            var component = go.AddComponent(type, parameters);
+                        }
                     }
                     else
                     {

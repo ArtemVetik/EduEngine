@@ -10,6 +10,7 @@ namespace EduEngine.Editor
             { AssetType.Scene, new Vector4(0.8f, 0.6f, 0.2f, 1.0f) },
             { AssetType.Script, new Vector4(0.56f, 0.75f, 0.43f, 1.0f) },
             { AssetType.Mesh, new Vector4(0.26f, 0.38f, 0.93f, 1.0f) },
+            { AssetType.Texture, new Vector4(0.66f, 0.42f, 0.79f, 1.0f) },
             { AssetType.Invalid, new Vector4(0.84f, 0.16f, 0.16f, 1.0f) },
         };
 
@@ -100,11 +101,11 @@ namespace EduEngine.Editor
 
                 foreach (var type in _filters)
                 {
-                    var tyt = Enum.Parse<AssetType>(type);
-                    ImGui.PushStyleColor(ImGuiCol.Text, _assetColors[tyt]);
+                    var assetType = Enum.Parse<AssetType>(type);
+                    ImGui.PushStyleColor(ImGuiCol.Text, _assetColors[assetType]);
                     if (ImGui.Selectable(type))
                     {
-                        _currentFilter = tyt;
+                        _currentFilter = assetType;
                     }
                     ImGui.PopStyleColor();
                 }

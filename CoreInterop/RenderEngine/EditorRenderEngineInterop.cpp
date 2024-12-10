@@ -1,21 +1,31 @@
 #include "EditorRenderEngineInterop.h"
 #include "../CoreSystems.h"
+#include "../Utils.h"
 
 namespace EduEngine
 {
-    System::Numerics::Vector2 EditorRenderEngineInterop::GetEditorSize()
-    {
-        auto size =  CoreSystems::GetInstance()->GetEditorRenderEngine()->GetScreenSize();
-        return System::Numerics::Vector2(size.x, size.y);
-    }
+	System::Numerics::Vector2 EditorRenderEngineInterop::GetEditorSize()
+	{
+		auto size = CoreSystems::GetInstance()->GetEditorRenderEngine()->GetScreenSize();
+		return System::Numerics::Vector2(size.x, size.y);
+	}
 
-    void* EditorRenderEngineInterop::CreateImGuiEditor(void* pixels, int texWidth, int texHeight, int bytesPerPixel)
-    {
-        return CoreSystems::GetInstance()->GetEditorRenderEngine()->CreateEditorImGuiUI(pixels, texWidth, texHeight, bytesPerPixel);
-    }
+	void* EditorRenderEngineInterop::CreateImGuiEditor(void* pixels, int texWidth, int texHeight, int bytesPerPixel)
+	{
+		return CoreSystems::GetInstance()->GetEditorRenderEngine()->CreateEditorImGuiUI(pixels, texWidth, texHeight, bytesPerPixel);
+	}
 
-    void EditorRenderEngineInterop::UpdateImGui(void* drawData)
-    {
-        CoreSystems::GetInstance()->GetEditorRenderEngine()->UpdateEditor(static_cast<ImDrawData*>(drawData));
-    }
+	void EditorRenderEngineInterop::UpdateImGui(void* drawData)
+	{
+		CoreSystems::GetInstance()->GetEditorRenderEngine()->UpdateEditor(static_cast<ImDrawData*>(drawData));
+	}
+
+	IntPtr EditorRenderEngineInterop::PreviewTexture(String^ filePath)
+	{
+		if (filePath == nullptr)
+			return IntPtr(CoreSystems::GetInstance()->GetEditorRenderEngine()->PreviewTexture(nullptr));
+
+		auto cFilePath = Utils::ToWCharPointer(filePath);
+		return IntPtr(CoreSystems::GetInstance()->GetEditorRenderEngine()->PreviewTexture(cFilePath));
+	}
 }

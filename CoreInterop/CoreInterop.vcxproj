@@ -138,6 +138,7 @@
     <ClInclude Include="RenderEngine\NativeCameraWrapper.h" />
     <ClInclude Include="RenderEngine\NativeRenderObjectWrapper.h" />
     <ClInclude Include="RenderEngine\RenderEngineInterop.h" />
+    <ClInclude Include="RenderEngine\TextureWrapper.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Utils.h" />
   </ItemGroup>
@@ -154,6 +155,7 @@
     <ClCompile Include="RenderEngine\NativeCameraWrapper.cpp" />
     <ClCompile Include="RenderEngine\NativeRenderObjectWrapper.cpp" />
     <ClCompile Include="RenderEngine\RenderEngineInterop.cpp" />
+    <ClCompile Include="RenderEngine\TextureWrapper.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="app.rc" />

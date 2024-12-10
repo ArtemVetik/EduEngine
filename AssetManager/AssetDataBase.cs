@@ -81,6 +81,9 @@ namespace EduEngine
                 case AssetType.Mesh:
                     asset = new SharedMesh(guid, assetData.GlobalPath);
                     break;
+                case AssetType.Texture:
+                    asset = new Texture(guid, assetData.GlobalPath);
+                    break;
             }
 
             return asset;

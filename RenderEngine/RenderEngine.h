@@ -20,6 +20,7 @@
 #include "RenderObject.h"
 #include "ImGuiD3D12Impl.h"
 #include "SharedMeshD3D12Impl.h"
+#include "TextureD3D12Impl.h"
 
 #pragma comment(lib,"d3dcompiler.lib")
 #pragma comment(lib, "D3D12.lib")
@@ -42,8 +43,11 @@ namespace EduEngine
 		void RemoveObject(IRenderObject* object) override;
 		IMesh* CreateMesh(const char* filePath) override;
 		void RemoveMesh(IMesh* mesh) override;
+		ITexture* CreateTexture(const wchar_t* filePath) override;
+		void RemoveTexture(ITexture* texture) override;
 		Camera* CreateCamera() override;
 		void RemoveCamera(Camera* camera) override;
+		
 		void BeginDraw() override;
 		void Draw(Camera* camera) override;
 		void EndDraw() override;
@@ -56,16 +60,16 @@ namespace EduEngine
 		IDebugRendererSystem* GetDebugRender() const override { return m_DebugRenderer.get(); }
 
 		static RenderEngine* GetInstance();
-
 	private:
 		static RenderEngine* m_Instance;
 
-		std::vector<std::shared_ptr<RenderObject>> m_RenderObjects;
-		std::vector<std::shared_ptr<SharedMeshD3D12Impl>> m_SharedMeshes;
-		std::vector<std::shared_ptr<Camera>> m_Cameras;
-
 		std::unique_ptr<RenderDeviceD3D12> m_Device;
 		std::unique_ptr<SwapChain> m_SwapChain;
+
+		std::vector<std::shared_ptr<RenderObject>> m_RenderObjects;
+		std::vector<std::shared_ptr<SharedMeshD3D12Impl>> m_SharedMeshes;
+		std::vector<std::shared_ptr<TextureD3D12Impl>> m_Textures;
+		std::vector<std::shared_ptr<Camera>> m_Cameras;
 
 		std::unique_ptr<OpaquePass> m_OpaquePass;
 		D3D12_VIEWPORT m_Viewport;

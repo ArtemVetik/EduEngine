@@ -119,4 +119,21 @@ namespace EduEngine
 	{
 		return DirectX::SimpleMath::Vector2(m_SwapChain->GetWidth(), m_SwapChain->GetHeight());
 	}
+
+	void* EditorRenderEngine::PreviewTexture(const wchar_t* filePath)
+	{
+		if (m_PreviewTex.get() && filePath && wcscmp(m_PreviewTex->GetPath(), filePath) == 0)
+			return m_PreviewTex->GetGPUPtr();
+
+		if (m_PreviewTex.get())
+			m_PreviewTex.reset();
+
+		if (filePath == nullptr)
+			return nullptr;
+
+		m_PreviewTex = std::make_shared<TextureD3D12Impl>(m_Device.get(), filePath);
+		m_PreviewTex->Load();
+
+		return m_PreviewTex->GetGPUPtr();
+	}
 }

@@ -27,6 +27,7 @@
                     case ".scene": return AssetType.Scene;
                     case ".fbx": return AssetType.Mesh;
                     case ".cs": return AssetType.Script;
+                    case ".dds": return AssetType.Texture;
                     default: return AssetType.Invalid;
                 }
             }

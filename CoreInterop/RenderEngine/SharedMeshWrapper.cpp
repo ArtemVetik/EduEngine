@@ -17,7 +17,10 @@ namespace EduEngine
 
 	SharedMeshWrapper::!SharedMeshWrapper()
 	{
-		CoreSystems::GetInstance()->GetRenderEngine()->RemoveMesh(m_NativeMesh);
-		m_NativeMesh = nullptr;
+		if (m_NativeMesh)
+		{
+			CoreSystems::GetInstance()->GetRenderEngine()->RemoveMesh(m_NativeMesh);
+			m_NativeMesh = nullptr;
+		}
 	}
 }

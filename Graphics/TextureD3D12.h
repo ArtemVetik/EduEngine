@@ -37,6 +37,7 @@ namespace EduEngine
 					 QueueID					queueId);
 
 		TextureD3D12(RenderDeviceD3D12* pDevice, Microsoft::WRL::ComPtr<ID3D12Resource> resource, QueueID queueId);
+		TextureD3D12(RenderDeviceD3D12* pDevice, std::wstring ddsTexPath, QueueID queueId);
 
 		void LoadData(void* dataPtr);
 
@@ -53,5 +54,7 @@ namespace EduEngine
 		std::unique_ptr<TextureHeapView> m_SrvView;
 		std::unique_ptr<TextureHeapView> m_RtvView;
 		std::unique_ptr<TextureHeapView> m_DsvView;
+
+		Microsoft::WRL::ComPtr<ID3D12Resource> m_DDSuploadHeap;
 	};
 }

@@ -97,11 +97,15 @@ namespace EduEngine
 			for (int cmdIndex = 0; cmdIndex < cmdList->CmdBuffer.Size; cmdIndex++)
 			{
 				ImDrawCmd drawCmd = cmdList->CmdBuffer[cmdIndex];
-
+				
 				if (drawCmd.TextureId)
 				{
 					commandContext.GetCmdList()->SetGraphicsRootConstantBufferView(0, projectionBuffer.GetAllocation().GPUAddress);
-					commandContext.GetCmdList()->SetGraphicsRootDescriptorTable(1, m_FontTexture->GetView(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV)->GetGpuHandle());
+					
+					D3D12_GPU_DESCRIPTOR_HANDLE textDesc;
+					textDesc.ptr = reinterpret_cast<UINT64>(drawCmd.TextureId);
+
+					commandContext.GetCmdList()->SetGraphicsRootDescriptorTable(1, textDesc);
 				}
 
 				commandContext.GetCmdList()->IASetVertexBuffers(0, 1, &vbView);

@@ -12,6 +12,11 @@
         public string GUID => _guid;
         public bool IsValid => !string.IsNullOrEmpty(_guid);
 
+        internal void UpdatePath(string globalPath)
+        {
+            OnPathUpdated(globalPath);
+        }
+
         internal void Delete()
         {
             _guid = string.Empty;
@@ -19,5 +24,6 @@
         }
 
         protected abstract void OnDelete();
+        protected abstract void OnPathUpdated(string globalPath);
     }
 }

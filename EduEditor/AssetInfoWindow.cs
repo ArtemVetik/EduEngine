@@ -1,4 +1,5 @@
 ﻿using ImGuiNET;
+using System.Numerics;
 
 namespace EduEngine.Editor
 {
@@ -36,7 +37,7 @@ namespace EduEngine.Editor
                 ImGui.End();
                 return;
             }
-            
+
             ImGui.Text("Type: " + _assetType.ToString());
             ImGui.Text("GUID: " + _metaData.GUID);
             if (_sourceInfo.Length < 1024)
@@ -54,6 +55,8 @@ namespace EduEngine.Editor
                 RenderSceneInfo();
             else if (_assetType == AssetType.Mesh)
                 RenderMeshInfo();
+            else if (_assetType == AssetType.Texture)
+                RenderTextureInfo();
 
             ImGui.End();
         }
@@ -77,7 +80,9 @@ namespace EduEngine.Editor
 
         private void RenderMeshInfo()
         {
-            var meshObject = AssetDataBase.AllAssets[_guid].Asset as SharedMesh;
+            var meshObject = AssetDataBase.HasGUID(_guid)
+                ? AssetDataBase.AllAssets[_guid].Asset as SharedMesh
+                : null;
 
             if (meshObject == null)
             {
@@ -87,6 +92,23 @@ namespace EduEngine.Editor
 
             ImGui.Text($"Vertices: {meshObject.VertexCount}");
             ImGui.Text($"Indices: {meshObject.IndexCount}");
+        }
+
+        private void RenderTextureInfo()
+        {
+            var textureObject = AssetDataBase.HasGUID(_guid)
+                ? AssetDataBase.AllAssets[_guid].Asset as Texture
+                : null;
+
+            if (textureObject == null)
+            {
+                EditorRenderEngineInterop.PreviewTexture(null);
+                ImGui.Text("Invalid texture object");
+                return;
+            }
+
+            var texPtr = EditorRenderEngineInterop.PreviewTexture(AssetDataBase.GetAssetData(_guid).GlobalPath);
+            ImGui.Image(texPtr, new Vector2(200, 200));
         }
     }
 }

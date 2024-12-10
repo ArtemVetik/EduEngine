@@ -5,6 +5,7 @@
         Scene,
         Script,
         Mesh,
+        Texture,
         Invalid,
     }
 }

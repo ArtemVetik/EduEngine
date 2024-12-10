@@ -4,7 +4,7 @@
     {
         private SharedMeshWrapper _nativeMeshWrapper;
 
-        public SharedMesh(string guid, string assetPath)
+        internal SharedMesh(string guid, string assetPath)
             : base(guid)
         {
             _nativeMeshWrapper = new SharedMeshWrapper(assetPath);
@@ -19,5 +19,7 @@
         {
             _nativeMeshWrapper.Dispose();
         }
+
+        protected override void OnPathUpdated(string globalPath) { }
     }
 }

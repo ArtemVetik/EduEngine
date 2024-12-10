@@ -21,6 +21,11 @@ namespace EduEngine
 			CD3DX12_DESCRIPTOR_RANGE objConstants;
 			objConstants.Init(D3D12_DESCRIPTOR_RANGE_TYPE_CBV, 1, 1);
 			m_RootSignature.AddDescriptorParameter(1, &objConstants); // object constants
+
+			CD3DX12_DESCRIPTOR_RANGE albedoTexture;
+			albedoTexture.Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 0);
+			m_RootSignature.AddDescriptorParameter(1, &albedoTexture);
+			
 			m_RootSignature.Build(device);
 
 			std::vector<D3D12_INPUT_ELEMENT_DESC> mInputLayout =
