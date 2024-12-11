@@ -122,9 +122,6 @@ namespace EduEngine
 
 	void* EditorRenderEngine::PreviewTexture(const wchar_t* filePath)
 	{
-		if (m_PreviewTex.get() && filePath && wcscmp(m_PreviewTex->GetPath(), filePath) == 0)
-			return m_PreviewTex->GetGPUPtr();
-
 		if (m_PreviewTex.get())
 			m_PreviewTex.reset();
 

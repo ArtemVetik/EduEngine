@@ -51,6 +51,8 @@ namespace EduEngine.Editor
 
             ImGui.Separator();
 
+            TexturePreview.UpdatePreview(_guid);
+
             if (_assetType == AssetType.Scene)
                 RenderSceneInfo();
             else if (_assetType == AssetType.Mesh)
@@ -96,19 +98,13 @@ namespace EduEngine.Editor
 
         private void RenderTextureInfo()
         {
-            var textureObject = AssetDataBase.HasGUID(_guid)
-                ? AssetDataBase.AllAssets[_guid].Asset as Texture
-                : null;
-
-            if (textureObject == null)
+            if (TexturePreview.TexturePtr == nint.Zero)
             {
-                EditorRenderEngineInterop.PreviewTexture(null);
                 ImGui.Text("Invalid texture object");
                 return;
             }
 
-            var texPtr = EditorRenderEngineInterop.PreviewTexture(AssetDataBase.GetAssetData(_guid).GlobalPath);
-            ImGui.Image(texPtr, new Vector2(200, 200));
+            ImGui.Image(TexturePreview.TexturePtr, new Vector2(200, 200));
         }
     }
 }

@@ -16,8 +16,6 @@ namespace EduEngine
 		void Load();
 		void Free();
 
-		const wchar_t* GetPath() { return m_FilePath; }
-
 	private:
 		RenderDeviceD3D12* m_Device;
 		const wchar_t* m_FilePath;
