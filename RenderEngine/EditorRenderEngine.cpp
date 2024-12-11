@@ -120,7 +120,7 @@ namespace EduEngine
 		return DirectX::SimpleMath::Vector2(m_SwapChain->GetWidth(), m_SwapChain->GetHeight());
 	}
 
-	void* EditorRenderEngine::PreviewTexture(const wchar_t* filePath)
+	void* EditorRenderEngine::SetPreviewTexture(const wchar_t* filePath)
 	{
 		if (m_PreviewTex.get())
 			m_PreviewTex.reset();

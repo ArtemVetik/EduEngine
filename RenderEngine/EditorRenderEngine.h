@@ -26,7 +26,7 @@ namespace EduEngine
 		void* CreateEditorImGuiUI(void* pixels, int texWidth, int texHeight, int bytesPerPixel) override;
 		DirectX::SimpleMath::Vector2 GetScreenSize() const override;
 
-		void* PreviewTexture(const wchar_t* filePath) override;
+		void* SetPreviewTexture(const wchar_t* filePath) override;
 
 		static EditorRenderEngine* GetInstance() { return m_Instance; }
 

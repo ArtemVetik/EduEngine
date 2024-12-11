@@ -61,7 +61,7 @@ namespace EduEngine
 		virtual void* CreateEditorImGuiUI(void* pixels, int texWidth, int texHeight, int bytesPerPixel) = 0;
 		virtual DirectX::SimpleMath::Vector2 GetScreenSize() const = 0;
 
-		virtual void* PreviewTexture(const wchar_t* filePath) = 0;
+		virtual void* SetPreviewTexture(const wchar_t* filePath) = 0;
 
 		static std::shared_ptr<IEditorRenderEngine> Create(const EditorWindow& mainWindow);
 	};

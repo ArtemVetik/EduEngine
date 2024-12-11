@@ -11,6 +11,6 @@ namespace EduEngine
 		static void* CreateImGuiEditor(void* pixels, int texWidth, int texHeight, int bytesPerPixel);
 		static void UpdateImGui(void* drawData);
 
-		static IntPtr PreviewTexture(String^ filePath);
+		static IntPtr SetPreviewTexture(String^ filePath);
 	};
 }

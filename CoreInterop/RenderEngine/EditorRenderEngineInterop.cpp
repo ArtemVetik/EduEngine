@@ -20,12 +20,12 @@ namespace EduEngine
 		CoreSystems::GetInstance()->GetEditorRenderEngine()->UpdateEditor(static_cast<ImDrawData*>(drawData));
 	}
 
-	IntPtr EditorRenderEngineInterop::PreviewTexture(String^ filePath)
+	IntPtr EditorRenderEngineInterop::SetPreviewTexture(String^ filePath)
 	{
 		if (filePath == nullptr)
-			return IntPtr(CoreSystems::GetInstance()->GetEditorRenderEngine()->PreviewTexture(nullptr));
+			return IntPtr(CoreSystems::GetInstance()->GetEditorRenderEngine()->SetPreviewTexture(nullptr));
 
 		auto cFilePath = Utils::ToWCharPointer(filePath);
-		return IntPtr(CoreSystems::GetInstance()->GetEditorRenderEngine()->PreviewTexture(cFilePath));
+		return IntPtr(CoreSystems::GetInstance()->GetEditorRenderEngine()->SetPreviewTexture(cFilePath));
 	}
 }

@@ -19,11 +19,11 @@
 
             if (_assetData == null || _assetData.Asset == null || _assetData.Type != AssetType.Texture)
             {
-                EditorRenderEngineInterop.PreviewTexture(null);
+                EditorRenderEngineInterop.SetPreviewTexture(null);
                 TexturePtr = nint.Zero;
             }
             else
-                TexturePtr = EditorRenderEngineInterop.PreviewTexture(_assetData.GlobalPath);
+                TexturePtr = EditorRenderEngineInterop.SetPreviewTexture(_assetData.GlobalPath);
         }
     }
 }
