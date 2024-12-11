@@ -52,6 +52,7 @@ namespace EduEngine.Editor
             ImGui.Separator();
 
             TexturePreview.UpdatePreview(_guid);
+            MeshPreview.UpdatePreview(_guid);
 
             if (_assetType == AssetType.Scene)
                 RenderSceneInfo();
@@ -94,6 +95,22 @@ namespace EduEngine.Editor
 
             ImGui.Text($"Vertices: {meshObject.VertexCount}");
             ImGui.Text($"Indices: {meshObject.IndexCount}");
+
+            ImGui.Image(MeshPreview.TexturePtr, new Vector2(200, 200));
+
+            if (ImGui.IsWindowHovered())
+            {
+                if (Input.Editor.MouseButtonPressed(0))
+                {
+                    var delta = new Vector3(Input.Editor.MouseDelta.X, Input.Editor.MouseDelta.Y, Input.Editor.ScrollDelta.Y);
+                    EditorRenderEngineInterop.RotatePreviewMesh(delta * EditorTime.DeltaTime);
+                }
+                else
+                {
+                    var delta = new Vector3(0, 0, Input.Editor.ScrollDelta.Y);
+                    EditorRenderEngineInterop.RotatePreviewMesh(delta * EditorTime.DeltaTime);
+                }
+            }
         }
 
         private void RenderTextureInfo()

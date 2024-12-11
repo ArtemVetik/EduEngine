@@ -151,6 +151,7 @@
   <ItemGroup>
     <ClInclude Include="Camera.h" />
     <ClInclude Include="DebugRendererSystem.h" />
+    <ClInclude Include="EditorMeshPreviewD3D12.h" />
     <ClInclude Include="EditorRenderEngine.h" />
     <ClInclude Include="EditorWindow.h" />
     <ClInclude Include="framework.h" />
@@ -179,6 +180,7 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="DebugRendererSystem.cpp" />
     <ClCompile Include="dllmain.cpp" />
+    <ClCompile Include="EditorMeshPreviewD3D12.cpp" />
     <ClCompile Include="EditorRenderEngine.cpp" />
     <ClCompile Include="EditorWindow.cpp" />
     <ClCompile Include="GeometryGenerator.cpp" />

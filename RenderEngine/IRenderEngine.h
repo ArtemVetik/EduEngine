@@ -62,6 +62,8 @@ namespace EduEngine
 		virtual DirectX::SimpleMath::Vector2 GetScreenSize() const = 0;
 
 		virtual void* SetPreviewTexture(const wchar_t* filePath) = 0;
+		virtual void* SetPreviewMesh(const char* filePath) = 0;
+		virtual void RotatePreviewMesh(DirectX::XMFLOAT3 delta) = 0;
 
 		static std::shared_ptr<IEditorRenderEngine> Create(const EditorWindow& mainWindow);
 	};

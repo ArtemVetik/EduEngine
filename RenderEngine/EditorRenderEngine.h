@@ -4,6 +4,7 @@
 #include "../Graphics/SwapChain.h"
 #include "ImGuiD3D12Impl.h"
 #include "TextureD3D12Impl.h"
+#include "EditorMeshPreviewD3D12.h"
 
 #pragma comment(lib,"d3dcompiler.lib")
 #pragma comment(lib, "D3D12.lib")
@@ -27,6 +28,8 @@ namespace EduEngine
 		DirectX::SimpleMath::Vector2 GetScreenSize() const override;
 
 		void* SetPreviewTexture(const wchar_t* filePath) override;
+		void* SetPreviewMesh(const char* filePath) override;
+		void RotatePreviewMesh(DirectX::XMFLOAT3 delta) override;
 
 		static EditorRenderEngine* GetInstance() { return m_Instance; }
 
@@ -37,6 +40,7 @@ namespace EduEngine
 		std::unique_ptr<SwapChain> m_SwapChain;
 
 		std::shared_ptr<TextureD3D12Impl> m_PreviewTex;
+		std::shared_ptr<EditorMeshPreviewD3D12> m_PreviewMesh;
 
 		std::unique_ptr<ImGuiPass> m_ImGuiPass;
 

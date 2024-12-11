@@ -12,5 +12,7 @@ namespace EduEngine
 		static void UpdateImGui(void* drawData);
 
 		static IntPtr SetPreviewTexture(String^ filePath);
+		static IntPtr SetPreviewMesh(String^ filePath);
+		static void RotatePreviewMesh(Numerics::Vector3 delta);
 	};
 }

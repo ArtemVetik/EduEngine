@@ -39,6 +39,8 @@ namespace EduEngine
 
 		m_Device->GetCommandContext(D3D12_COMMAND_LIST_TYPE_DIRECT).Reset();
 
+		m_PreviewMesh = std::make_shared<EditorMeshPreviewD3D12>(m_Device.get());
+
 		return true;
 	}
 
@@ -73,9 +75,6 @@ namespace EduEngine
 
 		commandContext.Reset();
 
-		commandContext.SetViewports(&m_Viewport, 1);
-		commandContext.SetScissorRects(&m_ScissorRect, 1);
-
 		commandContext.ResourceBarrier(CD3DX12_RESOURCE_BARRIER::Transition(m_SwapChain->CurrentBackBuffer(),
 			D3D12_RESOURCE_STATE_PRESENT, D3D12_RESOURCE_STATE_RENDER_TARGET));
 		commandContext.FlushResourceBarriers();
@@ -85,7 +84,13 @@ namespace EduEngine
 
 		ID3D12DescriptorHeap* descriptorHeaps[] = { m_Device->GetD3D12DescriptorHeap() };
 		commandContext.GetCmdList()->SetDescriptorHeaps(_countof(descriptorHeaps), descriptorHeaps);
+
+		m_PreviewMesh->Render();
+
 		commandContext.SetRenderTargets(1, &(m_SwapChain->CurrentBackBufferView()), FALSE, nullptr);
+
+		commandContext.SetViewports(&m_Viewport, 1);
+		commandContext.SetScissorRects(&m_ScissorRect, 1);
 
 		if (m_EditorUI)
 			m_EditorUI->Draw(m_SwapChain->GetWidth(), m_SwapChain->GetHeight());
@@ -132,5 +137,15 @@ namespace EduEngine
 		m_PreviewTex->Load();
 
 		return m_PreviewTex->GetGPUPtr();
+	}
+
+	void* EditorRenderEngine::SetPreviewMesh(const char* filePath)
+	{
+		return m_PreviewMesh->SetPreviewMesh(filePath);
+	}
+
+	void EditorRenderEngine::RotatePreviewMesh(DirectX::XMFLOAT3 delta)
+	{
+		m_PreviewMesh->Rotate(delta);
 	}
 }

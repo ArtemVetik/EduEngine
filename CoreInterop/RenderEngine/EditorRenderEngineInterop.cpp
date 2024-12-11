@@ -28,4 +28,18 @@ namespace EduEngine
 		auto cFilePath = Utils::ToWCharPointer(filePath);
 		return IntPtr(CoreSystems::GetInstance()->GetEditorRenderEngine()->SetPreviewTexture(cFilePath));
 	}
+
+	IntPtr EditorRenderEngineInterop::SetPreviewMesh(String^ filePath)
+	{
+		if (filePath == nullptr)
+			return IntPtr(CoreSystems::GetInstance()->GetEditorRenderEngine()->SetPreviewMesh(nullptr));
+
+		auto cFilePath = Utils::ToCharPointer(filePath);
+		return IntPtr(CoreSystems::GetInstance()->GetEditorRenderEngine()->SetPreviewMesh(cFilePath));
+	}
+
+	void EditorRenderEngineInterop::RotatePreviewMesh(Numerics::Vector3 delta)
+	{
+		CoreSystems::GetInstance()->GetEditorRenderEngine()->RotatePreviewMesh({ delta.X, delta.Y, delta.Z });
+	}
 }
