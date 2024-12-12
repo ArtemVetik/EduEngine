@@ -6,6 +6,7 @@
         Script,
         Mesh,
         Texture,
+        Material,
         Invalid,
     }
 }

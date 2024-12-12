@@ -14,6 +14,8 @@
             _nativeTextureWrapper.Dispose();
         }
 
+        internal TextureWrapper GetWrapper() => _nativeTextureWrapper;
+
         protected override void OnPathUpdated(string globalPath)
         {
             _nativeTextureWrapper?.UpdateFilePath(globalPath);

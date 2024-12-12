@@ -2,6 +2,7 @@
 #include <memory>
 #include "IRenderEngine.h"
 #include "SharedMeshD3D12Impl.h"
+#include "MaterialD3D12Impl.h"
 #include "../Graphics/BufferD3D12.h"
 
 namespace EduEngine
@@ -9,14 +10,20 @@ namespace EduEngine
 	class RenderObject : public IRenderObject
 	{
 	public:
-		RenderObject(SharedMeshD3D12Impl* mesh);
+		RenderObject();
 		~RenderObject();
 		
+		void SetMesh(IMesh* mesh) override;
+		void SetMaterial(IMaterial* material) override;
+
 		VertexBufferD3D12* GetVertexBuffer() const;
 		IndexBufferD3D12* GetIndexBuffer() const;
 	
-		void RemoveMesh(SharedMeshD3D12Impl* mesh);
+		IMesh* GetMesh() const { return m_Mesh; }
+		IMaterial* GetMaterial() const { return m_Material; }
+
 	private:
 		SharedMeshD3D12Impl* m_Mesh;
+		MaterialD3D12Impl* m_Material;
 	};
 }

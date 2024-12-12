@@ -11,6 +11,7 @@ namespace EduEngine.Editor
             { AssetType.Script, new Vector4(0.56f, 0.75f, 0.43f, 1.0f) },
             { AssetType.Mesh, new Vector4(0.26f, 0.38f, 0.93f, 1.0f) },
             { AssetType.Texture, new Vector4(0.66f, 0.42f, 0.79f, 1.0f) },
+            { AssetType.Material, new Vector4(0.35f, 0.42f, 0.62f, 1.0f) },
             { AssetType.Invalid, new Vector4(0.84f, 0.16f, 0.16f, 1.0f) },
         };
 
@@ -26,12 +27,10 @@ namespace EduEngine.Editor
         {
             ImGui.Begin("Asset Browser", ImGuiWindowFlags.MenuBar);
 
-            RenderMenuBar(out bool openScenePopup);
+            RenderMenuBar(out bool createScene, out bool createMaterial);
 
-            if (openScenePopup)
-                ImGui.OpenPopup("Create Scene");
-
-            RenderScenePopup();
+            RenderScenePopup(createScene);
+            RenderMaterialPopup(createMaterial);
             RenderFilter();
 
             ImGui.Separator();
@@ -41,9 +40,10 @@ namespace EduEngine.Editor
             ImGui.End();
         }
 
-        private void RenderMenuBar(out bool openScenePopup)
+        private void RenderMenuBar(out bool createScene, out bool createMaterial)
         {
-            openScenePopup = false;
+            createScene = false;
+            createMaterial = false;
 
             if (ImGui.BeginMenuBar())
             {
@@ -51,7 +51,11 @@ namespace EduEngine.Editor
                 {
                     if (ImGui.MenuItem("Empty Scene"))
                     {
-                        openScenePopup = true;
+                        createScene = true;
+                    }
+                    if (ImGui.MenuItem("New Material"))
+                    {
+                        createMaterial = true;
                     }
                     ImGui.EndMenu();
                 }
@@ -64,15 +68,46 @@ namespace EduEngine.Editor
             }
         }
 
-        private void RenderScenePopup()
+        private void RenderScenePopup(bool open)
         {
-            if (ImGui.BeginPopupModal("Create Scene", ImGuiWindowFlags.AlwaysAutoResize))
+            if (open)
+                ImGui.OpenPopup("CreateScenePopup");
+
+            if (ImGui.BeginPopupModal("CreateScenePopup", ImGuiWindowFlags.AlwaysAutoResize))
             {
                 ImGui.InputText("Enter scene name", ref _popupInput, 100);
 
                 if (ImGui.Button("OK"))
                 {
                     SceneImporter.CreateSceneFile(_popupInput, new SceneData());
+                    _popupInput = string.Empty;
+                    ImGui.CloseCurrentPopup();
+                }
+
+                ImGui.SameLine();
+
+                if (ImGui.Button("Cancel"))
+                {
+                    _popupInput = string.Empty;
+                    ImGui.CloseCurrentPopup();
+                }
+
+                ImGui.EndPopup();
+            }
+        }
+
+        private void RenderMaterialPopup(bool open)
+        {
+            if (open)
+                ImGui.OpenPopup("CreateMaterialPopup");
+
+            if (ImGui.BeginPopupModal("CreateMaterialPopup", ImGuiWindowFlags.AlwaysAutoResize))
+            {
+                ImGui.InputText("Enter material name", ref _popupInput, 100);
+
+                if (ImGui.Button("OK"))
+                {
+                    MaterialImporter.CreateMaterialFile(_popupInput, new MaterialData());
                     _popupInput = string.Empty;
                     ImGui.CloseCurrentPopup();
                 }

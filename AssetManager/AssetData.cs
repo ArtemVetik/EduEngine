@@ -28,6 +28,7 @@
                     case ".fbx": return AssetType.Mesh;
                     case ".cs": return AssetType.Script;
                     case ".dds": return AssetType.Texture;
+                    case ".edumat": return AssetType.Material;
                     default: return AssetType.Invalid;
                 }
             }

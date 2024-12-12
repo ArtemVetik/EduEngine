@@ -3,9 +3,9 @@
 
 namespace EduEngine
 {
-	NativeRenderObjectWrapper::NativeRenderObjectWrapper(SharedMeshWrapper^ mesh)
+	NativeRenderObjectWrapper::NativeRenderObjectWrapper()
 	{
-		m_NativeObject = CoreSystems::GetInstance()->GetRenderEngine()->AddObject(mesh->GetNative());
+		m_NativeObject = CoreSystems::GetInstance()->GetRenderEngine()->AddObject();
 	}
 
 	NativeRenderObjectWrapper::~NativeRenderObjectWrapper()
@@ -30,5 +30,21 @@ namespace EduEngine
 			matrix.M31, matrix.M32, matrix.M33, matrix.M34,
 			matrix.M41, matrix.M42, matrix.M43, matrix.M44
 		);
+	}
+
+	void NativeRenderObjectWrapper::SetMesh(SharedMeshWrapper^ mesh)
+	{
+		if (mesh == nullptr)
+			m_NativeObject->SetMesh(nullptr);
+		else
+			m_NativeObject->SetMesh(mesh->GetNative());
+	}
+
+	void NativeRenderObjectWrapper::SetMaterial(MaterialWrapper^ material)
+	{
+		if (material == nullptr)
+			m_NativeObject->SetMaterial(nullptr);
+		else
+			m_NativeObject->SetMaterial(material->GetNative());
 	}
 }

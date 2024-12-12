@@ -133,6 +133,7 @@
     <ClInclude Include="Physics\NativePhysicsShapeWrapper.h" />
     <ClInclude Include="RenderEngine\EditorRenderEngineInterop.h" />
     <ClInclude Include="RenderEngine\EditorWindowEventInterop.h" />
+    <ClInclude Include="RenderEngine\MaterialWrapper.h" />
     <ClInclude Include="RenderEngine\MeshData.h" />
     <ClInclude Include="RenderEngine\SharedMeshWrapper.h" />
     <ClInclude Include="RenderEngine\NativeCameraWrapper.h" />
@@ -151,6 +152,7 @@
     <ClCompile Include="Physics\NativePhysicsShapeWrapper.cpp" />
     <ClCompile Include="RenderEngine\EditorRenderEngineInterop.cpp" />
     <ClCompile Include="RenderEngine\EditorWindowEventInterop.cpp" />
+    <ClCompile Include="RenderEngine\MaterialWrapper.cpp" />
     <ClCompile Include="RenderEngine\SharedMeshWrapper.cpp" />
     <ClCompile Include="RenderEngine\NativeCameraWrapper.cpp" />
     <ClCompile Include="RenderEngine\NativeRenderObjectWrapper.cpp" />

@@ -2,6 +2,7 @@
 #include "../../RenderEngine/IRenderEngine.h"
 #include "MeshData.h"
 #include "SharedMeshWrapper.h"
+#include "MaterialWrapper.h"
 
 using namespace System::Numerics;
 
@@ -13,11 +14,13 @@ namespace EduEngine
         IRenderObject* m_NativeObject;
 
     public:
-        NativeRenderObjectWrapper(SharedMeshWrapper^ mesh);
+        NativeRenderObjectWrapper();
         ~NativeRenderObjectWrapper();
         !NativeRenderObjectWrapper();
 
         void SetWorldMatrix(Matrix4x4 matrix);
+        void SetMesh(SharedMeshWrapper^ mesh);
+        void SetMaterial(MaterialWrapper^ material);
 
         IRenderObject* GetNativeObject() { return m_NativeObject; }
     };

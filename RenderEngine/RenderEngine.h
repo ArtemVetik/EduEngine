@@ -21,6 +21,7 @@
 #include "ImGuiD3D12Impl.h"
 #include "SharedMeshD3D12Impl.h"
 #include "TextureD3D12Impl.h"
+#include "MaterialD3D12Impl.h"
 
 #pragma comment(lib,"d3dcompiler.lib")
 #pragma comment(lib, "D3D12.lib")
@@ -39,12 +40,14 @@ namespace EduEngine
 
 		bool StartUp(const RuntimeWindow& mainWindow);
 
-		IRenderObject* AddObject(IMesh* mesh) override;
+		IRenderObject* AddObject() override;
 		void RemoveObject(IRenderObject* object) override;
 		IMesh* CreateMesh(const char* filePath) override;
 		void RemoveMesh(IMesh* mesh) override;
 		ITexture* CreateTexture(const wchar_t* filePath) override;
 		void RemoveTexture(ITexture* texture) override;
+		IMaterial* CreateMaterial() override;
+		void RemoveMaterial(IMaterial* material) override;
 		Camera* CreateCamera() override;
 		void RemoveCamera(Camera* camera) override;
 		
@@ -69,7 +72,9 @@ namespace EduEngine
 		std::vector<std::shared_ptr<RenderObject>> m_RenderObjects;
 		std::vector<std::shared_ptr<SharedMeshD3D12Impl>> m_SharedMeshes;
 		std::vector<std::shared_ptr<TextureD3D12Impl>> m_Textures;
+		std::vector<std::shared_ptr<MaterialD3D12Impl>> m_Materials;
 		std::vector<std::shared_ptr<Camera>> m_Cameras;
+		std::unique_ptr<TextureHeapView> m_NullTex;
 
 		std::unique_ptr<OpaquePass> m_OpaquePass;
 		D3D12_VIEWPORT m_Viewport;

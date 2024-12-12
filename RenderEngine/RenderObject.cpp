@@ -3,16 +3,38 @@
 
 namespace EduEngine
 {
-	RenderObject::RenderObject(SharedMeshD3D12Impl* mesh) :
-		m_Mesh(mesh)
+	RenderObject::RenderObject() :
+		m_Mesh(nullptr),
+		m_Material(nullptr)
 	{
-		m_Mesh->Load();
 	}
 
 	RenderObject::~RenderObject()
 	{
 		if (m_Mesh)
 			m_Mesh->Free();
+	}
+
+	void RenderObject::SetMesh(IMesh* mesh)
+	{
+		if (m_Mesh)
+			m_Mesh->Free();
+
+		m_Mesh = dynamic_cast<SharedMeshD3D12Impl*>(mesh);
+
+		if (m_Mesh)
+			m_Mesh->Load();
+	}
+
+	void RenderObject::SetMaterial(IMaterial* material)
+	{
+		if (m_Material)
+			m_Material->Free();
+
+		m_Material = dynamic_cast<MaterialD3D12Impl*>(material);
+
+		if (m_Material)
+			m_Material->Load();
 	}
 
 	VertexBufferD3D12* RenderObject::GetVertexBuffer() const
@@ -29,11 +51,5 @@ namespace EduEngine
 			return m_Mesh->GetIndexBuffer();
 
 		return nullptr;
-	}
-
-	void RenderObject::RemoveMesh(SharedMeshD3D12Impl* mesh)
-	{
-		if (m_Mesh == mesh)
-			m_Mesh = nullptr;
 	}
 }

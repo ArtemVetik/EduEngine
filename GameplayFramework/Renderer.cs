@@ -3,13 +3,14 @@
     public class Renderer : Component, IDisposable, ISerializeCallback
     {
         [SerializeField] private SharedMesh _mesh;
+        [SerializeField] private Material _material;
 
         private NativeRenderObjectWrapper _renderObject;
 
         public Renderer(GameObject parent)
             : base(parent)
         {
-            _renderObject = null;
+            _renderObject = new NativeRenderObjectWrapper();
         }
 
         public override void Update()
@@ -25,12 +26,21 @@
         public void SetMesh(SharedMesh mesh)
         {
             _mesh = mesh;
-            _renderObject?.Dispose();
 
-            if (_mesh != null)
-                _renderObject = new NativeRenderObjectWrapper(_mesh.GetWrapper());
+            if (mesh == null)
+                _renderObject?.SetMesh(null);
             else
-                _renderObject = null;
+                _renderObject?.SetMesh(_mesh.GetWrapper());
+        }
+
+        public void SetMaterial(Material material)
+        {
+            _material = material;
+
+            if (material == null)
+                _renderObject?.SetMaterial(null);
+            else
+                _renderObject?.SetMaterial(_material.Wrapper);
         }
 
         public void Dispose()
@@ -41,13 +51,14 @@
 
         public override void OnAddComponent()
         {
-            if (_mesh != null)
-                SetMesh(_mesh);
+            SetMesh(_mesh);
+            SetMaterial(_material);
         }
 
         void ISerializeCallback.OnDeserialize()
         {
             SetMesh(_mesh);
+            SetMaterial(_material);
         }
     }
 }

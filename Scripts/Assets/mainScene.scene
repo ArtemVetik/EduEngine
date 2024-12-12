@@ -89,9 +89,6 @@
       "Type": "Script",
       "FileId": 1,
       "Parameters": {
-        "_moveSpeed": 20.0,
-        "_moveStrength": 8.0,
-        "_rotateStrength": 20.0,
         "script_guid": "a91c8202-153d-4993-9eb3-c6c413773c12"
       }
     },
@@ -106,9 +103,6 @@
       "Type": "Script",
       "FileId": 4,
       "Parameters": {
-        "_moveSpeed": 20.0,
-        "_moveStrength": 8.0,
-        "_rotateStrength": 20.0,
         "script_guid": "a91c8202-153d-4993-9eb3-c6c413773c12"
       }
     },
@@ -116,7 +110,8 @@
       "Type": "EduEngine.Renderer",
       "FileId": 6,
       "Parameters": {
-        "_mesh": "1ba135a0-3118-4431-9ae0-52867b1dc240"
+        "_mesh": "1ba135a0-3118-4431-9ae0-52867b1dc240",
+        "_material": "2e92a9cb-080d-4562-8a1b-e732d688b401"
       }
     }
   ]

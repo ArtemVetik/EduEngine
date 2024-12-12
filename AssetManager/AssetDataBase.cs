@@ -61,14 +61,23 @@ namespace EduEngine
                 _assets.Remove(guid);
             }
 
+            Queue<string> queuedAssets = new Queue<string>();
+
             foreach (var item in assets)
             {
                 var metadataPath = AssetsPath + item.Value + ".meta";
                 var metaData = JsonConvert.DeserializeObject<AssetMetaData>(File.ReadAllText(metadataPath));
 
                 _assets.Add(item.Key, new AssetData(AssetsPath, item.Value, metaData));
-                _assets[item.Key].Asset = CreateAsset(item.Key);
+
+                if (_assets[item.Key].Type == AssetType.Material)
+                    queuedAssets.Enqueue(item.Key);
+                else
+                    _assets[item.Key].Asset = CreateAsset(item.Key);
             }
+
+            foreach (var item in queuedAssets)
+                _assets[item].Asset = CreateAsset(item);
         }
 
         private static Asset CreateAsset(string guid)
@@ -83,6 +92,9 @@ namespace EduEngine
                     break;
                 case AssetType.Texture:
                     asset = new Texture(guid, assetData.GlobalPath);
+                    break;
+                case AssetType.Material:
+                    asset = MaterialImporter.LoadMaterial(guid);
                     break;
             }
 

@@ -1,4 +1,5 @@
 ﻿using ImGuiNET;
+using System;
 using System.Numerics;
 
 namespace EduEngine.Editor
@@ -60,6 +61,8 @@ namespace EduEngine.Editor
                 RenderMeshInfo();
             else if (_assetType == AssetType.Texture)
                 RenderTextureInfo();
+            else if (_assetType == AssetType.Material)
+                RenderMaterialInfo();
 
             ImGui.End();
         }
@@ -122,6 +125,47 @@ namespace EduEngine.Editor
             }
 
             ImGui.Image(TexturePreview.TexturePtr, new Vector2(200, 200));
+        }
+
+        private void RenderMaterialInfo()
+        {
+            var currentAsset = AssetDataBase.HasGUID(_guid) 
+                ? AssetDataBase.GetAssetData(_guid).Asset as Material
+                : null;
+
+            if (currentAsset == null || currentAsset.IsValid == false)
+            {
+                ImGui.Text("Invalid material object");
+                return;
+            }
+
+            if (currentAsset.MainTexture != null && currentAsset.MainTexture.IsValid == false)
+            {
+                currentAsset.SetMainTexture(null);
+                MaterialImporter.SaveMaterial(currentAsset);
+            }
+
+            var assets = AssetDataBase.AllAssets.Where(asset => asset.Value.Asset != null &&
+                                                                asset.Value.Asset.GetType() == typeof(Texture));
+
+            if (ImGui.BeginCombo("MainTexture", currentAsset.MainTexture == null ? "null" : AssetDataBase.GetAssetData(currentAsset.MainTexture.GUID).LocalPath))
+            {
+                if (ImGui.Selectable("null"))
+                {
+                    currentAsset.SetMainTexture(null);
+                    MaterialImporter.SaveMaterial(currentAsset);
+                }
+
+                foreach (var asset in assets)
+                {
+                    if (ImGui.Selectable(asset.Value.LocalPath))
+                    {
+                        currentAsset.SetMainTexture(asset.Value.Asset as Texture);
+                        MaterialImporter.SaveMaterial(currentAsset);
+                    }
+                }
+                ImGui.EndCombo();
+            }
         }
     }
 }

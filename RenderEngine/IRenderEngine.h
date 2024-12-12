@@ -11,12 +11,6 @@
 
 namespace EduEngine
 {
-	class RENDERENGINE_API IRenderObject
-	{
-	public:
-		DirectX::SimpleMath::Matrix WorldMatrix;
-	};
-
 	class RENDERENGINE_API IMesh
 	{
 	public:
@@ -31,15 +25,33 @@ namespace EduEngine
 		virtual void* GetGPUPtr() = 0;
 	};
 
+	class RENDERENGINE_API IMaterial
+	{
+	public:
+		virtual void SetMainTexture(ITexture* texture) = 0;
+		virtual ITexture* GetMainTexture() = 0;
+	};
+
+	class RENDERENGINE_API IRenderObject
+	{
+	public:
+		DirectX::SimpleMath::Matrix WorldMatrix = DirectX::SimpleMath::Matrix::Identity;
+		
+		virtual void SetMesh(IMesh* mesh) = 0;
+		virtual void SetMaterial(IMaterial* material) = 0;
+	};
+
 	class RENDERENGINE_API IRenderEngine
 	{
 	public:
-		virtual IRenderObject* AddObject(IMesh* mesh) = 0;
+		virtual IRenderObject* AddObject() = 0;
 		virtual void RemoveObject(IRenderObject* object) = 0;
 		virtual IMesh* CreateMesh(const char* filePath) = 0;
 		virtual void RemoveMesh(IMesh* mesh) = 0;
 		virtual ITexture* CreateTexture(const wchar_t* filePath) = 0;
 		virtual void RemoveTexture(ITexture* texture) = 0;
+		virtual IMaterial* CreateMaterial() = 0;
+		virtual void RemoveMaterial(IMaterial* material) = 0;
 		virtual Camera* CreateCamera() = 0;
 		virtual void RemoveCamera(Camera* camera) = 0;
 

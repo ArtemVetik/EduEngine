@@ -64,15 +64,21 @@ namespace EduEngine
 
 		m_Device->GetCommandContext(D3D12_COMMAND_LIST_TYPE_DIRECT).Reset();
 
+		D3D12_SHADER_RESOURCE_VIEW_DESC nullSrvDesc = {};
+		nullSrvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+		nullSrvDesc.Format = DXGI_FORMAT_R8G8B8A8_UINT;
+		nullSrvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
+
+		auto gpuAlloc = m_Device->AllocateGPUDescriptor(QueueID::Direct, D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV, 1);
+		m_Device->GetD3D12Device()->CreateShaderResourceView(nullptr, &nullSrvDesc, gpuAlloc.GetCpuHandle());
+		m_NullTex = std::make_unique<TextureHeapView>(std::move(gpuAlloc), false);
+
 		return true;
 	}
 
-	IRenderObject* RenderEngine::AddObject(IMesh* mesh)
+	IRenderObject* RenderEngine::AddObject()
 	{
-		SharedMeshD3D12Impl* meshD3D12 = dynamic_cast<SharedMeshD3D12Impl*>(mesh);
-		assert(meshD3D12 != nullptr);
-	
-		auto renderObject = std::make_shared<RenderObject>(meshD3D12);
+		auto renderObject = std::make_shared<RenderObject>();
 		m_RenderObjects.emplace_back(renderObject);
 		return renderObject.get();
 	}
@@ -99,7 +105,8 @@ namespace EduEngine
 		SharedMeshD3D12Impl* meshD3D12 = dynamic_cast<SharedMeshD3D12Impl*>(mesh);
 
 		for (auto& renderObject : m_RenderObjects)
-			renderObject->RemoveMesh(meshD3D12);
+			if (renderObject->GetMesh() == meshD3D12)
+				renderObject->SetMesh(nullptr);
 
 		m_SharedMeshes.erase(std::remove_if(m_SharedMeshes.begin(), m_SharedMeshes.end(),
 			[&mesh](const std::shared_ptr<IMesh>& ptr) {
@@ -117,11 +124,35 @@ namespace EduEngine
 
 	void RenderEngine::RemoveTexture(ITexture* texture)
 	{
+		for (auto& material : m_Materials)
+			if (material->GetMainTexture() == texture)
+				material->SetMainTexture(nullptr);
+
 		m_Textures.erase(std::remove_if(m_Textures.begin(), m_Textures.end(),
 			[&texture](const std::shared_ptr<ITexture>& ptr) {
 				return ptr.get() == texture;
 			}),
 			m_Textures.end());
+	}
+
+	IMaterial* RenderEngine::CreateMaterial()
+	{
+		auto material = std::make_shared<MaterialD3D12Impl>();
+		m_Materials.emplace_back(material);
+		return material.get();
+	}
+
+	void RenderEngine::RemoveMaterial(IMaterial* material)
+	{
+		for (auto& renderObject : m_RenderObjects)
+			if (renderObject->GetMaterial() == material)
+				renderObject->SetMaterial(nullptr);
+
+		m_Materials.erase(std::remove_if(m_Materials.begin(), m_Materials.end(),
+			[&material](const std::shared_ptr<IMaterial>& ptr) {
+				return ptr.get() == material;
+			}),
+			m_Materials.end());
 	}
 
 	void RenderEngine::BeginDraw()
@@ -186,6 +217,17 @@ namespace EduEngine
 			commandContext.GetCmdList()->SetGraphicsRootConstantBufferView(0, passUploadBuffer.GetAllocation().GPUAddress);
 			commandContext.GetCmdList()->SetGraphicsRootDescriptorTable(1, uploadBuffer.GetCBVDescriptorGPUHandle());
 
+			if (renderObject->GetMaterial() && renderObject->GetMaterial()->GetMainTexture())
+			{
+				D3D12_GPU_DESCRIPTOR_HANDLE texDesc;
+				texDesc.ptr = reinterpret_cast<UINT64>(renderObject->GetMaterial()->GetMainTexture()->GetGPUPtr());
+				commandContext.GetCmdList()->SetGraphicsRootDescriptorTable(2, texDesc);
+			}
+			else
+			{
+				commandContext.GetCmdList()->SetGraphicsRootDescriptorTable(2, m_NullTex->GetGpuHandle());
+			}
+
 			commandContext.GetCmdList()->DrawIndexedInstanced(renderObject->GetIndexBuffer()->GetLength(), 1, 0, 0, 0);
 		}
 
@@ -214,7 +256,7 @@ namespace EduEngine
 		RuntimeWindow::GetInstance()->GetPosition(lx, ly, lw, lh);
 
 		if (lx != x || ly != y || lw != w || lh != h)
-			m_PendingResize = {(long)x, (long)y, (long)w, (long)h};
+			m_PendingResize = { (long)x, (long)y, (long)w, (long)h };
 	}
 
 	void RenderEngine::Resize(UINT w, UINT h)

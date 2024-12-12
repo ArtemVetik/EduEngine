@@ -96,6 +96,9 @@
     <ClInclude Include="EditorMeshPreviewD3D12.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="MaterialD3D12Impl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -144,6 +147,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="EditorMeshPreviewD3D12.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MaterialD3D12Impl.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
