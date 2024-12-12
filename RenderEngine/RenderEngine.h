@@ -1,9 +1,4 @@
 #pragma once
-
-#include <assimp/Importer.hpp>
-#include <assimp/scene.h>
-#include <assimp/postprocess.h>
-
 #include "../Graphics/framework.h"
 #include "../Graphics/QueryInterface.h"
 #include "../Graphics/RenderDeviceD3D12.h"
@@ -81,7 +76,6 @@ namespace EduEngine
 		D3D12_RECT m_ScissorRect;
 
 		std::shared_ptr<DebugRendererSystem> m_DebugRenderer;
-		Assimp::Importer m_AssimpImporter[22];
 
 		static constexpr DirectX::SimpleMath::Rectangle EmptyResize = {-1, -1, -1, -1};
 		DirectX::SimpleMath::Rectangle m_PendingResize = EmptyResize;

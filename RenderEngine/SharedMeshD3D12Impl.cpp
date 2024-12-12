@@ -3,17 +3,18 @@
 
 namespace EduEngine
 {
-	SharedMeshD3D12Impl::SharedMeshD3D12Impl(RenderDeviceD3D12* device, const aiScene* scene) :
+	SharedMeshD3D12Impl::SharedMeshD3D12Impl(RenderDeviceD3D12* device, const char* filePath) :
 		m_Device(device),
-		m_Scene(scene),
 		m_RefCount(0)
 	{
+		m_Scene = m_AssimpImporter.ReadFile(filePath, aiProcess_PreTransformVertices | aiProcessPreset_TargetRealtime_Fast);
 	}
 
 	SharedMeshD3D12Impl::~SharedMeshD3D12Impl()
 	{
 		m_RefCount = 0;
 		m_Scene = nullptr;
+		m_AssimpImporter.FreeScene();
 		m_VertexBuffer.reset();
 		m_IndexBuffer.reset();
 	}

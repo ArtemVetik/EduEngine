@@ -35,13 +35,11 @@ namespace EduEngine
 		m_PreviewMesh.reset();
 		m_PreviewMeshRT.reset();
 		m_PreviewMeshDSV.reset();
-		m_AssimpImporter.FreeScene();
 
 		if (filePath == nullptr)
 			return nullptr;
 
-		const aiScene* scene = m_AssimpImporter.ReadFile(filePath, aiProcess_PreTransformVertices | aiProcessPreset_TargetRealtime_Fast);
-		m_PreviewMesh = std::make_shared<SharedMeshD3D12Impl>(m_Device, scene);
+		m_PreviewMesh = std::make_shared<SharedMeshD3D12Impl>(m_Device, filePath);
 		m_PreviewMesh->Load();
 
 		D3D12_RESOURCE_DESC resourceDesc = {};

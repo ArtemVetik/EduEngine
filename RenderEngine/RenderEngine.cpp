@@ -94,8 +94,7 @@ namespace EduEngine
 
 	IMesh* RenderEngine::CreateMesh(const char* filePath)
 	{
-		const aiScene* scene = m_AssimpImporter[m_SharedMeshes.size()].ReadFile(filePath, aiProcess_PreTransformVertices | aiProcessPreset_TargetRealtime_Fast);
-		auto mesh = std::make_shared<SharedMeshD3D12Impl>(m_Device.get(), scene);
+		auto mesh = std::make_shared<SharedMeshD3D12Impl>(m_Device.get(), filePath);
 		m_SharedMeshes.emplace_back(mesh);
 		return mesh.get();
 	}

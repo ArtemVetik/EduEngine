@@ -1,8 +1,4 @@
 #pragma once
-#include <assimp/Importer.hpp>
-#include <assimp/scene.h>
-#include <assimp/postprocess.h>
-
 #include "SharedMeshD3D12Impl.h"
 #include "TextureD3D12Impl.h"
 #include "RenderPasses.h"
@@ -20,7 +16,6 @@ namespace EduEngine
 
 	private:
 		RenderDeviceD3D12* m_Device;
-		Assimp::Importer m_AssimpImporter;
 
 		std::shared_ptr<SharedMeshD3D12Impl> m_PreviewMesh;
 		std::shared_ptr<TextureD3D12> m_PreviewMeshRT;
