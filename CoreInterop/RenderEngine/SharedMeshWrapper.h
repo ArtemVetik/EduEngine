@@ -13,6 +13,8 @@ namespace EduEngine
 		~SharedMeshWrapper();
 		!SharedMeshWrapper();
 
+		void UpdateFilePath(String^ filePath);
+
 		int GetVertexCount() { return m_NativeMesh->GetVertexCount(); }
 		int GetIndexCount() { return m_NativeMesh->GetIndexCount(); }
 

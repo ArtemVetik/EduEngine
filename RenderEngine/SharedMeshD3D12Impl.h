@@ -16,7 +16,12 @@ namespace EduEngine
 
 		void Load();
 		void Free();
-		
+
+		void UpdateFilePath(const char* filePath) override;
+
+		int GetRefCount() const { return m_RefCount; }
+		const char* GetFilePath() const { return m_FilePath; }
+
 		int GetVertexCount() override;
 		int GetIndexCount() override;
 
@@ -30,6 +35,7 @@ namespace EduEngine
 		std::shared_ptr<VertexBufferD3D12> m_VertexBuffer;
 		std::shared_ptr<IndexBufferD3D12> m_IndexBuffer;
 
+		const char* m_FilePath;
 		int m_RefCount;
 	};
 }

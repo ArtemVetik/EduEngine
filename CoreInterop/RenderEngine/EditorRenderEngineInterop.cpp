@@ -29,17 +29,27 @@ namespace EduEngine
 		return IntPtr(CoreSystems::GetInstance()->GetEditorRenderEngine()->SetPreviewTexture(cFilePath));
 	}
 
-	IntPtr EditorRenderEngineInterop::SetPreviewMesh(String^ filePath)
+	PreviewMeshInfo EditorRenderEngineInterop::SetPreviewMesh(String^ filePath)
 	{
 		if (filePath == nullptr)
-			return IntPtr(CoreSystems::GetInstance()->GetEditorRenderEngine()->SetPreviewMesh(nullptr));
+			return PreviewMeshInfo::FromNative(CoreSystems::GetInstance()->GetEditorRenderEngine()->SetPreviewMesh(nullptr));
 
 		auto cFilePath = Utils::ToCharPointer(filePath);
-		return IntPtr(CoreSystems::GetInstance()->GetEditorRenderEngine()->SetPreviewMesh(cFilePath));
+		return PreviewMeshInfo::FromNative(CoreSystems::GetInstance()->GetEditorRenderEngine()->SetPreviewMesh(cFilePath));
 	}
 
 	void EditorRenderEngineInterop::RotatePreviewMesh(Numerics::Vector3 delta)
 	{
 		CoreSystems::GetInstance()->GetEditorRenderEngine()->RotatePreviewMesh({ delta.X, delta.Y, delta.Z });
+	}
+
+	PreviewMeshInfo PreviewMeshInfo::FromNative(IEditorRenderEngine::PreviewMeshInfo info)
+	{
+		auto res = PreviewMeshInfo();
+		res.TexturePtr = IntPtr(info.TexturePtr);
+		res.VertexCount = info.VertexCount;
+		res.IndexCount = info.IndexCount;
+
+		return res;
 	}
 }

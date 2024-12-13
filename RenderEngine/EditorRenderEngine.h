@@ -28,7 +28,7 @@ namespace EduEngine
 		DirectX::SimpleMath::Vector2 GetScreenSize() const override;
 
 		void* SetPreviewTexture(const wchar_t* filePath) override;
-		void* SetPreviewMesh(const char* filePath) override;
+		PreviewMeshInfo SetPreviewMesh(const char* filePath) override;
 		void RotatePreviewMesh(DirectX::XMFLOAT3 delta) override;
 
 		static EditorRenderEngine* GetInstance() { return m_Instance; }

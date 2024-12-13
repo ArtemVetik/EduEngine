@@ -5,9 +5,11 @@ namespace EduEngine
 {
 	SharedMeshD3D12Impl::SharedMeshD3D12Impl(RenderDeviceD3D12* device, const char* filePath) :
 		m_Device(device),
+		m_FilePath(filePath),
+		m_Scene(nullptr),
 		m_RefCount(0)
 	{
-		m_Scene = m_AssimpImporter.ReadFile(filePath, aiProcess_PreTransformVertices | aiProcessPreset_TargetRealtime_Fast);
+
 	}
 
 	SharedMeshD3D12Impl::~SharedMeshD3D12Impl()
@@ -26,6 +28,8 @@ namespace EduEngine
 			m_RefCount++;
 			return;
 		}
+
+		m_Scene = m_AssimpImporter.ReadFile(m_FilePath, aiProcess_PreTransformVertices | aiProcessPreset_TargetRealtime_Fast);
 
 		NativeMeshData meshData;
 		for (int i = 0; i < m_Scene->mMeshes[0]->mNumVertices; i++)
@@ -72,8 +76,16 @@ namespace EduEngine
 		{
 			m_VertexBuffer.reset();
 			m_IndexBuffer.reset();
+
+			m_AssimpImporter.FreeScene();
+			m_Scene = nullptr;
 		}
 
+	}
+
+	void SharedMeshD3D12Impl::UpdateFilePath(const char* filePath)
+	{
+		m_FilePath = filePath;
 	}
 
 	int SharedMeshD3D12Impl::GetVertexCount()

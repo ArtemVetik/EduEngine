@@ -96,10 +96,10 @@ namespace EduEngine.Editor
                 return;
             }
 
-            ImGui.Text($"Vertices: {meshObject.VertexCount}");
-            ImGui.Text($"Indices: {meshObject.IndexCount}");
+            ImGui.Text($"Vertices: {MeshPreview.Info.VertexCount}");
+            ImGui.Text($"Indices: {MeshPreview.Info.IndexCount}");
 
-            ImGui.Image(MeshPreview.TexturePtr, new Vector2(200, 200));
+            ImGui.Image(MeshPreview.Info.TexturePtr, new Vector2(200, 200));
 
             if (ImGui.IsWindowHovered())
             {

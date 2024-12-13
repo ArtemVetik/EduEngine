@@ -4,7 +4,7 @@
     {
         private static AssetData? _assetData = null;
 
-        public static nint TexturePtr { get; private set; } = nint.Zero;
+        public static PreviewMeshInfo Info { get; private set; } = new PreviewMeshInfo();
 
         public static void UpdatePreview(string guid)
         {
@@ -18,12 +18,9 @@
             _assetData = textureAsset;
 
             if (_assetData == null || _assetData.Asset == null || _assetData.Type != AssetType.Mesh)
-            {
-                EditorRenderEngineInterop.SetPreviewMesh(null);
-                TexturePtr = nint.Zero;
-            }
+                Info = EditorRenderEngineInterop.SetPreviewMesh(null);
             else
-                TexturePtr = EditorRenderEngineInterop.SetPreviewMesh(_assetData.GlobalPath);
+                Info = EditorRenderEngineInterop.SetPreviewMesh(_assetData.GlobalPath);
         }
     }
 }

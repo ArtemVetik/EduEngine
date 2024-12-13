@@ -23,4 +23,13 @@ namespace EduEngine
 			m_NativeMesh = nullptr;
 		}
 	}
+
+	void SharedMeshWrapper::UpdateFilePath(String^ filePath)
+	{
+		if (!m_NativeMesh)
+			return;
+
+		auto cFilePath = (Utils::ToCharPointer(filePath));
+		m_NativeMesh->UpdateFilePath(cFilePath);
+	}
 }

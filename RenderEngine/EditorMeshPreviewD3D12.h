@@ -9,7 +9,7 @@ namespace EduEngine
 	{
 	public:
 		EditorMeshPreviewD3D12(RenderDeviceD3D12* device);
-		void* SetPreviewMesh(const char* filePath);
+		IEditorRenderEngine::PreviewMeshInfo SetPreviewMesh(const char* filePath);
 
 		void Rotate(DirectX::XMFLOAT3 delta);
 		void Render();

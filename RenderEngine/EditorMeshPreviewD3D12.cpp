@@ -30,14 +30,14 @@ namespace EduEngine
 		Rotate({});
 	}
 
-	void* EditorMeshPreviewD3D12::SetPreviewMesh(const char* filePath)
+	IEditorRenderEngine::PreviewMeshInfo EditorMeshPreviewD3D12::SetPreviewMesh(const char* filePath)
 	{
 		m_PreviewMesh.reset();
 		m_PreviewMeshRT.reset();
 		m_PreviewMeshDSV.reset();
 
 		if (filePath == nullptr)
-			return nullptr;
+			return {};
 
 		m_PreviewMesh = std::make_shared<SharedMeshD3D12Impl>(m_Device, filePath);
 		m_PreviewMesh->Load();
@@ -117,8 +117,13 @@ namespace EduEngine
 			D3D12_RESOURCE_STATE_COMMON,
 			D3D12_RESOURCE_STATE_DEPTH_WRITE)
 		);
+		
+		IEditorRenderEngine::PreviewMeshInfo info;
+		info.TexturePtr = reinterpret_cast<void*>(m_PreviewMeshRT->GetView(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV)->GetGpuHandle().ptr);
+		info.VertexCount = m_PreviewMesh->GetVertexCount();
+		info.IndexCount = m_PreviewMesh->GetIndexCount();
 
-		return reinterpret_cast<void*>(m_PreviewMeshRT->GetView(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV)->GetGpuHandle().ptr);
+		return info;
 	}
 
 	void EditorMeshPreviewD3D12::Rotate(XMFLOAT3 delta)

@@ -1,8 +1,19 @@
 #pragma once
+#include "../../RenderEngine/IRenderEngine.h"
 
 namespace EduEngine
 {
 	using namespace System;
+
+	private value class PreviewMeshInfo
+	{
+	public:
+		IntPtr TexturePtr;
+		int VertexCount;
+		int IndexCount;
+
+		static PreviewMeshInfo FromNative(IEditorRenderEngine::PreviewMeshInfo info);
+	};
 
 	private ref class EditorRenderEngineInterop
 	{
@@ -12,7 +23,7 @@ namespace EduEngine
 		static void UpdateImGui(void* drawData);
 
 		static IntPtr SetPreviewTexture(String^ filePath);
-		static IntPtr SetPreviewMesh(String^ filePath);
+		static PreviewMeshInfo SetPreviewMesh(String^ filePath);
 		static void RotatePreviewMesh(Numerics::Vector3 delta);
 	};
 }

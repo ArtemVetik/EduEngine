@@ -14,6 +14,7 @@ namespace EduEngine
 	class RENDERENGINE_API IMesh
 	{
 	public:
+		virtual void UpdateFilePath(const char* filePath) = 0;
 		virtual int GetVertexCount() = 0;
 		virtual int GetIndexCount() = 0;
 	};
@@ -68,13 +69,20 @@ namespace EduEngine
 	class RENDERENGINE_API IEditorRenderEngine
 	{
 	public:
+		struct RENDERENGINE_API PreviewMeshInfo
+		{
+			void* TexturePtr;
+			int IndexCount;
+			int VertexCount;
+		};
+
 		virtual void Draw() = 0;
 		virtual void UpdateEditor(ImDrawData* drawData) = 0;
 		virtual void* CreateEditorImGuiUI(void* pixels, int texWidth, int texHeight, int bytesPerPixel) = 0;
 		virtual DirectX::SimpleMath::Vector2 GetScreenSize() const = 0;
 
 		virtual void* SetPreviewTexture(const wchar_t* filePath) = 0;
-		virtual void* SetPreviewMesh(const char* filePath) = 0;
+		virtual PreviewMeshInfo SetPreviewMesh(const char* filePath) = 0;
 		virtual void RotatePreviewMesh(DirectX::XMFLOAT3 delta) = 0;
 
 		static std::shared_ptr<IEditorRenderEngine> Create(const EditorWindow& mainWindow);

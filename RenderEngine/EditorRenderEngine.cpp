@@ -139,7 +139,7 @@ namespace EduEngine
 		return m_PreviewTex->GetGPUPtr();
 	}
 
-	void* EditorRenderEngine::SetPreviewMesh(const char* filePath)
+	IEditorRenderEngine::PreviewMeshInfo EditorRenderEngine::SetPreviewMesh(const char* filePath)
 	{
 		return m_PreviewMesh->SetPreviewMesh(filePath);
 	}
