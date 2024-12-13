@@ -2,6 +2,7 @@
 #include "IRenderEngine.h"
 #include "RenderEngine.h"
 #include "EditorRenderEngine.h"
+#include "RenderResourcesInfo.h"
 
 namespace EduEngine
 {
@@ -19,5 +20,10 @@ namespace EduEngine
         editorRenderEngine->StartUp(mainWindow);
 
         return editorRenderEngine;
+    }
+
+    std::shared_ptr<IRenderResourcesInfo> IRenderResourcesInfo::Create(IRenderEngine* renderEngine, IEditorRenderEngine* editorRenderEngine)
+    {
+        return std::make_shared<RenderResourcesInfo>(renderEngine, editorRenderEngine);
     }
 }

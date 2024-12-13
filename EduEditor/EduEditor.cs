@@ -6,14 +6,15 @@ namespace EduEngine.Editor
 {
     public class EduEditor
     {
+        private static SceneData _sceneData;
         private static ImGuiInput _input = new ImGuiInput();
         private static EditorCamera _camera = new EditorCamera();
-        private static SceneData _sceneData;
         private static HierarchyWindow _hierarchyWindow = new HierarchyWindow();
         private static PropertyWindow _propertyWindow = new PropertyWindow();
         private static GuizmoRenderer _gizmoRenderer = new GuizmoRenderer();
         private static AssetWindow _assetWindow = new AssetWindow();
         private static AssetInfoWindow _assetInfo = new AssetInfoWindow();
+        private static RenderResourcesInfo _renderResourcesInfo = new RenderResourcesInfo();
 
         public static unsafe void Initialize(string assetsPath, string dllPath)
         {
@@ -82,8 +83,18 @@ namespace EduEngine.Editor
 
             _hierarchyWindow.Render();
             _propertyWindow.Render(_hierarchyWindow.Selected);
+            _renderResourcesInfo.Render();
 
             ImGui.BeginMainMenuBar();
+
+            if (ImGui.BeginMenu("Windows"))
+            {
+                if (ImGui.MenuItem("Render Objects Stats"))
+                {
+                    _renderResourcesInfo.Show = true;
+                }
+                ImGui.EndMenu();
+            }
 
             if (ImGui.Button("T"))
                 _gizmoRenderer.SetOperation(OPERATION.TRANSLATE);
@@ -153,6 +164,7 @@ namespace EduEngine.Editor
             ImGuizmo.SetImGuiContext(0);
             ImGui.DestroyContext(ImGui.GetCurrentContext());
 
+            _renderResourcesInfo.Dispose();
             EditorWindowEventInterop.RemoveFocusCallback(OnFocusChanged);
             AssetDataBase.Dispose();
         }

@@ -99,6 +99,9 @@
     <ClInclude Include="MaterialD3D12Impl.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="RenderResourcesInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -150,6 +153,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="MaterialD3D12Impl.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderResourcesInfo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

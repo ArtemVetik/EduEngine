@@ -16,6 +16,8 @@ namespace EduEngine
 		void Load();
 		void Free();
 
+		int GetRefCount() const { return m_RefCount; }
+
 	private:
 		TextureD3D12Impl* m_MainTexture;
 

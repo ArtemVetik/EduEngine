@@ -87,4 +87,12 @@ namespace EduEngine
 
 		static std::shared_ptr<IEditorRenderEngine> Create(const EditorWindow& mainWindow);
 	};
+
+	class RENDERENGINE_API IRenderResourcesInfo
+	{
+	public:
+		virtual const char* GetObjectsInfo(bool onlyUsed = false) = 0;
+
+		static std::shared_ptr<IRenderResourcesInfo> Create(IRenderEngine* renderEngine, IEditorRenderEngine* editorRenderEngine);
+	};
 }

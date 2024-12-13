@@ -14,6 +14,8 @@ namespace EduEngine
 		void Rotate(DirectX::XMFLOAT3 delta);
 		void Render();
 
+		void* GetMeshPtr() const { return m_PreviewMesh.get(); }
+
 	private:
 		RenderDeviceD3D12* m_Device;
 

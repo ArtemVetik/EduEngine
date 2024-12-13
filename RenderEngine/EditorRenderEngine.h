@@ -12,6 +12,8 @@
 
 namespace EduEngine
 {
+	class RenderResourcesInfo;
+
 	class EditorRenderEngine : public IEditorRenderEngine
 	{
 	public:
@@ -33,6 +35,7 @@ namespace EduEngine
 
 		static EditorRenderEngine* GetInstance() { return m_Instance; }
 
+		friend class RenderResourcesInfo;
 	private:
 		static EditorRenderEngine* m_Instance;
 

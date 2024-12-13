@@ -24,6 +24,8 @@
 
 namespace EduEngine
 {
+	class RenderResourcesInfo;
+
 	class RenderEngine : public IRenderEngine
 	{
 	public:
@@ -58,6 +60,8 @@ namespace EduEngine
 		IDebugRendererSystem* GetDebugRender() const override { return m_DebugRenderer.get(); }
 
 		static RenderEngine* GetInstance();
+
+		friend class RenderResourcesInfo;
 	private:
 		static RenderEngine* m_Instance;
 
