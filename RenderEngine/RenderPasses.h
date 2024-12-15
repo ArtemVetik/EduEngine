@@ -1,8 +1,28 @@
 #pragma once
 #include "../Graphics/PipelineStateD3D12.h"
+#include "../EduMath/SimpleMath.h"
 
 namespace EduEngine
 {
+	struct ObjectConstants
+	{
+		DirectX::XMFLOAT4X4 World;
+	};
+
+	struct PassConstants
+	{
+		DirectX::XMFLOAT4X4 ViewProj;
+		DirectX::XMFLOAT4 AmbientLight = { 0.25f, 0.25f, 0.35f, 1.0f };
+	};
+
+	struct MaterialConstants
+	{
+		DirectX::XMFLOAT4 DiffuseAlbedo = { 1.0f, 1.0f, 1.0f, 1.0f };
+		DirectX::XMFLOAT3 FresnelR0 = { 0.01f, 0.01f, 0.01f };
+		float Roughness = 0.25f;
+		DirectX::XMFLOAT4X4 MatTransform = DirectX::SimpleMath::Matrix::Identity;
+	};
+
 	class OpaquePass
 	{
 	private:
@@ -16,15 +36,19 @@ namespace EduEngine
 			m_VertexShader(L"Shaders/color.hlsl", EDU_SHADER_TYPE_VERTEX, nullptr, "VS", "vs_5_1"),
 			m_PixelShader(L"Shaders/color.hlsl", EDU_SHADER_TYPE_PIXEL, nullptr, "PS", "ps_5_1")
 		{
-			m_RootSignature.AddConstantBufferView(0); // pass constants
-
 			CD3DX12_DESCRIPTOR_RANGE objConstants;
-			objConstants.Init(D3D12_DESCRIPTOR_RANGE_TYPE_CBV, 1, 1);
+			objConstants.Init(D3D12_DESCRIPTOR_RANGE_TYPE_CBV, 1, 0);
 			m_RootSignature.AddDescriptorParameter(1, &objConstants); // object constants
+
+			CD3DX12_DESCRIPTOR_RANGE materialConstants;
+			materialConstants.Init(D3D12_DESCRIPTOR_RANGE_TYPE_CBV, 1, 1);
+			m_RootSignature.AddDescriptorParameter(1, &materialConstants); // material constants
 
 			CD3DX12_DESCRIPTOR_RANGE albedoTexture;
 			albedoTexture.Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 0);
-			m_RootSignature.AddDescriptorParameter(1, &albedoTexture);
+			m_RootSignature.AddDescriptorParameter(1, &albedoTexture); // diffuse map
+
+			m_RootSignature.AddConstantBufferView(2); // pass constants
 			
 			m_RootSignature.Build(device);
 

@@ -146,7 +146,6 @@
     <ClInclude Include="d3dx12.h" />
     <ClInclude Include="DDSTextureLoader.h" />
     <ClInclude Include="DynamicUploadBuffer.h" />
-    <ClInclude Include="RenderObject.h" />
     <ClInclude Include="PipelineStateD3D12.h" />
     <ClInclude Include="RenderDeviceD3D12.h" />
     <ClInclude Include="pch.h" />

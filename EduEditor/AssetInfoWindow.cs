@@ -1,5 +1,4 @@
 ﻿using ImGuiNET;
-using System;
 using System.Numerics;
 
 namespace EduEngine.Editor
@@ -148,12 +147,13 @@ namespace EduEngine.Editor
             var assets = AssetDataBase.AllAssets.Where(asset => asset.Value.Asset != null &&
                                                                 asset.Value.Asset.GetType() == typeof(Texture));
 
+            bool isDirty = false;
             if (ImGui.BeginCombo("MainTexture", currentAsset.MainTexture == null ? "null" : AssetDataBase.GetAssetData(currentAsset.MainTexture.GUID).LocalPath))
             {
                 if (ImGui.Selectable("null"))
                 {
                     currentAsset.SetMainTexture(null);
-                    MaterialImporter.SaveMaterial(currentAsset);
+                    isDirty = true;
                 }
 
                 foreach (var asset in assets)
@@ -161,11 +161,35 @@ namespace EduEngine.Editor
                     if (ImGui.Selectable(asset.Value.LocalPath))
                     {
                         currentAsset.SetMainTexture(asset.Value.Asset as Texture);
-                        MaterialImporter.SaveMaterial(currentAsset);
+                        isDirty = true;
                     }
                 }
                 ImGui.EndCombo();
             }
+
+            var diffuseAlbedo = currentAsset.DiffuseAlbedo;
+            if (ImGui.ColorPicker4("Diffuse Albedo", ref diffuseAlbedo))
+            {
+                currentAsset.DiffuseAlbedo = diffuseAlbedo;
+                isDirty = true;
+            }
+
+            var fresnelR0 = currentAsset.FresnelR0;
+            if (ImGui.SliderFloat3("Fresnel R0", ref fresnelR0, 0.02f, 0.999f))
+            {
+                currentAsset.FresnelR0 = fresnelR0;
+                isDirty = true;
+            }
+
+            var roughness = currentAsset.Roughness;
+            if (ImGui.SliderFloat("Roughness", ref roughness, 0.0f, 0.999f))
+            {
+                currentAsset.Roughness = roughness;
+                isDirty = true;
+            }
+
+            if (isDirty)
+                MaterialImporter.SaveMaterial(currentAsset);
         }
     }
 }

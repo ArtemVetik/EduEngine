@@ -5,7 +5,6 @@
 #include "../Graphics/SwapChain.h"
 #include "../Graphics/TextureD3D12.h"
 #include "../Graphics/BufferD3D12.h"
-#include "../Graphics/RenderObject.h"
 #include "DebugRendererSystem.h"
 #include "framework.h"
 #include "IRenderEngine.h"

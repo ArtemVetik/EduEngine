@@ -195,26 +195,39 @@ namespace EduEngine
 		DynamicUploadBuffer passUploadBuffer(m_Device.get(), QueueID::Direct);
 		passUploadBuffer.LoadData(passConstants);
 
+		commandContext.GetCmdList()->SetGraphicsRootConstantBufferView(3, passUploadBuffer.GetAllocation().GPUAddress);
+
 		for (int i = 0; i < m_RenderObjects.size(); i++)
 		{
 			auto renderObject = m_RenderObjects[i];
 
-			if (renderObject->GetVertexBuffer() == nullptr || renderObject->GetIndexBuffer() == nullptr)
+			if (renderObject->GetVertexBuffer() == nullptr ||
+				renderObject->GetIndexBuffer() == nullptr ||
+				renderObject->GetMaterial() == nullptr)
 				continue;
 
 			ObjectConstants objConstants;
 			objConstants.World = renderObject->WorldMatrix.Transpose();
 
-			DynamicUploadBuffer uploadBuffer(m_Device.get(), QueueID::Direct);
-			uploadBuffer.LoadData(objConstants);
-			uploadBuffer.CreateCBV();
+			DynamicUploadBuffer objUploadBuffer(m_Device.get(), QueueID::Direct);
+			objUploadBuffer.LoadData(objConstants);
+			objUploadBuffer.CreateCBV();
+
+			MaterialConstants matConstants = {};
+			matConstants.DiffuseAlbedo = renderObject->GetMaterial()->DiffuseAlbedo;
+			matConstants.FresnelR0 = renderObject->GetMaterial()->FresnelR0;
+			matConstants.Roughness = renderObject->GetMaterial()->Roughness;
+
+			DynamicUploadBuffer matUploadBuffer(m_Device.get(), QueueID::Direct);
+			matUploadBuffer.LoadData(matConstants);
+			matUploadBuffer.CreateCBV();
 
 			commandContext.GetCmdList()->IASetVertexBuffers(0, 1, &(renderObject->GetVertexBuffer()->GetView()));
 			commandContext.GetCmdList()->IASetIndexBuffer(&(renderObject->GetIndexBuffer()->GetView()));
 			commandContext.GetCmdList()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
-			commandContext.GetCmdList()->SetGraphicsRootConstantBufferView(0, passUploadBuffer.GetAllocation().GPUAddress);
-			commandContext.GetCmdList()->SetGraphicsRootDescriptorTable(1, uploadBuffer.GetCBVDescriptorGPUHandle());
+			commandContext.GetCmdList()->SetGraphicsRootDescriptorTable(0, objUploadBuffer.GetCBVDescriptorGPUHandle());
+			commandContext.GetCmdList()->SetGraphicsRootDescriptorTable(1, matUploadBuffer.GetCBVDescriptorGPUHandle());
 
 			if (renderObject->GetMaterial() && renderObject->GetMaterial()->GetMainTexture())
 			{

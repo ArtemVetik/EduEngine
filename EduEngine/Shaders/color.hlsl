@@ -8,14 +8,23 @@ SamplerState gsamAnisotropicWrap : register(s4);
 SamplerState gsamAnisotropicClamp : register(s5);
 SamplerComparisonState gsamShadow : register(s6);
 
-cbuffer cbPass : register(b0)
-{
-    float4x4 gViewProj;
-};
-
-cbuffer cbPerObject : register(b1)
+cbuffer cbPerObject : register(b0)
 {
     float4x4 gWorld;
+};
+
+cbuffer cbMaterial : register(b1)
+{
+    float4 gDiffuseAlbedo;
+    float3 gFresnelR0;
+    float gRoughness;
+    float4x4 gMatTransform;
+};
+
+cbuffer cbPass : register(b2)
+{
+    float4x4 gViewProj;
+    float4 gAmbientLight;
 };
 
 struct VertexIn

@@ -1,4 +1,6 @@
-﻿namespace EduEngine
+﻿using System.Numerics;
+
+namespace EduEngine
 {
     public class Material : Asset
     {
@@ -11,6 +13,21 @@
         }
 
         public Texture MainTexture => _mainTexture;
+        public Vector4 DiffuseAlbedo
+        {
+            get => _nativeMaterial.DiffuseAlbedo;
+            set => _nativeMaterial.DiffuseAlbedo = value;
+        }
+        public Vector3 FresnelR0
+        {
+            get => _nativeMaterial.FresnelR0;
+            set => _nativeMaterial.FresnelR0 = value;
+        }
+        public float Roughness
+        {
+            get => _nativeMaterial.Roughness;
+            set => _nativeMaterial.Roughness = value;
+        }
         internal MaterialWrapper Wrapper => _nativeMaterial;
 
         public void SetMainTexture(Texture texture)

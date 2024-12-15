@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System.Numerics;
 
 namespace EduEngine
 {
@@ -24,7 +25,11 @@ namespace EduEngine
                 var textureAsset = AssetDataBase.GetAssetData(materialData.TextureGUID);
                 material.SetMainTexture(textureAsset.Asset as Texture);
             }
-            
+
+            material.DiffuseAlbedo = materialData.DiffuseAlbedo;
+            material.FresnelR0 = materialData.FresnelR0;
+            material.Roughness = materialData.Roughness;
+
             return material;
         }
 
@@ -47,12 +52,19 @@ namespace EduEngine
             else
                 materialData.TextureGUID = material.MainTexture.GUID;
 
-            File.WriteAllText(materialPath, JsonConvert.SerializeObject(materialData));
+            materialData.DiffuseAlbedo = material.DiffuseAlbedo;
+            materialData.FresnelR0 = material.FresnelR0;
+            materialData.Roughness = material.Roughness;
+
+            File.WriteAllText(materialPath, JsonConvert.SerializeObject(materialData, Formatting.Indented));
         }
     }
 
     public class MaterialData
     {
         public string TextureGUID { get; set; }
+        public Vector4 DiffuseAlbedo { get; set; }
+        public Vector3 FresnelR0 { get; set; }
+        public float Roughness { get; set; }
     }
 }

@@ -7,6 +7,9 @@ namespace EduEngine
 		m_MainTexture(nullptr),
 		m_RefCount(0)
 	{
+		DiffuseAlbedo = { 1.0f, 1.0f, 1.0f, 1.0f };
+		FresnelR0 = { 0.01f, 0.01f, 0.01f };
+		Roughness = 0.25f;
 	}
 
 	MaterialD3D12Impl::~MaterialD3D12Impl()

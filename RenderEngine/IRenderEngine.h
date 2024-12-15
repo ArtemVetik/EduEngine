@@ -29,6 +29,10 @@ namespace EduEngine
 	class RENDERENGINE_API IMaterial
 	{
 	public:
+		DirectX::XMFLOAT4 DiffuseAlbedo;
+		DirectX::XMFLOAT3 FresnelR0;
+		float Roughness;
+
 		virtual void SetMainTexture(ITexture* texture) = 0;
 		virtual ITexture* GetMainTexture() = 0;
 	};

@@ -1,7 +1,6 @@
 #include "pch.h"
 
 #include "EditorMeshPreviewD3D12.h"
-#include "../Graphics/RenderObject.h"
 #include "../Graphics/DynamicUploadBuffer.h"
 
 namespace EduEngine

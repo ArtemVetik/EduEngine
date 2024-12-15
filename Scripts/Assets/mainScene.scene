@@ -89,6 +89,9 @@
       "Type": "Script",
       "FileId": 1,
       "Parameters": {
+        "_moveSpeed": 20.0,
+        "_moveStrength": 8.0,
+        "_rotateStrength": 20.0,
         "script_guid": "a91c8202-153d-4993-9eb3-c6c413773c12"
       }
     },
@@ -103,6 +106,9 @@
       "Type": "Script",
       "FileId": 4,
       "Parameters": {
+        "_moveSpeed": 20.0,
+        "_moveStrength": 8.0,
+        "_rotateStrength": 20.0,
         "script_guid": "a91c8202-153d-4993-9eb3-c6c413773c12"
       }
     },

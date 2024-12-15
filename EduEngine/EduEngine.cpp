@@ -82,7 +82,7 @@ void UpdateWindowTitle(HWND window, int rFps, float rMspf, int eFps, float eMspf
 	out.precision(6);
 
 	out << "Runtime (" << " fps: " << rFps << " frame time: " << rMspf << " ms)" <<
-		   "\tEditor (" << "fps: " << eFps << " frame time: " << eMspf << " ms)" << "\0";
+		"\tEditor (" << "fps: " << eFps << " frame time: " << eMspf << " ms)" << "\0";
 
 	SetWindowText(window, out.str().c_str());
 }
@@ -166,7 +166,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance,
 				if (!runtimeWindow.IsPaused())
 				{
 					InputManager::GetInstance().Update();
-					
+
 					if (runtimeTimer.UpdateTitleBarStats(runtimeFps, runtimeMspf))
 						UpdateWindowTitle(editorWindow.GetHostWindow(), runtimeFps, runtimeMspf, editorFps, editorMspf);
 
@@ -203,7 +203,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance,
 						UpdateWindowTitle(editorWindow.GetHostWindow(), runtimeFps, runtimeMspf, editorFps, editorMspf);
 
 					InputManager::GetEditorInstance().Update();
-					
+
 					EditorInterop::Update();
 					editorThread = std::async(std::launch::async, &IEditorRenderEngine::Draw, editorRenderEngine.get());
 				}
