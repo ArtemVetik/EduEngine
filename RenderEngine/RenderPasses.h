@@ -13,9 +13,9 @@ namespace EduEngine
 	{
 		DirectX::XMFLOAT4X4 ViewProj;
 		DirectX::XMFLOAT3 EyePosW = { 0.0f, 0.0f, 0.0f };
-		UINT DirectionalLightsCount;
-		UINT PointLightsCount;
-		UINT SpotLightsCount;
+		UINT DirectionalLightsCount = 0;
+		UINT PointLightsCount = 0;
+		UINT SpotLightsCount = 0;
 		DirectX::XMFLOAT2 Padding;
 		DirectX::XMFLOAT4 AmbientLight = { 0.25f, 0.25f, 0.35f, 1.0f };
 	};
@@ -37,9 +37,9 @@ namespace EduEngine
 		PipelineStateD3D12 m_Pso;
 
 	public:
-		OpaquePass(const RenderDeviceD3D12* device) :
-			m_VertexShader(L"Shaders/color.hlsl", EDU_SHADER_TYPE_VERTEX, nullptr, "VS", "vs_5_1"),
-			m_PixelShader(L"Shaders/color.hlsl", EDU_SHADER_TYPE_PIXEL, nullptr, "PS", "ps_5_1")
+		OpaquePass(const RenderDeviceD3D12* device, D3D_SHADER_MACRO* macros = nullptr) :
+			m_VertexShader(L"Shaders/color.hlsl", EDU_SHADER_TYPE_VERTEX, macros, "VS", "vs_5_1"),
+			m_PixelShader(L"Shaders/color.hlsl", EDU_SHADER_TYPE_PIXEL, macros, "PS", "ps_5_1")
 		{
 			CD3DX12_DESCRIPTOR_RANGE objConstants;
 			objConstants.Init(D3D12_DESCRIPTOR_RANGE_TYPE_CBV, 1, 0);

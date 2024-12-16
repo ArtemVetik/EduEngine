@@ -104,12 +104,12 @@ namespace EduEngine.Editor
             {
                 if (Input.Editor.MouseButtonPressed(0))
                 {
-                    var delta = new Vector3(Input.Editor.MouseDelta.X, Input.Editor.MouseDelta.Y, Input.Editor.ScrollDelta.Y);
+                    var delta = new Vector3(Input.Editor.MouseDelta.X, Input.Editor.MouseDelta.Y, Input.Editor.ScrollDelta.Y) * 5.0f;
                     EditorRenderEngineInterop.RotatePreviewMesh(delta * EditorTime.DeltaTime);
                 }
                 else
                 {
-                    var delta = new Vector3(0, 0, Input.Editor.ScrollDelta.Y);
+                    var delta = new Vector3(0, 0, Input.Editor.ScrollDelta.Y) * 5.0f;
                     EditorRenderEngineInterop.RotatePreviewMesh(delta * EditorTime.DeltaTime);
                 }
             }

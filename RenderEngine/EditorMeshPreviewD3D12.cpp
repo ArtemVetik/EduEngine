@@ -11,7 +11,13 @@ namespace EduEngine
 		m_Height(200)
 	{
 		m_PreviewCamera = std::make_unique<Camera>(m_Width, m_Height);
-		m_OpaquePass = std::make_unique<OpaquePass>(m_Device);
+
+		D3D_SHADER_MACRO macros[] =
+		{
+			{ "NO_DIFFUSE_MAP", "1" },
+			{ NULL, NULL }
+		};
+		m_OpaquePass = std::make_unique<OpaquePass>(m_Device, macros);
 
 		m_Viewport.TopLeftX = 0;
 		m_Viewport.TopLeftY = 0;
@@ -116,7 +122,7 @@ namespace EduEngine
 			D3D12_RESOURCE_STATE_COMMON,
 			D3D12_RESOURCE_STATE_DEPTH_WRITE)
 		);
-		
+
 		IEditorRenderEngine::PreviewMeshInfo info;
 		info.TexturePtr = reinterpret_cast<void*>(m_PreviewMeshRT->GetView(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV)->GetGpuHandle().ptr);
 		info.VertexCount = m_PreviewMesh->GetVertexCount();
@@ -182,7 +188,7 @@ namespace EduEngine
 			D3D12_RESOURCE_STATE_GENERIC_READ,
 			D3D12_RESOURCE_STATE_RENDER_TARGET)
 		);
-		
+
 		commandContext.FlushResourceBarriers();
 
 		commandContext.SetRenderTargets(1, &(m_PreviewMeshRT->GetView(D3D12_DESCRIPTOR_HEAP_TYPE_RTV)->GetCpuHandle()), FALSE,
@@ -191,20 +197,30 @@ namespace EduEngine
 		commandContext.GetCmdList()->SetPipelineState(m_OpaquePass->GetD3D12PipelineState());
 		commandContext.GetCmdList()->SetGraphicsRootSignature(m_OpaquePass->GetD3D12RootSignature());
 
-		PassConstants passConstants;
+		PassConstants passConstants = {};
+		passConstants.DirectionalLightsCount = 1;
 		XMStoreFloat4x4(&passConstants.ViewProj, XMMatrixTranspose(m_PreviewCamera->GetViewProjMatrix()));
-
 		DynamicUploadBuffer passUploadBuffer(m_Device, QueueID::Direct);
 		passUploadBuffer.LoadData(passConstants);
+
+		DynamicUploadBuffer lightUploadBuffer(m_Device, QueueID::Direct);
+		Light light = {};
+		lightUploadBuffer.LoadData(light);
+		lightUploadBuffer.CreateSRV(1, sizeof(Light));
+
+		DynamicUploadBuffer matUploadBuffer(m_Device, QueueID::Direct);
+		MaterialConstants material = {};
+		matUploadBuffer.LoadData(material);
+		matUploadBuffer.CreateCBV();
 
 		auto renderObject = m_PreviewMesh.get();
 
 		ObjectConstants objConstants;
 		objConstants.World = DirectX::SimpleMath::Matrix::Identity;
 
-		DynamicUploadBuffer uploadBuffer(m_Device, QueueID::Direct);
-		uploadBuffer.LoadData(objConstants);
-		uploadBuffer.CreateCBV();
+		DynamicUploadBuffer objUploadBuffer(m_Device, QueueID::Direct);
+		objUploadBuffer.LoadData(objConstants);
+		objUploadBuffer.CreateCBV();
 
 		const float bgColor[4] = { 0, 0, 0, 1.0f };
 		commandContext.GetCmdList()->ClearRenderTargetView(m_PreviewMeshRT->GetView(D3D12_DESCRIPTOR_HEAP_TYPE_RTV)->GetCpuHandle(), bgColor, 0, nullptr);
@@ -215,8 +231,10 @@ namespace EduEngine
 		commandContext.GetCmdList()->IASetIndexBuffer(&(renderObject->GetIndexBuffer()->GetView()));
 		commandContext.GetCmdList()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
-		commandContext.GetCmdList()->SetGraphicsRootConstantBufferView(0, passUploadBuffer.GetAllocation().GPUAddress);
-		commandContext.GetCmdList()->SetGraphicsRootDescriptorTable(1, uploadBuffer.GetCBVDescriptorGPUHandle());
+		commandContext.GetCmdList()->SetGraphicsRootDescriptorTable(0, objUploadBuffer.GetCBVDescriptorGPUHandle());
+		commandContext.GetCmdList()->SetGraphicsRootDescriptorTable(1, matUploadBuffer.GetCBVDescriptorGPUHandle());
+		commandContext.GetCmdList()->SetGraphicsRootDescriptorTable(3, lightUploadBuffer.GetSRVDescriptorGPUHandle());
+		commandContext.GetCmdList()->SetGraphicsRootConstantBufferView(4, passUploadBuffer.GetAllocation().GPUAddress);
 
 		commandContext.GetCmdList()->DrawIndexedInstanced(renderObject->GetIndexBuffer()->GetLength(), 1, 0, 0, 0);
 
