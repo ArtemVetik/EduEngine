@@ -41,9 +41,29 @@ namespace EduEngine
 	{
 	public:
 		DirectX::SimpleMath::Matrix WorldMatrix = DirectX::SimpleMath::Matrix::Identity;
-		
+
 		virtual void SetMesh(IMesh* mesh) = 0;
 		virtual void SetMaterial(IMaterial* material) = 0;
+	};
+
+	class RENDERENGINE_API Light
+	{
+	public:
+		enum RENDERENGINE_API Type
+		{
+			Directional = 0,
+			Point = 1,
+			Spotlight = 2
+		};
+
+		Type LightType = Type::Directional;
+		DirectX::XMFLOAT3 Padding = { 0, 0, 0 };
+		DirectX::XMFLOAT3 Strength = { 0.5f, 0.5f, 0.5f };
+		float FalloffStart = 1.04f;							 // point/spot light only
+		DirectX::XMFLOAT3 Direction = { 0.0f, -1.0f, 0.0f }; // directional/spot light only
+		float FalloffEnd = 10.0f;							 // point/spot light only
+		DirectX::XMFLOAT3 Position = { 0.0f, 0.0f, 0.0f };	 // point/spot light only
+		float SpotPower = 64.0f;							 // spot light only
 	};
 
 	class RENDERENGINE_API IRenderEngine
@@ -59,6 +79,8 @@ namespace EduEngine
 		virtual void RemoveMaterial(IMaterial* material) = 0;
 		virtual Camera* CreateCamera() = 0;
 		virtual void RemoveCamera(Camera* camera) = 0;
+		virtual Light* CreateLight() = 0;
+		virtual void RemoveLight(Light* light) = 0;
 
 		virtual void BeginDraw() = 0;
 		virtual void Draw(Camera* camera) = 0;

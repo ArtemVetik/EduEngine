@@ -270,6 +270,38 @@ namespace EduEngine
 		DrawArrow(posF, arrowP2, color, rightF);
 	}
 
+	void DebugRendererSystem::DrawSpotLight(const DirectX::XMFLOAT3& pos0, const DirectX::XMFLOAT3& pos1, float radius, int density, const DirectX::XMVECTOR& color)
+	{
+		if (pos0.x == pos1.x && pos0.y == pos1.y && pos0.z == pos1.z)
+			return;
+
+		auto rotationMatrix = DirectX::XMMatrixLookAtLH(DirectX::XMLoadFloat3(&pos0), DirectX::XMLoadFloat3(&pos1), { 0, 1, 0 });
+		auto quatRotation = DirectX::XMQuaternionRotationMatrix(DirectX::XMMatrixTranspose(rotationMatrix));
+		auto transform = DirectX::XMMatrixAffineTransformation({ 1, 1, 1 }, {}, quatRotation, DirectX::XMLoadFloat3(&pos1));
+
+		DrawCircle(radius, color, transform, density);
+		DrawArrow(pos0, pos1, color, { 0, 1, 0 });
+
+		double angleStep = DirectX::XM_PI * 2 / density;
+
+		for (int i = 0; i < density; i++)
+		{
+			DirectX::XMFLOAT3 circlePoint
+			{
+				static_cast<float>(radius * cos(angleStep * i)),
+				static_cast<float>(radius * sin(angleStep * i)),
+				0.0f,
+			};
+
+			auto p = DirectX::XMVector3Transform(DirectX::XMLoadFloat3(&circlePoint), transform);
+
+			DirectX::XMStoreFloat3(&circlePoint, p);
+
+			DrawLine(pos0, circlePoint, color);
+			DrawLine(pos1, circlePoint, color);
+		}
+	}
+
 	void DebugRendererSystem::DrawFrustrum(const DirectX::XMMATRIX& view, const DirectX::XMMATRIX& proj)
 	{
 		DirectX::BoundingFrustum frustum = DirectX::BoundingFrustum::BoundingFrustum(proj);
@@ -278,29 +310,29 @@ namespace EduEngine
 		std::array<DirectX::XMFLOAT3, 8> corners;
 		frustum.GetCorners(corners.data());
 
-		/*for (int i = 0; i < corners.size(); ++i) 
+		/*for (int i = 0; i < corners.size(); ++i)
 		{
 			DrawPoint(corners[i], 0.2f * (i+1), DirectX::Colors::Blue);
 		}*/
-	
+
 		auto invView = DirectX::XMMatrixInverse(nullptr, view);
 		DirectX::XMFLOAT3 translation;
 		DirectX::XMStoreFloat3(&translation, invView.r[3]);
 		DrawPoint(translation, 1.0f, DirectX::Colors::Red);
 
-		DrawLine(corners[0], corners[1], {0.0f, 0.0f, 1.0f, 1.0f});
-		DrawLine(corners[2], corners[3], {0.0f, 0.0f, 1.0f, 1.0f});
-		DrawLine(corners[4], corners[5], {0.0f, 0.0f, 1.0f, 1.0f});
-		DrawLine(corners[6], corners[7], {0.0f, 0.0f, 1.0f, 1.0f});
-										  
-		DrawLine(corners[0], corners[2], {0.0f, 1.0f, 0.0f, 1.0f});
-		DrawLine(corners[1], corners[3], {0.0f, 0.5f, 0.0f, 1.0f});
-		DrawLine(corners[4], corners[6], {0.0f, 1.0f, 0.0f, 1.0f});
-		DrawLine(corners[5], corners[7], {0.0f, 0.5f, 0.0f, 1.0f});
-										  
-		DrawLine(corners[0], corners[4], {1.0f, 0.0f, 0.0f, 1.0f});
-		DrawLine(corners[1], corners[5], {0.5f, 0.0f, 0.0f, 1.0f});
-		DrawLine(corners[2], corners[6], {1.0f, 0.0f, 0.0f, 1.0f});
+		DrawLine(corners[0], corners[1], { 0.0f, 0.0f, 1.0f, 1.0f });
+		DrawLine(corners[2], corners[3], { 0.0f, 0.0f, 1.0f, 1.0f });
+		DrawLine(corners[4], corners[5], { 0.0f, 0.0f, 1.0f, 1.0f });
+		DrawLine(corners[6], corners[7], { 0.0f, 0.0f, 1.0f, 1.0f });
+
+		DrawLine(corners[0], corners[2], { 0.0f, 1.0f, 0.0f, 1.0f });
+		DrawLine(corners[1], corners[3], { 0.0f, 0.5f, 0.0f, 1.0f });
+		DrawLine(corners[4], corners[6], { 0.0f, 1.0f, 0.0f, 1.0f });
+		DrawLine(corners[5], corners[7], { 0.0f, 0.5f, 0.0f, 1.0f });
+
+		DrawLine(corners[0], corners[4], { 1.0f, 0.0f, 0.0f, 1.0f });
+		DrawLine(corners[1], corners[5], { 0.5f, 0.0f, 0.0f, 1.0f });
+		DrawLine(corners[2], corners[6], { 1.0f, 0.0f, 0.0f, 1.0f });
 		DrawLine(corners[3], corners[7], { 0.5f, 0.0f, 0.0f, 1.0f });
 	}
 

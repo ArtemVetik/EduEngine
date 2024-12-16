@@ -16,6 +16,7 @@ namespace EduEngine
 		virtual void DrawLine(const DirectX::XMFLOAT3& pos0, const DirectX::XMFLOAT3& pos1, const DirectX::XMVECTOR& color = DirectX::Colors::Green) = 0;
 		virtual void DrawLine(const DirectX::XMVECTOR& pos0, const DirectX::XMVECTOR& pos1, const DirectX::XMVECTOR& color = DirectX::Colors::Green) = 0;
 		virtual void DrawPlane(const DirectX::XMFLOAT4& p, const DirectX::XMVECTOR& color, float sizeWidth, float sizeNormal, bool drawCenterCross) = 0;
+		virtual void DrawSpotLight(const DirectX::XMFLOAT3& pos0, const DirectX::XMFLOAT3& pos1, float radius, int density, const DirectX::XMVECTOR& color = DirectX::Colors::Green) = 0;
 		virtual void DrawFrustrum(const DirectX::XMMATRIX& view, const DirectX::XMMATRIX& proj) = 0;
 	};
 }

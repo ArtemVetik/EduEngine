@@ -75,6 +75,12 @@
     <ClInclude Include="RenderEngine\MaterialWrapper.h">
       <Filter>RenderEngine</Filter>
     </ClInclude>
+    <ClInclude Include="RenderEngine\RenderResourcesInfoWrapper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderEngine\LightWrapper.h">
+      <Filter>RenderEngine</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp">
@@ -117,6 +123,12 @@
       <Filter>RenderEngine</Filter>
     </ClCompile>
     <ClCompile Include="RenderEngine\MaterialWrapper.cpp">
+      <Filter>RenderEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderEngine\RenderResourcesInfoWrapper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderEngine\LightWrapper.cpp">
       <Filter>RenderEngine</Filter>
     </ClCompile>
   </ItemGroup>

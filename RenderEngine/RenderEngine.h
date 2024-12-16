@@ -46,7 +46,9 @@ namespace EduEngine
 		void RemoveMaterial(IMaterial* material) override;
 		Camera* CreateCamera() override;
 		void RemoveCamera(Camera* camera) override;
-		
+		Light* CreateLight() override;
+		void RemoveLight(Light* light) override;
+
 		void BeginDraw() override;
 		void Draw(Camera* camera) override;
 		void EndDraw() override;
@@ -72,6 +74,7 @@ namespace EduEngine
 		std::vector<std::shared_ptr<TextureD3D12Impl>> m_Textures;
 		std::vector<std::shared_ptr<MaterialD3D12Impl>> m_Materials;
 		std::vector<std::shared_ptr<Camera>> m_Cameras;
+		std::vector<std::shared_ptr<Light>> m_Lights;
 		std::unique_ptr<TextureHeapView> m_NullTex;
 
 		std::unique_ptr<OpaquePass> m_OpaquePass;

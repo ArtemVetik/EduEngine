@@ -28,6 +28,25 @@ namespace EduEngine
 			m_Cameras.end());
 	}
 
+	Light* RenderEngine::CreateLight()
+	{
+		auto light = std::make_shared<Light>();
+		light->Strength = { 0.6f, 0.6f, 0.6f };
+		light->Direction = { 0.0f, -1.0f, 0.0f };
+
+		m_Lights.emplace_back(light);
+		return light.get();
+	}
+
+	void RenderEngine::RemoveLight(Light* light)
+	{
+		m_Lights.erase(std::remove_if(m_Lights.begin(), m_Lights.end(),
+			[&light](const std::shared_ptr <Light>& ptr) {
+				return ptr.get() == light;
+			}),
+			m_Lights.end());
+	}
+
 	RenderEngine::RenderEngine() :
 		m_Viewport{},
 		m_ScissorRect{}
@@ -189,13 +208,47 @@ namespace EduEngine
 		commandContext.GetCmdList()->SetPipelineState(m_OpaquePass->GetD3D12PipelineState());
 		commandContext.GetCmdList()->SetGraphicsRootSignature(m_OpaquePass->GetD3D12RootSignature());
 
-		PassConstants passConstants;
+		PassConstants passConstants = {};
 		XMStoreFloat4x4(&passConstants.ViewProj, XMMatrixTranspose(camera->GetViewProjMatrix()));
+		passConstants.EyePosW = camera->GetPosition();
+
+		for (size_t i = 0; i < m_Lights.size(); i++)
+		{
+			if (m_Lights[i]->LightType == Light::Type::Directional)
+				passConstants.DirectionalLightsCount++;
+			if (m_Lights[i]->LightType == Light::Type::Point)
+				passConstants.PointLightsCount++;
+			if (m_Lights[i]->LightType == Light::Type::Spotlight)
+				passConstants.SpotLightsCount++;
+		}
 
 		DynamicUploadBuffer passUploadBuffer(m_Device.get(), QueueID::Direct);
 		passUploadBuffer.LoadData(passConstants);
 
-		commandContext.GetCmdList()->SetGraphicsRootConstantBufferView(3, passUploadBuffer.GetAllocation().GPUAddress);
+		if (m_Lights.size() > 0)
+		{
+			DynamicUploadBuffer lightsUploadBuffer(m_Device.get(), QueueID::Direct);
+			lightsUploadBuffer.CreateAllocation(m_Lights.size() * sizeof(Light));
+
+			int dirIdx = 0;
+			int pointIdx = 0;
+			int spotIdx = 0;
+
+			for (size_t i = 0; i < m_Lights.size(); i++)
+			{
+				if (m_Lights[i]->LightType == Light::Type::Directional)
+					lightsUploadBuffer.PutData(dirIdx++, *m_Lights[i].get());
+				if (m_Lights[i]->LightType == Light::Type::Point)
+					lightsUploadBuffer.PutData(passConstants.DirectionalLightsCount + pointIdx++, *m_Lights[i].get());
+				if (m_Lights[i]->LightType == Light::Type::Spotlight)
+					lightsUploadBuffer.PutData(passConstants.DirectionalLightsCount + passConstants.PointLightsCount + spotIdx++, *m_Lights[i].get());
+			}
+
+			lightsUploadBuffer.CreateSRV(m_Lights.size(), sizeof(Light));
+			commandContext.GetCmdList()->SetGraphicsRootDescriptorTable(3, lightsUploadBuffer.GetSRVDescriptorGPUHandle());
+		}
+
+		commandContext.GetCmdList()->SetGraphicsRootConstantBufferView(4, passUploadBuffer.GetAllocation().GPUAddress);
 
 		for (int i = 0; i < m_RenderObjects.size(); i++)
 		{

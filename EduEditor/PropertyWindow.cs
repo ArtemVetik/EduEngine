@@ -97,6 +97,24 @@ namespace EduEngine.Editor
                                 serializeCallback?.OnDeserialize();
                             }
                         }
+                        else if (fieldValue is Enum enumValue)
+                        {
+                            Enum newValue = enumValue;
+                            if (ImGui.BeginCombo(fieldName, enumValue.ToString()))
+                            {
+                                var names = Enum.GetNames(field.FieldType);
+                                foreach (var name in names)
+                                {
+                                    if (ImGui.Selectable(name))
+                                    {
+                                        field.SetValue(component, Enum.Parse(field.FieldType, name));
+                                        serializeCallback?.OnDeserialize();
+                                    }
+                                }
+
+                                ImGui.EndCombo();
+                            }
+                        }
                         else if (field.FieldType.IsSubclassOf(typeof(Asset)))
                         {
                             Asset currentAsset = fieldValue as Asset;

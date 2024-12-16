@@ -92,9 +92,14 @@ namespace EduEngine
                 foreach (var parameter in parameters)
                 {
                     var field = type.GetField(parameter.Key, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
-                    
+
                     if (field != null)
-                        field.SetValue(component, Convert.ChangeType(parameter.Value, field.FieldType));
+                    {
+                        if (field.FieldType.IsEnum)
+                            field.SetValue(component, Enum.ToObject(field.FieldType, parameter.Value));
+                        else
+                            field.SetValue(component, Convert.ChangeType(parameter.Value, field.FieldType));
+                    }
                 }
             }
 

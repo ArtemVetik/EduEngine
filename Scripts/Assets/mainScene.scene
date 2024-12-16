@@ -69,9 +69,33 @@
         "Y": 1.0,
         "Z": 1.0
       },
-      "Name": "New GameObject",
+      "Name": "Mesh",
       "Components": [
         6
+      ]
+    },
+    {
+      "FileId": 9,
+      "LocalPosition": {
+        "X": 0.0,
+        "Y": 27.5987,
+        "Z": 3.9719884
+      },
+      "LocalRotation": {
+        "X": 0.70710665,
+        "Y": 0.0,
+        "Z": 0.0,
+        "W": 0.7071069,
+        "IsIdentity": false
+      },
+      "LocalScale": {
+        "X": 1.0,
+        "Y": 0.9999513,
+        "Z": 0.9999513
+      },
+      "Name": "Directional Light",
+      "Components": [
+        8
       ]
     }
   ],
@@ -118,6 +142,19 @@
       "Parameters": {
         "_mesh": "1ba135a0-3118-4431-9ae0-52867b1dc240",
         "_material": "2e92a9cb-080d-4562-8a1b-e732d688b401"
+      }
+    },
+    {
+      "Type": "EduEngine.Light",
+      "FileId": 8,
+      "Parameters": {
+        "_type": 2,
+        "_r": 10.0,
+        "_g": 1.0,
+        "_b": 1.0,
+        "_falloffStart": 0.0,
+        "_falloffEnd": 20.0,
+        "_spotPower": 8.0
       }
     }
   ]

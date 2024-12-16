@@ -12,6 +12,11 @@ namespace EduEngine
 	struct PassConstants
 	{
 		DirectX::XMFLOAT4X4 ViewProj;
+		DirectX::XMFLOAT3 EyePosW = { 0.0f, 0.0f, 0.0f };
+		UINT DirectionalLightsCount;
+		UINT PointLightsCount;
+		UINT SpotLightsCount;
+		DirectX::XMFLOAT2 Padding;
 		DirectX::XMFLOAT4 AmbientLight = { 0.25f, 0.25f, 0.35f, 1.0f };
 	};
 
@@ -48,8 +53,12 @@ namespace EduEngine
 			albedoTexture.Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 0);
 			m_RootSignature.AddDescriptorParameter(1, &albedoTexture); // diffuse map
 
+			CD3DX12_DESCRIPTOR_RANGE lights;
+			lights.Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 1);
+			m_RootSignature.AddDescriptorParameter(1, &lights); // lights
+
 			m_RootSignature.AddConstantBufferView(2); // pass constants
-			
+
 			m_RootSignature.Build(device);
 
 			std::vector<D3D12_INPUT_ELEMENT_DESC> mInputLayout =
@@ -160,10 +169,10 @@ namespace EduEngine
 			D3D12_BLEND_DESC blendDesc = {};
 			blendDesc.AlphaToCoverageEnable = false;
 			blendDesc.IndependentBlendEnable = false;
-			blendDesc.RenderTarget[0].BlendEnable = TRUE; 
+			blendDesc.RenderTarget[0].BlendEnable = TRUE;
 			blendDesc.RenderTarget[0].LogicOpEnable = FALSE;
-			blendDesc.RenderTarget[0].SrcBlend = D3D12_BLEND_SRC_ALPHA; 
-			blendDesc.RenderTarget[0].DestBlend = D3D12_BLEND_INV_SRC_ALPHA; 
+			blendDesc.RenderTarget[0].SrcBlend = D3D12_BLEND_SRC_ALPHA;
+			blendDesc.RenderTarget[0].DestBlend = D3D12_BLEND_INV_SRC_ALPHA;
 			blendDesc.RenderTarget[0].BlendOp = D3D12_BLEND_OP_ADD;
 			blendDesc.RenderTarget[0].SrcBlendAlpha = D3D12_BLEND_ONE;
 			blendDesc.RenderTarget[0].DestBlendAlpha = D3D12_BLEND_ZERO;
