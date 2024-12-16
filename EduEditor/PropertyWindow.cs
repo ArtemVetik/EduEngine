@@ -6,7 +6,8 @@ namespace EduEngine.Editor
 {
     internal class PropertyWindow
     {
-        private static string _filter = "";
+        private static string _goFilter = "";
+        private static string _scriptFilter = "";
 
         public void Render(GameObject selected)
         {
@@ -31,16 +32,42 @@ namespace EduEngine.Editor
 
         private void RenderTransform(GameObject go)
         {
-            var localPos = go.Transform.Position;
-            var eulerAngles = go.Transform.Rotation.ToEuler();
+            var localPos = go.Transform.LocalPosition;
+            var eulerAngles = go.Transform.LocalRotation.ToEuler();
             var localScale = go.Transform.LocalScale;
 
             ImGui.InputText("Name", ref go.Name, 64);
 
+            if (ImGui.BeginCombo("Parent", go.Parent == null ? "null" : go.Parent.Name))
+            {
+                ImGui.InputText("Search", ref _scriptFilter, 256);
+
+                ImGui.Separator();
+
+                if (ImGui.Selectable("null"))
+                {
+                    go.SetParent(null);
+                    _goFilter = "";
+                    ImGui.CloseCurrentPopup();
+                }
+
+                foreach (var option in FilterGameObjects(go))
+                {
+                    if (ImGui.Selectable(option.Name))
+                    {
+                        go.SetParent(option);
+                        _goFilter = "";
+                        ImGui.CloseCurrentPopup();
+                    }
+                }
+
+                ImGui.EndCombo();
+            }
+
             if (ImGui.InputFloat3("Local Position", ref localPos))
-                go.Transform.Position = localPos;
+                go.Transform.LocalPosition = localPos;
             if (ImGui.InputFloat3("Local Rotation", ref eulerAngles))
-                go.Transform.Rotation = eulerAngles.ToEulerQuaternion();
+                go.Transform.LocalRotation = eulerAngles.ToEulerQuaternion();
             if (ImGui.InputFloat3("Local Scale", ref localScale))
                 go.Transform.LocalScale = localScale;
         }
@@ -199,7 +226,7 @@ namespace EduEngine.Editor
 
             if (ImGui.BeginPopup("SelectScriptPopup"))
             {
-                ImGui.InputText("Search", ref _filter, 256);
+                ImGui.InputText("Search", ref _scriptFilter, 256);
 
                 ImGui.Separator();
 
@@ -209,7 +236,7 @@ namespace EduEngine.Editor
                     {
                         go.AddComponent(option);
 
-                        _filter = "";
+                        _scriptFilter = "";
                         ImGui.CloseCurrentPopup();
                     }
                 }
@@ -224,8 +251,20 @@ namespace EduEngine.Editor
             {
                 var option = types[i];
 
-                if (string.IsNullOrEmpty(_filter) || option.Name.Contains(_filter, StringComparison.OrdinalIgnoreCase))
+                if (string.IsNullOrEmpty(_scriptFilter) || option.Name.Contains(_scriptFilter, StringComparison.OrdinalIgnoreCase))
                     yield return option;
+            }
+        }
+
+        private static IEnumerable<GameObject> FilterGameObjects(GameObject self)
+        {
+            foreach (var go in SceneManager.CurrentScene.Objects)
+            {
+                if (go == self)
+                    continue;
+
+                if (string.IsNullOrEmpty(_scriptFilter) || go.Name.Contains(_scriptFilter, StringComparison.OrdinalIgnoreCase))
+                    yield return go;
             }
         }
     }

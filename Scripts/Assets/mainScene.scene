@@ -1,7 +1,7 @@
 {
   "GameObjects": [
     {
-      "FileId": 2,
+      "FileId": 0,
       "LocalPosition": {
         "X": 0.0,
         "Y": 0.0,
@@ -20,13 +20,14 @@
         "Z": 1.0
       },
       "Name": "Camera",
+      "Parent": -1,
       "Components": [
-        0,
-        1
+        7,
+        8
       ]
     },
     {
-      "FileId": 5,
+      "FileId": 1,
       "LocalPosition": {
         "X": 0.0,
         "Y": 2.0,
@@ -45,13 +46,14 @@
         "Z": 1.0
       },
       "Name": "Root",
+      "Parent": -1,
       "Components": [
-        3,
-        4
+        9,
+        10
       ]
     },
     {
-      "FileId": 7,
+      "FileId": 2,
       "LocalPosition": {
         "X": 0.0,
         "Y": 3.813346,
@@ -70,12 +72,13 @@
         "Z": 1.0
       },
       "Name": "Mesh",
+      "Parent": -1,
       "Components": [
-        6
+        11
       ]
     },
     {
-      "FileId": 9,
+      "FileId": 3,
       "LocalPosition": {
         "X": 0.0,
         "Y": 27.5987,
@@ -94,15 +97,89 @@
         "Z": 0.9999513
       },
       "Name": "Directional Light",
+      "Parent": -1,
       "Components": [
-        8
+        12
+      ]
+    },
+    {
+      "FileId": 4,
+      "LocalPosition": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 0.0
+      },
+      "LocalRotation": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 0.0,
+        "W": 1.0,
+        "IsIdentity": true
+      },
+      "LocalScale": {
+        "X": 1.0,
+        "Y": 1.0,
+        "Z": 1.0
+      },
+      "Name": "AAA",
+      "Parent": -1,
+      "Components": []
+    },
+    {
+      "FileId": 5,
+      "LocalPosition": {
+        "X": 0.0,
+        "Y": 16.973988,
+        "Z": 0.0
+      },
+      "LocalRotation": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 0.0,
+        "W": 1.0,
+        "IsIdentity": true
+      },
+      "LocalScale": {
+        "X": 1.0,
+        "Y": 1.0,
+        "Z": 1.0
+      },
+      "Name": "BBB",
+      "Parent": 4,
+      "Components": [
+        13
+      ]
+    },
+    {
+      "FileId": 6,
+      "LocalPosition": {
+        "X": 0.0,
+        "Y": 10.0,
+        "Z": 0.0
+      },
+      "LocalRotation": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 0.0,
+        "W": 1.0,
+        "IsIdentity": true
+      },
+      "LocalScale": {
+        "X": 1.0,
+        "Y": 1.0,
+        "Z": 1.0
+      },
+      "Name": "CCC",
+      "Parent": 5,
+      "Components": [
+        14
       ]
     }
   ],
   "Components": [
     {
       "Type": "EduEngine.GameCamera",
-      "FileId": 0,
+      "FileId": 7,
       "Parameters": {
         "_fov": 55.0,
         "_near": 0.3,
@@ -111,7 +188,7 @@
     },
     {
       "Type": "Script",
-      "FileId": 1,
+      "FileId": 8,
       "Parameters": {
         "_moveSpeed": 20.0,
         "_moveStrength": 8.0,
@@ -121,14 +198,14 @@
     },
     {
       "Type": "Script",
-      "FileId": 3,
+      "FileId": 9,
       "Parameters": {
         "script_guid": "ebbef268-ed62-4e62-b162-2b38d58c8c2d"
       }
     },
     {
       "Type": "Script",
-      "FileId": 4,
+      "FileId": 10,
       "Parameters": {
         "_moveSpeed": 20.0,
         "_moveStrength": 8.0,
@@ -138,7 +215,7 @@
     },
     {
       "Type": "EduEngine.Renderer",
-      "FileId": 6,
+      "FileId": 11,
       "Parameters": {
         "_mesh": "1ba135a0-3118-4431-9ae0-52867b1dc240",
         "_material": "2e92a9cb-080d-4562-8a1b-e732d688b401"
@@ -146,7 +223,7 @@
     },
     {
       "Type": "EduEngine.Light",
-      "FileId": 8,
+      "FileId": 12,
       "Parameters": {
         "_type": 2,
         "_r": 10.0,
@@ -155,6 +232,22 @@
         "_falloffStart": 0.0,
         "_falloffEnd": 20.0,
         "_spotPower": 8.0
+      }
+    },
+    {
+      "Type": "EduEngine.Renderer",
+      "FileId": 13,
+      "Parameters": {
+        "_mesh": "1ba135a0-3118-4431-9ae0-52867b1dc240",
+        "_material": "2e92a9cb-080d-4562-8a1b-e732d688b401"
+      }
+    },
+    {
+      "Type": "EduEngine.Renderer",
+      "FileId": 14,
+      "Parameters": {
+        "_mesh": "1ba135a0-3118-4431-9ae0-52867b1dc240",
+        "_material": "2e92a9cb-080d-4562-8a1b-e732d688b401"
       }
     }
   ]

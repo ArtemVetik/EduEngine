@@ -106,7 +106,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance,
 	freopen_s(&fp, "CONOUT$", "w", stderr);
 #endif
 
-#if 0
 	std::wstring folderPath = OpenFolderDialog();
 	if (folderPath.empty())
 		return 0;
@@ -114,10 +113,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance,
 	std::wstring dllPath = OpenFolderDialog(false);
 	if (dllPath.empty())
 		return 0;
-#else
-	std::wstring folderPath = L"C:\\Users\\artem\\Downloads\\EduEngine\\Scripts\\Assets";
-	std::wstring dllPath = L"C:\\Users\\artem\\Downloads\\EduEngine\\Scripts\\bin\\Debug\\net8.0-windows7.0\\Scripts.dll";
-#endif
 
 	GeometryGenerator geoGen;
 
@@ -186,14 +181,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance,
 						}
 
 						GameplayInterop::Update();
-						runtimeRender.RenderRuntime();
-						//runtimeThread = std::async(std::launch::async, &RuntimeRender::RenderRuntime, runtimeRender);
+						runtimeThread = std::async(std::launch::async, &RuntimeRender::RenderRuntime, runtimeRender);
 					}
 					else if (EditorInterop::GetEngineState() == EngineState::Editor)
 					{
 						GameplayInterop::Update();
-						runtimeRender.RenderEditor();
-						//runtimeThread = std::async(std::launch::async, &RuntimeRender::RenderEditor, runtimeRender);
+						runtimeThread = std::async(std::launch::async, &RuntimeRender::RenderEditor, runtimeRender);
 					}
 				}
 				else
@@ -212,8 +205,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance,
 					InputManager::GetEditorInstance().Update();
 
 					EditorInterop::Update();
-					editorRenderEngine->Draw();
-					//editorThread = std::async(std::launch::async, &IEditorRenderEngine::Draw, editorRenderEngine.get());
+					editorThread = std::async(std::launch::async, &IEditorRenderEngine::Draw, editorRenderEngine.get());
 				}
 				else
 				{
@@ -223,8 +215,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance,
 		}
 	}
 
-	//editorThread.get();
-	//runtimeThread.get();
+	editorThread.get();
+	runtimeThread.get();
 
 	EditorInterop::Destroy();
 

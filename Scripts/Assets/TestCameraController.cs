@@ -14,8 +14,8 @@ namespace EduEngine.Scripts
         public TestCameraController(GameObject parent)
             : base(parent)
         {
-            _targetPosition = GameObject.Transform.Position;
-            _targetRotation = GameObject.Transform.Rotation;
+            _targetPosition = GameObject.Transform.LocalPosition;
+            _targetRotation = GameObject.Transform.LocalRotation;
         }
 
         public override void Update()
@@ -45,8 +45,8 @@ namespace EduEngine.Scripts
                 _targetRotation = Quaternion.Multiply(pitch, _targetRotation);
             }
 
-            GameObject.Transform.Position = Vector3.Lerp(GameObject.Transform.Position, _targetPosition, _moveStrength * EduTime.DeltaTime);
-            GameObject.Transform.Rotation = Quaternion.Lerp(GameObject.Transform.Rotation, _targetRotation, _rotateStrength * EduTime.DeltaTime);
+            GameObject.Transform.LocalPosition = Vector3.Lerp(GameObject.Transform.LocalPosition, _targetPosition, _moveStrength * EduTime.DeltaTime);
+            GameObject.Transform.LocalRotation = Quaternion.Lerp(GameObject.Transform.LocalRotation, _targetRotation, _rotateStrength * EduTime.DeltaTime);
         }
     }
 }

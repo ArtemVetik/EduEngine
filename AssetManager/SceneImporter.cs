@@ -9,7 +9,11 @@ namespace EduEngine
         {
             SceneData data = new SceneData();
 
+            var objectIds = new Dictionary<GameObject, int>(scene.Objects.Count);
             int id = 0;
+
+            foreach (var item in scene.Objects)
+                objectIds.Add(item, id++);
 
             foreach (var item in scene.Objects)
             {
@@ -50,11 +54,12 @@ namespace EduEngine
 
                 data.GameObjects.Add(new SceneData.GameObjectItem()
                 {
-                    FileId = id++,
+                    FileId = objectIds[item],
                     Name = item.Name,
-                    LocalPosition = item.Transform.Position,
-                    LocalRotation = item.Transform.Rotation,
+                    LocalPosition = item.Transform.LocalPosition,
+                    LocalRotation = item.Transform.LocalRotation,
                     LocalScale = item.Transform.LocalScale,
+                    Parent = (item.Parent != null && objectIds.TryGetValue(item.Parent, out int pId)) ? pId : -1,
                     Components = componentsId,
                 });
             }
@@ -90,6 +95,8 @@ namespace EduEngine
             var scene = new Scene(guid);
             SceneManager.OpenScene(scene);
 
+            var objectIds = new Dictionary<int, GameObject>(data.GameObjects.Count);
+
             foreach (var goData in data.GameObjects)
             {
                 GameObject go;
@@ -98,8 +105,10 @@ namespace EduEngine
                 else
                     go = new EditorGameObject();
 
-                go.Transform.Position = goData.LocalPosition;
-                go.Transform.Rotation = goData.LocalRotation;
+                objectIds.Add(goData.FileId, go);
+
+                go.Transform.LocalPosition = goData.LocalPosition;
+                go.Transform.LocalRotation = goData.LocalRotation;
                 go.Transform.LocalScale = goData.LocalScale;
                 go.Name = goData.Name;
 
@@ -127,6 +136,15 @@ namespace EduEngine
                         var component = go.AddComponent(type, parameters);
                     }
                 }
+            }
+
+            foreach (var goData in data.GameObjects)
+            {
+                if (goData.Parent < 0)
+                    continue;
+
+                if (objectIds.TryGetValue(goData.Parent, out GameObject parent))
+                    objectIds[goData.FileId].SetParent(parent);
             }
         }
 

@@ -6,7 +6,9 @@ namespace EduEngine
     public class GameObject
     {
         private Guid _guid;
+        private GameObject _parent;
         private List<Component> _components = new();
+        private List<GameObject> _childs = new();
 
         public string Name;
 
@@ -23,6 +25,9 @@ namespace EduEngine
         }
 
         public Guid Guid => _guid;
+        public GameObject Parent => _parent;
+        public IReadOnlyList<GameObject> Childs => _childs;
+        public Transform Transform { get; private set; }
         internal virtual bool IsRuntime { get; } = true;
 
         public void Destroy()
@@ -36,10 +41,25 @@ namespace EduEngine
                     disposable.Dispose();
             }
 
+            while (_childs.Count > 0)
+            {
+                var child = _childs[0];
+                _childs.RemoveAt(0);
+
+                child.SetParent(_parent);
+            }
+
+            SetParent(null);
+
             SceneManager.CurrentScene?.RemoveGameObject(this);
         }
 
-        public Transform Transform { get; private set; }
+        public void SetParent(GameObject parent)
+        {
+            _parent?._childs.Remove(this);
+            _parent = parent;
+            _parent?._childs.Add(this);
+        }
 
         public void Update()
         {

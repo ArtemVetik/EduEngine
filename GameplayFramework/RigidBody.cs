@@ -10,8 +10,6 @@ namespace EduEngine
         public RigidBody(GameObject parent)
             : base(parent)
         {
-            _physicObject = new NativePhysicsObjectWrapper(GameObject.Transform.Position, GameObject.Transform.Rotation, IsStatic);
-            AttachAllColliders();
         }
 
         private bool IsStatic
@@ -27,6 +25,12 @@ namespace EduEngine
                 _physicObject = new NativePhysicsObjectWrapper(GameObject.Transform.Position, GameObject.Transform.Rotation, IsStatic);
                 AttachAllColliders();
             }
+        }
+
+        public override void OnAddComponent()
+        {
+            _physicObject = new NativePhysicsObjectWrapper(GameObject.Transform.Position, GameObject.Transform.Rotation, IsStatic);
+            AttachAllColliders();
         }
 
         public void Dispose()
