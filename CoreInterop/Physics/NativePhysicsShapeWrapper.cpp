@@ -3,9 +3,10 @@
 
 namespace EduEngine
 {
-	NativePhysicsShapeWrapper::NativePhysicsShapeWrapper(ColliderData^ shape)
+	NativePhysicsShapeWrapper::NativePhysicsShapeWrapper(ColliderData^ shape, Object^ managedObj)
 	{
-		m_NativeShape = CoreSystems::GetInstance()->GetPhysicsWorld()->CreateShape(shape->ToNative());
+		m_ManagedHandle = GCHandle::Alloc(managedObj);
+		m_NativeShape = CoreSystems::GetInstance()->GetPhysicsWorld()->CreateShape(shape->ToNative(), GCHandle::ToIntPtr(m_ManagedHandle).ToPointer());
 	}
 
 	NativePhysicsShapeWrapper::~NativePhysicsShapeWrapper()
@@ -15,7 +16,13 @@ namespace EduEngine
 
 	NativePhysicsShapeWrapper::!NativePhysicsShapeWrapper()
 	{
+		if (!m_NativeShape)
+			return; 
+
 		CoreSystems::GetInstance()->GetPhysicsWorld()->RemoveShape(m_NativeShape);
+		m_ManagedHandle.Free();
+
+		m_NativeShape = nullptr;
 	}
 
 	void NativePhysicsShapeWrapper::SetGeometry(ColliderData^ shape)
@@ -31,6 +38,38 @@ namespace EduEngine
 	void NativePhysicsShapeWrapper::SetTrigger(bool isTrigger)
 	{
 		m_NativeShape->SetTrigger(isTrigger);
+	}
+
+	void NativePhysicsShapeWrapper::SetTriggerEnterCallback(Action<Object^>^ callback)
+	{
+		m_TriggerEnterCallback = callback;
+
+		IntPtr rahPtr = Marshal::GetFunctionPointerForDelegate(gcnew ShapeCallbackDelegate(this, &NativePhysicsShapeWrapper::OnTriggerEnter));
+		auto callbackFunctionCpp = static_cast<void(__stdcall*)(void*)>(rahPtr.ToPointer());
+
+		m_NativeShape->SetTriggerEnterCallback(callbackFunctionCpp);
+	}
+
+	void NativePhysicsShapeWrapper::SetTriggerExitCallback(Action<Object^>^ callback)
+	{
+		m_TriggerExitCallback = callback;
+
+		IntPtr rahPtr = Marshal::GetFunctionPointerForDelegate(gcnew ShapeCallbackDelegate(this, &NativePhysicsShapeWrapper::OnTriggerExit));
+		auto callbackFunctionCpp = static_cast<void(__stdcall*)(void*)>(rahPtr.ToPointer());
+
+		m_NativeShape->SetTriggerExitCallback(callbackFunctionCpp);
+	}
+
+	void NativePhysicsShapeWrapper::OnTriggerEnter(void* otherObject)
+	{
+		auto objectGCHandle = GCHandle::FromIntPtr(IntPtr(otherObject));
+		m_TriggerEnterCallback->Invoke(objectGCHandle.Target);
+	}
+
+	void NativePhysicsShapeWrapper::OnTriggerExit(void* otherObject)
+	{
+		auto objectGCHandle = GCHandle::FromIntPtr(IntPtr(otherObject));
+		m_TriggerExitCallback->Invoke(objectGCHandle.Target);
 	}
 
 	void NativePhysicsShapeWrapper::DebugDraw(System::Numerics::Matrix4x4 worldMatrix)

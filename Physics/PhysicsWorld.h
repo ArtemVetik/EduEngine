@@ -23,9 +23,9 @@ namespace EduEngine
 
 		IPhysicsObject* AddBody(DirectX::SimpleMath::Vector3 position, DirectX::SimpleMath::Quaternion rotation, bool isStatic) override;
 		void RemoveBody(IPhysicsObject* object) override;
-		IPhysicsShape* CreateShape(ColliderShape& geometry) override;
+		IPhysicsShape* CreateShape(ColliderShape& geometry, void* userData) override;
 		void RemoveShape(IPhysicsShape* shape) override;
-	
+
 		void Update() override;
 
 	private:
@@ -33,7 +33,6 @@ namespace EduEngine
 		PxPhysics* m_Physics = NULL;
 		PxDefaultCpuDispatcher* m_Dispatcher = NULL;
 		PxScene* m_Scene = NULL;
-		PxMaterial* m_Material = NULL;
 
 		PhysXAllocator m_Allocator = {};
 		PhysXErrorCallback m_ErrorCallback = {};

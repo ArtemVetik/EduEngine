@@ -19,11 +19,6 @@ namespace EduEngine
 		sceneDesc.simulationEventCallback = &m_EventCallback;
 
 		m_Scene = m_Physics->createScene(sceneDesc);
-
-		m_Material = m_Physics->createMaterial(0.5f, 0.5f, 0.6f);
-
-		PxRigidStatic* groundPlane = PxCreatePlane(*m_Physics, PxPlane(0, 1, 0, 0), *m_Material);
-		m_Scene->addActor(*groundPlane);
 	}
 
 	PhysicsWorld::~PhysicsWorld()
@@ -62,9 +57,9 @@ namespace EduEngine
 			m_Objects.end());
 	}
 
-	IPhysicsShape* PhysicsWorld::CreateShape(ColliderShape& geometry)
+	IPhysicsShape* PhysicsWorld::CreateShape(ColliderShape& geometry, void* userData)
 	{
-		auto physXShape = std::make_shared<PhysXShape>(geometry, m_Physics);
+		auto physXShape = std::make_shared<PhysXShape>(geometry, m_Physics, userData);
 		m_Shapes.emplace_back(physXShape);
 		return physXShape.get();
 	}

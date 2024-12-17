@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "PhysXSimulationEventCallback.h"
+#include "PhysXShape.h"
 
 namespace EduEngine
 {
@@ -25,11 +26,15 @@ namespace EduEngine
 		{
 			if (pairs[i].status == PxPairFlag::eNOTIFY_TOUCH_FOUND)
 			{
-				OutputDebugStringW(L"Trigger entered\n");
+				PhysXShapeUserData* userData = (PhysXShapeUserData*)pairs[i].triggerShape->userData;
+				PhysXShapeUserData* otherUserData = (PhysXShapeUserData*)pairs[i].otherShape->userData;
+				userData->Shape->CallTriggerEnter(otherUserData->UserData);
 			}
 			else if (pairs[i].status == PxPairFlag::eNOTIFY_TOUCH_LOST)
 			{
-				OutputDebugStringW(L"Trigger exited\n");
+				PhysXShapeUserData* userData = (PhysXShapeUserData*)pairs[i].triggerShape->userData;
+				PhysXShapeUserData* otherUserData = (PhysXShapeUserData*)pairs[i].otherShape->userData;
+				userData->Shape->CallTriggerExit(otherUserData->UserData);
 			}
 		}
 	}

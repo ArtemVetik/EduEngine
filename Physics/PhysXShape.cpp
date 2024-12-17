@@ -3,13 +3,19 @@
 
 namespace EduEngine
 {
-	PhysXShape::PhysXShape(ColliderShape& shape, PxPhysics* physics) :
+	PhysXShape::PhysXShape(ColliderShape& shape, PxPhysics* physics, void* userData) :
 		m_ColliderGeometry(shape),
-		m_Physics(physics)
+		m_Physics(physics),
+		m_TriggerEnter(nullptr)
 	{
 		PxGeometry* pxGeo = ToPxGeometry(shape);
 		m_Material = m_Physics->createMaterial(0.5f, 0.5f, 0.5f);
 		m_Shape = m_Physics->createShape(*pxGeo, *m_Material);
+
+		m_UserData.Shape = this;
+		m_UserData.UserData = userData;
+
+		m_Shape->userData = &m_UserData;
 
 		delete pxGeo;
 	}
@@ -49,6 +55,28 @@ namespace EduEngine
 	ColliderShape PhysXShape::GetGeometry()
 	{
 		return m_ColliderGeometry;
+	}
+
+	void PhysXShape::SetTriggerEnterCallback(std::function<void(void*)> callback)
+	{
+		m_TriggerEnter = callback;
+	}
+
+	void PhysXShape::SetTriggerExitCallback(std::function<void(void*)> callback)
+	{
+		m_TriggerExit = callback;
+	}
+
+	void PhysXShape::CallTriggerEnter(void* otherUserData)
+	{
+		if (m_TriggerEnter)
+			m_TriggerEnter(otherUserData);
+	}
+
+	void PhysXShape::CallTriggerExit(void* otherUserData)
+	{
+		if (m_TriggerExit)
+			m_TriggerExit(otherUserData);
 	}
 
 	PxGeometry* PhysXShape::ToPxGeometry(ColliderShape& shape)

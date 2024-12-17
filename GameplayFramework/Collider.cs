@@ -1,13 +1,22 @@
 ﻿namespace EduEngine
 {
-    public abstract class Collider : Component, IDisposable
+    public abstract class Collider : Component, IDisposable, ISerializeCallback
     {
+        [SerializeField] private bool _isTrigger = false;
+
         private NativePhysicsShapeWrapper _nativeShape;
 
         internal Collider(GameObject parent, ColliderData shape)
             : base(parent)
         {
-            _nativeShape =  new NativePhysicsShapeWrapper(shape);
+            _nativeShape = new NativePhysicsShapeWrapper(shape, this);
+            _nativeShape.SetTriggerEnterCallback(OnTriggerEnter);
+            _nativeShape.SetTriggerExitCallback(OnTriggerExit);
+        }
+
+        public override void OnAddComponent()
+        {
+            SetTrigger(_isTrigger);
         }
 
         public void Dispose()
@@ -39,6 +48,29 @@
         internal void SetShape(ColliderData shape)
         {
             _nativeShape?.SetGeometry(shape);
+        }
+
+        private void OnTriggerEnter(object other)
+        {
+            var otherCollider = (Collider)other;
+            var components = GameObject.GetComponents<Component>();
+
+            foreach (var component in components)
+                (component as IColliderCallbacks)?.OnTriggerEnter(otherCollider);
+        }
+
+        private void OnTriggerExit(object other)
+        {
+            var otherCollider = (Collider)other;
+            var components = GameObject.GetComponents<Component>();
+
+            foreach (var component in components)
+                (component as IColliderCallbacks)?.OnTriggerExit(otherCollider);
+        }
+
+        void ISerializeCallback.OnDeserialize()
+        {
+            SetTrigger(_isTrigger);
         }
     }
 }
