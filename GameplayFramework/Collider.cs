@@ -16,6 +16,11 @@
             _nativeShape = null;
         }
 
+        public void SetTrigger(bool isTrigger)
+        {
+            _nativeShape?.SetTrigger(isTrigger);
+        }
+
         public override void Update()
         {
             _nativeShape?.DebugDraw(GameObject.Transform.WorldMatrix);

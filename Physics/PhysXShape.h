@@ -15,6 +15,7 @@ namespace EduEngine
 
 		void SetGeometry(ColliderShape& shape) override;
 		void SetMaterial(float staticFriction, float dynamicFriction, float restitution) override;
+		void SetTrigger(bool isTrigger) override;
 		ColliderShape GetGeometry() override;
 
 		PxShape& GetPxShape() const { return *m_Shape; };

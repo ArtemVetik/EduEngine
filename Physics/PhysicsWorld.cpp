@@ -16,6 +16,8 @@ namespace EduEngine
 		m_Dispatcher = PxDefaultCpuDispatcherCreate(2);
 		sceneDesc.cpuDispatcher = m_Dispatcher;
 		sceneDesc.filterShader = PxDefaultSimulationFilterShader;
+		sceneDesc.simulationEventCallback = &m_EventCallback;
+
 		m_Scene = m_Physics->createScene(sceneDesc);
 
 		m_Material = m_Physics->createMaterial(0.5f, 0.5f, 0.6f);

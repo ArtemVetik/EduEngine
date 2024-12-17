@@ -20,10 +20,12 @@ namespace EduEngine.Scripts
             {
                 var cube = new GameObject();
                 cube.Name = "Cube";
-                cube.Transform.Position = new Vector3(Random.Shared.Next(-10, 10), Random.Shared.Next(0, 20), Random.Shared.Next(-10, 10));
+                cube.Transform.Position = new Vector3(0, 0, 0);
                 cube.AddComponent<Renderer>().SetMesh(_mesh);
-                cube.AddComponent<BoxCollider>().Setup(1.2f, 1.2f, 1.2f);
-                cube.AddComponent<RigidBody>();
+                var collider = cube.AddComponent<BoxCollider>();
+                collider.Setup(10.2f, 1.2f, 10.2f);
+                collider.SetTrigger(true);
+                cube.AddComponent<RigidBody>().IsStatic = true;
 
                 _spawned.Add(cube);
             }

@@ -159,6 +159,7 @@
     <ClInclude Include="PhysXObject.h" />
     <ClInclude Include="PhysicsDefinitions.h" />
     <ClInclude Include="PhysXShape.h" />
+    <ClInclude Include="PhysXSimulationEventCallback.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp" />
@@ -172,6 +173,7 @@
     <ClCompile Include="PhysicsWorld.cpp" />
     <ClCompile Include="PhysXObject.cpp" />
     <ClCompile Include="PhysXShape.cpp" />
+    <ClCompile Include="PhysXSimulationEventCallback.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\EduMath\EduMath.vcxproj">

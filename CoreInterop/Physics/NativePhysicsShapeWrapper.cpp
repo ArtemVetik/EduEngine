@@ -28,6 +28,11 @@ namespace EduEngine
 		m_NativeShape->SetMaterial(staticFriction, dynamicFriction, restitution);
 	}
 
+	void NativePhysicsShapeWrapper::SetTrigger(bool isTrigger)
+	{
+		m_NativeShape->SetTrigger(isTrigger);
+	}
+
 	void NativePhysicsShapeWrapper::DebugDraw(System::Numerics::Matrix4x4 worldMatrix)
 	{
 		auto transformMatrix = DirectX::SimpleMath::Matrix(

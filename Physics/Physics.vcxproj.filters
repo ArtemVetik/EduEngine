@@ -51,6 +51,9 @@
     <ClInclude Include="PhysXShape.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="PhysXSimulationEventCallback.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -69,6 +72,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="PhysXShape.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysXSimulationEventCallback.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

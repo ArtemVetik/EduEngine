@@ -12,7 +12,7 @@ namespace EduEngine
         {
         }
 
-        private bool IsStatic
+        public bool IsStatic
         {
             get => _isStatic;
             set

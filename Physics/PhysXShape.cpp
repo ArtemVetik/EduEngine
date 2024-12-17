@@ -10,6 +10,7 @@ namespace EduEngine
 		PxGeometry* pxGeo = ToPxGeometry(shape);
 		m_Material = m_Physics->createMaterial(0.5f, 0.5f, 0.5f);
 		m_Shape = m_Physics->createShape(*pxGeo, *m_Material);
+
 		delete pxGeo;
 	}
 
@@ -33,6 +34,16 @@ namespace EduEngine
 		m_Material->setDynamicFriction(dynamicFriction);
 		m_Material->setRestitution(restitution);
 		m_Shape->setMaterials(&m_Material, 1);
+	}
+
+	void PhysXShape::SetTrigger(bool isTrigger)
+	{
+		m_Shape->setFlag(PxShapeFlag::eSIMULATION_SHAPE, !isTrigger);
+		m_Shape->setFlag(PxShapeFlag::eTRIGGER_SHAPE, isTrigger);
+
+		PxFilterData filterData;
+		filterData.word0 = 1;
+		m_Shape->setSimulationFilterData(filterData);
 	}
 
 	ColliderShape PhysXShape::GetGeometry()

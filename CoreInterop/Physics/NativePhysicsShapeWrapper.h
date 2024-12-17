@@ -22,6 +22,7 @@ namespace EduEngine
 
 		void SetGeometry(ColliderData^ shape);
 		void SetMaterial(float staticFriction, float dynamicFriction, float restitution);
+		void SetTrigger(bool isTrigger);
 
 		void DebugDraw(System::Numerics::Matrix4x4 worldMatrix);
 

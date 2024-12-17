@@ -9,6 +9,7 @@ namespace EduEngine
 	public:
 		virtual void SetGeometry(ColliderShape& shape) = 0;
 		virtual void SetMaterial(float staticFriction, float dynamicFriction, float restitution) = 0;
+		virtual void SetTrigger(bool isTrigger) = 0;
 		virtual ColliderShape GetGeometry() = 0;
 	};
 }

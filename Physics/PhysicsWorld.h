@@ -6,6 +6,7 @@
 #include "PxPhysicsAPI.h"
 #include "PhysXAllocator.h"
 #include "PhysXErrorCallback.h"
+#include "PhysXSimulationEventCallback.h"
 
 namespace EduEngine
 {
@@ -36,6 +37,7 @@ namespace EduEngine
 
 		PhysXAllocator m_Allocator = {};
 		PhysXErrorCallback m_ErrorCallback = {};
+		PhysXSimulationEventCallback m_EventCallback = {};
 
 		std::vector<std::shared_ptr<PhysXObject>> m_Objects;
 		std::vector<std::shared_ptr<PhysXShape>> m_Shapes;
