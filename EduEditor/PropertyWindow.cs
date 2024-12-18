@@ -200,6 +200,34 @@ namespace EduEngine.Editor
                         ImGui.EndCombo();
                     }
                 }
+                else if (field.FieldType == typeof(GameObject))
+                {
+                    if (ImGui.BeginCombo(field.Name, fieldValue == null ? "null" : ((GameObject)fieldValue).Name))
+                    {
+                        ImGui.InputText("Search", ref _goFilter, 256);
+
+                        ImGui.Separator();
+
+                        if (ImGui.Selectable("null"))
+                        {
+                            ReflectField.Set(field, component, null);
+                            _goFilter = "";
+                            ImGui.CloseCurrentPopup();
+                        }
+
+                        foreach (var option in FilterGameObjects((GameObject)fieldValue))
+                        {
+                            if (ImGui.Selectable(option.Name))
+                            {
+                                ReflectField.Set(field, component, option);
+                                _goFilter = "";
+                                ImGui.CloseCurrentPopup();
+                            }
+                        }
+
+                        ImGui.EndCombo();
+                    }
+                }
                 else if (field.FieldType.IsSubclassOf(typeof(Asset)))
                 {
                     Asset currentAsset = fieldValue as Asset;

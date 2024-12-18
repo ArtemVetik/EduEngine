@@ -28,7 +28,7 @@ namespace EduEngine
 
                     foreach (var field in fields)
                     {
-                        ParseParameter(field, component, out string filedName, out object fieldValue);
+                        ParseParameter(field, component, ref objectIds, out string filedName, out object fieldValue);
                         parameters.Add(filedName, fieldValue);
                     }
 
@@ -103,7 +103,11 @@ namespace EduEngine
                     go = new EditorGameObject();
 
                 objectIds.Add(goData.FileId, go);
+            }
 
+            foreach (var goData in data.GameObjects)
+            {
+                GameObject go = objectIds[goData.FileId];
                 go.Transform.LocalPosition = goData.LocalPosition;
                 go.Transform.LocalRotation = goData.LocalRotation;
                 go.Transform.LocalScale = goData.LocalScale;
@@ -121,7 +125,7 @@ namespace EduEngine
                         {
                             var scriptPath = AssetDataBase.GetAssetData((string)scriptGuid).GlobalPath;
                             var type = ScriptParser.FindComponent(scriptPath);
-                            var parameters = ConvertAssetParameters(type, cData.Parameters);
+                            var parameters = ConvertAssetParameters(type, ref objectIds, cData.Parameters);
                             var component = go.AddComponent(type, (component) => SetupParameters(component, ref parameters));
                         }
                     }
@@ -129,7 +133,7 @@ namespace EduEngine
                     {
                         var gameplayAssembly = Assembly.Load("GameplayFramework");
                         var type = gameplayAssembly.GetType(cData.Type);
-                        var parameters = ConvertAssetParameters(type, cData.Parameters);
+                        var parameters = ConvertAssetParameters(type, ref objectIds, cData.Parameters);
                         var component = go.AddComponent(type, (component) => SetupParameters(component, ref parameters));
                     }
                 }
@@ -193,6 +197,10 @@ namespace EduEngine
                             {
                                 field.SetValue(component, jObj.ToObject(field.FieldType));
                             }
+                            else if (parameter.Value is GameObject)
+                            {
+                                field.SetValue(component, parameter.Value);
+                            }
                             else
                             {
                                 field.SetValue(component, Convert.ChangeType(parameter.Value, field.FieldType));
@@ -203,7 +211,7 @@ namespace EduEngine
             }
         }
 
-        private static void ParseParameter(FieldInfo fieldInfo, object obj, out string fieldName, out object fieldValue)
+        private static void ParseParameter(FieldInfo fieldInfo, object obj, ref Dictionary<GameObject, int> objIds, out string fieldName, out object fieldValue)
         {
             fieldName = fieldInfo.Name;
             fieldValue = fieldInfo.GetValue(obj);
@@ -215,9 +223,16 @@ namespace EduEngine
                     fieldValue = ((Asset)fieldValue).GUID;
                 }
             }
+            else if (fieldValue is GameObject go)
+            {
+                if (objIds.TryGetValue(go, out int fileId))
+                {
+                    fieldValue = fileId;
+                }
+            }
         }
 
-        private static Dictionary<string, object> ConvertAssetParameters(Type type, Dictionary<string, object> parameters)
+        private static Dictionary<string, object> ConvertAssetParameters(Type type, ref Dictionary<int, GameObject> objIds, Dictionary<string, object> parameters)
         {
             var outParameters = new Dictionary<string, object>(parameters.Count);
 
@@ -235,6 +250,10 @@ namespace EduEngine
                             outParameters[parameter.Key] = AssetDataBase.GetAssetData(assetGUID).Asset;
                         else
                             outParameters[parameter.Key] = null;
+                    }
+                    else if (field.FieldType == typeof(GameObject) && parameter.Value != null)
+                    {
+                        outParameters[parameter.Key] = objIds[(int)Convert.ChangeType(parameter.Value, typeof(int))];
                     }
                     else
                     {
