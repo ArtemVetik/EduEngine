@@ -4,4 +4,9 @@
     public class SerializeFieldAttribute : Attribute
     {
     }
+
+    [AttributeUsage(AttributeTargets.Field)]
+    public class ColorAttribute : Attribute
+    {
+    }
 }

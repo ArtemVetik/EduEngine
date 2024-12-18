@@ -253,9 +253,12 @@
       "FileId": 13,
       "Parameters": {
         "_type": 2,
-        "_r": 10.0,
-        "_g": 1.0,
-        "_b": 1.0,
+        "_color": {
+          "X": 1.0,
+          "Y": 0.0,
+          "Z": 0.0
+        },
+        "_power": 2.0,
         "_falloffStart": 0.0,
         "_falloffEnd": 20.0,
         "_spotPower": 8.0

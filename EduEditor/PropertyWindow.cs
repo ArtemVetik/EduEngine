@@ -149,17 +149,38 @@ namespace EduEngine.Editor
                 else if (fieldValue is Vector3 vector3Value)
                 {
                     Vector3 newValue = vector3Value;
-                    if (ImGui.DragFloat3(fieldName, ref newValue))
+                    if (field.GetCustomAttribute<ColorAttribute>() != null)
                     {
-                        ReflectField.Set(field, component, newValue);
+                        if (ImGui.ColorEdit3(fieldName, ref newValue))
+                        {
+                            ReflectField.Set(field, component, newValue);
+                        }
+                    }
+                    else
+                    {
+                        if (ImGui.DragFloat3(fieldName, ref newValue))
+                        {
+                            ReflectField.Set(field, component, newValue);
+                        }
                     }
                 }
                 else if (fieldValue is Vector4 vector4Value)
                 {
                     Vector4 newValue = vector4Value;
-                    if (ImGui.DragFloat4(fieldName, ref newValue))
+
+                    if (field.GetCustomAttribute<ColorAttribute>() != null)
                     {
-                        ReflectField.Set(field, component, newValue);
+                        if (ImGui.ColorEdit4(fieldName, ref newValue))
+                        {
+                            ReflectField.Set(field, component, newValue);
+                        }
+                    }
+                    else
+                    {
+                        if (ImGui.DragFloat4(fieldName, ref newValue))
+                        {
+                            ReflectField.Set(field, component, newValue);
+                        }
                     }
                 }
                 else if (fieldValue is Enum enumValue)

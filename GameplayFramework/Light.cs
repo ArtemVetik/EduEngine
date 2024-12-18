@@ -6,9 +6,8 @@ namespace EduEngine
     public class Light : Component, IDisposable
     {
         [SerializeField] private LightType _type;
-        [SerializeField] private float _r;
-        [SerializeField] private float _g;
-        [SerializeField] private float _b;
+        [SerializeField, Color] private Vector3 _color;
+        [SerializeField] private float _power;
         [SerializeField] private float _falloffStart;
         [SerializeField] private float _falloffEnd;
         [SerializeField] private float _spotPower;
@@ -41,7 +40,7 @@ namespace EduEngine
         public override void OnAddComponent()
         {
             _lightWrapper.SetLightType(_type);
-            _lightWrapper.SetStrength(new Vector3(_r, _g, _b));
+            _lightWrapper.SetStrength(_color * _power);
             _lightWrapper.SetFalloffStart(_falloffStart);
             _lightWrapper.SetFalloffEnd(_falloffEnd);
             _lightWrapper.SetSpotPower(_spotPower);
