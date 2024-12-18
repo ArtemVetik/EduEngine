@@ -1,6 +1,8 @@
-﻿namespace EduEngine
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace EduEngine
 {
-    public class BoxCollider : Collider, ISerializeCallback
+    public class BoxCollider : Collider
     {
         [SerializeField] private float _width = 1;
         [SerializeField] private float _height = 1;
@@ -13,11 +15,13 @@
         public override void OnAddComponent()
         {
             Setup(_width, _height, _depth);
+            base.OnAddComponent();
         }
 
         public override void OnCreate()
         {
             Setup(_width, _height, _depth);
+            base.OnCreate();
         }
 
         public void Setup(float width, float height, float depth)
@@ -30,7 +34,8 @@
             SetShape(colliderData);
         }
 
-        void ISerializeCallback.OnDeserialize()
+        [DynamicDependency(nameof(OnFieldChangedByReflection))]
+        private void OnFieldChangedByReflection(string fieldName)
         {
             Setup(_width, _height, _depth);
         }

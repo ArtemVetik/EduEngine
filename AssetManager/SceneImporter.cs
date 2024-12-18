@@ -23,11 +23,7 @@ namespace EduEngine
                 foreach (var component in components)
                 {
                     var parameters = new Dictionary<string, object>();
-                    var publicFields = component.GetType().GetFields(BindingFlags.Public | BindingFlags.Instance);
-                    var attributeFields = component.GetType().GetFields(BindingFlags.NonPublic | BindingFlags.Instance)
-                        .Where(f => f.GetCustomAttribute<SerializeFieldAttribute>() != null);
-
-                    var fields = publicFields.Concat(attributeFields);
+                    var fields = ComponentFields.FindAll(component);
 
                     foreach (var field in fields)
                     {
@@ -125,7 +121,7 @@ namespace EduEngine
                             var scriptPath = AssetDataBase.GetAssetData((string)scriptGuid).GlobalPath;
                             var type = ScriptParser.FindComponent(scriptPath);
                             var parameters = ConvertAssetParameters(type, cData.Parameters);
-                            var component = go.AddComponent(type, parameters);
+                            var component = go.AddComponent(type, (component) => SetupParameters(component, ref parameters));
                         }
                     }
                     else
@@ -133,7 +129,7 @@ namespace EduEngine
                         var gameplayAssembly = Assembly.Load("GameplayFramework");
                         var type = gameplayAssembly.GetType(cData.Type);
                         var parameters = ConvertAssetParameters(type, cData.Parameters);
-                        var component = go.AddComponent(type, parameters);
+                        var component = go.AddComponent(type, (component) => SetupParameters(component, ref parameters));
                     }
                 }
             }
@@ -174,6 +170,25 @@ namespace EduEngine
             AssetDataBase.Resolve();
         }
 
+        private static void SetupParameters(Component component, ref Dictionary<string, object> parameters)
+        {
+            if (parameters != null)
+            {
+                foreach (var parameter in parameters)
+                {
+                    var field = ComponentFields.FindField(component.GetType(), parameter.Key);
+
+                    if (field != null)
+                    {
+                        if (field.FieldType.IsEnum)
+                            field.SetValue(component, Enum.ToObject(field.FieldType, parameter.Value));
+                        else
+                            field.SetValue(component, Convert.ChangeType(parameter.Value, field.FieldType));
+                    }
+                }
+            }
+        }
+
         private static void ParseParameter(FieldInfo fieldInfo, object obj, out string fieldName, out object fieldValue)
         {
             fieldName = fieldInfo.Name;
@@ -194,8 +209,8 @@ namespace EduEngine
 
             foreach (var parameter in parameters)
             {
-                var field = type.GetField(parameter.Key, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
-
+                var field = ComponentFields.FindField(type, parameter.Key);
+                
                 if (field != null)
                 {
                     if (field.FieldType.IsSubclassOf(typeof(Asset)))

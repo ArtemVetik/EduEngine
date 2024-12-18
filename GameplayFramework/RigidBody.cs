@@ -4,8 +4,9 @@ namespace EduEngine
 {
     public class RigidBody : Component, IDisposable
     {
+        [SerializeField] private bool _isStatic = false;
+
         private NativePhysicsObjectWrapper _physicObject;
-        private bool _isStatic = false;
 
         public RigidBody(GameObject parent)
             : base(parent)

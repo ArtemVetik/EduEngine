@@ -1,6 +1,8 @@
-﻿namespace EduEngine
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace EduEngine
 {
-    public class Renderer : Component, IDisposable, ISerializeCallback
+    public class Renderer : Component, IDisposable
     {
         [SerializeField] private SharedMesh _mesh;
         [SerializeField] private Material _material;
@@ -55,7 +57,8 @@
             SetMaterial(_material);
         }
 
-        void ISerializeCallback.OnDeserialize()
+        [DynamicDependency(nameof(OnFieldChangedByReflection))]
+        private void OnFieldChangedByReflection(string fieldName)
         {
             SetMesh(_mesh);
             SetMaterial(_material);

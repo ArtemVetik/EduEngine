@@ -1,6 +1,8 @@
-﻿namespace EduEngine
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace EduEngine
 {
-    public class SphereCollider : Collider, ISerializeCallback
+    public class SphereCollider : Collider
     {
         [SerializeField] private float _radius = 1.0f;
 
@@ -26,7 +28,8 @@
             SetShape(colliderData);
         }
 
-        void ISerializeCallback.OnDeserialize()
+        [DynamicDependency(nameof(OnFieldChangedByReflection))]
+        private void OnFieldChangedByReflection(string fieldName)
         {
             Setup(_radius);
         }

@@ -1,8 +1,9 @@
-﻿using System.Numerics;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Numerics;
 
 namespace EduEngine
 {
-    public class Light : Component, IDisposable, ISerializeCallback
+    public class Light : Component, IDisposable
     {
         [SerializeField] private LightType _type;
         [SerializeField] private float _r;
@@ -46,7 +47,8 @@ namespace EduEngine
             _lightWrapper.SetSpotPower(_spotPower);
         }
 
-        void ISerializeCallback.OnDeserialize()
+        [DynamicDependency(nameof(OnFieldChangedByReflection))]
+        private void OnFieldChangedByReflection(string fieldName)
         {
             OnAddComponent();
         }

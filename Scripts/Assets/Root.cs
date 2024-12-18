@@ -21,6 +21,7 @@ namespace EduEngine.Scripts
                 var cube = new GameObject();
                 cube.Name = "Cube";
                 cube.Transform.Position = new Vector3(0, 0, 0);
+                cube.AddComponent<SamplePhysicsObject>();
                 cube.AddComponent<Renderer>().SetMesh(_mesh);
                 var collider = cube.AddComponent<BoxCollider>();
                 collider.Setup(10.2f, 1.2f, 10.2f);
@@ -36,7 +37,9 @@ namespace EduEngine.Scripts
                 sphere.Name = "Sphere";
                 sphere.Transform.Position = new Vector3(Random.Shared.Next(-10, 10), Random.Shared.Next(0, 20), Random.Shared.Next(-10, 10));
                 sphere.AddComponent<Renderer>();
-                sphere.AddComponent<SphereCollider>().Setup(radius + 0.1f);
+                sphere.AddComponent<SamplePhysicsObject>();
+                var collider = sphere.AddComponent<SphereCollider>();
+                collider.Setup(radius + 0.1f);
                 sphere.AddComponent<RigidBody>();
 
                 _spawned.Add(sphere);

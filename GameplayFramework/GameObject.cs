@@ -94,7 +94,7 @@ namespace EduEngine
             return (T)component;
         }
 
-        public object? AddComponent(Type type, IReadOnlyDictionary<string, object> parameters = null)
+        public object? AddComponent(Type type, Action<Component> initFields = null)
         {
             if (type.IsSubclassOf(typeof(Component)) == false)
                 return null;
@@ -102,33 +102,19 @@ namespace EduEngine
             if (type == typeof(Transform))
                 return null;
 
-            var component = Activator.CreateInstance(type, this);
+            var component = (Component)Activator.CreateInstance(type, this);
 
             if (component == null)
                 throw new InvalidOperationException();
 
-            if (parameters != null)
-            {
-                foreach (var parameter in parameters)
-                {
-                    var field = type.GetField(parameter.Key, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+            initFields?.Invoke(component);
 
-                    if (field != null)
-                    {
-                        if (field.FieldType.IsEnum)
-                            field.SetValue(component, Enum.ToObject(field.FieldType, parameter.Value));
-                        else
-                            field.SetValue(component, Convert.ChangeType(parameter.Value, field.FieldType));
-                    }
-                }
-            }
+            _components.Add(component);
 
-            _components.Add((Component)component);
-
-            ((Component)component).OnAddComponent();
+            (component).OnAddComponent();
 
             if (IsRuntime)
-                ((Component)component).OnCreate();
+                (component).OnCreate();
 
             return component;
         }

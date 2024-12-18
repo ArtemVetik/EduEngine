@@ -1,6 +1,8 @@
-﻿namespace EduEngine
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace EduEngine
 {
-    public abstract class Collider : Component, IDisposable, ISerializeCallback
+    public abstract class Collider : Component, IDisposable
     {
         [SerializeField] private bool _isTrigger = false;
 
@@ -68,7 +70,8 @@
                 (component as IColliderCallbacks)?.OnTriggerExit(otherCollider);
         }
 
-        void ISerializeCallback.OnDeserialize()
+        [DynamicDependency(nameof(OnFieldChangedByReflection))]
+        private void OnFieldChangedByReflection(string fieldName)
         {
             SetTrigger(_isTrigger);
         }

@@ -1,8 +1,9 @@
-﻿using System.Numerics;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Numerics;
 
 namespace EduEngine
 {
-    public class GameCamera : Component, IDisposable, ISerializeCallback
+    public class GameCamera : Component, IDisposable
     {
         [SerializeField] private float _fov = 55.0f;
         [SerializeField] private float _near = 0.3f;
@@ -46,7 +47,8 @@ namespace EduEngine
             _camera = null;
         }
 
-        void ISerializeCallback.OnDeserialize()
+        [DynamicDependency(nameof(OnFieldChangedByReflection))]
+        private void OnFieldChangedByReflection(string fieldName)
         {
             _camera.SetProjectionMatrix(_fov, _near, _far);
         }

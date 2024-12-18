@@ -22,8 +22,8 @@
       "Name": "Camera",
       "Parent": -1,
       "Components": [
-        7,
-        8
+        8,
+        9
       ]
     },
     {
@@ -48,8 +48,8 @@
       "Name": "Root",
       "Parent": -1,
       "Components": [
-        9,
-        10
+        10,
+        11
       ]
     },
     {
@@ -74,7 +74,7 @@
       "Name": "Mesh",
       "Parent": -1,
       "Components": [
-        11
+        12
       ]
     },
     {
@@ -99,7 +99,7 @@
       "Name": "Directional Light",
       "Parent": -1,
       "Components": [
-        12
+        13
       ]
     },
     {
@@ -147,7 +147,7 @@
       "Name": "BBB",
       "Parent": 4,
       "Components": [
-        13
+        14
       ]
     },
     {
@@ -172,14 +172,41 @@
       "Name": "CCC",
       "Parent": 5,
       "Components": [
-        14
+        15
+      ]
+    },
+    {
+      "FileId": 7,
+      "LocalPosition": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 0.0
+      },
+      "LocalRotation": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 0.0,
+        "W": 1.0,
+        "IsIdentity": true
+      },
+      "LocalScale": {
+        "X": 1.0,
+        "Y": 1.0,
+        "Z": 1.0
+      },
+      "Name": "Ground",
+      "Parent": -1,
+      "Components": [
+        16,
+        17,
+        18
       ]
     }
   ],
   "Components": [
     {
       "Type": "EduEngine.GameCamera",
-      "FileId": 7,
+      "FileId": 8,
       "Parameters": {
         "_fov": 55.0,
         "_near": 0.3,
@@ -188,7 +215,7 @@
     },
     {
       "Type": "Script",
-      "FileId": 8,
+      "FileId": 9,
       "Parameters": {
         "_moveSpeed": 20.0,
         "_moveStrength": 8.0,
@@ -198,14 +225,14 @@
     },
     {
       "Type": "Script",
-      "FileId": 9,
+      "FileId": 10,
       "Parameters": {
         "script_guid": "ebbef268-ed62-4e62-b162-2b38d58c8c2d"
       }
     },
     {
       "Type": "Script",
-      "FileId": 10,
+      "FileId": 11,
       "Parameters": {
         "_moveSpeed": 20.0,
         "_moveStrength": 8.0,
@@ -215,7 +242,7 @@
     },
     {
       "Type": "EduEngine.Renderer",
-      "FileId": 11,
+      "FileId": 12,
       "Parameters": {
         "_mesh": "1ba135a0-3118-4431-9ae0-52867b1dc240",
         "_material": "2e92a9cb-080d-4562-8a1b-e732d688b401"
@@ -223,7 +250,7 @@
     },
     {
       "Type": "EduEngine.Light",
-      "FileId": 12,
+      "FileId": 13,
       "Parameters": {
         "_type": 2,
         "_r": 10.0,
@@ -236,7 +263,7 @@
     },
     {
       "Type": "EduEngine.Renderer",
-      "FileId": 13,
+      "FileId": 14,
       "Parameters": {
         "_mesh": "1ba135a0-3118-4431-9ae0-52867b1dc240",
         "_material": "2e92a9cb-080d-4562-8a1b-e732d688b401"
@@ -244,10 +271,34 @@
     },
     {
       "Type": "EduEngine.Renderer",
-      "FileId": 14,
+      "FileId": 15,
       "Parameters": {
         "_mesh": "1ba135a0-3118-4431-9ae0-52867b1dc240",
         "_material": "2e92a9cb-080d-4562-8a1b-e732d688b401"
+      }
+    },
+    {
+      "Type": "EduEngine.BoxCollider",
+      "FileId": 16,
+      "Parameters": {
+        "_width": 25.0,
+        "_height": 3.0,
+        "_depth": 25.0,
+        "_isTrigger": true
+      }
+    },
+    {
+      "Type": "EduEngine.RigidBody",
+      "FileId": 17,
+      "Parameters": {
+        "_isStatic": true
+      }
+    },
+    {
+      "Type": "Script",
+      "FileId": 18,
+      "Parameters": {
+        "script_guid": "f91b06c2-59b2-45c8-862c-3e93bacac26e"
       }
     }
   ]

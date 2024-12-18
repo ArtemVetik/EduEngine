@@ -40,7 +40,7 @@ namespace EduEngine.Editor
 
             if (ImGui.BeginCombo("Parent", go.Parent == null ? "null" : go.Parent.Name))
             {
-                ImGui.InputText("Search", ref _scriptFilter, 256);
+                ImGui.InputText("Search", ref _goFilter, 256);
 
                 ImGui.Separator();
 
@@ -84,103 +84,7 @@ namespace EduEngine.Editor
                 {
                     ImGui.Indent();
 
-                    var publicFields = component.GetType().GetFields(BindingFlags.Public | BindingFlags.Instance);
-                    var serializedFields = component.GetType().GetFields(BindingFlags.NonPublic | BindingFlags.Instance)
-                        .Where(f => f.GetCustomAttribute<SerializeFieldAttribute>() != null);
-
-                    var fields = publicFields.Concat(serializedFields);
-
-                    var serializeCallback = component as ISerializeCallback;
-
-                    foreach (var field in fields)
-                    {
-                        var fieldName = field.Name + $"##field{component.GUID}";
-                        var fieldValue = field.GetValue(component);
-
-                        if (fieldValue is int intValue)
-                        {
-                            int newValue = intValue;
-                            if (ImGui.InputInt(fieldName, ref newValue))
-                            {
-                                field.SetValue(component, newValue);
-                                serializeCallback?.OnDeserialize();
-                            }
-                        }
-                        else if (fieldValue is float floatValue)
-                        {
-                            float newValue = floatValue;
-                            if (ImGui.InputFloat(fieldName, ref newValue))
-                            {
-                                field.SetValue(component, newValue);
-                                serializeCallback?.OnDeserialize();
-                            }
-                        }
-                        else if (fieldValue is string stringValue)
-                        {
-                            string newValue = stringValue;
-                            if (ImGui.InputText(fieldName, ref newValue, 256))
-                            {
-                                field.SetValue(component, newValue);
-                                serializeCallback?.OnDeserialize();
-                            }
-                        }
-                        else if (fieldValue is Enum enumValue)
-                        {
-                            Enum newValue = enumValue;
-                            if (ImGui.BeginCombo(fieldName, enumValue.ToString()))
-                            {
-                                var names = Enum.GetNames(field.FieldType);
-                                foreach (var name in names)
-                                {
-                                    if (ImGui.Selectable(name))
-                                    {
-                                        field.SetValue(component, Enum.Parse(field.FieldType, name));
-                                        serializeCallback?.OnDeserialize();
-                                    }
-                                }
-
-                                ImGui.EndCombo();
-                            }
-                        }
-                        else if (field.FieldType.IsSubclassOf(typeof(Asset)))
-                        {
-                            Asset currentAsset = fieldValue as Asset;
-
-                            if (currentAsset != null && currentAsset.IsValid == false)
-                            {
-                                field.SetValue(component, null);
-                                serializeCallback?.OnDeserialize();
-                            }
-                            else
-                            {
-                                var assets = AssetDataBase.AllAssets.Where(asset => asset.Value.Asset != null &&
-                                                                                    asset.Value.Asset.GetType() == field.FieldType);
-
-                                if (ImGui.BeginCombo(field.Name, currentAsset == null ? "null" : AssetDataBase.GetAssetData(currentAsset.GUID).LocalPath))
-                                {
-                                    if (ImGui.Selectable("null"))
-                                    {
-                                        field.SetValue(component, null);
-                                        serializeCallback?.OnDeserialize();
-                                    }
-
-                                    foreach (var asset in assets)
-                                    {
-                                        if (ImGui.Selectable(asset.Value.LocalPath))
-                                        {
-                                            field.SetValue(component, asset.Value.Asset);
-                                            serializeCallback?.OnDeserialize();
-                                        }
-                                    }
-                                    ImGui.EndCombo();
-                                }
-                            }
-                        }
-                        else
-                        {
-                            ImGui.Text($"{field.Name}: Unsupported type ({field.FieldType.Name})");
-                        }
-                    }
+                    RenderComponentFields(component);
 
                     if (ImGui.Button($"Remove Component##button{component.GUID}"))
                     {
@@ -188,6 +92,102 @@ namespace EduEngine.Editor
                     }
 
                     ImGui.Unindent();
+                }
+            }
+        }
+
+        private void RenderComponentFields(Component component)
+        {
+            var fields = ComponentFields.FindAll(component);
+
+            foreach (var field in fields)
+            {
+                var fieldName = field.Name + $"##field{component.GUID}";
+                var fieldValue = field.GetValue(component);
+
+                if (fieldValue is int intValue)
+                {
+                    int newValue = intValue;
+                    if (ImGui.InputInt(fieldName, ref newValue))
+                    {
+                        ReflectField.Set(field, component, newValue);
+                    }
+                }
+                else if (fieldValue is float floatValue)
+                {
+                    float newValue = floatValue;
+                    if (ImGui.InputFloat(fieldName, ref newValue))
+                    {
+                        ReflectField.Set(field, component, newValue);
+                    }
+                }
+                else if (fieldValue is string stringValue)
+                {
+                    string newValue = stringValue;
+                    if (ImGui.InputText(fieldName, ref newValue, 256))
+                    {
+                        ReflectField.Set(field, component, newValue);
+                    }
+                }
+                else if (fieldValue is bool boolValue)
+                {
+                    bool newValue = boolValue;
+                    if (ImGui.Checkbox(fieldName, ref newValue))
+                    {
+                        ReflectField.Set(field, component, newValue);
+                    }
+                }
+                else if (fieldValue is Enum enumValue)
+                {
+                    Enum newValue = enumValue;
+                    if (ImGui.BeginCombo(fieldName, enumValue.ToString()))
+                    {
+                        var names = Enum.GetNames(field.FieldType);
+                        foreach (var name in names)
+                        {
+                            if (ImGui.Selectable(name))
+                            {
+                                ReflectField.Set(field, component, Enum.Parse(field.FieldType, name));
+                            }
+                        }
+
+                        ImGui.EndCombo();
+                    }
+                }
+                else if (field.FieldType.IsSubclassOf(typeof(Asset)))
+                {
+                    Asset currentAsset = fieldValue as Asset;
+
+                    if (currentAsset != null && currentAsset.IsValid == false)
+                    {
+                        ReflectField.Set(field, component, null);
+                    }
+                    else
+                    {
+                        var assets = AssetDataBase.AllAssets.Where(asset => asset.Value.Asset != null &&
+                                                                            asset.Value.Asset.GetType() == field.FieldType);
+
+                        if (ImGui.BeginCombo(field.Name, currentAsset == null ? "null" : AssetDataBase.GetAssetData(currentAsset.GUID).LocalPath))
+                        {
+                            if (ImGui.Selectable("null"))
+                            {
+                                ReflectField.Set(field, component, null);
+                            }
+
+                            foreach (var asset in assets)
+                            {
+                                if (ImGui.Selectable(asset.Value.LocalPath))
+                                {
+                                    ReflectField.Set(field, component, asset.Value.Asset);
+                                }
+                            }
+                            ImGui.EndCombo();
+                        }
+                    }
+                }
+                else
+                {
+                    ImGui.Text($"{field.Name}: Unsupported type ({field.FieldType.Name})");
                 }
             }
         }
