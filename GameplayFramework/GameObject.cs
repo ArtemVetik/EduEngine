@@ -28,6 +28,7 @@ namespace EduEngine
         public GameObject Parent => _parent;
         public IReadOnlyList<GameObject> Childs => _childs;
         public Transform Transform { get; private set; }
+        public bool IsAlive { get; private set; } = true;
         internal virtual bool IsRuntime { get; } = true;
 
         public void Destroy()
@@ -52,6 +53,7 @@ namespace EduEngine
             SetParent(null);
 
             SceneManager.CurrentScene?.RemoveGameObject(this);
+            IsAlive = false;
         }
 
         public void SetParent(GameObject parent)

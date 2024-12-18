@@ -202,6 +202,9 @@ namespace EduEngine.Editor
                 }
                 else if (field.FieldType == typeof(GameObject))
                 {
+                    if (fieldValue is GameObject go && go.IsAlive == false)
+                        ReflectField.Set(field, component, fieldValue = null);
+
                     if (ImGui.BeginCombo(field.Name, fieldValue == null ? "null" : ((GameObject)fieldValue).Name))
                     {
                         ImGui.InputText("Search", ref _goFilter, 256);

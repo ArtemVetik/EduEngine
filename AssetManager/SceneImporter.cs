@@ -181,7 +181,7 @@ namespace EduEngine
                     else if (field.FieldType == typeof(GameObject))
                     {
                         var fileId = (int)Convert.ChangeType(parameter.Value, typeof(int));
-                        value = goIds[fileId];
+                        value = goIds.TryGetValue(fileId, out GameObject go) ? go : null;
                     }
                 }
 
@@ -217,9 +217,9 @@ namespace EduEngine
                 {
                     fieldValue = asset.GUID;
                 }
-                else if (fieldValue is GameObject go && objectIds.TryGetValue(go, out int fileId))
+                else if (fieldValue is GameObject go)
                 {
-                    fieldValue = fileId;
+                    fieldValue = objectIds.TryGetValue(go, out int fileId) ? fileId : null;
                 }
 
                 parameters.Add(field.Name, fieldValue);
