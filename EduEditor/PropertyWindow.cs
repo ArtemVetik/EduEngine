@@ -1,5 +1,6 @@
 ﻿using ImGuiNET;
 using Microsoft.CodeAnalysis;
+using System.Numerics;
 using System.Reflection;
 
 namespace EduEngine.Editor
@@ -133,6 +134,30 @@ namespace EduEngine.Editor
                 {
                     bool newValue = boolValue;
                     if (ImGui.Checkbox(fieldName, ref newValue))
+                    {
+                        ReflectField.Set(field, component, newValue);
+                    }
+                }
+                else if (fieldValue is Vector2 vector2Value)
+                {
+                    Vector2 newValue = vector2Value;
+                    if (ImGui.DragFloat2(fieldName, ref newValue))
+                    {
+                        ReflectField.Set(field, component, newValue);
+                    }
+                }
+                else if (fieldValue is Vector3 vector3Value)
+                {
+                    Vector3 newValue = vector3Value;
+                    if (ImGui.DragFloat3(fieldName, ref newValue))
+                    {
+                        ReflectField.Set(field, component, newValue);
+                    }
+                }
+                else if (fieldValue is Vector4 vector4Value)
+                {
+                    Vector4 newValue = vector4Value;
+                    if (ImGui.DragFloat4(fieldName, ref newValue))
                     {
                         ReflectField.Set(field, component, newValue);
                     }

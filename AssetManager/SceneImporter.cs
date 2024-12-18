@@ -1,4 +1,5 @@
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System.Reflection;
 
 namespace EduEngine
@@ -181,9 +182,22 @@ namespace EduEngine
                     if (field != null)
                     {
                         if (field.FieldType.IsEnum)
+                        {
                             field.SetValue(component, Enum.ToObject(field.FieldType, parameter.Value));
+                        }
                         else
-                            field.SetValue(component, Convert.ChangeType(parameter.Value, field.FieldType));
+                        {
+                            JObject jObj = parameter.Value as JObject;
+
+                            if (jObj != null)
+                            {
+                                field.SetValue(component, jObj.ToObject(field.FieldType));
+                            }
+                            else
+                            {
+                                field.SetValue(component, Convert.ChangeType(parameter.Value, field.FieldType));
+                            }
+                        }
                     }
                 }
             }
@@ -210,7 +224,7 @@ namespace EduEngine
             foreach (var parameter in parameters)
             {
                 var field = ComponentFields.FindField(type, parameter.Key);
-                
+
                 if (field != null)
                 {
                     if (field.FieldType.IsSubclassOf(typeof(Asset)))
