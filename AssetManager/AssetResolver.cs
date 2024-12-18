@@ -162,7 +162,7 @@ namespace EduEngine
             if (extension == null)
                 return false;
 
-            return extension.ToLower() is ".scene" or ".cs" or ".fbx" or ".dds" or ".edumat";
+            return extension.ToLower().ToAssetType() != AssetType.Invalid;
         }
 
         private static bool IsMetaFile(string filePath)

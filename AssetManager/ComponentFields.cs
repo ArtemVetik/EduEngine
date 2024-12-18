@@ -22,10 +22,10 @@ namespace EduEngine
             return fields;
         }
 
-        public static FieldInfo FindField(Type type, string fieldName)
+        public static FieldInfo FindField(Type classType, string fieldName)
         {
-            var field = type.GetField(fieldName, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
-            var baseType = type.BaseType;
+            var field = classType.GetField(fieldName, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+            var baseType = classType.BaseType;
 
             while (field == null && baseType != null && baseType != typeof(Component))
             {

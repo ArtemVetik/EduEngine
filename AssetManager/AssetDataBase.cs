@@ -61,7 +61,7 @@ namespace EduEngine
                 _assets.Remove(guid);
             }
 
-            Queue<string> queuedAssets = new Queue<string>();
+            Queue<string> materials = new Queue<string>();
 
             foreach (var item in assets)
             {
@@ -71,13 +71,13 @@ namespace EduEngine
                 _assets.Add(item.Key, new AssetData(AssetsPath, item.Value, metaData));
 
                 if (_assets[item.Key].Type == AssetType.Material)
-                    queuedAssets.Enqueue(item.Key);
+                    materials.Enqueue(item.Key);
                 else
                     _assets[item.Key].Asset = CreateAsset(item.Key);
             }
 
-            foreach (var item in queuedAssets)
-                _assets[item].Asset = CreateAsset(item);
+            foreach (var item in materials)
+                _assets[item].Asset = MaterialImporter.LoadMaterial(item);
         }
 
         private static Asset CreateAsset(string guid)

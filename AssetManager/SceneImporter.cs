@@ -10,53 +10,38 @@ namespace EduEngine
         {
             SceneData data = new SceneData();
 
-            var objectIds = new Dictionary<GameObject, int>(scene.Objects.Count);
-            int id = 0;
+            var goIds = new Dictionary<GameObject, int>(scene.Objects.Count);
+            int fileId = 0;
 
             foreach (var item in scene.Objects)
-                objectIds.Add(item, id++);
+                goIds.Add(item, fileId++);
 
-            foreach (var item in scene.Objects)
+            foreach (var sceneObject in scene.Objects)
             {
-                var components = item.GetComponents<Component>().ToList();
-                var componentsId = new List<int>(components.Count);
+                var components = sceneObject.GetComponents<Component>();
+                var componentsId = new List<int>(components.Length);
 
                 foreach (var component in components)
                 {
-                    var parameters = new Dictionary<string, object>();
-                    var fields = ComponentFields.FindAll(component);
+                    var parameters = GetParameters(component, goIds, out string componentType);
+                    componentsId.Add(fileId);
 
-                    foreach (var field in fields)
-                    {
-                        ParseParameter(field, component, ref objectIds, out string filedName, out object fieldValue);
-                        parameters.Add(filedName, fieldValue);
-                    }
-
-                    var type = component.GetType().Assembly == typeof(GameObject).Assembly ? component.GetType().FullName : "Script";
-
-                    if (type == "Script")
-                    {
-                        var guid = GetScriptGUID(component.GetType());
-                        parameters.Add("script_guid", guid);
-                    }
-
-                    componentsId.Add(id);
                     data.Components.Add(new SceneData.ComponentItem()
                     {
-                        FileId = id++,
-                        Type = type,
+                        FileId = fileId++,
+                        Type = componentType,
                         Parameters = parameters,
                     });
                 }
 
                 data.GameObjects.Add(new SceneData.GameObjectItem()
                 {
-                    FileId = objectIds[item],
-                    Name = item.Name,
-                    LocalPosition = item.Transform.LocalPosition,
-                    LocalRotation = item.Transform.LocalRotation,
-                    LocalScale = item.Transform.LocalScale,
-                    Parent = (item.Parent != null && objectIds.TryGetValue(item.Parent, out int pId)) ? pId : -1,
+                    FileId = goIds[sceneObject],
+                    Name = sceneObject.Name,
+                    LocalPosition = sceneObject.Transform.LocalPosition,
+                    LocalRotation = sceneObject.Transform.LocalRotation,
+                    LocalScale = sceneObject.Transform.LocalScale,
+                    Parent = (sceneObject.Parent != null && goIds.TryGetValue(sceneObject.Parent, out int parentId)) ? parentId : -1,
                     Components = componentsId,
                 });
             }
@@ -66,33 +51,24 @@ namespace EduEngine
 
         public static void LoadScene(string guid, bool runtime)
         {
-            var scenePath = AssetDataBase.GetAssetData(guid).LocalPath;
+            var scenePath = AssetDataBase.GetAssetData(guid).GlobalPath;
 
-            if (Path.GetExtension(scenePath) == ".scene")
-                scenePath = Path.Combine(
-                   Path.GetDirectoryName(scenePath) ?? string.Empty,
-                   Path.GetFileNameWithoutExtension(scenePath)
-                );
+            if (File.Exists(scenePath) == false)
+                throw new InvalidOperationException($"Scene {scenePath} not found");
 
-            var fullPath = $"{AssetDataBase.AssetsPath}{scenePath}.scene";
-
-            if (File.Exists(fullPath) == false)
-                return;
-
-            var sceneData = JsonConvert.DeserializeObject<SceneData>(File.ReadAllText(fullPath));
-
-            if (sceneData == null)
-                return;
-
+            var sceneData = JsonConvert.DeserializeObject<SceneData>(File.ReadAllText(scenePath));
             LoadScene(sceneData, guid, runtime);
         }
 
         public static void LoadScene(SceneData data, string guid, bool runtime)
         {
+            if (data == null)
+                throw new InvalidOperationException($"Scene data is null");
+
             var scene = new Scene(guid);
             SceneManager.OpenScene(scene);
 
-            var objectIds = new Dictionary<int, GameObject>(data.GameObjects.Count);
+            var goIds = new Dictionary<int, GameObject>(data.GameObjects.Count);
 
             foreach (var goData in data.GameObjects)
             {
@@ -102,39 +78,38 @@ namespace EduEngine
                 else
                     go = new EditorGameObject();
 
-                objectIds.Add(goData.FileId, go);
-            }
-
-            foreach (var goData in data.GameObjects)
-            {
-                GameObject go = objectIds[goData.FileId];
                 go.Transform.LocalPosition = goData.LocalPosition;
                 go.Transform.LocalRotation = goData.LocalRotation;
                 go.Transform.LocalScale = goData.LocalScale;
                 go.Name = goData.Name;
 
+                goIds.Add(goData.FileId, go);
+            }
+
+            foreach (var goData in data.GameObjects)
+            {
+                GameObject go = goIds[goData.FileId];
+
                 foreach (var componentId in goData.Components)
                 {
-                    var cData = data.Components.First(c => c.FileId == componentId);
+                    var componentData = data.Components.First(c => c.FileId == componentId);
 
-                    if (cData.Type == "Script")
+                    if (componentData.Type == "Script")
                     {
-                        var scriptGuid = cData.Parameters["script_guid"];
+                        var scriptGuid = componentData.Parameters["script_guid"];
 
                         if (AssetDataBase.HasGUID((string)scriptGuid))
                         {
                             var scriptPath = AssetDataBase.GetAssetData((string)scriptGuid).GlobalPath;
                             var type = ScriptParser.FindComponent(scriptPath);
-                            var parameters = ConvertAssetParameters(type, ref objectIds, cData.Parameters);
-                            var component = go.AddComponent(type, (component) => SetupParameters(component, ref parameters));
+                            var component = go.AddComponent(type, (component) => SetParameters(component, componentData.Parameters, goIds));
                         }
                     }
                     else
                     {
                         var gameplayAssembly = Assembly.Load("GameplayFramework");
-                        var type = gameplayAssembly.GetType(cData.Type);
-                        var parameters = ConvertAssetParameters(type, ref objectIds, cData.Parameters);
-                        var component = go.AddComponent(type, (component) => SetupParameters(component, ref parameters));
+                        var type = gameplayAssembly.GetType(componentData.Type);
+                        var component = go.AddComponent(type, (component) => SetParameters(component, componentData.Parameters, goIds));
                     }
                 }
             }
@@ -144,8 +119,8 @@ namespace EduEngine
                 if (goData.Parent < 0)
                     continue;
 
-                if (objectIds.TryGetValue(goData.Parent, out GameObject parent))
-                    objectIds[goData.FileId].SetParent(parent);
+                if (goIds.TryGetValue(goData.Parent, out GameObject parent))
+                    goIds[goData.FileId].SetParent(parent);
             }
         }
 
@@ -169,115 +144,96 @@ namespace EduEngine
 
         public static void CreateSceneFile(string sceneName, SceneData scene)
         {
+            if (sceneName.StartsWith("\\") == false)
+                sceneName = "\\" + sceneName;
+
             var fullPath = $"{AssetDataBase.AssetsPath}{sceneName}.scene";
 
             File.WriteAllText(fullPath, JsonConvert.SerializeObject(scene, Formatting.Indented));
             AssetDataBase.Resolve();
         }
 
-        private static void SetupParameters(Component component, ref Dictionary<string, object> parameters)
+        private static void SetParameters(Component component, Dictionary<string, object> parameters, Dictionary<int, GameObject> goIds)
         {
-            if (parameters != null)
-            {
-                foreach (var parameter in parameters)
-                {
-                    var field = ComponentFields.FindField(component.GetType(), parameter.Key);
-
-                    if (field != null)
-                    {
-                        if (field.FieldType.IsEnum)
-                        {
-                            field.SetValue(component, Enum.ToObject(field.FieldType, parameter.Value));
-                        }
-                        else
-                        {
-                            JObject jObj = parameter.Value as JObject;
-
-                            if (jObj != null)
-                            {
-                                field.SetValue(component, jObj.ToObject(field.FieldType));
-                            }
-                            else if (parameter.Value is GameObject)
-                            {
-                                field.SetValue(component, parameter.Value);
-                            }
-                            else
-                            {
-                                field.SetValue(component, Convert.ChangeType(parameter.Value, field.FieldType));
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        private static void ParseParameter(FieldInfo fieldInfo, object obj, ref Dictionary<GameObject, int> objIds, out string fieldName, out object fieldValue)
-        {
-            fieldName = fieldInfo.Name;
-            fieldValue = fieldInfo.GetValue(obj);
-
-            if (fieldInfo.FieldType.IsSubclassOf(typeof(Asset)))
-            {
-                if (fieldValue != null)
-                {
-                    fieldValue = ((Asset)fieldValue).GUID;
-                }
-            }
-            else if (fieldValue is GameObject go)
-            {
-                if (objIds.TryGetValue(go, out int fileId))
-                {
-                    fieldValue = fileId;
-                }
-            }
-        }
-
-        private static Dictionary<string, object> ConvertAssetParameters(Type type, ref Dictionary<int, GameObject> objIds, Dictionary<string, object> parameters)
-        {
-            var outParameters = new Dictionary<string, object>(parameters.Count);
+            if (parameters == null)
+                return;
 
             foreach (var parameter in parameters)
             {
-                var field = ComponentFields.FindField(type, parameter.Key);
+                var field = ComponentFields.FindField(component.GetType(), parameter.Key);
 
-                if (field != null)
+                if (field == null)
+                    continue;
+
+                var value = parameter.Value;
+
+                if (value != null)
                 {
                     if (field.FieldType.IsSubclassOf(typeof(Asset)))
                     {
                         var assetGUID = (string)parameter.Value;
 
-                        if (assetGUID != null && AssetDataBase.HasGUID(assetGUID))
-                            outParameters[parameter.Key] = AssetDataBase.GetAssetData(assetGUID).Asset;
+                        if (AssetDataBase.HasGUID(assetGUID))
+                            value = AssetDataBase.GetAssetData(assetGUID).Asset;
                         else
-                            outParameters[parameter.Key] = null;
+                            value = null;
                     }
-                    else if (field.FieldType == typeof(GameObject) && parameter.Value != null)
+                    else if (field.FieldType == typeof(GameObject))
                     {
-                        outParameters[parameter.Key] = objIds[(int)Convert.ChangeType(parameter.Value, typeof(int))];
-                    }
-                    else
-                    {
-                        outParameters[parameter.Key] = parameter.Value;
+                        var fileId = (int)Convert.ChangeType(parameter.Value, typeof(int));
+                        value = goIds[fileId];
                     }
                 }
-            }
 
-            return outParameters;
+                if (field.FieldType.IsEnum)
+                {
+                    field.SetValue(component, Enum.ToObject(field.FieldType, value));
+                }
+                else if (value is JObject jObj)
+                {
+                    field.SetValue(component, jObj.ToObject(field.FieldType));
+                }
+                else if (value is IConvertible)
+                {
+                    field.SetValue(component, Convert.ChangeType(value, field.FieldType));
+                }
+                else
+                {
+                    field.SetValue(component, value);
+                }
+            }
         }
 
-        private static string GetScriptGUID(Type scriptType)
+        private static Dictionary<string, object> GetParameters(Component component, Dictionary<GameObject, int> objectIds, out string componentType)
         {
-            var scripts = AssetDataBase.AllAssets.Where(asset => asset.Value.Type == AssetType.Script);
+            var parameters = new Dictionary<string, object>();
+            var fields = ComponentFields.FindAll(component);
 
-            foreach (var script in scripts)
+            foreach (var field in fields)
             {
-                var type = ScriptParser.FindComponent(script.Value.GlobalPath);
+                var fieldValue = field.GetValue(component);
 
-                if (type == scriptType)
-                    return script.Key;
+                if (fieldValue is Asset asset)
+                {
+                    fieldValue = asset.GUID;
+                }
+                else if (fieldValue is GameObject go && objectIds.TryGetValue(go, out int fileId))
+                {
+                    fieldValue = fileId;
+                }
+
+                parameters.Add(field.Name, fieldValue);
             }
 
-            return null;
+            componentType = component.GetType().Assembly == typeof(GameObject).Assembly ? component.GetType().FullName : "Script";
+
+            if (componentType == "Script")
+            {
+                var guid = ScriptParser.GetScriptGUID(component.GetType());
+                parameters.Add("script_guid", guid);
+            }
+
+            return parameters;
         }
     }
 }

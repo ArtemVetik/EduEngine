@@ -2,8 +2,9 @@
 {
     public class AssetData
     {
-        private readonly string _rootPath;
         public readonly AssetMetaData MetaData;
+
+        private readonly string _rootPath;
 
         internal AssetData(string rootPath, string localPath, AssetMetaData metaData)
         {
@@ -13,25 +14,8 @@
         }
 
         public string GlobalPath => _rootPath + LocalPath;
+        public AssetType Type => Path.GetExtension(LocalPath).ToAssetType();
         public string LocalPath { get; internal set; }
         public Asset? Asset { get; internal set; }
-
-        public AssetType Type
-        {
-            get
-            {
-                var extention = Path.GetExtension(LocalPath);
-
-                switch (extention)
-                {
-                    case ".scene": return AssetType.Scene;
-                    case ".fbx": return AssetType.Mesh;
-                    case ".cs": return AssetType.Script;
-                    case ".dds": return AssetType.Texture;
-                    case ".edumat": return AssetType.Material;
-                    default: return AssetType.Invalid;
-                }
-            }
-        }
     }
 }

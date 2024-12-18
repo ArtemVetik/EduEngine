@@ -37,5 +37,20 @@ namespace EduEngine
 
             return null;
         }
+
+        public static string GetScriptGUID(Type scriptType)
+        {
+            var scripts = AssetDataBase.AllAssets.Where(asset => asset.Value.Type == AssetType.Script);
+
+            foreach (var script in scripts)
+            {
+                var type = FindComponent(script.Value.GlobalPath);
+
+                if (type == scriptType)
+                    return script.Key;
+            }
+
+            return null;
+        }
     }
 }
