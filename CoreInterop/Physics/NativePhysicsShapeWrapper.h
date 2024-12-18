@@ -42,5 +42,7 @@ namespace EduEngine
 		GCHandle m_ManagedHandle;
 		Action<Object^>^ m_TriggerEnterCallback;
 		Action<Object^>^ m_TriggerExitCallback;
+		ShapeCallbackDelegate^ m_TriggerEnterInternal;
+		ShapeCallbackDelegate^ m_TriggerExitInternal;
 	};
 }

@@ -44,7 +44,8 @@ namespace EduEngine
 	{
 		m_TriggerEnterCallback = callback;
 
-		IntPtr rahPtr = Marshal::GetFunctionPointerForDelegate(gcnew ShapeCallbackDelegate(this, &NativePhysicsShapeWrapper::OnTriggerEnter));
+		m_TriggerEnterInternal = gcnew ShapeCallbackDelegate(this, &NativePhysicsShapeWrapper::OnTriggerEnter);
+		IntPtr rahPtr = Marshal::GetFunctionPointerForDelegate(m_TriggerEnterInternal);
 		auto callbackFunctionCpp = static_cast<void(__stdcall*)(void*)>(rahPtr.ToPointer());
 
 		m_NativeShape->SetTriggerEnterCallback(callbackFunctionCpp);
@@ -54,7 +55,8 @@ namespace EduEngine
 	{
 		m_TriggerExitCallback = callback;
 
-		IntPtr rahPtr = Marshal::GetFunctionPointerForDelegate(gcnew ShapeCallbackDelegate(this, &NativePhysicsShapeWrapper::OnTriggerExit));
+		m_TriggerExitInternal = gcnew ShapeCallbackDelegate(this, &NativePhysicsShapeWrapper::OnTriggerExit);
+		IntPtr rahPtr = Marshal::GetFunctionPointerForDelegate(m_TriggerExitInternal);
 		auto callbackFunctionCpp = static_cast<void(__stdcall*)(void*)>(rahPtr.ToPointer());
 
 		m_NativeShape->SetTriggerExitCallback(callbackFunctionCpp);
