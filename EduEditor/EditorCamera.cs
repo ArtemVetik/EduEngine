@@ -12,6 +12,7 @@ namespace EduEngine.Editor
         private Vector3 _targetPosition;
         private Quaternion _rotation;
         private Quaternion _targetRotation;
+        private bool _moveActive = false;
 
         private NativeCameraWrapper _nativeCamera;
 
@@ -38,16 +39,26 @@ namespace EduEngine.Editor
 
         public void Update()
         {
-            if (Input.Runtime.MouseButtonPressed(MouseCode.Mouse1))
+            if (Input.Runtime.MouseButtonDown(MouseCode.Mouse1))
             {
-                if (Input.Runtime.MousePosition.X < 0 || Input.Runtime.MousePosition.Y < 0 ||
-                    Input.Runtime.MousePosition.X > Screen.Size.X || Input.Runtime.MousePosition.Y > Screen.Size.Y)
-                    return;
+                if (Input.Runtime.MousePosition.X >= 0 &&
+                    Input.Runtime.MousePosition.Y >= 0 &&
+                    Input.Runtime.MousePosition.X < Screen.Size.X &&
+                    Input.Runtime.MousePosition.Y < Screen.Size.Y)
+                    _moveActive = true;
+            }
+            if (Input.Runtime.MouseButtonUp(MouseCode.Mouse1))
+            {
+                _moveActive = false;
+            }
 
+            if (_moveActive)
+            {
                 var yaw = Quaternion.CreateFromAxisAngle(Vector3.UnitY, 0.01f * Input.Runtime.MouseDelta.X);
-                var pitch = Quaternion.CreateFromAxisAngle(Vector3.Transform(Vector3.UnitX, _targetRotation), 0.01f * Input.Runtime.MouseDelta.Y);
-                _targetRotation = Quaternion.Multiply(yaw, _targetRotation);
+                var pitch = Quaternion.CreateFromAxisAngle(Vector3.Normalize(Vector3.Transform(Vector3.UnitX, _targetRotation)), 0.01f * Input.Runtime.MouseDelta.Y);
+
                 _targetRotation = Quaternion.Multiply(pitch, _targetRotation);
+                _targetRotation = Quaternion.Multiply(yaw, _targetRotation);
 
                 if (Input.Runtime.KeyPressed(KeyCode.W))
                     _targetPosition += _moveSpeed * Forward * EduTime.DeltaTime;

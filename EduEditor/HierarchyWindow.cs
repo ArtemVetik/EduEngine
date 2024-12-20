@@ -4,7 +4,7 @@ namespace EduEngine.Editor
 {
     internal class HierarchyWindow
     {
-        public GameObject Selected { get; private set; }
+        public GameObject? Selected { get; private set; }
 
         public void Render()
         {

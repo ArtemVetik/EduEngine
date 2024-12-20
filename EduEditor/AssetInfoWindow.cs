@@ -6,40 +6,35 @@ namespace EduEngine.Editor
     internal class AssetInfoWindow
     {
         private string _guid = null;
-        private AssetMetaData _metaData;
-        private AssetType _assetType;
-        private FileInfo _sourceInfo;
+        private AssetData _assetData = null;
+        private FileInfo _sourceInfo = null;
 
         public void Render(string guid)
         {
-            if (string.IsNullOrEmpty(guid))
+            if (guid == null || AssetDataBase.HasGUID(guid) == false)
+            {
+                ImGui.Begin("AssetInfo");
+                ImGui.Text("Invalid asset!");
+                ImGui.Text($"GUID: {guid}");
+                ImGui.End();
                 return;
+            }
 
             if (guid != _guid)
             {
                 _guid = guid;
-                _metaData = AssetDataBase.GetAssetData(guid).MetaData;
-                _assetType = AssetDataBase.GetAssetData(guid).Type;
+                _assetData = AssetDataBase.GetAssetData(guid);
 
                 ImGui.SetWindowFocus("AssetInfo");
             }
 
             if (_sourceInfo == null || _sourceInfo.Exists == false)
-            {
-                var sourcePath = AssetDataBase.GetAssetData(guid).GlobalPath;
-                _sourceInfo = new FileInfo(sourcePath);
-            }
+                _sourceInfo = new FileInfo(_assetData.GlobalPath);
 
             ImGui.Begin("AssetInfo");
 
-            if (_guid == null)
-            {
-                ImGui.End();
-                return;
-            }
-
-            ImGui.Text("Type: " + _assetType.ToString());
-            ImGui.Text("GUID: " + _metaData.GUID);
+            ImGui.Text("Type: " + _assetData.Type.ToString());
+            ImGui.Text("GUID: " + _assetData.MetaData.GUID);
             if (_sourceInfo.Length < 1024)
                 ImGui.Text($"Size: {_sourceInfo.Length:F2} byte");
             else if (_sourceInfo.Length < 1024 * 1024)
@@ -54,14 +49,21 @@ namespace EduEngine.Editor
             TexturePreview.UpdatePreview(_guid);
             MeshPreview.UpdatePreview(_guid);
 
-            if (_assetType == AssetType.Scene)
-                RenderSceneInfo();
-            else if (_assetType == AssetType.Mesh)
-                RenderMeshInfo();
-            else if (_assetType == AssetType.Texture)
-                RenderTextureInfo();
-            else if (_assetType == AssetType.Material)
-                RenderMaterialInfo();
+            switch (_assetData.Type)
+            {
+                case AssetType.Scene:
+                    RenderSceneInfo();
+                    break;
+                case AssetType.Mesh:
+                    RenderMeshInfo();
+                    break;
+                case AssetType.Texture:
+                    RenderTextureInfo();
+                    break;
+                case AssetType.Material:
+                    RenderMaterialInfo();
+                    break;
+            }
 
             ImGui.End();
         }
@@ -85,9 +87,7 @@ namespace EduEngine.Editor
 
         private void RenderMeshInfo()
         {
-            var meshObject = AssetDataBase.HasGUID(_guid)
-                ? AssetDataBase.AllAssets[_guid].Asset as SharedMesh
-                : null;
+            var meshObject = AssetDataBase.AllAssets[_guid].Asset as SharedMesh;
 
             if (meshObject == null)
             {
@@ -128,9 +128,7 @@ namespace EduEngine.Editor
 
         private void RenderMaterialInfo()
         {
-            var currentAsset = AssetDataBase.HasGUID(_guid) 
-                ? AssetDataBase.GetAssetData(_guid).Asset as Material
-                : null;
+            var currentAsset = AssetDataBase.GetAssetData(_guid).Asset as Material;
 
             if (currentAsset == null || currentAsset.IsValid == false)
             {
@@ -138,34 +136,13 @@ namespace EduEngine.Editor
                 return;
             }
 
-            if (currentAsset.MainTexture != null && currentAsset.MainTexture.IsValid == false)
-            {
-                currentAsset.SetMainTexture(null);
-                MaterialImporter.SaveMaterial(currentAsset);
-            }
-
-            var assets = AssetDataBase.AllAssets.Where(asset => asset.Value.Asset != null &&
-                                                                asset.Value.Asset.GetType() == typeof(Texture));
-
             bool isDirty = false;
-            if (ImGui.BeginCombo("MainTexture", currentAsset.MainTexture == null ? "null" : AssetDataBase.GetAssetData(currentAsset.MainTexture.GUID).LocalPath))
-            {
-                if (ImGui.Selectable("null"))
-                {
-                    currentAsset.SetMainTexture(null);
-                    isDirty = true;
-                }
 
-                foreach (var asset in assets)
-                {
-                    if (ImGui.Selectable(asset.Value.LocalPath))
-                    {
-                        currentAsset.SetMainTexture(asset.Value.Asset as Texture);
-                        isDirty = true;
-                    }
-                }
-                ImGui.EndCombo();
-            }
+            ImGuiEx.RenderAssetSelect(typeof(Texture), currentAsset.MainTexture, "MainTex", (selectedAsset) =>
+            {
+                currentAsset.SetMainTexture(selectedAsset as Texture);
+                isDirty = true;
+            });
 
             var diffuseAlbedo = currentAsset.DiffuseAlbedo;
             if (ImGui.ColorPicker4("Diffuse Albedo", ref diffuseAlbedo))

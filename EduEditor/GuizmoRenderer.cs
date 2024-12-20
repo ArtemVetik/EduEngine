@@ -5,14 +5,10 @@ namespace EduEngine.Editor
 {
     internal class GuizmoRenderer
     {
-        private OPERATION _operation = OPERATION.TRANSLATE;
+        public OPERATION Operation = OPERATION.TRANSLATE;
+        public MODE Mode = MODE.LOCAL;
 
-        public void SetOperation(OPERATION operation)
-        {
-            _operation = operation;
-        }
-
-        public void Render(GameObject selected, EditorCamera camera, float x, float y, float w, float h)
+        public void Render(GameObject? selected, EditorCamera camera, float x, float y, float w, float h)
         {
             if (selected == null)
                 return;
@@ -24,7 +20,7 @@ namespace EduEngine.Editor
 
             ImGuizmo.SetRect(x, y, w, h);
 
-            if (ImGuizmo.Manipulate(ref view.M11, ref proj.M11, _operation, MODE.LOCAL, ref world.M11))
+            if (ImGuizmo.Manipulate(ref view.M11, ref proj.M11, Operation, Mode, ref world.M11))
             {
                 Matrix4x4.Invert(parentWorld, out Matrix4x4 parentInv);
                 selected.Transform.SetLocalWorldMatrix(world * parentInv);

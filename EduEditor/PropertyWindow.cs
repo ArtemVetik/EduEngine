@@ -1,26 +1,27 @@
 ﻿using ImGuiNET;
 using Microsoft.CodeAnalysis;
-using System.Numerics;
 using System.Reflection;
 
 namespace EduEngine.Editor
 {
     internal class PropertyWindow
     {
-        private static string _goFilter = "";
         private static string _scriptFilter = "";
 
-        public void Render(GameObject selected)
+        public void Render(GameObject? selected)
         {
             if (selected == null)
             {
                 ImGui.Begin("PropertyWindow");
+                ImGui.Text("No GameObject has been selected");
                 ImGui.End();
                 return;
             }
 
             ImGui.Begin("PropertyWindow");
 
+            ImGui.InputText("Name", ref selected.Name, 64);
+            RenderParent(selected);
             RenderTransform(selected);
             RenderComponents(selected);
 
@@ -31,39 +32,33 @@ namespace EduEngine.Editor
             ImGui.End();
         }
 
+        private void RenderParent(GameObject go)
+        {
+            var ignoreParents = new List<GameObject>() { go };
+
+            void AddChilds(GameObject go, ref List<GameObject> childs)
+            {
+                foreach (var child in go.Childs)
+                {
+                    childs.Add(child);
+                    if (child.Childs.Count > 0)
+                        AddChilds(child, ref childs);
+                }
+            }
+
+            AddChilds(go, ref ignoreParents);
+
+            ImGuiEx.RenderGameObjectSelect(go.Parent, "Parent", (selectedGameObject) =>
+            {
+                go.SetParent(selectedGameObject);
+            }, ignoreParents);
+        }
+
         private void RenderTransform(GameObject go)
         {
             var localPos = go.Transform.LocalPosition;
             var eulerAngles = go.Transform.LocalRotation.ToEuler();
             var localScale = go.Transform.LocalScale;
-
-            ImGui.InputText("Name", ref go.Name, 64);
-
-            if (ImGui.BeginCombo("Parent", go.Parent == null ? "null" : go.Parent.Name))
-            {
-                ImGui.InputText("Search", ref _goFilter, 256);
-
-                ImGui.Separator();
-
-                if (ImGui.Selectable("null"))
-                {
-                    go.SetParent(null);
-                    _goFilter = "";
-                    ImGui.CloseCurrentPopup();
-                }
-
-                foreach (var option in FilterGameObjects(go))
-                {
-                    if (ImGui.Selectable(option.Name))
-                    {
-                        go.SetParent(option);
-                        _goFilter = "";
-                        ImGui.CloseCurrentPopup();
-                    }
-                }
-
-                ImGui.EndCombo();
-            }
 
             if (ImGui.InputFloat3("Local Position", ref localPos))
                 go.Transform.LocalPosition = localPos;
@@ -87,6 +82,10 @@ namespace EduEngine.Editor
 
                     RenderComponentFields(component);
 
+                    ImGui.Spacing();
+                    ImGui.Separator();
+                    ImGui.Spacing();
+
                     if (ImGui.Button($"Remove Component##button{component.GUID}"))
                     {
                         go.RemoveComponent(component);
@@ -103,169 +102,7 @@ namespace EduEngine.Editor
 
             foreach (var field in fields)
             {
-                var fieldName = field.Name + $"##field{component.GUID}";
-                var fieldValue = field.GetValue(component);
-
-                if (fieldValue is int intValue)
-                {
-                    int newValue = intValue;
-                    if (ImGui.InputInt(fieldName, ref newValue))
-                    {
-                        ReflectField.Set(field, component, newValue);
-                    }
-                }
-                else if (fieldValue is float floatValue)
-                {
-                    float newValue = floatValue;
-                    if (ImGui.InputFloat(fieldName, ref newValue))
-                    {
-                        ReflectField.Set(field, component, newValue);
-                    }
-                }
-                else if (fieldValue is string stringValue)
-                {
-                    string newValue = stringValue;
-                    if (ImGui.InputText(fieldName, ref newValue, 256))
-                    {
-                        ReflectField.Set(field, component, newValue);
-                    }
-                }
-                else if (fieldValue is bool boolValue)
-                {
-                    bool newValue = boolValue;
-                    if (ImGui.Checkbox(fieldName, ref newValue))
-                    {
-                        ReflectField.Set(field, component, newValue);
-                    }
-                }
-                else if (fieldValue is Vector2 vector2Value)
-                {
-                    Vector2 newValue = vector2Value;
-                    if (ImGui.DragFloat2(fieldName, ref newValue))
-                    {
-                        ReflectField.Set(field, component, newValue);
-                    }
-                }
-                else if (fieldValue is Vector3 vector3Value)
-                {
-                    Vector3 newValue = vector3Value;
-                    if (field.GetCustomAttribute<ColorAttribute>() != null)
-                    {
-                        if (ImGui.ColorEdit3(fieldName, ref newValue))
-                        {
-                            ReflectField.Set(field, component, newValue);
-                        }
-                    }
-                    else
-                    {
-                        if (ImGui.DragFloat3(fieldName, ref newValue))
-                        {
-                            ReflectField.Set(field, component, newValue);
-                        }
-                    }
-                }
-                else if (fieldValue is Vector4 vector4Value)
-                {
-                    Vector4 newValue = vector4Value;
-
-                    if (field.GetCustomAttribute<ColorAttribute>() != null)
-                    {
-                        if (ImGui.ColorEdit4(fieldName, ref newValue))
-                        {
-                            ReflectField.Set(field, component, newValue);
-                        }
-                    }
-                    else
-                    {
-                        if (ImGui.DragFloat4(fieldName, ref newValue))
-                        {
-                            ReflectField.Set(field, component, newValue);
-                        }
-                    }
-                }
-                else if (fieldValue is Enum enumValue)
-                {
-                    Enum newValue = enumValue;
-                    if (ImGui.BeginCombo(fieldName, enumValue.ToString()))
-                    {
-                        var names = Enum.GetNames(field.FieldType);
-                        foreach (var name in names)
-                        {
-                            if (ImGui.Selectable(name))
-                            {
-                                ReflectField.Set(field, component, Enum.Parse(field.FieldType, name));
-                            }
-                        }
-
-                        ImGui.EndCombo();
-                    }
-                }
-                else if (field.FieldType == typeof(GameObject))
-                {
-                    if (fieldValue is GameObject go && go.IsAlive == false)
-                        ReflectField.Set(field, component, fieldValue = null);
-
-                    if (ImGui.BeginCombo(field.Name, fieldValue == null ? "null" : ((GameObject)fieldValue).Name))
-                    {
-                        ImGui.InputText("Search", ref _goFilter, 256);
-
-                        ImGui.Separator();
-
-                        if (ImGui.Selectable("null"))
-                        {
-                            ReflectField.Set(field, component, null);
-                            _goFilter = "";
-                            ImGui.CloseCurrentPopup();
-                        }
-
-                        foreach (var option in FilterGameObjects((GameObject)fieldValue))
-                        {
-                            if (ImGui.Selectable(option.Name))
-                            {
-                                ReflectField.Set(field, component, option);
-                                _goFilter = "";
-                                ImGui.CloseCurrentPopup();
-                            }
-                        }
-
-                        ImGui.EndCombo();
-                    }
-                }
-                else if (field.FieldType.IsSubclassOf(typeof(Asset)))
-                {
-                    Asset currentAsset = fieldValue as Asset;
-
-                    if (currentAsset != null && currentAsset.IsValid == false)
-                    {
-                        ReflectField.Set(field, component, null);
-                    }
-                    else
-                    {
-                        var assets = AssetDataBase.AllAssets.Where(asset => asset.Value.Asset != null &&
-                                                                            asset.Value.Asset.GetType() == field.FieldType);
-
-                        if (ImGui.BeginCombo(field.Name, currentAsset == null ? "null" : AssetDataBase.GetAssetData(currentAsset.GUID).LocalPath))
-                        {
-                            if (ImGui.Selectable("null"))
-                            {
-                                ReflectField.Set(field, component, null);
-                            }
-
-                            foreach (var asset in assets)
-                            {
-                                if (ImGui.Selectable(asset.Value.LocalPath))
-                                {
-                                    ReflectField.Set(field, component, asset.Value.Asset);
-                                }
-                            }
-                            ImGui.EndCombo();
-                        }
-                    }
-                }
-                else
-                {
-                    ImGui.Text($"{field.Name}: Unsupported type ({field.FieldType.Name})");
-                }
+                PropertyFieldRenderer.RenderField(field, component);
             }
         }
 
@@ -275,7 +112,7 @@ namespace EduEngine.Editor
             {
                 Assembly.Load("GameplayFramework"),
                 Assembly.LoadFrom(AssetDataBase.DllPath),
-        };
+            };
             var derivedTypes = new List<Type>();
 
             foreach (var assembly in assemblies)
@@ -307,41 +144,21 @@ namespace EduEngine.Editor
 
                 ImGui.Separator();
 
-                foreach (var option in FilterScripts(derivedTypes))
+                foreach (var option in derivedTypes)
                 {
-                    if (ImGui.Selectable(option.Name))
+                    if (string.IsNullOrEmpty(_scriptFilter) || option.Name.Contains(_scriptFilter, StringComparison.OrdinalIgnoreCase))
                     {
-                        go.AddComponent(option);
+                        if (ImGui.Selectable(option.Name))
+                        {
+                            go.AddComponent(option);
 
-                        _scriptFilter = "";
-                        ImGui.CloseCurrentPopup();
+                            _scriptFilter = "";
+                            ImGui.CloseCurrentPopup();
+                        }
                     }
                 }
 
                 ImGui.EndPopup();
-            }
-        }
-
-        private static IEnumerable<Type> FilterScripts(List<Type> types)
-        {
-            for (int i = 0; i < types.Count; i++)
-            {
-                var option = types[i];
-
-                if (string.IsNullOrEmpty(_scriptFilter) || option.Name.Contains(_scriptFilter, StringComparison.OrdinalIgnoreCase))
-                    yield return option;
-            }
-        }
-
-        private static IEnumerable<GameObject> FilterGameObjects(GameObject self)
-        {
-            foreach (var go in SceneManager.CurrentScene.Objects)
-            {
-                if (go == self)
-                    continue;
-
-                if (string.IsNullOrEmpty(_scriptFilter) || go.Name.Contains(_scriptFilter, StringComparison.OrdinalIgnoreCase))
-                    yield return go;
             }
         }
     }

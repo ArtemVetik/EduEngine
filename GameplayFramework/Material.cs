@@ -5,14 +5,14 @@ namespace EduEngine
     public class Material : Asset
     {
         private MaterialWrapper _nativeMaterial;
-        private Texture _mainTexture;
+        private Texture? _mainTexture;
 
         public Material(string guid) : base(guid)
         {
             _nativeMaterial = new MaterialWrapper();
         }
 
-        public Texture MainTexture => _mainTexture;
+        public Texture? MainTexture => _mainTexture;
         public Vector4 DiffuseAlbedo
         {
             get => _nativeMaterial.DiffuseAlbedo;
@@ -30,7 +30,7 @@ namespace EduEngine
         }
         internal MaterialWrapper Wrapper => _nativeMaterial;
 
-        public void SetMainTexture(Texture texture)
+        public void SetMainTexture(Texture? texture)
         {
             if (_nativeMaterial == null)
                 return;

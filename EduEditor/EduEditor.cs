@@ -4,17 +4,18 @@ using System.Numerics;
 
 namespace EduEngine.Editor
 {
-    public class EduEditor
+    public static class EduEditor
     {
-        private static SceneData _sceneData;
         private static ImGuiInput _input = new ImGuiInput();
         private static EditorCamera _camera = new EditorCamera();
         private static HierarchyWindow _hierarchyWindow = new HierarchyWindow();
         private static PropertyWindow _propertyWindow = new PropertyWindow();
-        private static GuizmoRenderer _gizmoRenderer = new GuizmoRenderer();
+        private static GuizmoRenderer _guizmoRenderer = new GuizmoRenderer();
+        private static SceneWindow _scemeWindow = new SceneWindow(_guizmoRenderer, _hierarchyWindow);
         private static AssetWindow _assetWindow = new AssetWindow();
         private static AssetInfoWindow _assetInfo = new AssetInfoWindow();
         private static RenderResourcesInfo _renderResourcesInfo = new RenderResourcesInfo();
+        private static MainMenuBar _menuBar = new MainMenuBar(_renderResourcesInfo);
 
         public static unsafe void Initialize(string assetsPath, string dllPath)
         {
@@ -28,129 +29,39 @@ namespace EduEngine.Editor
             io.DeltaTime = 1f / 60f;
 
             io.Fonts.GetTexDataAsRGBA32(out IntPtr pixels, out int width, out int height, out int bytesPerPixel);
-            void* texId = EditorRenderEngineInterop.CreateImGuiEditor((void*)pixels, width, height, bytesPerPixel);
-            io.Fonts.SetTexID((IntPtr)texId);
+            IntPtr texId = EditorRenderEngineInterop.CreateImGuiEditor(pixels, width, height, bytesPerPixel);
+            io.Fonts.SetTexID(texId);
             io.Fonts.ClearTexData();
 
             ImGuizmo.SetImGuiContext(ImGui.GetCurrentContext());
-
-            var style = ImGui.GetStyle();
-
-            for (int i = 0; i < (int)ImGuiCol.COUNT; i++)
-            {
-                var color = style.Colors[i];
-                color.W = 1f;
-                style.Colors[i] = color;
-            }
-
             AssetDataBase.Initialize(assetsPath, dllPath);
             EditorWindowEventInterop.AddFocusCallback(OnFocusChanged);
         }
 
-        public static unsafe void Update()
+        public static void Update()
         {
             _input.ProcessInput();
 
             ImGui.NewFrame();
             ImGuizmo.BeginFrame();
 
-            ImGui.PushStyleColor(ImGuiCol.WindowBg, Vector4.Zero);
-
-            var centerId = ImGui.DockSpaceOverViewport(0, ImGui.GetMainViewport(), ImGuiDockNodeFlags.NoDockingOverCentralNode | ImGuiDockNodeFlags.PassthruCentralNode);
-            ImGui.SetNextWindowDockID(centerId, ImGuiCond.Always);
-            ImGui.Begin("Scene", ImGuiWindowFlags.NoBackground);
-
-            ImGui.Text(Input.Runtime.MousePosition.ToString());
-
-            ImGuizmo.SetDrawlist(ImGui.GetWindowDrawList());
-
-            var x = (int)ImGui.GetWindowPos().X;
-            var y = (int)ImGui.GetWindowPos().Y;
-            var w = (int)ImGui.GetWindowSize().X;
-            var h = (int)ImGui.GetWindowSize().Y;
-
-            _gizmoRenderer.Render(_hierarchyWindow.Selected, _camera, x, y, w, h);
-
-            RenderEngineInterop.MoveAndResize(x, y, w, h);
-            ImGui.PopStyleColor();
-
-            ImGui.End();
-
+            _scemeWindow.Render(out Vector2 pos, out Vector2 size);
+            _guizmoRenderer.Render(_hierarchyWindow.Selected, _camera, pos.X, pos.Y, size.X, size.Y);
             ImGui.ShowDemoWindow();
-
             _assetWindow.Render();
             _assetInfo.Render(_assetWindow.SelectedAsset);
-
             _hierarchyWindow.Render();
             _propertyWindow.Render(_hierarchyWindow.Selected);
             _renderResourcesInfo.Render();
-
-            ImGui.BeginMainMenuBar();
-
-            if (ImGui.BeginMenu("Windows"))
-            {
-                if (ImGui.MenuItem("Render Objects Stats"))
-                {
-                    _renderResourcesInfo.Show = true;
-                }
-                ImGui.EndMenu();
-            }
-
-            if (ImGui.Button("T"))
-                _gizmoRenderer.SetOperation(OPERATION.TRANSLATE);
-            if (ImGui.Button("R"))
-                _gizmoRenderer.SetOperation(OPERATION.ROTATE);
-            if (ImGui.Button("S"))
-                _gizmoRenderer.SetOperation(OPERATION.SCALE);
-
-            float panel_width = ImGui.GetContentRegionAvail().X;
-            float button_width = 100.0f;
-
-            float offset_x = (panel_width - button_width) * 0.5f;
-
-            if (offset_x > 0.0f)
-            {
-                ImGui.SetCursorPosX(ImGui.GetCursorPosX() + offset_x);
-            }
-
-            bool disabled = false;
-            if (EngineStateManager.CurrentState == EngineState.Runtime || SceneManager.CurrentScene == null)
-            {
-                ImGui.BeginDisabled();
-                disabled = true;
-            }
-
-            if (ImGui.Button("Play", new Vector2(button_width, 0)))
-            {
-                EngineStateManager.CurrentState = EngineState.Runtime;
-                _sceneData = SceneImporter.ToSceneData(SceneManager.CurrentScene);
-                SceneImporter.LoadScene(_sceneData, SceneManager.CurrentScene.GUID, true);
-            }
-
-            if (disabled)
-                ImGui.EndDisabled();
-
-            disabled = false;
-            if (EngineStateManager.CurrentState == EngineState.Editor)
-            {
-                ImGui.BeginDisabled();
-                disabled = true;
-            }
-
-            if (ImGui.Button("Stop", new Vector2(button_width, 0)))
-            {
-                EngineStateManager.CurrentState = EngineState.Editor;
-                SceneImporter.LoadScene(_sceneData, SceneManager.CurrentScene.GUID, false);
-            }
-
-            if (disabled)
-                ImGui.EndDisabled();
-
-            ImGui.EndMainMenuBar();
+            _menuBar.Render();
 
             ImGui.Render();
+            ImGui.GetDrawData();
 
-            EditorRenderEngineInterop.UpdateImGui(ImGui.GetDrawData().NativePtr);
+            unsafe
+            {
+                EditorRenderEngineInterop.UpdateImGui(new IntPtr(ImGui.GetDrawData().NativePtr));
+            }
         }
 
         public static void RenderScene()

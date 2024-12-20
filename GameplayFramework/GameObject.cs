@@ -56,7 +56,7 @@ namespace EduEngine
             IsAlive = false;
         }
 
-        public void SetParent(GameObject parent)
+        public void SetParent(GameObject? parent)
         {
             _parent?._childs.Remove(this);
             _parent = parent;

@@ -10,14 +10,14 @@ namespace EduEngine
 		return System::Numerics::Vector2(size.x, size.y);
 	}
 
-	void* EditorRenderEngineInterop::CreateImGuiEditor(void* pixels, int texWidth, int texHeight, int bytesPerPixel)
+	IntPtr EditorRenderEngineInterop::CreateImGuiEditor(IntPtr pixels, int texWidth, int texHeight, int bytesPerPixel)
 	{
-		return CoreSystems::GetInstance()->GetEditorRenderEngine()->CreateEditorImGuiUI(pixels, texWidth, texHeight, bytesPerPixel);
+		return IntPtr(CoreSystems::GetInstance()->GetEditorRenderEngine()->CreateEditorImGuiUI(pixels.ToPointer(), texWidth, texHeight, bytesPerPixel));
 	}
 
-	void EditorRenderEngineInterop::UpdateImGui(void* drawData)
+	void EditorRenderEngineInterop::UpdateImGui(IntPtr drawData)
 	{
-		CoreSystems::GetInstance()->GetEditorRenderEngine()->UpdateEditor(static_cast<ImDrawData*>(drawData));
+		CoreSystems::GetInstance()->GetEditorRenderEngine()->UpdateEditor(static_cast<ImDrawData*>(drawData.ToPointer()));
 	}
 
 	IntPtr EditorRenderEngineInterop::SetPreviewTexture(String^ filePath)

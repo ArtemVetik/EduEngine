@@ -15,26 +15,25 @@ namespace EduEngine.Editor
             { AssetType.Invalid, new Vector4(0.84f, 0.16f, 0.16f, 1.0f) },
         };
 
-        private float _buttonSize = 64.0f;
-        private string[] _filters = Enum.GetNames<AssetType>();
+        private readonly string[] _filters = Enum.GetNames<AssetType>();
+
         private AssetType? _currentFilter = null;
         private string _popupInput = string.Empty;
-        private string _selectedAsset = null;
+        private float _buttonSize = 64.0f;
 
-        public string SelectedAsset => _selectedAsset;
+        public string SelectedAsset { get; private set; } = null;
 
         public void Render()
         {
             ImGui.Begin("Asset Browser", ImGuiWindowFlags.MenuBar);
 
             RenderMenuBar(out bool createScene, out bool createMaterial);
-
             RenderScenePopup(createScene);
             RenderMaterialPopup(createMaterial);
             RenderFilter();
 
             ImGui.Separator();
-
+            
             RenderAssets();
 
             ImGui.End();
@@ -126,7 +125,7 @@ namespace EduEngine.Editor
 
         private void RenderFilter()
         {
-            ImGui.PushItemWidth(ImGui.GetContentRegionAvail().X / 2);
+            ImGui.PushItemWidth(ImGui.GetContentRegionAvail().X / 4);
             if (ImGui.BeginCombo("Filter", _currentFilter == null ? "All" : _currentFilter.ToString()))
             {
                 if (ImGui.Selectable("All"))
@@ -162,13 +161,13 @@ namespace EduEngine.Editor
                 if (_currentFilter != null && type != _currentFilter)
                     continue;
 
-                ImGui.PushStyleColor(ImGuiCol.Button, _assetColors[type] * (asset.Key == _selectedAsset ? 1.3f : 1.0f));
+                ImGui.PushStyleColor(ImGuiCol.Button, _assetColors[type] * (asset.Key == SelectedAsset ? 1.3f : 1.0f));
                 ImGui.PushStyleColor(ImGuiCol.ButtonHovered, _assetColors[type] * 1.1f);
                 ImGui.PushStyleColor(ImGuiCol.ButtonActive, _assetColors[type] * 0.9f);
 
                 if (ImGui.Button(Path.GetFileNameWithoutExtension(asset.Value.LocalPath) + $"##{asset.Key}", new Vector2(_buttonSize, _buttonSize)))
                 {
-                    _selectedAsset = asset.Key;
+                    SelectedAsset = asset.Key;
                 }
 
                 ImGui.PopStyleColor();
