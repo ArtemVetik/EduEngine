@@ -84,5 +84,10 @@ namespace EduEngine.Editor
         {
             _nativeCamera.Render();
         }
+
+        public void DebugRender()
+        {
+            _nativeCamera.DebugRender();
+        }
     }
 }

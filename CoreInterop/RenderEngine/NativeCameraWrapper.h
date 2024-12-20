@@ -8,7 +8,7 @@ namespace EduEngine
 	class NativeCameraWrapperUnmanaged
 	{
 	public:
-		static void DebugDraw(Camera* nativeCamera);
+		static void DrawFrustrum(Camera* nativeCamera);
 	};
 
 	private ref class NativeCameraWrapper
@@ -24,6 +24,7 @@ namespace EduEngine
 		void Update(Vector3 look, Vector3 right, Vector3 up, Vector3 pos);
 		void Render();
 		void DebugRender();
+		void DrawFrustrum();
 
 		void SetProjectionMatrix(float fov, float nearView, float farView);
 

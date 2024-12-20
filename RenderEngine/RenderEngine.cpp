@@ -295,7 +295,10 @@ namespace EduEngine
 
 			commandContext.GetCmdList()->DrawIndexedInstanced(renderObject->GetIndexBuffer()->GetLength(), 1, 0, 0, 0);
 		}
+	}
 
+	void RenderEngine::DebugDraw(Camera* camera)
+	{
 		m_DebugRenderer->Render(camera->GetViewProjMatrix(), camera->GetPosition());
 	}
 

@@ -51,6 +51,7 @@ namespace EduEngine
 
 		void BeginDraw() override;
 		void Draw(Camera* camera) override;
+		void DebugDraw(Camera* camera) override;
 		void EndDraw() override;
 		void MoveAndResize(UINT x, UINT y, UINT w, UINT h) override;
 
