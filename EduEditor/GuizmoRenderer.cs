@@ -10,6 +10,9 @@ namespace EduEngine.Editor
 
         public void Render(GameObject? selected, EditorCamera camera, float x, float y, float w, float h)
         {
+            if (EngineStateManager.CurrentState != EngineState.Editor && EngineStateManager.InspectScene == false)
+                return;
+
             if (selected == null)
                 return;
 

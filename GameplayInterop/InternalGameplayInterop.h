@@ -48,5 +48,10 @@ namespace EduEngine
 		{
 			return (EngineState)Editor::EngineStateManager::CurrentState;
 		}
+
+		static bool GetInspectScene()
+		{
+			return Editor::EngineStateManager::InspectScene;
+		}
 	};
 }

@@ -56,6 +56,10 @@ namespace EduEngine.Editor
             else if (EngineStateManager.CurrentState == EngineState.Runtime)
             {
                 ImGui.Text("(Runtime)");
+
+                var inspectScene = EngineStateManager.InspectScene;
+                if (ImGui.Checkbox("Inspect Scene", ref inspectScene))
+                    EngineStateManager.InspectScene = inspectScene;
             }
 
             ImGui.EndMenuBar();

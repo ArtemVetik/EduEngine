@@ -31,5 +31,6 @@ namespace EduEngine
 		static void RenderScene();
 		static void Destroy();
 		static EngineState GetEngineState();
+		static bool InspectScene();
 	};
 }

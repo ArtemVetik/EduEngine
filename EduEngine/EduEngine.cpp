@@ -181,7 +181,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance,
 						}
 
 						GameplayInterop::Update();
-						runtimeThread = std::async(std::launch::async, &RuntimeRender::RenderRuntime, runtimeRender);
+
+						if (EditorInterop::InspectScene())
+							runtimeThread = std::async(std::launch::async, &RuntimeRender::RenderEditor, runtimeRender);
+						else
+							runtimeThread = std::async(std::launch::async, &RuntimeRender::RenderRuntime, runtimeRender);
 					}
 					else if (EditorInterop::GetEngineState() == EngineState::Editor)
 					{

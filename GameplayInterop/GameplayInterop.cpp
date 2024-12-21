@@ -37,4 +37,9 @@ namespace EduEngine
 	{
 		return InternalEditorInterop::GetEngineState();
 	}
+
+	bool EditorInterop::InspectScene()
+	{
+		return InternalEditorInterop::GetInspectScene();
+	}
 }

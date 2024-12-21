@@ -47,6 +47,7 @@ namespace EduEngine.Editor
             if (ImGui.Button("Play", new Vector2(button_width, 0)))
             {
                 EngineStateManager.CurrentState = EngineState.Runtime;
+                EngineStateManager.InspectScene = false;
                 _sceneData = SceneImporter.ToSceneData(SceneManager.CurrentScene);
                 SceneImporter.LoadScene(_sceneData, SceneManager.CurrentScene.GUID, true);
             }
