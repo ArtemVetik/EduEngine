@@ -46,46 +46,53 @@ namespace EduEngine.Editor
             else if (fieldValue is Vector2 vector2Value)
             {
                 Vector2 newValue = vector2Value;
-                if (field.HasAttribute(out RangeAttribute range) && ImGui.SliderFloat2(fieldName, ref newValue, range.Min, range.Max))
+                if (field.HasAttribute(out RangeAttribute range))
                 {
-                    ReflectField.Set(field, component, newValue);
+                    if (ImGui.SliderFloat2(fieldName, ref newValue, range.Min, range.Max))
+                        ReflectField.Set(field, component, newValue);
                 }
-                else if (ImGui.DragFloat2(fieldName, ref newValue))
+                else
                 {
-                    ReflectField.Set(field, component, newValue);
+                    if (ImGui.DragFloat2(fieldName, ref newValue))
+                        ReflectField.Set(field, component, newValue);
                 }
             }
             else if (fieldValue is Vector3 vector3Value)
             {
                 Vector3 newValue = vector3Value;
-                if (field.HasAttribute(out ColorAttribute _) && ImGui.ColorEdit3(fieldName, ref newValue))
+                if (field.HasAttribute(out ColorAttribute _))
                 {
-                    ReflectField.Set(field, component, newValue);
+                    if (ImGui.ColorEdit3(fieldName, ref newValue))
+                        ReflectField.Set(field, component, newValue);
                 }
-                else if (field.HasAttribute(out RangeAttribute range) && ImGui.SliderFloat3(fieldName, ref newValue, range.Min, range.Max))
+                else if (field.HasAttribute(out RangeAttribute range))
                 {
-                    ReflectField.Set(field, component, newValue);
+                    if (ImGui.SliderFloat3(fieldName, ref newValue, range.Min, range.Max))
+                        ReflectField.Set(field, component, newValue);
                 }
-                else if (ImGui.DragFloat3(fieldName, ref newValue))
+                else
                 {
-                    ReflectField.Set(field, component, newValue);
+                    if (ImGui.DragFloat3(fieldName, ref newValue))
+                        ReflectField.Set(field, component, newValue);
                 }
             }
             else if (fieldValue is Vector4 vector4Value)
             {
                 Vector4 newValue = vector4Value;
-
-                if (field.HasAttribute(out ColorAttribute _) && ImGui.ColorEdit4(fieldName, ref newValue))
+                if (field.HasAttribute(out ColorAttribute _))
                 {
-                    ReflectField.Set(field, component, newValue);
+                    if (ImGui.ColorEdit4(fieldName, ref newValue))
+                        ReflectField.Set(field, component, newValue);
                 }
-                else if (field.HasAttribute(out RangeAttribute range) && ImGui.SliderFloat4(fieldName, ref newValue, range.Min, range.Max))
+                else if (field.HasAttribute(out RangeAttribute range))
                 {
-                    ReflectField.Set(field, component, newValue);
+                    if (ImGui.SliderFloat4(fieldName, ref newValue, range.Min, range.Max))
+                        ReflectField.Set(field, component, newValue);
                 }
-                else if (ImGui.DragFloat4(fieldName, ref newValue))
+                else
                 {
-                    ReflectField.Set(field, component, newValue);
+                    if (ImGui.DragFloat4(fieldName, ref newValue))
+                        ReflectField.Set(field, component, newValue);
                 }
             }
             else if (fieldValue is Enum enumValue)
