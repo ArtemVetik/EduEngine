@@ -27,9 +27,12 @@ namespace EduEngine
 		void DrawFrustrum();
 
 		void SetProjectionMatrix(float fov, float nearView, float farView);
+		void SetViewport(Vector4 viewport);
 
-		System::Numerics::Matrix4x4 GetView();
-		System::Numerics::Matrix4x4 GetProjection();
+		Matrix4x4 GetView();
+		Matrix4x4 GetProjection();
+		Vector4 GetViewport();
+
 		float GetFov();
 		float GetNear();
 		float GetFar();

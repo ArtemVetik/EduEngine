@@ -59,7 +59,12 @@ namespace EduEngine
 	{
 		m_NativeCamera->SetProjectionMatrix(&fov, &nearView, &farView);
 	}
-	
+
+	void NativeCameraWrapper::SetViewport(Vector4 viewport)
+	{
+		m_NativeCamera->SetViewport({ viewport.X,viewport.Y, viewport.Z, viewport.W });
+	}
+
 	System::Numerics::Matrix4x4 NativeCameraWrapper::GetView()
 	{
 		auto nativeMatrix = m_NativeCamera->GetViewMatrix();
@@ -80,6 +85,12 @@ namespace EduEngine
 			nativeMatrix.m[2][0], nativeMatrix.m[2][1], nativeMatrix.m[2][2], nativeMatrix.m[2][3],
 			nativeMatrix.m[3][0], nativeMatrix.m[3][1], nativeMatrix.m[3][2], nativeMatrix.m[3][3]
 		);
+	}
+
+	Vector4 NativeCameraWrapper::GetViewport()
+	{
+		auto nativeViewport = m_NativeCamera->GetViewport();
+		return Vector4(nativeViewport.x, nativeViewport.y, nativeViewport.z, nativeViewport.w);
 	}
 
 	float NativeCameraWrapper::GetFov()

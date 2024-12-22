@@ -185,15 +185,10 @@ namespace EduEngine
 		auto& commandContext = m_Device->GetCommandContext(D3D12_COMMAND_LIST_TYPE_DIRECT);
 
 		commandContext.Reset();
-		commandContext.SetViewports(&m_Viewport, 1);
-		commandContext.SetScissorRects(&m_ScissorRect, 1);
 
 		commandContext.ResourceBarrier(CD3DX12_RESOURCE_BARRIER::Transition(m_SwapChain->CurrentBackBuffer(),
 			D3D12_RESOURCE_STATE_PRESENT, D3D12_RESOURCE_STATE_RENDER_TARGET));
 		commandContext.FlushResourceBarriers();
-
-		commandContext.GetCmdList()->ClearRenderTargetView(m_SwapChain->CurrentBackBufferView(), DirectX::Colors::Black, 0, nullptr);
-		commandContext.GetCmdList()->ClearDepthStencilView(m_SwapChain->DepthStencilView(), D3D12_CLEAR_FLAG_DEPTH | D3D12_CLEAR_FLAG_STENCIL, 1.0f, 0, 0, nullptr);
 
 		commandContext.SetRenderTargets(1, &(m_SwapChain->CurrentBackBufferView()), true, &(m_SwapChain->DepthStencilView()));
 
@@ -204,6 +199,21 @@ namespace EduEngine
 	void RenderEngine::Draw(Camera* camera)
 	{
 		auto& commandContext = m_Device->GetCommandContext(D3D12_COMMAND_LIST_TYPE_DIRECT);
+
+		commandContext.SetViewports(&m_Viewport, 1);
+		commandContext.SetScissorRects(&m_ScissorRect, 1);
+
+		auto camViewport = camera->GetViewport();
+		D3D12_RECT rect[1] = 
+		{
+			m_Viewport.TopLeftX + m_Viewport.Width * camViewport.x,
+			m_Viewport.TopLeftY + m_Viewport.Height * camViewport.y,
+			m_Viewport.Width * camViewport.z,
+			m_Viewport.Height * camViewport.w
+		};
+
+		commandContext.GetCmdList()->ClearRenderTargetView(m_SwapChain->CurrentBackBufferView(), DirectX::Colors::Black, 1, rect);
+		commandContext.GetCmdList()->ClearDepthStencilView(m_SwapChain->DepthStencilView(), D3D12_CLEAR_FLAG_DEPTH | D3D12_CLEAR_FLAG_STENCIL, 1.0f, 0, 1, rect);
 
 		commandContext.GetCmdList()->SetPipelineState(m_OpaquePass->GetD3D12PipelineState());
 		commandContext.GetCmdList()->SetGraphicsRootSignature(m_OpaquePass->GetD3D12RootSignature());
