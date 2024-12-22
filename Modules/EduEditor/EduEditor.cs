@@ -15,7 +15,7 @@ namespace EduEngine.Editor
         private static AssetWindow _assetWindow = new AssetWindow();
         private static AssetInfoWindow _assetInfo = new AssetInfoWindow();
         private static RenderResourcesInfo _renderResourcesInfo = new RenderResourcesInfo();
-        private static MainMenuBar _menuBar = new MainMenuBar(_renderResourcesInfo);
+        private static MainMenuBar _menuBar = new MainMenuBar(_renderResourcesInfo, _hierarchyWindow);
 
         private static bool _withEditor;
 

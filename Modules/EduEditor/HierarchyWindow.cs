@@ -6,6 +6,8 @@ namespace EduEngine.Editor
     {
         public GameObject? Selected { get; private set; }
 
+        public void ResetSelected() => Selected = null;
+
         public void Render()
         {
             ImGui.Begin("Hierarchy");

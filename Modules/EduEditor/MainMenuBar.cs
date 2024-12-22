@@ -6,12 +6,14 @@ namespace EduEngine.Editor
     internal class MainMenuBar
     {
         private readonly RenderResourcesInfo _renderResourcesInfo;
+        private readonly HierarchyWindow _hierarchyWindow;
 
         private SceneData? _sceneData = null;
 
-        public MainMenuBar(RenderResourcesInfo renderResourcesInfo)
+        public MainMenuBar(RenderResourcesInfo renderResourcesInfo, HierarchyWindow hierarchyWindow)
         {
             _renderResourcesInfo = renderResourcesInfo;
+            _hierarchyWindow = hierarchyWindow;
         }
 
         public void Render()
@@ -48,6 +50,7 @@ namespace EduEngine.Editor
             {
                 EngineStateManager.CurrentState = EngineState.Runtime;
                 EngineStateManager.InspectScene = false;
+                _hierarchyWindow.ResetSelected();
                 _sceneData = SceneImporter.ToSceneData(SceneManager.CurrentScene);
                 SceneImporter.LoadScene(_sceneData, SceneManager.CurrentScene.GUID, true);
             }
@@ -64,6 +67,7 @@ namespace EduEngine.Editor
 
             if (ImGui.Button("Stop", new Vector2(button_width, 0)))
             {
+                _hierarchyWindow.ResetSelected();
                 EngineStateManager.CurrentState = EngineState.Editor;
                 SceneImporter.LoadScene(_sceneData, SceneManager.CurrentScene.GUID, false);
             }
