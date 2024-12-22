@@ -8,6 +8,7 @@ namespace EduEngine
 		m_NearValue = 0.3f;
 		m_FarValue = 1000.0f;
 		m_Viewport = { 0, 0, 1, 1 };
+		m_BackgroundColor = { 0, 0, 0, 1 };
 
 		XMVECTOR pos = XMVectorSet(0.0f, 10.0f, -20.0f, 0.0f);
 		XMVECTOR dir = XMVectorSet(0, 0, 1, 0);
@@ -56,6 +57,11 @@ namespace EduEngine
 	XMFLOAT4 Camera::GetViewport() const
 	{
 		return m_Viewport;
+	}
+
+	XMFLOAT4 Camera::GetBackgroundColor() const
+	{
+		return m_BackgroundColor;
 	}
 
 	float Camera::GetNear() const
@@ -144,11 +150,11 @@ namespace EduEngine
 
 	void Camera::SetViewport(XMFLOAT4 viewport)
 	{
-		assert(viewport.x >= 0 && viewport.y >= 0);
-		assert(viewport.x <= 1 && viewport.y <= 1);
-		assert(viewport.z >= 0 && viewport.w >= 0);
-		assert(viewport.z <= 1 && viewport.w <= 1);
-
 		m_Viewport = viewport;
+	}
+
+	void Camera::SetBackgroundColor(XMFLOAT4 color)
+	{
+		m_BackgroundColor = color;
 	}
 }

@@ -65,6 +65,11 @@ namespace EduEngine
 		m_NativeCamera->SetViewport({ viewport.X,viewport.Y, viewport.Z, viewport.W });
 	}
 
+	void NativeCameraWrapper::SetBackgroundColor(Vector4 color)
+	{
+		m_NativeCamera->SetBackgroundColor({ color.X,color.Y, color.Z, color.W });
+	}
+
 	System::Numerics::Matrix4x4 NativeCameraWrapper::GetView()
 	{
 		auto nativeMatrix = m_NativeCamera->GetViewMatrix();
@@ -91,6 +96,12 @@ namespace EduEngine
 	{
 		auto nativeViewport = m_NativeCamera->GetViewport();
 		return Vector4(nativeViewport.x, nativeViewport.y, nativeViewport.z, nativeViewport.w);
+	}
+
+	Vector4 NativeCameraWrapper::GetBackgroundColor()
+	{
+		auto backgroundColor = m_NativeCamera->GetBackgroundColor();
+		return Vector4(backgroundColor.x, backgroundColor.y, backgroundColor.z, backgroundColor.w);
 	}
 
 	float NativeCameraWrapper::GetFov()

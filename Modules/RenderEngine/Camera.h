@@ -16,12 +16,14 @@ namespace EduEngine
 
 		void Update(DirectX::XMFLOAT3 look, DirectX::XMFLOAT3 right, DirectX::XMFLOAT3 up, DirectX::XMFLOAT3 pos);
 		void SetViewport(XMFLOAT4 viewport);
+		void SetBackgroundColor(XMFLOAT4 color);
 
 		XMFLOAT4X4 GetViewMatrix() const;
 		XMFLOAT4X4 GetProjectionMatrix() const;
 		XMMATRIX GetViewProjMatrix() const;
 		XMFLOAT3 GetPosition() const;
 		XMFLOAT4 GetViewport() const;
+		XMFLOAT4 GetBackgroundColor() const;
 		float GetNear() const;
 		float GetFar() const;
 		float GetFov() const;
@@ -33,6 +35,7 @@ namespace EduEngine
 		float m_Fov = 55.0f;
 
 		XMFLOAT4 m_Viewport;
+		XMFLOAT4 m_BackgroundColor;
 		XMFLOAT4X4 m_ViewMatrix;
 		XMFLOAT4X4 m_ProjectionMatrix;
 		float m_NearValue;

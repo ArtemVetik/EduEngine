@@ -28,10 +28,12 @@ namespace EduEngine
 
 		void SetProjectionMatrix(float fov, float nearView, float farView);
 		void SetViewport(Vector4 viewport);
+		void SetBackgroundColor(Vector4 color);
 
 		Matrix4x4 GetView();
 		Matrix4x4 GetProjection();
 		Vector4 GetViewport();
+		Vector4 GetBackgroundColor();
 
 		float GetFov();
 		float GetNear();

@@ -8,6 +8,7 @@ namespace EduEngine
         [SerializeField] private float _fov = 55.0f;
         [SerializeField] private float _near = 0.3f;
         [SerializeField] private float _far = 1000.0f;
+        [SerializeField, Color] private Vector4 _backgroundColor = new Vector4(0, 0, 0, 1);
         [SerializeField, Range(0.0f, 1.0f)] private Vector4 _viewport = new Vector4(0, 0, 1, 1);
         [SerializeField] private bool _debugDraw = false;
 
@@ -26,12 +27,12 @@ namespace EduEngine
         {
             _camera.SetProjectionMatrix(_fov, _near, _far);
             _camera.SetViewport(_viewport);
+            _camera.SetBackgroundColor(_backgroundColor);
         }
 
         public override void OnCreate()
         {
-            _camera.SetProjectionMatrix(_fov, _near, _far);
-            _camera.SetViewport(_viewport);
+            OnAddComponent();
         }
 
         public override void Update()
@@ -62,8 +63,7 @@ namespace EduEngine
         [DynamicDependency(nameof(OnFieldChangedByReflection))]
         private void OnFieldChangedByReflection(string fieldName)
         {
-            _camera.SetProjectionMatrix(_fov, _near, _far);
-            _camera.SetViewport(_viewport);
+            OnAddComponent();
         }
     }
 }

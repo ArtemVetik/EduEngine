@@ -204,7 +204,7 @@ namespace EduEngine
 		commandContext.SetScissorRects(&m_ScissorRect, 1);
 
 		auto camViewport = camera->GetViewport();
-		D3D12_RECT rect[1] = 
+		D3D12_RECT rect[1] =
 		{
 			m_Viewport.TopLeftX + m_Viewport.Width * camViewport.x,
 			m_Viewport.TopLeftY + m_Viewport.Height * camViewport.y,
@@ -212,7 +212,8 @@ namespace EduEngine
 			m_Viewport.Height * camViewport.w
 		};
 
-		commandContext.GetCmdList()->ClearRenderTargetView(m_SwapChain->CurrentBackBufferView(), DirectX::Colors::Black, 1, rect);
+		const FLOAT* fillColor = reinterpret_cast<const FLOAT*>(&camera->GetBackgroundColor());;
+		commandContext.GetCmdList()->ClearRenderTargetView(m_SwapChain->CurrentBackBufferView(), fillColor, 1, rect);
 		commandContext.GetCmdList()->ClearDepthStencilView(m_SwapChain->DepthStencilView(), D3D12_CLEAR_FLAG_DEPTH | D3D12_CLEAR_FLAG_STENCIL, 1.0f, 0, 1, rect);
 
 		commandContext.GetCmdList()->SetPipelineState(m_OpaquePass->GetD3D12PipelineState());
