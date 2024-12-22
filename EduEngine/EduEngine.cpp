@@ -12,6 +12,10 @@
 #include "../CoreInterop/CoreSystems.h"
 #include "../GameplayInterop/GameplayInterop.h"
 
+#if 0
+#define EDU_NO_EDITOR
+#endif
+
 using namespace EduEngine;
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance,
@@ -31,27 +35,45 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance,
 
 	GeometryGenerator geoGen;
 
+	HWND editorWnd = 0;
+#ifndef EDU_NO_EDITOR
 	EditorWindow editorWindow(hInstance, 1280, 720);
 	editorWindow.Initialize();
+	editorWnd = editorWindow.GetMainWindow();
+#endif
 
-	RuntimeWindow runtimeWindow(hInstance, 800, 400, editorWindow.GetMainWindow());
+	RuntimeWindow runtimeWindow(hInstance, 1280, 720, editorWnd);
 	runtimeWindow.Initialize();
 
+#ifndef EDU_NO_EDITOR
 	InputManager::GetEditorInstance().Initialize(hInstance, editorWindow.GetMainWindow());
+#endif
 	InputManager::GetInstance().Initialize(hInstance, runtimeWindow.GetMainWindow());
 
 	std::shared_ptr<IRenderEngine> renderEngine = IRenderEngine::Create(runtimeWindow);
+#ifndef EDU_NO_EDITOR
 	std::shared_ptr<IEditorRenderEngine> editorRenderEngine = IEditorRenderEngine::Create(editorWindow);
+#endif
 
 	PhysicsFactory physicsFactory;
 	std::shared_ptr<IPhysicsWorld> physicsWorld = physicsFactory.Create();
 
 	Timer runtimeTimer = Timer(runtimeWindow.GetMainWindow(), L"EduEngine");
+#ifndef EDU_NO_EDITOR
 	Timer editorTimer = Timer(editorWindow.GetMainWindow(), L"EduEngine");
+#endif
 
+#ifndef EDU_NO_EDITOR
 	CoreSystems coreSystems(renderEngine.get(), editorRenderEngine.get(), physicsWorld.get(), &runtimeTimer, &editorTimer);
+#else
+	CoreSystems coreSystems(renderEngine.get(), nullptr, physicsWorld.get(), &runtimeTimer, nullptr);
+#endif
 
-	EditorInterop::Initialize(folderPath, dllPath);
+#ifndef EDU_NO_EDITOR
+	EditorInterop::Initialize(folderPath, dllPath, true);
+#else
+	EditorInterop::Initialize(folderPath, dllPath, false);
+#endif
 
 	RuntimeRender runtimeRender(renderEngine.get());
 
@@ -61,7 +83,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance,
 	MSG msg = { 0 };
 
 	std::future<void> runtimeThread;
+#ifndef EDU_NO_EDITOR
 	std::future<void> editorThread;
+#endif
 
 	int runtimeFps = 0, editorFps = 0;
 	float runtimeMspf = 0.0f, editorMspf = 0.0f;
@@ -75,7 +99,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance,
 		}
 		else
 		{
+#ifndef EDU_NO_EDITOR
 			if (!runtimeThread.valid() || future_is_ready(runtimeThread))
+#endif
 			{
 				runtimeTimer.UpdateTimer();
 				if (!runtimeWindow.IsPaused())
@@ -83,9 +109,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance,
 					InputManager::GetInstance().Update();
 
 					if (runtimeTimer.UpdateTitleBarStats(runtimeFps, runtimeMspf))
-						UpdateWindowTitle(editorWindow.GetHostWindow(), runtimeFps, runtimeMspf, editorFps, editorMspf);
+						UpdateWindowTitle(runtimeWindow.GetMainWindow(), runtimeFps, runtimeMspf, nullptr, nullptr);
 
+#ifndef EDU_NO_EDITOR
 					if (EditorInterop::GetEngineState() == EngineState::Runtime)
+#endif
 					{
 						physixsAccumulator += runtimeTimer.GetDeltaTime();
 
@@ -97,29 +125,42 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance,
 
 						GameplayInterop::Update();
 
+#ifndef EDU_NO_EDITOR
 						if (EditorInterop::InspectScene())
+						{
 							runtimeThread = std::async(std::launch::async, &RuntimeRender::RenderEditor, runtimeRender);
+						}
 						else
+#endif
+						{
+#ifndef EDU_NO_EDITOR
 							runtimeThread = std::async(std::launch::async, &RuntimeRender::RenderRuntime, runtimeRender);
+#else
+							runtimeRender.RenderRuntime();
+#endif
+						}
 					}
+#ifndef EDU_NO_EDITOR
 					else if (EditorInterop::GetEngineState() == EngineState::Editor)
 					{
 						GameplayInterop::Update();
 						runtimeThread = std::async(std::launch::async, &RuntimeRender::RenderEditor, runtimeRender);
 					}
+#endif
 				}
 				else
 				{
 					Sleep(100);
 				}
 			}
+#ifndef EDU_NO_EDITOR
 			if (!editorThread.valid() || future_is_ready(editorThread))
 			{
 				editorTimer.UpdateTimer();
 				if (!editorWindow.IsPaused())
 				{
 					if (editorTimer.UpdateTitleBarStats(editorFps, editorMspf))
-						UpdateWindowTitle(editorWindow.GetHostWindow(), runtimeFps, runtimeMspf, editorFps, editorMspf);
+						UpdateWindowTitle(editorWindow.GetHostWindow(), runtimeFps, runtimeMspf, &editorFps, &editorMspf);
 
 					InputManager::GetEditorInstance().Update();
 
@@ -131,11 +172,14 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance,
 					Sleep(100);
 				}
 			}
+#endif
 		}
 	}
 
+#ifndef EDU_NO_EDITOR
 	editorThread.get();
 	runtimeThread.get();
+#endif
 
 	EditorInterop::Destroy();
 

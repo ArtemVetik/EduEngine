@@ -40,13 +40,15 @@ namespace EduEngine
 		return selectedFolder;
 	}
 
-	void UpdateWindowTitle(HWND window, int rFps, float rMspf, int eFps, float eMspf)
+	void UpdateWindowTitle(HWND window, int rFps, float rMspf, int* eFps, float* eMspf)
 	{
 		std::wstringstream out;
 		out.precision(6);
 
-		out << "Runtime (" << " fps: " << rFps << " frame time: " << rMspf << " ms)" <<
-			"\tEditor (" << "fps: " << eFps << " frame time: " << eMspf << " ms)" << "\0";
+		out << "Runtime (" << " fps: " << rFps << " frame time: " << rMspf << " ms)";
+
+		if (eFps && eMspf)
+			out << "\tEditor (" << "fps: " << *eFps << " frame time: " << *eMspf << " ms)" << "\0";
 
 		SetWindowText(window, out.str().c_str());
 	}

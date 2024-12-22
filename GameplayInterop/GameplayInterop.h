@@ -26,7 +26,7 @@ namespace EduEngine
 	class GAMEPLAYINTEROP_API EditorInterop
 	{
 	public:
-		static void Initialize(std::wstring assetsPath, std::wstring dllPath);
+		static void Initialize(std::wstring assetsPath, std::wstring dllPath, bool withEditor);
 		static void Update();
 		static void RenderScene();
 		static void Destroy();

@@ -17,25 +17,42 @@ namespace EduEngine.Editor
         private static RenderResourcesInfo _renderResourcesInfo = new RenderResourcesInfo();
         private static MainMenuBar _menuBar = new MainMenuBar(_renderResourcesInfo);
 
-        public static unsafe void Initialize(string assetsPath, string dllPath)
+        private static bool _withEditor;
+
+        public static unsafe void Initialize(string assetsPath, string dllPath, bool withEditor = true)
         {
-            ImGui.CreateContext();
-            var io = ImGui.GetIO();
-            io.BackendFlags |= ImGuiBackendFlags.RendererHasVtxOffset;
-            io.ConfigFlags |= ImGuiConfigFlags.NavEnableKeyboard | ImGuiConfigFlags.DockingEnable;
-            io.Fonts.Flags |= ImFontAtlasFlags.NoBakedLines;
-            io.DisplaySize = EditorRenderEngineInterop.GetEditorSize();
-            io.DisplayFramebufferScale = Vector2.One;
-            io.DeltaTime = 1f / 60f;
+            _withEditor = withEditor;
 
-            io.Fonts.GetTexDataAsRGBA32(out IntPtr pixels, out int width, out int height, out int bytesPerPixel);
-            IntPtr texId = EditorRenderEngineInterop.CreateImGuiEditor(pixels, width, height, bytesPerPixel);
-            io.Fonts.SetTexID(texId);
-            io.Fonts.ClearTexData();
-
-            ImGuizmo.SetImGuiContext(ImGui.GetCurrentContext());
             AssetDataBase.Initialize(assetsPath, dllPath);
-            EditorWindowEventInterop.AddFocusCallback(OnFocusChanged);
+
+            if (_withEditor)
+            {
+                ImGui.CreateContext();
+                var io = ImGui.GetIO();
+                io.BackendFlags |= ImGuiBackendFlags.RendererHasVtxOffset;
+                io.ConfigFlags |= ImGuiConfigFlags.NavEnableKeyboard | ImGuiConfigFlags.DockingEnable;
+                io.Fonts.Flags |= ImFontAtlasFlags.NoBakedLines;
+                io.DisplaySize = EditorRenderEngineInterop.GetEditorSize();
+                io.DisplayFramebufferScale = Vector2.One;
+                io.DeltaTime = 1f / 60f;
+
+                io.Fonts.GetTexDataAsRGBA32(out IntPtr pixels, out int width, out int height, out int bytesPerPixel);
+                IntPtr texId = EditorRenderEngineInterop.CreateImGuiEditor(pixels, width, height, bytesPerPixel);
+                io.Fonts.SetTexID(texId);
+                io.Fonts.ClearTexData();
+
+                ImGuizmo.SetImGuiContext(ImGui.GetCurrentContext());
+                EditorWindowEventInterop.AddFocusCallback(OnFocusChanged);
+            }
+            else
+            {
+                var mainScene = AssetDataBase.AllAssets.FirstOrDefault(asset =>
+                    asset.Value.Type == AssetType.Scene &&
+                    Path.GetFileNameWithoutExtension(asset.Value.LocalPath) == "MainScene");
+
+                if (string.IsNullOrEmpty(mainScene.Key) == false)
+                    SceneImporter.LoadScene(mainScene.Key, true);
+            }
         }
 
         public static void Update()
@@ -75,11 +92,15 @@ namespace EduEngine.Editor
 
         public static void Destroy()
         {
-            ImGuizmo.SetImGuiContext(0);
-            ImGui.DestroyContext(ImGui.GetCurrentContext());
+            if (_withEditor)
+            {
+                ImGuizmo.SetImGuiContext(0);
+                ImGui.DestroyContext(ImGui.GetCurrentContext());
+
+                EditorWindowEventInterop.RemoveFocusCallback(OnFocusChanged);
+            }
 
             _renderResourcesInfo.Dispose();
-            EditorWindowEventInterop.RemoveFocusCallback(OnFocusChanged);
             AssetDataBase.Dispose();
         }
 
