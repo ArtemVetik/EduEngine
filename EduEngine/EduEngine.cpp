@@ -2,15 +2,15 @@
 #include <thread>
 #include "Common.h"
 #include "RuntimeRender.h"
-#include "../InputSystem/Timer.h"
-#include "../InputSystem/InputManager.h"
-#include "../RenderEngine/RuntimeWindow.h"
-#include "../RenderEngine/IRenderEngine.h"
-#include "../RenderEngine/Camera.h"
-#include "../RenderEngine/GeometryGenerator.h"
-#include "../Physics/PhysicsFactory.h"
-#include "../CoreInterop/CoreSystems.h"
-#include "../GameplayInterop/GameplayInterop.h"
+#include "../Modules/InputSystem/Timer.h"
+#include "../Modules/InputSystem/InputManager.h"
+#include "../Modules/RenderEngine/RuntimeWindow.h"
+#include "../Modules/RenderEngine/IRenderEngine.h"
+#include "../Modules/RenderEngine/Camera.h"
+#include "../Modules/RenderEngine/GeometryGenerator.h"
+#include "../Modules/Physics/PhysicsFactory.h"
+#include "../Modules/CoreInterop/CoreSystems.h"
+#include "../Modules/GameplayInterop/GameplayInterop.h"
 
 #if 0
 #define EDU_NO_EDITOR

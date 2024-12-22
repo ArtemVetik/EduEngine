@@ -7,8 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AssetManager\AssetManager.csproj" />
-    <ProjectReference Include="..\GameplayFramework\GameplayFramework.csproj" />
+    <ProjectReference Include="..\Modules\AssetManager\AssetManager.csproj" />
+    <ProjectReference Include="..\Modules\GameplayFramework\GameplayFramework.csproj" />
   </ItemGroup>
 
 </Project>

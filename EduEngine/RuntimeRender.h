@@ -1,6 +1,6 @@
 #pragma once
-#include "../RenderEngine/IRenderEngine.h"
-#include "../GameplayInterop/GameplayInterop.h"
+#include "../Modules/RenderEngine/IRenderEngine.h"
+#include "../Modules/GameplayInterop/GameplayInterop.h"
 
 namespace EduEngine
 {

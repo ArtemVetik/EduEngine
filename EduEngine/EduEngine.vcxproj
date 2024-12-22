@@ -140,28 +140,28 @@
     <ClCompile Include="EduEngine.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CoreInterop\CoreInterop.vcxproj">
-      <Project>{8935092f-500c-4078-bae4-075a0efe5517}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\EduMath\EduMath.vcxproj">
-      <Project>{8daf5452-17db-4977-805a-3f1705c82625}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\GameplayInterop\GameplayInterop.vcxproj">
-      <Project>{baef52fd-6f4c-4a9f-af7d-27e65f4a9344}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\InputSystem\InputSystem.vcxproj">
-      <Project>{32ac94c6-ef33-4add-92f9-41270d16e447}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\Physics\Physics.vcxproj">
-      <Project>{6bbdc0a5-b642-4ca9-bd96-c658942119a5}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\RenderEngine\RenderEngine.vcxproj">
-      <Project>{8f2a71f1-7b8d-42d5-8b91-094ee2ca63ce}</Project>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="Common.h" />
     <ClInclude Include="RuntimeRender.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Modules\CoreInterop\CoreInterop.vcxproj">
+      <Project>{8935092f-500c-4078-bae4-075a0efe5517}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Modules\EduMath\EduMath.vcxproj">
+      <Project>{8daf5452-17db-4977-805a-3f1705c82625}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Modules\GameplayInterop\GameplayInterop.vcxproj">
+      <Project>{baef52fd-6f4c-4a9f-af7d-27e65f4a9344}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Modules\InputSystem\InputSystem.vcxproj">
+      <Project>{32ac94c6-ef33-4add-92f9-41270d16e447}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Modules\Physics\Physics.vcxproj">
+      <Project>{6bbdc0a5-b642-4ca9-bd96-c658942119a5}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Modules\RenderEngine\RenderEngine.vcxproj">
+      <Project>{8f2a71f1-7b8d-42d5-8b91-094ee2ca63ce}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />
