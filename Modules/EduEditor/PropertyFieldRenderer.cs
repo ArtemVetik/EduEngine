@@ -46,7 +46,11 @@ namespace EduEngine.Editor
             else if (fieldValue is Vector2 vector2Value)
             {
                 Vector2 newValue = vector2Value;
-                if (ImGui.DragFloat2(fieldName, ref newValue))
+                if (field.HasAttribute(out RangeAttribute range) && ImGui.SliderFloat2(fieldName, ref newValue, range.Min, range.Max))
+                {
+                    ReflectField.Set(field, component, newValue);
+                }
+                else if (ImGui.DragFloat2(fieldName, ref newValue))
                 {
                     ReflectField.Set(field, component, newValue);
                 }
@@ -54,38 +58,34 @@ namespace EduEngine.Editor
             else if (fieldValue is Vector3 vector3Value)
             {
                 Vector3 newValue = vector3Value;
-                if (field.GetCustomAttribute<ColorAttribute>() != null)
+                if (field.HasAttribute(out ColorAttribute _) && ImGui.ColorEdit3(fieldName, ref newValue))
                 {
-                    if (ImGui.ColorEdit3(fieldName, ref newValue))
-                    {
-                        ReflectField.Set(field, component, newValue);
-                    }
+                    ReflectField.Set(field, component, newValue);
                 }
-                else
+                else if (field.HasAttribute(out RangeAttribute range) && ImGui.SliderFloat3(fieldName, ref newValue, range.Min, range.Max))
                 {
-                    if (ImGui.DragFloat3(fieldName, ref newValue))
-                    {
-                        ReflectField.Set(field, component, newValue);
-                    }
+                    ReflectField.Set(field, component, newValue);
+                }
+                else if (ImGui.DragFloat3(fieldName, ref newValue))
+                {
+                    ReflectField.Set(field, component, newValue);
                 }
             }
             else if (fieldValue is Vector4 vector4Value)
             {
                 Vector4 newValue = vector4Value;
 
-                if (field.GetCustomAttribute<ColorAttribute>() != null)
+                if (field.HasAttribute(out ColorAttribute _) && ImGui.ColorEdit4(fieldName, ref newValue))
                 {
-                    if (ImGui.ColorEdit4(fieldName, ref newValue))
-                    {
-                        ReflectField.Set(field, component, newValue);
-                    }
+                    ReflectField.Set(field, component, newValue);
                 }
-                else
+                else if (field.HasAttribute(out RangeAttribute range) && ImGui.SliderFloat4(fieldName, ref newValue, range.Min, range.Max))
                 {
-                    if (ImGui.DragFloat4(fieldName, ref newValue))
-                    {
-                        ReflectField.Set(field, component, newValue);
-                    }
+                    ReflectField.Set(field, component, newValue);
+                }
+                else if (ImGui.DragFloat4(fieldName, ref newValue))
+                {
+                    ReflectField.Set(field, component, newValue);
                 }
             }
             else if (fieldValue is Enum enumValue)
@@ -123,6 +123,12 @@ namespace EduEngine.Editor
             {
                 ImGui.Text($"{field.Name}: Unsupported type ({field.FieldType.Name})");
             }
+        }
+
+        private static bool HasAttribute<T>(this FieldInfo field, out T? attribute) where T : Attribute
+        {
+            attribute = field.GetCustomAttribute<T>();
+            return attribute != null;
         }
     }
 }
