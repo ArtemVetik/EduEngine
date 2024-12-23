@@ -219,7 +219,7 @@ namespace EduEngine
 		commandContext.GetCmdList()->SetPipelineState(m_OpaquePass->GetD3D12PipelineState());
 		commandContext.GetCmdList()->SetGraphicsRootSignature(m_OpaquePass->GetD3D12RootSignature());
 
-		PassConstants passConstants = {};
+		OpaquePass::PassConstants passConstants = {};
 		XMStoreFloat4x4(&passConstants.ViewProj, XMMatrixTranspose(camera->GetViewProjMatrix()));
 		passConstants.EyePosW = camera->GetPosition();
 
@@ -270,14 +270,14 @@ namespace EduEngine
 				renderObject->GetMaterial() == nullptr)
 				continue;
 
-			ObjectConstants objConstants;
+			OpaquePass::ObjectConstants objConstants;
 			objConstants.World = renderObject->WorldMatrix.Transpose();
 
 			DynamicUploadBuffer objUploadBuffer(m_Device.get(), QueueID::Direct);
 			objUploadBuffer.LoadData(objConstants);
 			objUploadBuffer.CreateCBV();
 
-			MaterialConstants matConstants = {};
+			OpaquePass::MaterialConstants matConstants = {};
 			matConstants.DiffuseAlbedo = renderObject->GetMaterial()->DiffuseAlbedo;
 			matConstants.FresnelR0 = renderObject->GetMaterial()->FresnelR0;
 			matConstants.Roughness = renderObject->GetMaterial()->Roughness;

@@ -166,12 +166,12 @@ namespace EduEngine
 	{
 		DrawInfiniteGrid(cameraPosition, 1, 1000);
 
-		CameraMVP cameraMVP;
-		DirectX::XMStoreFloat4x4(&cameraMVP.MVP, DirectX::XMMatrixTranspose(mvp));
-		cameraMVP.CamPos = cameraPosition;
+		DebugRenderPass::PassConstants passConstants;
+		DirectX::XMStoreFloat4x4(&passConstants.MVP, DirectX::XMMatrixTranspose(mvp));
+		passConstants.CamPos = cameraPosition;
 
 		DynamicUploadBuffer passUploadBuffer(m_Device, QueueID::Direct);
-		passUploadBuffer.LoadData(cameraMVP);
+		passUploadBuffer.LoadData(passConstants);
 
 		auto allocation = m_Device->AllocateDynamicUploadGPUDescriptor(QueueID::Direct, m_Lines.size() * sizeof(VertexPointColor));
 		memcpy(allocation.CPUAddress, m_Lines.data(), m_Lines.size() * sizeof(VertexPointColor));

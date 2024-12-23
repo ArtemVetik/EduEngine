@@ -4,32 +4,33 @@
 
 namespace EduEngine
 {
-	struct ObjectConstants
-	{
-		DirectX::XMFLOAT4X4 World;
-	};
-
-	struct PassConstants
-	{
-		DirectX::XMFLOAT4X4 ViewProj;
-		DirectX::XMFLOAT3 EyePosW = { 0.0f, 0.0f, 0.0f };
-		UINT DirectionalLightsCount = 0;
-		UINT PointLightsCount = 0;
-		UINT SpotLightsCount = 0;
-		DirectX::XMFLOAT2 Padding;
-		DirectX::XMFLOAT4 AmbientLight = { 0.25f, 0.25f, 0.35f, 1.0f };
-	};
-
-	struct MaterialConstants
-	{
-		DirectX::XMFLOAT4 DiffuseAlbedo = { 1.0f, 1.0f, 1.0f, 1.0f };
-		DirectX::XMFLOAT3 FresnelR0 = { 0.01f, 0.01f, 0.01f };
-		float Roughness = 0.25f;
-		DirectX::XMFLOAT4X4 MatTransform = DirectX::SimpleMath::Matrix::Identity;
-	};
-
 	class OpaquePass
 	{
+	public:
+		struct ObjectConstants
+		{
+			DirectX::XMFLOAT4X4 World;
+		};
+
+		struct MaterialConstants
+		{
+			DirectX::XMFLOAT4 DiffuseAlbedo = { 1.0f, 1.0f, 1.0f, 1.0f };
+			DirectX::XMFLOAT3 FresnelR0 = { 0.01f, 0.01f, 0.01f };
+			float Roughness = 0.25f;
+			DirectX::XMFLOAT4X4 MatTransform = DirectX::SimpleMath::Matrix::Identity;
+		};
+
+		struct PassConstants
+		{
+			DirectX::XMFLOAT4X4 ViewProj;
+			DirectX::XMFLOAT3 EyePosW = { 0.0f, 0.0f, 0.0f };
+			UINT DirectionalLightsCount = 0;
+			UINT PointLightsCount = 0;
+			UINT SpotLightsCount = 0;
+			DirectX::XMFLOAT2 Padding;
+			DirectX::XMFLOAT4 AmbientLight = { 0.25f, 0.25f, 0.35f, 1.0f };
+		};
+
 	private:
 		ShaderD3D12 m_VertexShader;
 		ShaderD3D12 m_PixelShader;
@@ -80,8 +81,150 @@ namespace EduEngine
 		ID3D12PipelineState* GetD3D12PipelineState() const { return m_Pso.GetD3D12PipelineState(); }
 	};
 
+	class GBufferPass
+	{
+	public:
+		struct ObjectConstants
+		{
+			DirectX::XMFLOAT4X4 World;
+		};
+
+		struct MaterialConstants
+		{
+			DirectX::XMFLOAT4 DiffuseAlbedo = { 1.0f, 1.0f, 1.0f, 1.0f };
+			DirectX::XMFLOAT3 FresnelR0 = { 0.01f, 0.01f, 0.01f };
+			float Roughness = 0.25f;
+			DirectX::XMFLOAT4X4 MatTransform = DirectX::SimpleMath::Matrix::Identity;
+		};
+
+		struct PassConstants
+		{
+			DirectX::XMFLOAT4X4 ViewProj;
+		};
+
+	private:
+		ShaderD3D12 m_VertexShader;
+		ShaderD3D12 m_PixelShader;
+		RootSignatureD3D12 m_RootSignature;
+		PipelineStateD3D12 m_Pso;
+
+	public:
+		GBufferPass(const RenderDeviceD3D12* device) :
+			m_VertexShader(L"Shaders/GBuffer.hlsl", EDU_SHADER_TYPE_VERTEX, nullptr, "VS", "vs_5_1"),
+			m_PixelShader(L"Shaders/GBuffer.hlsl", EDU_SHADER_TYPE_PIXEL, nullptr, "PS", "ps_5_1")
+		{
+			CD3DX12_DESCRIPTOR_RANGE objConstants;
+			objConstants.Init(D3D12_DESCRIPTOR_RANGE_TYPE_CBV, 1, 0);
+			m_RootSignature.AddDescriptorParameter(1, &objConstants); // object constants
+
+			CD3DX12_DESCRIPTOR_RANGE materialConstants;
+			materialConstants.Init(D3D12_DESCRIPTOR_RANGE_TYPE_CBV, 1, 1);
+			m_RootSignature.AddDescriptorParameter(1, &materialConstants); // material constants
+
+			CD3DX12_DESCRIPTOR_RANGE albedoTexture;
+			albedoTexture.Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 0);
+			m_RootSignature.AddDescriptorParameter(1, &albedoTexture); // diffuse map
+
+			m_RootSignature.AddConstantBufferView(2); // pass constants
+
+			m_RootSignature.Build(device);
+
+			std::vector<D3D12_INPUT_ELEMENT_DESC> mInputLayout =
+			{
+				{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0,  D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
+				{ "NORMAL",   0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
+				{ "TANGENT",  0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 24, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
+				{ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT,    0, 36, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
+			};
+
+			m_Pso.SetInputLayout({ mInputLayout.data(), (UINT)mInputLayout.size() });
+			m_Pso.SetRootSignature(&m_RootSignature);
+			m_Pso.SetShader(&m_VertexShader);
+			m_Pso.SetShader(&m_PixelShader);
+			m_Pso.Build(device);
+		}
+
+		ID3D12RootSignature* GetD3D12RootSignature() const { return m_RootSignature.GetD3D12RootSignature(); }
+		ID3D12PipelineState* GetD3D12PipelineState() const { return m_Pso.GetD3D12PipelineState(); }
+	};
+
+	class DeferredLightPass
+	{
+	public:
+		struct PassConstants
+		{
+			DirectX::XMFLOAT4X4 ProjInv;
+			DirectX::XMFLOAT4X4 ViewInv;
+			DirectX::XMFLOAT3 EyePosW = { 0.0f, 0.0f, 0.0f };
+			UINT DirectionalLightsCount = 0;
+			UINT PointLightsCount = 0;
+			UINT SpotLightsCount = 0;
+			DirectX::XMFLOAT2 Padding;
+			DirectX::XMFLOAT4 AmbientLight = { 0.25f, 0.25f, 0.35f, 1.0f };
+		};
+
+	private:
+		ShaderD3D12 m_VertexShader;
+		ShaderD3D12 m_PixelShader;
+		RootSignatureD3D12 m_RootSignature;
+		PipelineStateD3D12 m_Pso;
+
+	public:
+		DeferredLightPass(const RenderDeviceD3D12* device) :
+			m_VertexShader(L"Shaders/DeferredLightPass.hlsl", EDU_SHADER_TYPE_VERTEX, nullptr, "VS", "vs_5_1"),
+			m_PixelShader(L"Shaders/DeferredLightPass.hlsl", EDU_SHADER_TYPE_PIXEL, nullptr, "PS", "ps_5_1")
+		{
+			CD3DX12_DESCRIPTOR_RANGE albedoTex;
+			albedoTex.Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 0);
+			m_RootSignature.AddDescriptorParameter(1, &albedoTex); // albedo texture
+
+			CD3DX12_DESCRIPTOR_RANGE normalTex;
+			normalTex.Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 1);
+			m_RootSignature.AddDescriptorParameter(1, &normalTex); // normal texture
+
+			CD3DX12_DESCRIPTOR_RANGE materialTex;
+			materialTex.Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 2);
+			m_RootSignature.AddDescriptorParameter(1, &materialTex); // material texture
+
+			CD3DX12_DESCRIPTOR_RANGE depthTex;
+			depthTex.Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 3);
+			m_RootSignature.AddDescriptorParameter(1, &depthTex); // depth texture
+
+			CD3DX12_DESCRIPTOR_RANGE lights;
+			lights.Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 4);
+			m_RootSignature.AddDescriptorParameter(1, &lights); // lights
+
+			m_RootSignature.AddConstantBufferView(0); // pass constants
+
+			m_RootSignature.Build(device);
+
+			std::vector<D3D12_INPUT_ELEMENT_DESC> mInputLayout =
+			{
+				{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0,  D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
+				{ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT,    0, 12, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
+			};
+
+			m_Pso.SetInputLayout({ mInputLayout.data(), (UINT)mInputLayout.size() });
+			m_Pso.SetRootSignature(&m_RootSignature);
+			m_Pso.SetShader(&m_VertexShader);
+			m_Pso.SetShader(&m_PixelShader);
+			m_Pso.Build(device);
+		}
+
+		ID3D12RootSignature* GetD3D12RootSignature() const { return m_RootSignature.GetD3D12RootSignature(); }
+		ID3D12PipelineState* GetD3D12PipelineState() const { return m_Pso.GetD3D12PipelineState(); }
+	};
+
 	class DebugRenderPass
 	{
+	public:
+		struct PassConstants
+		{
+			DirectX::XMFLOAT4X4 MVP;
+			DirectX::XMFLOAT3 CamPos;
+			float Padding;
+		};
+
 	private:
 		ShaderD3D12 m_VertexShader;
 		ShaderD3D12 m_PixelShader;
@@ -129,6 +272,12 @@ namespace EduEngine
 
 	class ImGuiPass
 	{
+	public:
+		struct ProjectionMatrixBuffer
+		{
+			DirectX::XMFLOAT4X4 ProjectionMatrix;
+		};
+
 	private:
 		ShaderD3D12 m_VertexShader;
 		ShaderD3D12 m_PixelShader;
@@ -191,10 +340,5 @@ namespace EduEngine
 
 		ID3D12RootSignature* GetD3D12RootSignature() const { return m_RootSignature.GetD3D12RootSignature(); }
 		ID3D12PipelineState* GetD3D12PipelineState() const { return m_Pso.GetD3D12PipelineState(); }
-
-		struct ProjectionMatrixBuffer
-		{
-			DirectX::XMFLOAT4X4 ProjectionMatrix;
-		};
 	};
 }

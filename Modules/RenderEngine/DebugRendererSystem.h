@@ -33,22 +33,6 @@ namespace EduEngine
 		void DrawInfiniteGrid(const DirectX::XMFLOAT3& cameraPosition, int gridSize, int gridLines);
 
 	private:
-		struct CameraMVP
-		{
-			DirectX::XMFLOAT4X4 MVP;
-			DirectX::XMFLOAT3 CamPos;
-			float Padding;
-		};
-
-		struct WorldGridData
-		{
-			DirectX::XMFLOAT4X4 MVP;
-			DirectX::XMFLOAT4 CamPos;
-			float GridSize;
-			float GridExtent;
-			DirectX::XMFLOAT2 Padding;
-		};
-
 		struct VertexPointColor
 		{
 			DirectX::XMFLOAT3 Position;

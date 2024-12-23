@@ -197,7 +197,7 @@ namespace EduEngine
 		commandContext.GetCmdList()->SetPipelineState(m_OpaquePass->GetD3D12PipelineState());
 		commandContext.GetCmdList()->SetGraphicsRootSignature(m_OpaquePass->GetD3D12RootSignature());
 
-		PassConstants passConstants = {};
+		OpaquePass::PassConstants passConstants = {};
 		passConstants.DirectionalLightsCount = 1;
 		XMStoreFloat4x4(&passConstants.ViewProj, XMMatrixTranspose(m_PreviewCamera->GetViewProjMatrix()));
 		DynamicUploadBuffer passUploadBuffer(m_Device, QueueID::Direct);
@@ -209,13 +209,13 @@ namespace EduEngine
 		lightUploadBuffer.CreateSRV(1, sizeof(Light));
 
 		DynamicUploadBuffer matUploadBuffer(m_Device, QueueID::Direct);
-		MaterialConstants material = {};
+		OpaquePass::MaterialConstants material = {};
 		matUploadBuffer.LoadData(material);
 		matUploadBuffer.CreateCBV();
 
 		auto renderObject = m_PreviewMesh.get();
 
-		ObjectConstants objConstants;
+		OpaquePass::ObjectConstants objConstants;
 		objConstants.World = DirectX::SimpleMath::Matrix::Identity;
 
 		DynamicUploadBuffer objUploadBuffer(m_Device, QueueID::Direct);
