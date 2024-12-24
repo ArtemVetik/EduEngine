@@ -51,7 +51,7 @@ namespace EduEngine
 			//------------------------------------------------------------------
 			// Set up DirectComposition
 			//------------------------------------------------------------------
-			
+
 			// Create the DirectComposition device
 			HRESULT hr = DCompositionCreateDevice(
 				nullptr,
@@ -111,7 +111,7 @@ namespace EduEngine
 			m_SwapChainBuffers[i].reset();
 
 		m_DepthStencilTexture.reset();
-		
+
 		// m_DepthStencilTexture must reset before m_SwapChain->ResizeBuffers
 		// therefore, flush and release resources
 		m_Device->FlushQueues();
@@ -142,9 +142,7 @@ namespace EduEngine
 		dsDesc.Height = height;
 		dsDesc.DepthOrArraySize = 1;
 		dsDesc.MipLevels = 1;
-
 		dsDesc.Format = DXGI_FORMAT_R24G8_TYPELESS;
-
 		dsDesc.SampleDesc.Count = 1;
 		dsDesc.SampleDesc.Quality = 0;
 		dsDesc.Layout = D3D12_TEXTURE_LAYOUT_UNKNOWN;
@@ -165,6 +163,16 @@ namespace EduEngine
 		m_DepthStencilTexture->SetName(L"MainDepthStencil");
 		m_DepthStencilTexture->CreateDSVView(&dsvDesc, true);
 
+		D3D12_SHADER_RESOURCE_VIEW_DESC depthSrvDesc = {};
+		depthSrvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+		depthSrvDesc.Format = DXGI_FORMAT_R24_UNORM_X8_TYPELESS;
+		depthSrvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
+		depthSrvDesc.Texture2D.MostDetailedMip = 0;
+		depthSrvDesc.Texture2D.MipLevels = 1;
+		depthSrvDesc.Texture2D.ResourceMinLODClamp = 0.0f;
+		depthSrvDesc.Texture2D.PlaneSlice = 0;
+		m_DepthStencilTexture->CreateSRVView(&depthSrvDesc, false);
+
 		m_Device->GetCommandContext(D3D12_COMMAND_LIST_TYPE_DIRECT).ResourceBarrier(
 			CD3DX12_RESOURCE_BARRIER::Transition(m_DepthStencilTexture->GetD3D12Resource(), D3D12_RESOURCE_STATE_COMMON, D3D12_RESOURCE_STATE_DEPTH_WRITE));
 	}
@@ -182,13 +190,18 @@ namespace EduEngine
 			m_SwapChain->Present(1, 0);
 		else
 			m_SwapChain->Present(0, 0);
-		
+
 		m_CurrentBackBuffer = m_SwapChain->GetCurrentBackBufferIndex();
 	}
 
 	ID3D12Resource* SwapChain::CurrentBackBuffer() const
 	{
 		return m_SwapChainBuffers[m_CurrentBackBuffer]->GetD3D12Resource();
+	}
+
+	ID3D12Resource* SwapChain::GetDepthStencilBuffer() const
+	{
+		return m_DepthStencilTexture->GetD3D12Resource();
 	}
 
 	D3D12_CPU_DESCRIPTOR_HANDLE SwapChain::CurrentBackBufferView() const
@@ -199,5 +212,10 @@ namespace EduEngine
 	D3D12_CPU_DESCRIPTOR_HANDLE SwapChain::DepthStencilView() const
 	{
 		return m_DepthStencilTexture->GetView(D3D12_DESCRIPTOR_HEAP_TYPE_DSV)->GetCpuHandle();
+	}
+
+	D3D12_GPU_DESCRIPTOR_HANDLE SwapChain::DepthStencilSRVView() const
+	{
+		return m_DepthStencilTexture->GetView(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV)->GetGpuHandle();
 	}
 }

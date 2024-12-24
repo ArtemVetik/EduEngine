@@ -34,6 +34,14 @@ namespace EduEngine
 		m_Desc.InputLayout = inputLayout;
 	}
 
+	void PipelineStateD3D12::SetRTVFormats(int count, const DXGI_FORMAT* formats)
+	{
+		m_Desc.NumRenderTargets = count;
+
+		for (int i = 0; i < count; i++)
+			m_Desc.RTVFormats[i] = formats[i];
+	}
+
 	void PipelineStateD3D12::SetRasterizerState(D3D12_RASTERIZER_DESC rasterizerDesc)
 	{
 		m_Desc.RasterizerState = rasterizerDesc;
@@ -77,7 +85,7 @@ namespace EduEngine
 	void PipelineStateD3D12::Build(const RenderDeviceD3D12* pDevice)
 	{
 		HRESULT hr = pDevice->GetD3D12Device()->CreateGraphicsPipelineState(&m_Desc, IID_PPV_ARGS(&m_PSO));
-		
+
 		THROW_IF_FAILED(hr, L"Failed to create PSO");
 	}
 

@@ -17,11 +17,14 @@ namespace EduEngine
 		void Present();
 
 		ID3D12Resource* CurrentBackBuffer() const;
+		ID3D12Resource* GetDepthStencilBuffer() const;
 		D3D12_CPU_DESCRIPTOR_HANDLE CurrentBackBufferView() const;
 		D3D12_CPU_DESCRIPTOR_HANDLE DepthStencilView() const;
+		D3D12_GPU_DESCRIPTOR_HANDLE DepthStencilSRVView() const;
 
 		int GetWidth() const { return m_Width; }
 		int GetHeight() const { return m_Height; }
+		
 	private:
 		static const int SwapChainBufferCount = 3;
 

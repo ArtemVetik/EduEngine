@@ -102,6 +102,14 @@ namespace EduEngine
 			DirectX::XMFLOAT4X4 ViewProj;
 		};
 
+		static constexpr int GBufferCount = 3;
+		static constexpr DXGI_FORMAT RtvFormats[GBufferCount] =
+		{
+			DXGI_FORMAT_R8G8B8A8_UNORM_SRGB,
+			DXGI_FORMAT_R8G8B8A8_UNORM,
+			DXGI_FORMAT_R8G8B8A8_UNORM_SRGB,
+		};
+
 	private:
 		ShaderD3D12 m_VertexShader;
 		ShaderD3D12 m_PixelShader;
@@ -137,6 +145,14 @@ namespace EduEngine
 				{ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT,    0, 36, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
 			};
 
+			const DXGI_FORMAT rtvFormats[3] = 
+			{
+				DXGI_FORMAT_R16G16B16A16_FLOAT,
+				DXGI_FORMAT_R16G16B16A16_FLOAT,
+				DXGI_FORMAT_R16G16B16A16_FLOAT,
+			};
+			
+			m_Pso.SetRTVFormats(GBufferCount, RtvFormats);
 			m_Pso.SetInputLayout({ mInputLayout.data(), (UINT)mInputLayout.size() });
 			m_Pso.SetRootSignature(&m_RootSignature);
 			m_Pso.SetShader(&m_VertexShader);
@@ -201,11 +217,17 @@ namespace EduEngine
 			std::vector<D3D12_INPUT_ELEMENT_DESC> mInputLayout =
 			{
 				{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0,  D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
-				{ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT,    0, 12, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
+				{ "NORMAL",   0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
+				{ "TANGENT",  0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 24, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
+				{ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT,    0, 36, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
 			};
+
+			auto dss = CD3DX12_DEPTH_STENCIL_DESC(D3D12_DEFAULT);
+			dss.DepthEnable = false;
 
 			m_Pso.SetInputLayout({ mInputLayout.data(), (UINT)mInputLayout.size() });
 			m_Pso.SetRootSignature(&m_RootSignature);
+			m_Pso.SetDepthStencilState(dss);
 			m_Pso.SetShader(&m_VertexShader);
 			m_Pso.SetShader(&m_PixelShader);
 			m_Pso.Build(device);

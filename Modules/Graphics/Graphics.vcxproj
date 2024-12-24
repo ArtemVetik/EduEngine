@@ -146,6 +146,7 @@
     <ClInclude Include="d3dx12.h" />
     <ClInclude Include="DDSTextureLoader.h" />
     <ClInclude Include="DynamicUploadBuffer.h" />
+    <ClInclude Include="GBuffer.h" />
     <ClInclude Include="PipelineStateD3D12.h" />
     <ClInclude Include="RenderDeviceD3D12.h" />
     <ClInclude Include="pch.h" />
@@ -166,6 +167,7 @@
     <ClCompile Include="CommandQueueD3D12.cpp" />
     <ClCompile Include="DDSTextureLoader.cpp" />
     <ClCompile Include="DynamicUploadBuffer.cpp" />
+    <ClCompile Include="GBuffer.cpp" />
     <ClCompile Include="PipelineStateD3D12.cpp" />
     <ClCompile Include="RenderDeviceD3D12.cpp" />
     <ClCompile Include="dllmain.cpp" />
