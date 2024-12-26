@@ -11,7 +11,7 @@ namespace EduEngine.Editor
         private static HierarchyWindow _hierarchyWindow = new HierarchyWindow();
         private static PropertyWindow _propertyWindow = new PropertyWindow();
         private static GuizmoRenderer _guizmoRenderer = new GuizmoRenderer();
-        private static SceneWindow _sceneWindow = new SceneWindow(_guizmoRenderer, _hierarchyWindow);
+        private static SceneWindow _sceneWindow = new SceneWindow(_guizmoRenderer, _hierarchyWindow, _camera);
         private static AssetWindow _assetWindow = new AssetWindow();
         private static AssetInfoWindow _assetInfo = new AssetInfoWindow();
         private static RenderResourcesInfo _renderResourcesInfo = new RenderResourcesInfo();
@@ -85,9 +85,6 @@ namespace EduEngine.Editor
         {
             _camera.Update();
             _camera.Render();
-
-            if (_sceneWindow.DebugDraw)
-                _camera.DebugRender();
         }
 
         public static void Destroy()

@@ -8,16 +8,15 @@ namespace EduEngine.Editor
     {
         private GuizmoRenderer _guizmoRenderer;
         private HierarchyWindow _hierarhyWindow;
+        private EditorCamera _editorCamera;
         private bool _debugDraw = true;
 
-        public SceneWindow(GuizmoRenderer guizmoRenderer, HierarchyWindow hierarhyWindow)
+        public SceneWindow(GuizmoRenderer guizmoRenderer, HierarchyWindow hierarhyWindow, EditorCamera editorCamera)
         {
             _guizmoRenderer = guizmoRenderer;
             _hierarhyWindow = hierarhyWindow;
-
+            _editorCamera = editorCamera;
         }
-
-        public bool DebugDraw => _debugDraw;
 
         public void Render(out Vector2 pos, out Vector2 size)
         {
@@ -25,7 +24,7 @@ namespace EduEngine.Editor
 
             var centerId = ImGui.DockSpaceOverViewport(0, ImGui.GetMainViewport(), ImGuiDockNodeFlags.NoDockingOverCentralNode | ImGuiDockNodeFlags.PassthruCentralNode);
             ImGui.SetNextWindowDockID(centerId, ImGuiCond.Always);
-            
+
             ImGui.Begin("Scene", ImGuiWindowFlags.NoBackground | ImGuiWindowFlags.MenuBar);
 
             ImGui.BeginMenuBar();
@@ -51,7 +50,8 @@ namespace EduEngine.Editor
 
                 ImGui.Spacing();
 
-                ImGui.Checkbox("Debug Draw", ref _debugDraw);
+                if (ImGui.Checkbox("Debug Draw", ref _debugDraw))
+                    _editorCamera.DebugDraw = _debugDraw;
             }
             else if (EngineStateManager.CurrentState == EngineState.Runtime)
             {

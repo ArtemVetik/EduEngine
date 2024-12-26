@@ -23,17 +23,18 @@ namespace EduEngine
 
 		void Update(Vector3 look, Vector3 right, Vector3 up, Vector3 pos);
 		void Render();
-		void DebugRender();
 		void DrawFrustrum();
 
 		void SetProjectionMatrix(float fov, float nearView, float farView);
 		void SetViewport(Vector4 viewport);
 		void SetBackgroundColor(Vector4 color);
+		void SetDebugRenderEnable(bool value);
 
 		Matrix4x4 GetView();
 		Matrix4x4 GetProjection();
 		Vector4 GetViewport();
 		Vector4 GetBackgroundColor();
+		bool IsDebugRenderEnabled();
 
 		float GetFov();
 		float GetNear();

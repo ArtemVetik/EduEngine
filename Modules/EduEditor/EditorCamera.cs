@@ -16,6 +16,11 @@ namespace EduEngine.Editor
 
         private NativeCameraWrapper _nativeCamera;
 
+        public bool DebugDraw
+        {
+            get => _nativeCamera.IsDebugRenderEnabled();
+            set => _nativeCamera.SetDebugRenderEnable(value);
+        }
         public Vector3 Forward => Vector3.Transform(Vector3.UnitZ, _rotation);
         public Vector3 Right => Vector3.Transform(Vector3.UnitX, _rotation);
         public Vector3 Up => Vector3.Transform(Vector3.UnitY, _rotation);
@@ -30,6 +35,7 @@ namespace EduEngine.Editor
             _targetRotation = _rotation;
 
             _nativeCamera = new NativeCameraWrapper();
+            _nativeCamera.SetDebugRenderEnable(true);
         }
 
         public void Dispose()
@@ -83,11 +89,6 @@ namespace EduEngine.Editor
         public void Render()
         {
             _nativeCamera.Render();
-        }
-
-        public void DebugRender()
-        {
-            _nativeCamera.DebugRender();
         }
     }
 }

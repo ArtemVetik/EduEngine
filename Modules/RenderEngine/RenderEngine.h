@@ -5,6 +5,7 @@
 #include "../Graphics/SwapChain.h"
 #include "../Graphics/TextureD3D12.h"
 #include "../Graphics/BufferD3D12.h"
+#include "../Graphics/GBuffer.h"
 #include "DebugRendererSystem.h"
 #include "framework.h"
 #include "IRenderEngine.h"
@@ -51,7 +52,6 @@ namespace EduEngine
 
 		void BeginDraw() override;
 		void Draw(Camera* camera) override;
-		void DebugDraw(Camera* camera) override;
 		void EndDraw() override;
 		void MoveAndResize(UINT x, UINT y, UINT w, UINT h) override;
 
@@ -79,6 +79,11 @@ namespace EduEngine
 		std::unique_ptr<TextureHeapView> m_NullTex;
 
 		std::unique_ptr<OpaquePass> m_OpaquePass;
+		std::unique_ptr<GBufferPass> m_GBufferPass;
+		std::unique_ptr<DeferredLightPass> m_DeferredLightPass;
+		std::unique_ptr<GBuffer> m_GBuffer;
+		std::unique_ptr<IndexBufferD3D12> m_QuadIndexBuff;
+		std::unique_ptr<VertexBufferD3D12> m_QuadVertexBuff;
 		D3D12_VIEWPORT m_Viewport;
 		D3D12_RECT m_ScissorRect;
 

@@ -9,6 +9,7 @@ namespace EduEngine
 		m_FarValue = 1000.0f;
 		m_Viewport = { 0, 0, 1, 1 };
 		m_BackgroundColor = { 0, 0, 0, 1 };
+		m_DebugRenderEnabled = false;
 
 		XMVECTOR pos = XMVectorSet(0.0f, 10.0f, -20.0f, 0.0f);
 		XMVECTOR dir = XMVectorSet(0, 0, 1, 0);
@@ -77,6 +78,11 @@ namespace EduEngine
 	float Camera::GetFov() const
 	{
 		return m_Fov;
+	}
+
+	bool Camera::DebugRenderEnabled() const
+	{
+		return m_DebugRenderEnabled;
 	}
 
 	void Camera::SetProjectionMatrix(UINT newWidth, UINT newHeight)
@@ -156,5 +162,10 @@ namespace EduEngine
 	void Camera::SetBackgroundColor(XMFLOAT4 color)
 	{
 		m_BackgroundColor = color;
+	}
+
+	void Camera::SetDebugRenderEnable(bool value)
+	{
+		m_DebugRenderEnabled = value;
 	}
 }

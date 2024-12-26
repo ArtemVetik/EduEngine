@@ -39,14 +39,6 @@ namespace EduEngine
 		CoreSystems::GetInstance()->GetRenderEngine()->Draw(m_NativeCamera);
 	}
 
-	void NativeCameraWrapper::DebugRender()
-	{
-		if (!m_NativeCamera)
-			return;
-
-		CoreSystems::GetInstance()->GetRenderEngine()->DebugDraw(m_NativeCamera);
-	}
-
 	void NativeCameraWrapper::DrawFrustrum()
 	{
 		if (!m_NativeCamera)
@@ -68,6 +60,11 @@ namespace EduEngine
 	void NativeCameraWrapper::SetBackgroundColor(Vector4 color)
 	{
 		m_NativeCamera->SetBackgroundColor({ color.X,color.Y, color.Z, color.W });
+	}
+
+	void NativeCameraWrapper::SetDebugRenderEnable(bool value)
+	{
+		m_NativeCamera->SetDebugRenderEnable(value);
 	}
 
 	System::Numerics::Matrix4x4 NativeCameraWrapper::GetView()
@@ -102,6 +99,11 @@ namespace EduEngine
 	{
 		auto backgroundColor = m_NativeCamera->GetBackgroundColor();
 		return Vector4(backgroundColor.x, backgroundColor.y, backgroundColor.z, backgroundColor.w);
+	}
+
+	bool NativeCameraWrapper::IsDebugRenderEnabled()
+	{
+		return m_NativeCamera->DebugRenderEnabled();
 	}
 
 	float NativeCameraWrapper::GetFov()

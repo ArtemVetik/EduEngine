@@ -17,6 +17,7 @@ namespace EduEngine
 		void Update(DirectX::XMFLOAT3 look, DirectX::XMFLOAT3 right, DirectX::XMFLOAT3 up, DirectX::XMFLOAT3 pos);
 		void SetViewport(XMFLOAT4 viewport);
 		void SetBackgroundColor(XMFLOAT4 color);
+		void SetDebugRenderEnable(bool value);
 
 		XMFLOAT4X4 GetViewMatrix() const;
 		XMFLOAT4X4 GetProjectionMatrix() const;
@@ -27,6 +28,7 @@ namespace EduEngine
 		float GetNear() const;
 		float GetFar() const;
 		float GetFov() const;
+		bool DebugRenderEnabled() const;
 
 	private:
 		UINT m_ScreenWidth;
@@ -42,5 +44,7 @@ namespace EduEngine
 		float m_FarValue;
 		
 		XMFLOAT3 m_Position;
+
+		bool m_DebugRenderEnabled;
 	};
 }

@@ -145,13 +145,6 @@ namespace EduEngine
 				{ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT,    0, 36, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
 			};
 
-			const DXGI_FORMAT rtvFormats[3] = 
-			{
-				DXGI_FORMAT_R16G16B16A16_FLOAT,
-				DXGI_FORMAT_R16G16B16A16_FLOAT,
-				DXGI_FORMAT_R16G16B16A16_FLOAT,
-			};
-			
 			m_Pso.SetRTVFormats(GBufferCount, RtvFormats);
 			m_Pso.SetInputLayout({ mInputLayout.data(), (UINT)mInputLayout.size() });
 			m_Pso.SetRootSignature(&m_RootSignature);
@@ -279,8 +272,13 @@ namespace EduEngine
 			blendDesc.RenderTarget[0].BlendOpAlpha = D3D12_BLEND_OP_ADD;
 			blendDesc.RenderTarget[0].RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;
 
+			auto dss = CD3DX12_DEPTH_STENCIL_DESC(D3D12_DEFAULT);
+			dss.DepthEnable = true;
+			dss.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ZERO;
+
 			m_Pso.SetPrimitiveTopology(D3D12_PRIMITIVE_TOPOLOGY_TYPE_LINE);
 			m_Pso.SetBlendState(blendDesc);
+			m_Pso.SetDepthStencilState(dss);
 			m_Pso.SetInputLayout({ mInputLayout.data(), (UINT)mInputLayout.size() });
 			m_Pso.SetRootSignature(&m_RootSignature);
 			m_Pso.SetShader(&m_VertexShader);

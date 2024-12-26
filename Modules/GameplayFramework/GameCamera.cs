@@ -28,6 +28,7 @@ namespace EduEngine
             _camera.SetProjectionMatrix(_fov, _near, _far);
             _camera.SetViewport(_viewport);
             _camera.SetBackgroundColor(_backgroundColor);
+            _camera.SetDebugRenderEnable(_debugDraw);
         }
 
         public override void OnCreate()
@@ -49,9 +50,6 @@ namespace EduEngine
         public override void OnRender()
         {
             _camera?.Render();
-
-            if (_debugDraw)
-                _camera?.DebugRender();
         }
 
         public void Dispose()
