@@ -18,6 +18,7 @@ namespace EduEngine
 		void RenderGeomerty(const RenderObject* renderObject);
 
 		void RenderLights(Camera* camera, const std::vector<std::shared_ptr<Light>>& lights);
+		void RenderToneMapping();
 
 		GBuffer* GetGBuffer() const { return m_GBuffer.get(); }
 
@@ -27,6 +28,7 @@ namespace EduEngine
 
 		std::unique_ptr<GBufferPass> m_GBufferPass;
 		std::unique_ptr<DeferredLightPass> m_DeferredLightPass;
+		std::unique_ptr<ToneMappingPass> m_ToneMappingPass;
 		std::unique_ptr<GBuffer> m_GBuffer;
 		std::unique_ptr<IndexBufferD3D12> m_QuadIndexBuff;
 		std::unique_ptr<VertexBufferD3D12> m_QuadVertexBuff;

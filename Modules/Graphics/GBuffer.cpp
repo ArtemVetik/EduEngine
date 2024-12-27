@@ -2,8 +2,9 @@
 
 namespace EduEngine
 {
-	GBuffer::GBuffer(int count, const DXGI_FORMAT* formats) :
-		m_bufferCount(count)
+	GBuffer::GBuffer(int count, const DXGI_FORMAT* formats, DXGI_FORMAT accumBuffFormat) :
+		m_bufferCount(count),
+		m_AccumBuffFormat(accumBuffFormat)
 	{
 		for (int i = 0; i < count; i++)
 			m_Formats[i] = formats[i];
@@ -13,6 +14,8 @@ namespace EduEngine
 	{
 		for (int i = 0; i < m_bufferCount; i++)
 			m_GBuffers[i].reset();
+
+		m_AccumBuffer.reset();
 
 		D3D12_RESOURCE_DESC resourceDesc;
 		ZeroMemory(&resourceDesc, sizeof(resourceDesc));
@@ -49,7 +52,20 @@ namespace EduEngine
 			m_GBuffers[i] = std::make_unique<TextureD3D12>(device, resourceDesc, &clearVal, QueueID::Direct);
 			m_GBuffers[i]->CreateRTVView(nullptr, true);
 			m_GBuffers[i]->CreateSRVView(&gBuffDescSRV, false);
+
+			wchar_t bufferName[16];
+			swprintf(bufferName, 16, L"GBuffer-%d", i);
+			m_GBuffers[i]->SetName(bufferName);
 		}
+
+		resourceDesc.Format = m_AccumBuffFormat;
+		clearVal.Format = m_AccumBuffFormat;
+		gBuffDescSRV.Format = m_AccumBuffFormat;
+
+		m_AccumBuffer = std::make_unique<TextureD3D12>(device, resourceDesc, &clearVal, QueueID::Direct);
+		m_AccumBuffer->CreateSRVView(&gBuffDescSRV, false);
+		m_AccumBuffer->CreateRTVView(nullptr, true);
+		m_AccumBuffer->SetName(L"AccumulationBuffer");
 	}
 
 	ID3D12Resource* GBuffer::GetGBuffer(int index) const
@@ -65,5 +81,20 @@ namespace EduEngine
 	D3D12_GPU_DESCRIPTOR_HANDLE GBuffer::GetGBufferSRVView(int index) const
 	{
 		return m_GBuffers[index]->GetView(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV)->GetGpuHandle();
+	}
+
+	ID3D12Resource* GBuffer::GetAccumBuffer() const
+	{
+		return m_AccumBuffer->GetD3D12Resource();
+	}
+
+	D3D12_CPU_DESCRIPTOR_HANDLE GBuffer::GetAccumBuffRTVView() const
+	{
+		return m_AccumBuffer->GetView(D3D12_DESCRIPTOR_HEAP_TYPE_RTV)->GetCpuHandle();
+	}
+
+	D3D12_GPU_DESCRIPTOR_HANDLE GBuffer::GetAccumBuffSRVView() const
+	{
+		return m_AccumBuffer->GetView(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV)->GetGpuHandle();
 	}
 }

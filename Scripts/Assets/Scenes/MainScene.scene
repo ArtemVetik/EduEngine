@@ -22,8 +22,8 @@
       "Name": "Camera",
       "Parent": -1,
       "Components": [
-        8,
-        9
+        9,
+        10
       ]
     },
     {
@@ -48,8 +48,8 @@
       "Name": "Root",
       "Parent": -1,
       "Components": [
-        10,
-        11
+        11,
+        12
       ]
     },
     {
@@ -74,7 +74,7 @@
       "Name": "Mesh",
       "Parent": -1,
       "Components": [
-        12
+        13
       ]
     },
     {
@@ -96,10 +96,10 @@
         "Y": 0.9999513,
         "Z": 0.9999513
       },
-      "Name": "Directional Light",
+      "Name": "Red SpotLight",
       "Parent": -1,
       "Components": [
-        13
+        14
       ]
     },
     {
@@ -147,7 +147,7 @@
       "Name": "BBB",
       "Parent": 4,
       "Components": [
-        14
+        15
       ]
     },
     {
@@ -172,7 +172,7 @@
       "Name": "CCC",
       "Parent": 5,
       "Components": [
-        15
+        16
       ]
     },
     {
@@ -197,25 +197,63 @@
       "Name": "Ground",
       "Parent": -1,
       "Components": [
-        16,
         17,
-        18
+        18,
+        19
+      ]
+    },
+    {
+      "FileId": 8,
+      "LocalPosition": {
+        "X": 9.009095,
+        "Y": 34.71182,
+        "Z": -1.7389041
+      },
+      "LocalRotation": {
+        "X": 0.6362326,
+        "Y": -0.21293177,
+        "Z": -0.1889281,
+        "W": 0.7170595,
+        "IsIdentity": false
+      },
+      "LocalScale": {
+        "X": 1.0000001,
+        "Y": 1.0000006,
+        "Z": 1.0
+      },
+      "Name": "Green SpotLight",
+      "Parent": -1,
+      "Components": [
+        20
       ]
     }
   ],
   "Components": [
     {
       "Type": "EduEngine.GameCamera",
-      "FileId": 8,
+      "FileId": 9,
       "Parameters": {
         "_fov": 55.0,
         "_near": 0.3,
-        "_far": 100.0
+        "_far": 100.0,
+        "_backgroundColor": {
+          "X": 0.0,
+          "Y": 0.0,
+          "Z": 0.0,
+          "W": 1.0
+        },
+        "_viewport": {
+          "X": 0.0,
+          "Y": 0.0,
+          "Z": 1.0,
+          "W": 1.0
+        },
+        "_debugDraw": false
       }
     },
     {
       "Type": "Script",
-      "FileId": 9,
+      "FileId": 10,
       "Parameters": {
         "_moveSpeed": 20.0,
         "_moveStrength": 8.0,
@@ -225,14 +263,14 @@
     },
     {
       "Type": "Script",
-      "FileId": 10,
+      "FileId": 11,
       "Parameters": {
         "script_guid": "ebbef268-ed62-4e62-b162-2b38d58c8c2d"
       }
     },
     {
       "Type": "Script",
-      "FileId": 11,
+      "FileId": 12,
       "Parameters": {
         "_moveSpeed": 20.0,
         "_moveStrength": 8.0,
@@ -242,7 +280,7 @@
     },
     {
       "Type": "EduEngine.Renderer",
-      "FileId": 12,
+      "FileId": 13,
       "Parameters": {
         "_mesh": "1ba135a0-3118-4431-9ae0-52867b1dc240",
         "_material": "2e92a9cb-080d-4562-8a1b-e732d688b401"
@@ -250,7 +288,7 @@
     },
     {
       "Type": "EduEngine.Light",
-      "FileId": 13,
+      "FileId": 14,
       "Parameters": {
         "_type": 2,
         "_color": {
@@ -258,18 +296,10 @@
           "Y": 0.0,
           "Z": 0.0
         },
-        "_power": 2.0,
+        "_power": 100.0,
         "_falloffStart": 0.0,
         "_falloffEnd": 20.0,
         "_spotPower": 8.0
-      }
-    },
-    {
-      "Type": "EduEngine.Renderer",
-      "FileId": 14,
-      "Parameters": {
-        "_mesh": "1ba135a0-3118-4431-9ae0-52867b1dc240",
-        "_material": "2e92a9cb-080d-4562-8a1b-e732d688b401"
       }
     },
     {
@@ -281,8 +311,16 @@
       }
     },
     {
-      "Type": "EduEngine.BoxCollider",
+      "Type": "EduEngine.Renderer",
       "FileId": 16,
+      "Parameters": {
+        "_mesh": "1ba135a0-3118-4431-9ae0-52867b1dc240",
+        "_material": "2e92a9cb-080d-4562-8a1b-e732d688b401"
+      }
+    },
+    {
+      "Type": "EduEngine.BoxCollider",
+      "FileId": 17,
       "Parameters": {
         "_width": 25.0,
         "_height": 3.0,
@@ -292,16 +330,32 @@
     },
     {
       "Type": "EduEngine.RigidBody",
-      "FileId": 17,
+      "FileId": 18,
       "Parameters": {
         "_isStatic": true
       }
     },
     {
       "Type": "Script",
-      "FileId": 18,
+      "FileId": 19,
       "Parameters": {
         "script_guid": "f91b06c2-59b2-45c8-862c-3e93bacac26e"
+      }
+    },
+    {
+      "Type": "EduEngine.Light",
+      "FileId": 20,
+      "Parameters": {
+        "_type": 2,
+        "_color": {
+          "X": 0.0,
+          "Y": 1.0,
+          "Z": 0.2352941
+        },
+        "_power": 30.0,
+        "_falloffStart": 0.0,
+        "_falloffEnd": 30.0,
+        "_spotPower": 0.0
       }
     }
   ]

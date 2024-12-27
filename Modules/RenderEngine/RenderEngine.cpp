@@ -179,6 +179,9 @@ namespace EduEngine
 		auto& commandContext = m_Device->GetCommandContext(D3D12_COMMAND_LIST_TYPE_DIRECT);
 		commandContext.Reset();
 
+		commandContext.ResourceBarrier(CD3DX12_RESOURCE_BARRIER::Transition(m_SwapChain->CurrentBackBuffer(),
+			D3D12_RESOURCE_STATE_PRESENT, D3D12_RESOURCE_STATE_RENDER_TARGET));
+
 		ID3D12DescriptorHeap* descriptorHeaps[] = { m_Device->GetD3D12DescriptorHeap() };
 		commandContext.GetCmdList()->SetDescriptorHeaps(_countof(descriptorHeaps), descriptorHeaps);
 	}
@@ -209,16 +212,21 @@ namespace EduEngine
 
 		commandContext.ResourceBarrier(CD3DX12_RESOURCE_BARRIER::Transition(m_SwapChain->GetDepthStencilBuffer(),
 			D3D12_RESOURCE_STATE_DEPTH_WRITE, D3D12_RESOURCE_STATE_GENERIC_READ));
-		commandContext.ResourceBarrier(CD3DX12_RESOURCE_BARRIER::Transition(m_SwapChain->CurrentBackBuffer(),
-			D3D12_RESOURCE_STATE_PRESENT, D3D12_RESOURCE_STATE_RENDER_TARGET));
 		commandContext.FlushResourceBarriers();
 
 		m_DeferredRendering->RenderLights(camera, m_Lights);
 
+		commandContext.ResourceBarrier(CD3DX12_RESOURCE_BARRIER::Transition(m_DeferredRendering->GetGBuffer()->GetAccumBuffer(),
+			D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_GENERIC_READ));
+		commandContext.FlushResourceBarriers();
+		
+		m_DeferredRendering->RenderToneMapping();
+
 		for (int i = 0; i < GBufferPass::GBufferCount; i++)
 			commandContext.ResourceBarrier(CD3DX12_RESOURCE_BARRIER::Transition(m_DeferredRendering->GetGBuffer()->GetGBuffer(i),
 				D3D12_RESOURCE_STATE_GENERIC_READ, D3D12_RESOURCE_STATE_RENDER_TARGET));
-
+		commandContext.ResourceBarrier(CD3DX12_RESOURCE_BARRIER::Transition(m_DeferredRendering->GetGBuffer()->GetAccumBuffer(),
+			D3D12_RESOURCE_STATE_GENERIC_READ, D3D12_RESOURCE_STATE_RENDER_TARGET));
 		commandContext.ResourceBarrier(CD3DX12_RESOURCE_BARRIER::Transition(m_SwapChain->GetDepthStencilBuffer(),
 			D3D12_RESOURCE_STATE_GENERIC_READ, D3D12_RESOURCE_STATE_DEPTH_WRITE));
 

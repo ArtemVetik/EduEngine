@@ -25,6 +25,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance,
 	AllocWinConsole();
 #endif
 
+#if 0
 	std::wstring folderPath = OpenFolderDialog();
 	if (folderPath.empty())
 		return 0;
@@ -32,6 +33,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance,
 	std::wstring dllPath = OpenFolderDialog(false);
 	if (dllPath.empty())
 		return 0;
+#else
+	std::wstring folderPath = L"C:\\Users\\artem\\Downloads\\EduEngine\\Scripts\\Assets";
+	std::wstring dllPath = L"C:\\Users\\artem\\Downloads\\EduEngine\\Scripts\\bin\\Debug\\net8.0-windows7.0\\Scripts.dll";
+#endif
 
 	GeometryGenerator geoGen;
 

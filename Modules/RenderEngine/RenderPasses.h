@@ -173,6 +173,8 @@ namespace EduEngine
 			DirectX::XMFLOAT4 AmbientLight = { 0.25f, 0.25f, 0.35f, 1.0f };
 		};
 
+		static constexpr DXGI_FORMAT AccumBuffFormat = DXGI_FORMAT_R16G16B16A16_FLOAT;
+
 	private:
 		ShaderD3D12 m_VertexShader;
 		ShaderD3D12 m_PixelShader;
@@ -205,6 +207,51 @@ namespace EduEngine
 			m_RootSignature.AddDescriptorParameter(1, &lights); // lights
 
 			m_RootSignature.AddConstantBufferView(0); // pass constants
+
+			m_RootSignature.Build(device);
+
+			std::vector<D3D12_INPUT_ELEMENT_DESC> mInputLayout =
+			{
+				{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0,  D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
+				{ "NORMAL",   0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
+				{ "TANGENT",  0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 24, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
+				{ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT,    0, 36, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
+			};
+
+			auto dss = CD3DX12_DEPTH_STENCIL_DESC(D3D12_DEFAULT);
+			dss.DepthEnable = false;
+
+			DXGI_FORMAT rtvFormats[1] = { AccumBuffFormat };
+
+			m_Pso.SetInputLayout({ mInputLayout.data(), (UINT)mInputLayout.size() });
+			m_Pso.SetRootSignature(&m_RootSignature);
+			m_Pso.SetDepthStencilState(dss);
+			m_Pso.SetRTVFormats(1, rtvFormats);
+			m_Pso.SetShader(&m_VertexShader);
+			m_Pso.SetShader(&m_PixelShader);
+			m_Pso.Build(device);
+		}
+
+		ID3D12RootSignature* GetD3D12RootSignature() const { return m_RootSignature.GetD3D12RootSignature(); }
+		ID3D12PipelineState* GetD3D12PipelineState() const { return m_Pso.GetD3D12PipelineState(); }
+	};
+
+	class ToneMappingPass
+	{
+	private:
+		ShaderD3D12 m_VertexShader;
+		ShaderD3D12 m_PixelShader;
+		RootSignatureD3D12 m_RootSignature;
+		PipelineStateD3D12 m_Pso;
+
+	public:
+		ToneMappingPass(const RenderDeviceD3D12* device) :
+			m_VertexShader(L"Shaders/ToneMapping.hlsl", EDU_SHADER_TYPE_VERTEX, nullptr, "VS", "vs_5_1"),
+			m_PixelShader(L"Shaders/ToneMapping.hlsl", EDU_SHADER_TYPE_PIXEL, nullptr, "PS", "ps_5_1")
+		{
+			CD3DX12_DESCRIPTOR_RANGE accumTex;
+			accumTex.Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 0);
+			m_RootSignature.AddDescriptorParameter(1, &accumTex); // accumulation buffer
 
 			m_RootSignature.Build(device);
 
