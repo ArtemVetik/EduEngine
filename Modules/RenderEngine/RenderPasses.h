@@ -106,7 +106,7 @@ namespace EduEngine
 		static constexpr DXGI_FORMAT RtvFormats[GBufferCount] =
 		{
 			DXGI_FORMAT_R8G8B8A8_UNORM_SRGB,
-			DXGI_FORMAT_R8G8B8A8_UNORM,
+			DXGI_FORMAT_R8G8B8A8_SNORM,
 			DXGI_FORMAT_R8G8B8A8_UNORM_SRGB,
 		};
 
@@ -169,6 +169,7 @@ namespace EduEngine
 			UINT PointLightsCount = 0;
 			UINT SpotLightsCount = 0;
 			DirectX::XMFLOAT2 Padding;
+			DirectX::XMFLOAT4 ClearColor;
 			DirectX::XMFLOAT4 AmbientLight = { 0.25f, 0.25f, 0.35f, 1.0f };
 		};
 

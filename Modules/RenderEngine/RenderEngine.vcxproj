@@ -155,6 +155,7 @@
     <ClInclude Include="EditorRenderEngine.h" />
     <ClInclude Include="EditorWindow.h" />
     <ClInclude Include="framework.h" />
+    <ClInclude Include="DeferredRendering.h" />
     <ClInclude Include="GeometryGenerator.h" />
     <ClInclude Include="IDebugRendererSystem.h" />
     <ClInclude Include="ImGuiD3D12Impl.h" />
@@ -185,6 +186,7 @@
     <ClCompile Include="EditorMeshPreviewD3D12.cpp" />
     <ClCompile Include="EditorRenderEngine.cpp" />
     <ClCompile Include="EditorWindow.cpp" />
+    <ClCompile Include="DeferredRendering.cpp" />
     <ClCompile Include="GeometryGenerator.cpp" />
     <ClCompile Include="ImGuiD3D12Impl.cpp" />
     <ClCompile Include="IRenderEngine.cpp" />

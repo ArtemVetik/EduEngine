@@ -23,6 +23,7 @@ cbuffer cbPass : register(b0)
     uint gPointLightsCount;
     uint gSpotLightsCount;
     float2 gPadding;
+    float4 gClearColor;
     float4 gAmbientLight;
 };
 
@@ -52,10 +53,14 @@ VertexOut VS(VertexIn vIn)
 [earlydepthstencil]
 float4 PS(VertexOut pIn) : SV_TARGET
 {
+    float z = gDepthTexture.Sample(gsamPointWrap, pIn.TexC).r;
+    
+    if (z >= 1.0f)
+        return gClearColor;
+    
     float4 diffuseAlbedo = gAlbedoTexture.Sample(gsamPointWrap, pIn.TexC);
     float4 normal = gNormalTexture.Sample(gsamPointWrap, pIn.TexC);
     float4 material = gMaterialTexture.Sample(gsamPointWrap, pIn.TexC);
-    float z = gDepthTexture.Sample(gsamPointWrap, pIn.TexC).r;
 	
     float4 clipSpacePosition = float4(pIn.TexC * 2 - 1, z, 1);
     clipSpacePosition.y *= -1.0f;

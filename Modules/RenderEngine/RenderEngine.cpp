@@ -13,41 +13,6 @@ namespace EduEngine
 		return m_Instance;
 	}
 
-	Camera* RenderEngine::CreateCamera()
-	{
-		auto camera = std::make_shared<Camera>(m_SwapChain->GetWidth(), m_SwapChain->GetHeight());
-		m_Cameras.emplace_back(camera);
-		return camera.get();
-	}
-
-	void RenderEngine::RemoveCamera(Camera* camera)
-	{
-		m_Cameras.erase(std::remove_if(m_Cameras.begin(), m_Cameras.end(),
-			[&camera](const std::shared_ptr<Camera>& ptr) {
-				return ptr.get() == camera;
-			}),
-			m_Cameras.end());
-	}
-
-	Light* RenderEngine::CreateLight()
-	{
-		auto light = std::make_shared<Light>();
-		light->Strength = { 0.6f, 0.6f, 0.6f };
-		light->Direction = { 0.0f, -1.0f, 0.0f };
-
-		m_Lights.emplace_back(light);
-		return light.get();
-	}
-
-	void RenderEngine::RemoveLight(Light* light)
-	{
-		m_Lights.erase(std::remove_if(m_Lights.begin(), m_Lights.end(),
-			[&light](const std::shared_ptr <Light>& ptr) {
-				return ptr.get() == light;
-			}),
-			m_Lights.end());
-	}
-
 	RenderEngine::RenderEngine() :
 		m_Viewport{},
 		m_ScissorRect{}
@@ -76,34 +41,15 @@ namespace EduEngine
 
 		m_SwapChain = std::make_unique<SwapChain>(m_Device.get(),
 			mainWindow.GetClientWidth(), mainWindow.GetClientHeight(), mainWindow.GetMainWindow());
-		m_GBuffer = std::make_unique<GBuffer>(GBufferPass::GBufferCount, GBufferPass::RtvFormats);
+		m_DeferredRendering = std::make_unique<DeferredRendering>(m_Device.get(), m_SwapChain.get());
 
 		Resize(mainWindow.GetClientWidth(), mainWindow.GetClientHeight());
 
 		m_OpaquePass = std::make_unique<OpaquePass>(m_Device.get());
-		m_GBufferPass = std::make_unique<GBufferPass>(m_Device.get());
-		m_DeferredLightPass = std::make_unique<DeferredLightPass>(m_Device.get());
-
 		m_DebugRenderer = std::make_shared<DebugRendererSystem>(m_Device.get());
 
 		m_Device->GetCommandContext(D3D12_COMMAND_LIST_TYPE_DIRECT).Reset();
-
-		D3D12_SHADER_RESOURCE_VIEW_DESC nullSrvDesc = {};
-		nullSrvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
-		nullSrvDesc.Format = DXGI_FORMAT_R8G8B8A8_UINT;
-		nullSrvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
-
-		auto gpuAlloc = m_Device->AllocateGPUDescriptor(QueueID::Direct, D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV, 1);
-		m_Device->GetD3D12Device()->CreateShaderResourceView(nullptr, &nullSrvDesc, gpuAlloc.GetCpuHandle());
-		m_NullTex = std::make_unique<TextureHeapView>(std::move(gpuAlloc), false);
-
-		GeometryGenerator geoGen;
-		NativeMeshData quad = geoGen.CreateQuad(-1, 1, 2, 2, 0);
-
-		m_QuadVertexBuff = std::make_unique<VertexBufferD3D12>(m_Device.get(), quad.Vertices.data(),
-			sizeof(NativeVertex), (UINT)quad.Vertices.size());
-		m_QuadIndexBuff = std::make_unique<IndexBufferD3D12>(m_Device.get(), quad.GetIndices16().data(),
-			sizeof(uint16), (UINT)quad.GetIndices16().size(), DXGI_FORMAT_R16_UINT);
+		m_DeferredRendering->InitResources();
 
 		return true;
 	}
@@ -186,6 +132,41 @@ namespace EduEngine
 			m_Materials.end());
 	}
 
+	Camera* RenderEngine::CreateCamera()
+	{
+		auto camera = std::make_shared<Camera>(m_SwapChain->GetWidth(), m_SwapChain->GetHeight());
+		m_Cameras.emplace_back(camera);
+		return camera.get();
+	}
+
+	void RenderEngine::RemoveCamera(Camera* camera)
+	{
+		m_Cameras.erase(std::remove_if(m_Cameras.begin(), m_Cameras.end(),
+			[&camera](const std::shared_ptr<Camera>& ptr) {
+				return ptr.get() == camera;
+			}),
+			m_Cameras.end());
+	}
+
+	Light* RenderEngine::CreateLight()
+	{
+		auto light = std::make_shared<Light>();
+		light->Strength = { 0.6f, 0.6f, 0.6f };
+		light->Direction = { 0.0f, -1.0f, 0.0f };
+
+		m_Lights.emplace_back(light);
+		return light.get();
+	}
+
+	void RenderEngine::RemoveLight(Light* light)
+	{
+		m_Lights.erase(std::remove_if(m_Lights.begin(), m_Lights.end(),
+			[&light](const std::shared_ptr <Light>& ptr) {
+				return ptr.get() == light;
+			}),
+			m_Lights.end());
+	}
+
 	void RenderEngine::BeginDraw()
 	{
 		if (m_PendingResize != EmptyResize)
@@ -196,18 +177,7 @@ namespace EduEngine
 		}
 
 		auto& commandContext = m_Device->GetCommandContext(D3D12_COMMAND_LIST_TYPE_DIRECT);
-
 		commandContext.Reset();
-
-		commandContext.ResourceBarrier(CD3DX12_RESOURCE_BARRIER::Transition(m_SwapChain->CurrentBackBuffer(),
-			D3D12_RESOURCE_STATE_PRESENT, D3D12_RESOURCE_STATE_RENDER_TARGET));
-		commandContext.FlushResourceBarriers();
-
-		D3D12_CPU_DESCRIPTOR_HANDLE gBuffViews[8];
-		for (int i = 0; i < GBufferPass::GBufferCount; i++)
-			gBuffViews[i] = m_GBuffer->GetGBufferRTVView(i);
-
-		commandContext.SetRenderTargets(GBufferPass::GBufferCount, gBuffViews, true, &(m_SwapChain->DepthStencilView()));
 
 		ID3D12DescriptorHeap* descriptorHeaps[] = { m_Device->GetD3D12DescriptorHeap() };
 		commandContext.GetCmdList()->SetDescriptorHeaps(_countof(descriptorHeaps), descriptorHeaps);
@@ -217,160 +187,38 @@ namespace EduEngine
 	{
 		auto& commandContext = m_Device->GetCommandContext(D3D12_COMMAND_LIST_TYPE_DIRECT);
 
-		commandContext.SetViewports(&m_Viewport, 1);
-		commandContext.SetScissorRects(&m_ScissorRect, 1);
-
-		auto camViewport = camera->GetViewport();
-		D3D12_RECT rect[1] =
+		D3D12_RECT scissorRect[1] =
 		{
-			m_Viewport.TopLeftX + m_Viewport.Width * camViewport.x,
-			m_Viewport.TopLeftY + m_Viewport.Height * camViewport.y,
-			m_Viewport.Width * camViewport.z,
-			m_Viewport.Height * camViewport.w
+			m_Viewport.TopLeftX + m_Viewport.Width * camera->GetViewport().x,
+			m_Viewport.TopLeftY + m_Viewport.Height * camera->GetViewport().y,
+			m_Viewport.Width * camera->GetViewport().z,
+			m_Viewport.Height * camera->GetViewport().w
 		};
 
-		const FLOAT* fillColor = reinterpret_cast<const FLOAT*>(&camera->GetBackgroundColor());;
-		commandContext.GetCmdList()->ClearRenderTargetView(m_SwapChain->CurrentBackBufferView(), fillColor, 1, rect);
-		commandContext.GetCmdList()->ClearDepthStencilView(m_SwapChain->DepthStencilView(), D3D12_CLEAR_FLAG_DEPTH | D3D12_CLEAR_FLAG_STENCIL, 1.0f, 0, 1, rect);
+		commandContext.SetViewports(&m_Viewport, 1);
+		commandContext.SetScissorRects(scissorRect, 1);
 
-		for (int i = 0; i < GBufferPass::GBufferCount; i++)
-			commandContext.GetCmdList()->ClearRenderTargetView(m_GBuffer->GetGBufferRTVView(i), DirectX::Colors::Black, 1, rect);
-
-		commandContext.GetCmdList()->SetPipelineState(m_GBufferPass->GetD3D12PipelineState());
-		commandContext.GetCmdList()->SetGraphicsRootSignature(m_GBufferPass->GetD3D12RootSignature());
-
-		GBufferPass::PassConstants passConstants = {};
-		XMStoreFloat4x4(&passConstants.ViewProj, XMMatrixTranspose(camera->GetViewProjMatrix()));
-
-		DynamicUploadBuffer passUploadBuffer(m_Device.get(), QueueID::Direct);
-		passUploadBuffer.LoadData(passConstants);
-
-		commandContext.GetCmdList()->SetGraphicsRootConstantBufferView(3, passUploadBuffer.GetAllocation().GPUAddress);
+		m_DeferredRendering->PrepareRenderGeometry(camera, scissorRect);
 
 		for (int i = 0; i < m_RenderObjects.size(); i++)
-		{
-			auto renderObject = m_RenderObjects[i];
-
-			if (renderObject->GetVertexBuffer() == nullptr ||
-				renderObject->GetIndexBuffer() == nullptr ||
-				renderObject->GetMaterial() == nullptr)
-				continue;
-
-			GBufferPass::ObjectConstants objConstants;
-			objConstants.World = renderObject->WorldMatrix.Transpose();
-
-			DynamicUploadBuffer objUploadBuffer(m_Device.get(), QueueID::Direct);
-			objUploadBuffer.LoadData(objConstants);
-			objUploadBuffer.CreateCBV();
-
-			GBufferPass::MaterialConstants matConstants = {};
-			matConstants.DiffuseAlbedo = renderObject->GetMaterial()->DiffuseAlbedo;
-			matConstants.FresnelR0 = renderObject->GetMaterial()->FresnelR0;
-			matConstants.Roughness = renderObject->GetMaterial()->Roughness;
-
-			DynamicUploadBuffer matUploadBuffer(m_Device.get(), QueueID::Direct);
-			matUploadBuffer.LoadData(matConstants);
-			matUploadBuffer.CreateCBV();
-
-			commandContext.GetCmdList()->IASetVertexBuffers(0, 1, &(renderObject->GetVertexBuffer()->GetView()));
-			commandContext.GetCmdList()->IASetIndexBuffer(&(renderObject->GetIndexBuffer()->GetView()));
-			commandContext.GetCmdList()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-
-			commandContext.GetCmdList()->SetGraphicsRootDescriptorTable(0, objUploadBuffer.GetCBVDescriptorGPUHandle());
-			commandContext.GetCmdList()->SetGraphicsRootDescriptorTable(1, matUploadBuffer.GetCBVDescriptorGPUHandle());
-
-			if (renderObject->GetMaterial() && renderObject->GetMaterial()->GetMainTexture())
-			{
-				D3D12_GPU_DESCRIPTOR_HANDLE texDesc;
-				texDesc.ptr = reinterpret_cast<UINT64>(renderObject->GetMaterial()->GetMainTexture()->GetGPUPtr());
-				commandContext.GetCmdList()->SetGraphicsRootDescriptorTable(2, texDesc);
-			}
-			else
-			{
-				commandContext.GetCmdList()->SetGraphicsRootDescriptorTable(2, m_NullTex->GetGpuHandle());
-			}
-
-			commandContext.GetCmdList()->DrawIndexedInstanced(renderObject->GetIndexBuffer()->GetLength(), 1, 0, 0, 0);
-		}
+			m_DeferredRendering->RenderGeomerty(m_RenderObjects[i].get());
 
 		for (int i = 0; i < GBufferPass::GBufferCount; i++)
-		{
-			commandContext.ResourceBarrier(CD3DX12_RESOURCE_BARRIER::Transition(m_GBuffer->GetGBuffer(i),
+			commandContext.ResourceBarrier(CD3DX12_RESOURCE_BARRIER::Transition(m_DeferredRendering->GetGBuffer()->GetGBuffer(i),
 				D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_GENERIC_READ));
-		}
+
 		commandContext.ResourceBarrier(CD3DX12_RESOURCE_BARRIER::Transition(m_SwapChain->GetDepthStencilBuffer(),
 			D3D12_RESOURCE_STATE_DEPTH_WRITE, D3D12_RESOURCE_STATE_GENERIC_READ));
-
+		commandContext.ResourceBarrier(CD3DX12_RESOURCE_BARRIER::Transition(m_SwapChain->CurrentBackBuffer(),
+			D3D12_RESOURCE_STATE_PRESENT, D3D12_RESOURCE_STATE_RENDER_TARGET));
 		commandContext.FlushResourceBarriers();
 
-		commandContext.SetRenderTargets(1, &(m_SwapChain->CurrentBackBufferView()), true, nullptr);
-
-		commandContext.GetCmdList()->SetPipelineState(m_DeferredLightPass->GetD3D12PipelineState());
-		commandContext.GetCmdList()->SetGraphicsRootSignature(m_DeferredLightPass->GetD3D12RootSignature());
-
-		commandContext.GetCmdList()->IASetVertexBuffers(0, 1, &(m_QuadVertexBuff->GetView()));
-		commandContext.GetCmdList()->IASetIndexBuffer(&(m_QuadIndexBuff->GetView()));
-		commandContext.GetCmdList()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-
-		commandContext.GetCmdList()->SetGraphicsRootDescriptorTable(0, m_GBuffer->GetGBufferSRVView(0));
-		commandContext.GetCmdList()->SetGraphicsRootDescriptorTable(1, m_GBuffer->GetGBufferSRVView(1));
-		commandContext.GetCmdList()->SetGraphicsRootDescriptorTable(2, m_GBuffer->GetGBufferSRVView(2));
-		commandContext.GetCmdList()->SetGraphicsRootDescriptorTable(3, m_SwapChain->DepthStencilSRVView());
-
-		DeferredLightPass::PassConstants lightPassConstants = {};
-		auto projInv = XMMatrixInverse(nullptr, (XMLoadFloat4x4(&camera->GetProjectionMatrix())));
-		auto viewInv = XMMatrixInverse(nullptr, (XMLoadFloat4x4(&camera->GetViewMatrix())));
-
-		XMStoreFloat4x4(&lightPassConstants.ProjInv, projInv);
-		XMStoreFloat4x4(&lightPassConstants.ViewInv, viewInv);
-
-		lightPassConstants.EyePosW = camera->GetPosition();
-
-		for (size_t i = 0; i < m_Lights.size(); i++)
-		{
-			if (m_Lights[i]->LightType == Light::Type::Directional)
-				lightPassConstants.DirectionalLightsCount++;
-			if (m_Lights[i]->LightType == Light::Type::Point)
-				lightPassConstants.PointLightsCount++;
-			if (m_Lights[i]->LightType == Light::Type::Spotlight)
-				lightPassConstants.SpotLightsCount++;
-		}
-
-		DynamicUploadBuffer lightPassUploadBuffer(m_Device.get(), QueueID::Direct);
-		lightPassUploadBuffer.LoadData(lightPassConstants);
-
-		if (m_Lights.size() > 0)
-		{
-			DynamicUploadBuffer lightsUploadBuffer(m_Device.get(), QueueID::Direct);
-			lightsUploadBuffer.CreateAllocation(m_Lights.size() * sizeof(Light));
-
-			int dirIdx = 0;
-			int pointIdx = 0;
-			int spotIdx = 0;
-
-			for (size_t i = 0; i < m_Lights.size(); i++)
-			{
-				if (m_Lights[i]->LightType == Light::Type::Directional)
-					lightsUploadBuffer.PutData(dirIdx++, *m_Lights[i].get());
-				if (m_Lights[i]->LightType == Light::Type::Point)
-					lightsUploadBuffer.PutData(lightPassConstants.DirectionalLightsCount + pointIdx++, *m_Lights[i].get());
-				if (m_Lights[i]->LightType == Light::Type::Spotlight)
-					lightsUploadBuffer.PutData(lightPassConstants.DirectionalLightsCount + lightPassConstants.PointLightsCount + spotIdx++, *m_Lights[i].get());
-			}
-
-			lightsUploadBuffer.CreateSRV(m_Lights.size(), sizeof(Light));
-			commandContext.GetCmdList()->SetGraphicsRootDescriptorTable(4, lightsUploadBuffer.GetSRVDescriptorGPUHandle());
-		}
-
-		commandContext.GetCmdList()->SetGraphicsRootConstantBufferView(5, lightPassUploadBuffer.GetAllocation().GPUAddress);
-
-		commandContext.GetCmdList()->DrawIndexedInstanced(6, 1, 0, 0, 0);
+		m_DeferredRendering->RenderLights(camera, m_Lights);
 
 		for (int i = 0; i < GBufferPass::GBufferCount; i++)
-		{
-			commandContext.ResourceBarrier(CD3DX12_RESOURCE_BARRIER::Transition(m_GBuffer->GetGBuffer(i),
+			commandContext.ResourceBarrier(CD3DX12_RESOURCE_BARRIER::Transition(m_DeferredRendering->GetGBuffer()->GetGBuffer(i),
 				D3D12_RESOURCE_STATE_GENERIC_READ, D3D12_RESOURCE_STATE_RENDER_TARGET));
-		}
+
 		commandContext.ResourceBarrier(CD3DX12_RESOURCE_BARRIER::Transition(m_SwapChain->GetDepthStencilBuffer(),
 			D3D12_RESOURCE_STATE_GENERIC_READ, D3D12_RESOURCE_STATE_DEPTH_WRITE));
 
@@ -416,7 +264,7 @@ namespace EduEngine
 		commandContext.Reset();
 
 		m_SwapChain->Resize(w, h);
-		m_GBuffer->Resize(m_Device.get(), w, h);
+		m_DeferredRendering->GetGBuffer()->Resize(m_Device.get(), w, h);
 
 		commandContext.FlushResourceBarriers();
 		commandQueue.CloseAndExecuteCommandContext(&commandContext);

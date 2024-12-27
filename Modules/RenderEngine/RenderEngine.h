@@ -5,7 +5,6 @@
 #include "../Graphics/SwapChain.h"
 #include "../Graphics/TextureD3D12.h"
 #include "../Graphics/BufferD3D12.h"
-#include "../Graphics/GBuffer.h"
 #include "DebugRendererSystem.h"
 #include "framework.h"
 #include "IRenderEngine.h"
@@ -17,6 +16,7 @@
 #include "SharedMeshD3D12Impl.h"
 #include "TextureD3D12Impl.h"
 #include "MaterialD3D12Impl.h"
+#include "DeferredRendering.h"
 
 #pragma comment(lib,"d3dcompiler.lib")
 #pragma comment(lib, "D3D12.lib")
@@ -76,14 +76,10 @@ namespace EduEngine
 		std::vector<std::shared_ptr<MaterialD3D12Impl>> m_Materials;
 		std::vector<std::shared_ptr<Camera>> m_Cameras;
 		std::vector<std::shared_ptr<Light>> m_Lights;
-		std::unique_ptr<TextureHeapView> m_NullTex;
 
 		std::unique_ptr<OpaquePass> m_OpaquePass;
-		std::unique_ptr<GBufferPass> m_GBufferPass;
-		std::unique_ptr<DeferredLightPass> m_DeferredLightPass;
-		std::unique_ptr<GBuffer> m_GBuffer;
-		std::unique_ptr<IndexBufferD3D12> m_QuadIndexBuff;
-		std::unique_ptr<VertexBufferD3D12> m_QuadVertexBuff;
+		std::unique_ptr<DeferredRendering> m_DeferredRendering;
+
 		D3D12_VIEWPORT m_Viewport;
 		D3D12_RECT m_ScissorRect;
 
