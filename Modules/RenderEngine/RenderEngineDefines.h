@@ -17,7 +17,7 @@ namespace EduEngine
 			const DirectX::XMFLOAT2& uv) :
 			Position(p),
 			Normal(n),
-			//TangentU(t),
+			TangentU(t),
 			TexC(uv) {}
 		NativeVertex(
 			float px, float py, float pz,
@@ -32,6 +32,24 @@ namespace EduEngine
 		DirectX::XMFLOAT3 Position;
 		DirectX::XMFLOAT3 Normal;
 		DirectX::XMFLOAT3 TangentU;
+		DirectX::XMFLOAT2 TexC;
+	};
+
+	struct RENDERENGINE_API NativeVertexPU
+	{
+		NativeVertexPU() = default;
+		NativeVertexPU(
+			const DirectX::XMFLOAT3& p,
+			const DirectX::XMFLOAT2& uv) :
+			Position(p),
+			TexC(uv) {}
+		NativeVertexPU(
+			float px, float py, float pz,
+			float u, float v) :
+			Position(px, py, pz),
+			TexC(u, v) {}
+
+		DirectX::XMFLOAT3 Position;
 		DirectX::XMFLOAT2 TexC;
 	};
 
@@ -52,7 +70,20 @@ namespace EduEngine
 			return mIndices16;
 		}
 
+		std::vector<NativeVertexPU>& GetVerticesPU()
+		{
+			if (mVerticesPU.empty())
+			{
+				mVerticesPU.resize(Vertices.size());
+				for (size_t i = 0; i < Vertices.size(); ++i)
+					mVerticesPU[i] = NativeVertexPU(Vertices[i].Position, Vertices[i].TexC);
+			}
+
+			return mVerticesPU;
+		}
+
 	private:
 		std::vector<uint16> mIndices16;
+		std::vector<NativeVertexPU> mVerticesPU;
 	};
 }

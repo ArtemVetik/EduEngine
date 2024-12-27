@@ -20,8 +20,8 @@ namespace EduEngine
 		GeometryGenerator geoGen;
 		NativeMeshData quad = geoGen.CreateQuad(-1, 1, 2, 2, 0);
 
-		m_QuadVertexBuff = std::make_unique<VertexBufferD3D12>(m_Device, quad.Vertices.data(),
-			sizeof(NativeVertex), (UINT)quad.Vertices.size());
+		m_QuadVertexBuff = std::make_unique<VertexBufferD3D12>(m_Device, quad.GetVerticesPU().data(),
+			sizeof(NativeVertexPU), (UINT)quad.GetVerticesPU().size());
 		m_QuadIndexBuff = std::make_unique<IndexBufferD3D12>(m_Device, quad.GetIndices16().data(),
 			sizeof(uint16), (UINT)quad.GetIndices16().size(), DXGI_FORMAT_R16_UINT);
 

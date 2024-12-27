@@ -11,8 +11,6 @@ SamplerComparisonState gsamShadow : register(s6);
 struct VertexIn
 {
     float3 PosL : POSITION;
-    float3 NormalL : NORMAL;
-    float3 TangentU : TANGENT;
     float2 TexC : TEXCOORD;
 };
 
