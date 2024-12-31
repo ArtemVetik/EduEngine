@@ -49,6 +49,7 @@ namespace EduEngine
 
 	void NativeCameraWrapper::SetProjectionMatrix(float fov, float nearView, float farView)
 	{
+		fov = fov * 3.14f / 180.0f;
 		m_NativeCamera->SetProjectionMatrix(&fov, &nearView, &farView);
 	}
 
@@ -108,7 +109,7 @@ namespace EduEngine
 
 	float NativeCameraWrapper::GetFov()
 	{
-		return m_NativeCamera->GetFov();
+		return m_NativeCamera->GetFovY();
 	}
 
 	float NativeCameraWrapper::GetNear()

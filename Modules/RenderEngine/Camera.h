@@ -27,14 +27,16 @@ namespace EduEngine
 		XMFLOAT4 GetBackgroundColor() const;
 		float GetNear() const;
 		float GetFar() const;
-		float GetFov() const;
+		float GetFovY() const;
+		float GetFovX() const;
 		bool DebugRenderEnabled() const;
 
 	private:
 		UINT m_ScreenWidth;
 		UINT m_ScreenHeight;
 
-		float m_Fov = 55.0f;
+		float m_FovY = 55.0f * (3.14f / 180.0f);
+		float m_FovX;
 
 		XMFLOAT4 m_Viewport;
 		XMFLOAT4 m_BackgroundColor;

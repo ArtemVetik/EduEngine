@@ -75,9 +75,14 @@ namespace EduEngine
 		return m_FarValue;
 	}
 
-	float Camera::GetFov() const
+	float Camera::GetFovY() const
 	{
-		return m_Fov;
+		return m_FovY;
+	}
+
+	float Camera::GetFovX() const
+	{
+		return m_FovX;
 	}
 
 	bool Camera::DebugRenderEnabled() const
@@ -95,13 +100,18 @@ namespace EduEngine
 
 	void Camera::SetProjectionMatrix(float* fov, float* nearView, float* farView)
 	{
-		if (fov) m_Fov = *fov;
+		if (fov) m_FovY = *fov;
 		if (nearView) m_NearValue = *nearView;
 		if (farView) m_FarValue = *farView;
 
+		auto aspectRatio = (float)m_ScreenWidth / (float)m_ScreenHeight;
+		auto nearWindowHeight = 2.0f * m_NearValue * tanf(0.5f * m_FovY);
+		float halfWidth = 0.5f * aspectRatio * nearWindowHeight;
+		m_FovX = 2.0f * atan(halfWidth / m_NearValue);
+
 		XMMATRIX P = XMMatrixPerspectiveFovLH(
-			m_Fov * (3.14f / 180.0f),
-			(float)m_ScreenWidth / (float)m_ScreenHeight,
+			m_FovY,
+			aspectRatio,
 			m_NearValue,
 			m_FarValue
 		);
