@@ -24,7 +24,8 @@ namespace EduEngine
 
 	void LightWrapper::DebugDraw()
 	{
-		NativeLightUnmanaged::DebugDraw(m_NativeLight);
+		if (m_NativeLight)
+			NativeLightUnmanaged::DebugDraw(m_NativeLight);
 	}
 
 	void NativeLightUnmanaged::DebugDraw(Light* light)
