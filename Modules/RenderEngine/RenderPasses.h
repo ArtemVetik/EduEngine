@@ -74,6 +74,61 @@ namespace EduEngine
 			m_Pso.SetRootSignature(&m_RootSignature);
 			m_Pso.SetShader(&m_VertexShader);
 			m_Pso.SetShader(&m_PixelShader);
+			m_Pso.SetRTVFormat(DXGI_FORMAT_R8G8B8A8_UNORM);
+			m_Pso.Build(device);
+		}
+
+		ID3D12RootSignature* GetD3D12RootSignature() const { return m_RootSignature.GetD3D12RootSignature(); }
+		ID3D12PipelineState* GetD3D12PipelineState() const { return m_Pso.GetD3D12PipelineState(); }
+	};
+
+	class ShadowMapPass
+	{
+	public:
+		struct ObjectConstants
+		{
+			DirectX::XMFLOAT4X4 World;
+		};
+
+		struct PassConstants
+		{
+			DirectX::XMFLOAT4X4 ViewProj;
+		};
+
+	private:
+		ShaderD3D12 m_VertexShader;
+		RootSignatureD3D12 m_RootSignature;
+		PipelineStateD3D12 m_Pso;
+
+	public:
+		ShadowMapPass(const RenderDeviceD3D12* device) :
+			m_VertexShader(L"Shaders/Shadows.hlsl", EDU_SHADER_TYPE_VERTEX, nullptr, "VS", "vs_5_1")
+		{
+			CD3DX12_DESCRIPTOR_RANGE objConstants;
+			objConstants.Init(D3D12_DESCRIPTOR_RANGE_TYPE_CBV, 1, 0);
+			m_RootSignature.AddDescriptorParameter(1, &objConstants); // object constants
+
+			CD3DX12_DESCRIPTOR_RANGE passConstants;
+			passConstants.Init(D3D12_DESCRIPTOR_RANGE_TYPE_CBV, 1, 1);
+			m_RootSignature.AddDescriptorParameter(1, &passConstants); // pass constants
+
+			m_RootSignature.Build(device);
+
+			std::vector<D3D12_INPUT_ELEMENT_DESC> mInputLayout =
+			{
+				{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0,  D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
+				{ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT,    0, 12, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
+			};
+
+			D3D12_RASTERIZER_DESC rast = CD3DX12_RASTERIZER_DESC(D3D12_DEFAULT);
+			rast.DepthBias = 100000;
+			rast.DepthBiasClamp = 0.0f;
+			rast.SlopeScaledDepthBias = 1.0f;
+
+			m_Pso.SetInputLayout({ mInputLayout.data(), (UINT)mInputLayout.size() });
+			m_Pso.SetRootSignature(&m_RootSignature);
+			m_Pso.SetRasterizerState(rast);
+			m_Pso.SetShader(&m_VertexShader);
 			m_Pso.Build(device);
 		}
 
@@ -224,7 +279,7 @@ namespace EduEngine
 			m_Pso.SetInputLayout({ mInputLayout.data(), (UINT)mInputLayout.size() });
 			m_Pso.SetRootSignature(&m_RootSignature);
 			m_Pso.SetDepthStencilState(dss);
-			m_Pso.SetRTVFormats(1, rtvFormats);
+			m_Pso.SetRTVFormat(AccumBuffFormat);
 			m_Pso.SetShader(&m_VertexShader);
 			m_Pso.SetShader(&m_PixelShader);
 			m_Pso.Build(device);
@@ -267,6 +322,7 @@ namespace EduEngine
 			m_Pso.SetDepthStencilState(dss);
 			m_Pso.SetShader(&m_VertexShader);
 			m_Pso.SetShader(&m_PixelShader);
+			m_Pso.SetRTVFormat(DXGI_FORMAT_R8G8B8A8_UNORM);
 			m_Pso.Build(device);
 		}
 
@@ -327,6 +383,7 @@ namespace EduEngine
 			m_Pso.SetRootSignature(&m_RootSignature);
 			m_Pso.SetShader(&m_VertexShader);
 			m_Pso.SetShader(&m_PixelShader);
+			m_Pso.SetRTVFormat(DXGI_FORMAT_R8G8B8A8_UNORM);
 			m_Pso.Build(device);
 		}
 
@@ -398,6 +455,7 @@ namespace EduEngine
 			D3D12_DEPTH_STENCIL_DESC depthStencilDesc = CD3DX12_DEPTH_STENCIL_DESC(D3D12_DEFAULT);
 			depthStencilDesc.DepthEnable = false;
 			m_Pso.SetDepthStencilState(depthStencilDesc);
+			m_Pso.SetRTVFormat(DXGI_FORMAT_R8G8B8A8_UNORM);
 
 			m_Pso.Build(device);
 		}

@@ -12,8 +12,8 @@ namespace EduEngine
 		m_Desc.DepthStencilState = CD3DX12_DEPTH_STENCIL_DESC(D3D12_DEFAULT);
 		m_Desc.SampleMask = UINT_MAX;
 		m_Desc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
-		m_Desc.NumRenderTargets = 1;
-		m_Desc.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM;
+		m_Desc.NumRenderTargets = 0;
+		m_Desc.RTVFormats[0] = DXGI_FORMAT_UNKNOWN;
 		m_Desc.SampleDesc.Count = 1;
 		m_Desc.SampleDesc.Quality = 0;
 		m_Desc.DSVFormat = DXGI_FORMAT_D24_UNORM_S8_UINT;
@@ -34,8 +34,15 @@ namespace EduEngine
 		m_Desc.InputLayout = inputLayout;
 	}
 
+	void PipelineStateD3D12::SetRTVFormat(const DXGI_FORMAT format)
+	{
+		m_Desc.NumRenderTargets = 1;
+		m_Desc.RTVFormats[0] = format;
+	}
+
 	void PipelineStateD3D12::SetRTVFormats(int count, const DXGI_FORMAT* formats)
 	{
+		assert(count > 0);
 		m_Desc.NumRenderTargets = count;
 
 		for (int i = 0; i < count; i++)
