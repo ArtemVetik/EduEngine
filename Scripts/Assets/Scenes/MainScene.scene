@@ -22,8 +22,8 @@
       "Name": "Camera",
       "Parent": -1,
       "Components": [
-        9,
-        10
+        8,
+        9
       ]
     },
     {
@@ -48,16 +48,16 @@
       "Name": "Root",
       "Parent": -1,
       "Components": [
-        11,
-        12
+        10,
+        11
       ]
     },
     {
       "FileId": 2,
       "LocalPosition": {
-        "X": 0.0,
-        "Y": 3.813346,
-        "Z": 6.5565524
+        "X": 5.0766377,
+        "Y": 4.66447,
+        "Z": 5.4867325
       },
       "LocalRotation": {
         "X": 0.0,
@@ -74,32 +74,32 @@
       "Name": "Mesh",
       "Parent": -1,
       "Components": [
-        13
+        12
       ]
     },
     {
       "FileId": 3,
       "LocalPosition": {
-        "X": 0.0,
-        "Y": 27.5987,
-        "Z": 3.9719884
+        "X": 1.1106249E-11,
+        "Y": 25.577091,
+        "Z": 8.734414E-06
       },
       "LocalRotation": {
-        "X": 0.70710665,
-        "Y": 0.0,
-        "Z": 0.0,
-        "W": 0.7071069,
+        "X": 0.5587302,
+        "Y": 0.27951849,
+        "Z": 0.2846939,
+        "W": 0.72707593,
         "IsIdentity": false
       },
       "LocalScale": {
-        "X": 1.0,
-        "Y": 0.9999513,
-        "Z": 0.9999513
+        "X": 0.8973244,
+        "Y": 0.8923311,
+        "Z": 0.89249134
       },
       "Name": "Red SpotLight",
       "Parent": -1,
       "Components": [
-        14
+        13
       ]
     },
     {
@@ -147,7 +147,7 @@
       "Name": "BBB",
       "Parent": 4,
       "Components": [
-        15
+        14
       ]
     },
     {
@@ -172,15 +172,15 @@
       "Name": "CCC",
       "Parent": 5,
       "Components": [
-        16
+        15
       ]
     },
     {
       "FileId": 7,
       "LocalPosition": {
-        "X": 0.0,
-        "Y": 0.0,
-        "Z": 0.0
+        "X": 3.4056242,
+        "Y": -6.1968093,
+        "Z": 4.7036533
       },
       "LocalRotation": {
         "X": 0.0,
@@ -190,52 +190,25 @@
         "IsIdentity": true
       },
       "LocalScale": {
-        "X": 1.0,
+        "X": 10.0,
         "Y": 1.0,
-        "Z": 1.0
+        "Z": 10.0
       },
       "Name": "Ground",
       "Parent": -1,
       "Components": [
-        17,
-        18,
-        19
-      ]
-    },
-    {
-      "FileId": 8,
-      "LocalPosition": {
-        "X": 9.009095,
-        "Y": 34.71182,
-        "Z": -1.7389041
-      },
-      "LocalRotation": {
-        "X": 0.6362326,
-        "Y": -0.21293177,
-        "Z": -0.1889281,
-        "W": 0.7170595,
-        "IsIdentity": false
-      },
-      "LocalScale": {
-        "X": 1.0000001,
-        "Y": 1.0000006,
-        "Z": 1.0
-      },
-      "Name": "Green SpotLight",
-      "Parent": -1,
-      "Components": [
-        20
+        16
       ]
     }
   ],
   "Components": [
     {
       "Type": "EduEngine.GameCamera",
-      "FileId": 9,
+      "FileId": 8,
       "Parameters": {
         "_fov": 55.0,
-        "_near": 0.3,
-        "_far": 100.0,
+        "_near": 1.0,
+        "_far": 1000.0,
         "_backgroundColor": {
           "X": 0.0,
           "Y": 0.0,
@@ -248,12 +221,12 @@
           "Z": 1.0,
           "W": 1.0
         },
-        "_debugDraw": false
+        "_debugDraw": true
       }
     },
     {
       "Type": "Script",
-      "FileId": 10,
+      "FileId": 9,
       "Parameters": {
         "_moveSpeed": 20.0,
         "_moveStrength": 8.0,
@@ -263,14 +236,14 @@
     },
     {
       "Type": "Script",
-      "FileId": 11,
+      "FileId": 10,
       "Parameters": {
         "script_guid": "ebbef268-ed62-4e62-b162-2b38d58c8c2d"
       }
     },
     {
       "Type": "Script",
-      "FileId": 12,
+      "FileId": 11,
       "Parameters": {
         "_moveSpeed": 20.0,
         "_moveStrength": 8.0,
@@ -280,7 +253,7 @@
     },
     {
       "Type": "EduEngine.Renderer",
-      "FileId": 13,
+      "FileId": 12,
       "Parameters": {
         "_mesh": "1ba135a0-3118-4431-9ae0-52867b1dc240",
         "_material": "2e92a9cb-080d-4562-8a1b-e732d688b401"
@@ -288,18 +261,26 @@
     },
     {
       "Type": "EduEngine.Light",
-      "FileId": 14,
+      "FileId": 13,
       "Parameters": {
-        "_type": 2,
+        "_type": 0,
         "_color": {
           "X": 1.0,
-          "Y": 0.0,
-          "Z": 0.0
+          "Y": 1.0,
+          "Z": 1.0
         },
-        "_power": 100.0,
+        "_power": 1.0,
         "_falloffStart": 0.0,
         "_falloffEnd": 20.0,
         "_spotPower": 8.0
+      }
+    },
+    {
+      "Type": "EduEngine.Renderer",
+      "FileId": 14,
+      "Parameters": {
+        "_mesh": "1ba135a0-3118-4431-9ae0-52867b1dc240",
+        "_material": "2e92a9cb-080d-4562-8a1b-e732d688b401"
       }
     },
     {
@@ -314,48 +295,8 @@
       "Type": "EduEngine.Renderer",
       "FileId": 16,
       "Parameters": {
-        "_mesh": "1ba135a0-3118-4431-9ae0-52867b1dc240",
-        "_material": "2e92a9cb-080d-4562-8a1b-e732d688b401"
-      }
-    },
-    {
-      "Type": "EduEngine.BoxCollider",
-      "FileId": 17,
-      "Parameters": {
-        "_width": 25.0,
-        "_height": 3.0,
-        "_depth": 25.0,
-        "_isTrigger": true
-      }
-    },
-    {
-      "Type": "EduEngine.RigidBody",
-      "FileId": 18,
-      "Parameters": {
-        "_isStatic": true
-      }
-    },
-    {
-      "Type": "Script",
-      "FileId": 19,
-      "Parameters": {
-        "script_guid": "f91b06c2-59b2-45c8-862c-3e93bacac26e"
-      }
-    },
-    {
-      "Type": "EduEngine.Light",
-      "FileId": 20,
-      "Parameters": {
-        "_type": 2,
-        "_color": {
-          "X": 0.0,
-          "Y": 1.0,
-          "Z": 0.2352941
-        },
-        "_power": 30.0,
-        "_falloffStart": 0.0,
-        "_falloffEnd": 30.0,
-        "_spotPower": 0.0
+        "_mesh": "ac97f75d-4db6-4f84-9797-141d135d1a8d",
+        "_material": "fbcc38b1-28e9-4318-a04c-fb4a2887b65a"
       }
     }
   ]
