@@ -1,6 +1,7 @@
 #include "pch.h"
 
 #include "EditorMeshPreviewD3D12.h"
+#include "CameraInternal.h"
 #include "../Graphics/DynamicUploadBuffer.h"
 
 namespace EduEngine
@@ -10,7 +11,7 @@ namespace EduEngine
 		m_Width(200),
 		m_Height(200)
 	{
-		m_PreviewCamera = std::make_unique<Camera>(m_Width, m_Height);
+		m_PreviewCamera = std::make_unique<CameraInternal>(m_Width, m_Height);
 
 		D3D_SHADER_MACRO macros[] =
 		{

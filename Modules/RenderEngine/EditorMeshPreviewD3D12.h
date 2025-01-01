@@ -1,6 +1,7 @@
 #pragma once
 #include "SharedMeshD3D12Impl.h"
 #include "TextureD3D12Impl.h"
+#include "CameraInternal.h"
 #include "RenderPasses.h"
 
 namespace EduEngine
@@ -23,7 +24,7 @@ namespace EduEngine
 		std::shared_ptr<TextureD3D12> m_PreviewMeshRT;
 		std::shared_ptr<TextureD3D12> m_PreviewMeshDSV;
 
-		std::unique_ptr<Camera> m_PreviewCamera;
+		std::unique_ptr<CameraInternal> m_PreviewCamera;
 		std::unique_ptr<OpaquePass> m_OpaquePass;
 
 		float m_CamRadius;

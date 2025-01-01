@@ -8,7 +8,7 @@
 #include "DebugRendererSystem.h"
 #include "framework.h"
 #include "IRenderEngine.h"
-#include "Camera.h"
+#include "CameraInternal.h"
 #include "RenderPasses.h"
 #include "RuntimeWindow.h"
 #include "RenderObject.h"
@@ -75,7 +75,7 @@ namespace EduEngine
 		std::vector<std::shared_ptr<SharedMeshD3D12Impl>> m_SharedMeshes;
 		std::vector<std::shared_ptr<TextureD3D12Impl>> m_Textures;
 		std::vector<std::shared_ptr<MaterialD3D12Impl>> m_Materials;
-		std::vector<std::shared_ptr<Camera>> m_Cameras;
+		std::vector<std::shared_ptr<CameraInternal>> m_Cameras;
 		std::vector<std::shared_ptr<Light>> m_Lights;
 
 		std::unique_ptr<OpaquePass> m_OpaquePass;

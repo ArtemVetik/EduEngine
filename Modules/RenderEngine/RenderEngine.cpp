@@ -136,7 +136,7 @@ namespace EduEngine
 
 	Camera* RenderEngine::CreateCamera()
 	{
-		auto camera = std::make_shared<Camera>(m_SwapChain->GetWidth(), m_SwapChain->GetHeight());
+		auto camera = std::make_shared<CameraInternal>(m_SwapChain->GetWidth(), m_SwapChain->GetHeight());
 		m_Cameras.emplace_back(camera);
 		return camera.get();
 	}

@@ -1,6 +1,5 @@
 #pragma once
 #include "framework.h"
-#include "../EduMath/SimpleMath.h"
 
 using namespace DirectX;
 
@@ -9,44 +8,24 @@ namespace EduEngine
 	class RENDERENGINE_API Camera
 	{
 	public:
-		Camera(UINT width, UINT height);
+		virtual void SetProjectionMatrix(UINT newWidth, UINT newHeight) = 0;
+		virtual void SetProjectionMatrix(float* fov = nullptr, float* nearView = nullptr, float* farView = nullptr) = 0;
 
-		void SetProjectionMatrix(UINT newWidth, UINT newHeight);
-		void SetProjectionMatrix(float* fov = nullptr, float* nearView = nullptr, float* farView = nullptr);
+		virtual void Update(DirectX::XMFLOAT3 look, DirectX::XMFLOAT3 right, DirectX::XMFLOAT3 up, DirectX::XMFLOAT3 pos) = 0;
+		virtual void SetViewport(XMFLOAT4 viewport) = 0;
+		virtual void SetBackgroundColor(XMFLOAT4 color) = 0;
+		virtual void SetDebugRenderEnable(bool value) = 0;
 
-		void Update(DirectX::XMFLOAT3 look, DirectX::XMFLOAT3 right, DirectX::XMFLOAT3 up, DirectX::XMFLOAT3 pos);
-		void SetViewport(XMFLOAT4 viewport);
-		void SetBackgroundColor(XMFLOAT4 color);
-		void SetDebugRenderEnable(bool value);
-
-		XMFLOAT4X4 GetViewMatrix() const;
-		XMFLOAT4X4 GetProjectionMatrix() const;
-		XMMATRIX GetViewProjMatrix() const;
-		XMFLOAT3 GetPosition() const;
-		XMFLOAT4 GetViewport() const;
-		XMFLOAT4 GetBackgroundColor() const;
-		float GetNear() const;
-		float GetFar() const;
-		float GetFovY() const;
-		float GetFovX() const;
-		bool DebugRenderEnabled() const;
-
-	private:
-		UINT m_ScreenWidth;
-		UINT m_ScreenHeight;
-
-		float m_FovY = 55.0f * (3.14f / 180.0f);
-		float m_FovX;
-
-		XMFLOAT4 m_Viewport;
-		XMFLOAT4 m_BackgroundColor;
-		XMFLOAT4X4 m_ViewMatrix;
-		XMFLOAT4X4 m_ProjectionMatrix;
-		float m_NearValue;
-		float m_FarValue;
-		
-		XMFLOAT3 m_Position;
-
-		bool m_DebugRenderEnabled;
+		virtual XMFLOAT4X4 GetViewMatrix() const = 0;
+		virtual XMFLOAT4X4 GetProjectionMatrix() const = 0;
+		virtual XMMATRIX GetViewProjMatrix() const = 0;
+		virtual XMFLOAT3 GetPosition() const = 0;
+		virtual XMFLOAT4 GetViewport() const = 0;
+		virtual XMFLOAT4 GetBackgroundColor() const = 0;
+		virtual float GetNear() const = 0;
+		virtual float GetFar() const = 0;
+		virtual float GetFovY() const = 0;
+		virtual float GetFovX() const = 0;
+		virtual bool DebugRenderEnabled() const = 0;
 	};
 }
