@@ -43,6 +43,8 @@ namespace EduEngine
 			mainWindow.GetClientWidth(), mainWindow.GetClientHeight(), mainWindow.GetMainWindow());
 		m_DeferredRendering = std::make_unique<DeferredRendering>(m_Device.get(), m_SwapChain.get());
 
+		m_CSMRendering = std::make_unique<CSMRendering>(m_Device.get(), CSMDistance, 4, CSMSizes, CSMSplits);
+
 		Resize(mainWindow.GetClientWidth(), mainWindow.GetClientHeight());
 
 		m_OpaquePass = std::make_unique<OpaquePass>(m_Device.get());
@@ -198,10 +200,19 @@ namespace EduEngine
 			m_Viewport.Height * camera->GetViewport().w
 		};
 
+		for (int i = 0; i < m_Lights.size(); i++)
+		{
+			if (m_Lights[i]->LightType == Light::Type::Directional)
+			{
+				m_CSMRendering->Render(camera, m_Lights[i].get(), m_RenderObjects);
+				break;
+			}
+		}
+
 		commandContext.SetViewports(&m_Viewport, 1);
 		commandContext.SetScissorRects(scissorRect, 1);
 
-		m_DeferredRendering->PrepareRenderGeometry(camera, scissorRect);
+		m_DeferredRendering->PrepareRenderGeometry(camera, m_CSMRendering.get(), scissorRect);
 
 		for (int i = 0; i < m_RenderObjects.size(); i++)
 			m_DeferredRendering->RenderGeomerty(m_RenderObjects[i].get());
@@ -219,7 +230,7 @@ namespace EduEngine
 		commandContext.ResourceBarrier(CD3DX12_RESOURCE_BARRIER::Transition(m_DeferredRendering->GetGBuffer()->GetAccumBuffer(),
 			D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_GENERIC_READ));
 		commandContext.FlushResourceBarriers();
-		
+
 		m_DeferredRendering->RenderToneMapping();
 
 		for (int i = 0; i < GBufferPass::GBufferCount; i++)

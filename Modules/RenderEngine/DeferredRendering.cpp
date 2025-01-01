@@ -35,7 +35,7 @@ namespace EduEngine
 		m_NullTex = std::make_unique<TextureHeapView>(std::move(gpuAlloc), false);
 	}
 
-	void DeferredRendering::PrepareRenderGeometry(Camera* camera, D3D12_RECT* scissorRect)
+	void DeferredRendering::PrepareRenderGeometry(Camera* camera, const CSMRendering* csmRendering, D3D12_RECT* scissorRect)
 	{
 		auto& commandContext = m_Device->GetCommandContext(D3D12_COMMAND_LIST_TYPE_DIRECT);
 
@@ -44,8 +44,6 @@ namespace EduEngine
 			gBuffViews[i] = m_GBuffer->GetGBufferRTVView(i);
 
 		commandContext.SetRenderTargets(GBufferPass::GBufferCount, gBuffViews, false, &(m_SwapChain->DepthStencilView()));
-
-		const FLOAT* fillColor = reinterpret_cast<const FLOAT*>(&camera->GetBackgroundColor());
 
 		commandContext.GetCmdList()->ClearDepthStencilView(m_SwapChain->DepthStencilView(), D3D12_CLEAR_FLAG_DEPTH | D3D12_CLEAR_FLAG_STENCIL, 1.0f, 0, 1, scissorRect);
 
@@ -57,11 +55,23 @@ namespace EduEngine
 
 		GBufferPass::PassConstants passConstants = {};
 		XMStoreFloat4x4(&passConstants.ViewProj, XMMatrixTranspose(camera->GetViewProjMatrix()));
+		XMStoreFloat4x4(&passConstants.View, XMMatrixTranspose(XMLoadFloat4x4(&camera->GetViewMatrix())));
+		passConstants.EyePosW = camera->GetPosition();
+		passConstants.CascadeCount = csmRendering->GetCascadeCount();
+
+		for (int i = 0; i < csmRendering->GetCascadeCount(); i++)
+		{
+			XMStoreFloat4x4(passConstants.CascadeTransform + i, XMMatrixTranspose(csmRendering->GetCascadeTransform(i)));
+			passConstants.CascadeDistance[i] = csmRendering->GetCascadeDistance(i);
+		}
 
 		DynamicUploadBuffer passUploadBuffer(m_Device, QueueID::Direct);
 		passUploadBuffer.LoadData(passConstants);
 
-		commandContext.GetCmdList()->SetGraphicsRootConstantBufferView(3, passUploadBuffer.GetAllocation().GPUAddress);
+		DynamicUploadBuffer shadowMapsUploadBuffer(m_Device, QueueID::Direct);
+
+		commandContext.GetCmdList()->SetGraphicsRootDescriptorTable(3, csmRendering->GetGPUHandle());
+		commandContext.GetCmdList()->SetGraphicsRootConstantBufferView(4, passUploadBuffer.GetAllocation().GPUAddress);
 	}
 
 	void DeferredRendering::RenderGeomerty(const RenderObject* renderObject)

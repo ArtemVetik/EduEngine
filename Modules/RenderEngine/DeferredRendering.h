@@ -4,6 +4,7 @@
 #include "RenderObject.h"
 #include "RenderPasses.h"
 #include "Camera.h"
+#include "CSMRendering.h"
 
 namespace EduEngine
 {
@@ -14,7 +15,7 @@ namespace EduEngine
 
 		void InitResources();
 
-		void PrepareRenderGeometry(Camera* camera, D3D12_RECT* scissorRect);
+		void PrepareRenderGeometry(Camera* camera, const CSMRendering* csmRendering, D3D12_RECT* scissorRect);
 		void RenderGeomerty(const RenderObject* renderObject);
 
 		void RenderLights(Camera* camera, const std::vector<std::shared_ptr<Light>>& lights);

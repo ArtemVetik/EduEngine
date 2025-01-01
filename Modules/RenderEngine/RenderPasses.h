@@ -155,6 +155,11 @@ namespace EduEngine
 		struct PassConstants
 		{
 			DirectX::XMFLOAT4X4 ViewProj;
+			DirectX::XMFLOAT4X4 View;
+			DirectX::XMFLOAT3 EyePosW;
+			UINT CascadeCount;
+			DirectX::XMFLOAT4X4 CascadeTransform[4];
+			float CascadeDistance[4] = { FLT_MAX, FLT_MAX, FLT_MAX, FLT_MAX };
 		};
 
 		static constexpr int GBufferCount = 3;
@@ -187,6 +192,10 @@ namespace EduEngine
 			CD3DX12_DESCRIPTOR_RANGE albedoTexture;
 			albedoTexture.Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 0);
 			m_RootSignature.AddDescriptorParameter(1, &albedoTexture); // diffuse map
+
+			CD3DX12_DESCRIPTOR_RANGE shadowMaps;
+			shadowMaps.Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 4, 1);
+			m_RootSignature.AddDescriptorParameter(1, &shadowMaps); // shadow map
 
 			m_RootSignature.AddConstantBufferView(2); // pass constants
 

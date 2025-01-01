@@ -17,6 +17,7 @@
 #include "TextureD3D12Impl.h"
 #include "MaterialD3D12Impl.h"
 #include "DeferredRendering.h"
+#include "CSMRendering.h"
 
 #pragma comment(lib,"d3dcompiler.lib")
 #pragma comment(lib, "D3D12.lib")
@@ -79,11 +80,22 @@ namespace EduEngine
 
 		std::unique_ptr<OpaquePass> m_OpaquePass;
 		std::unique_ptr<DeferredRendering> m_DeferredRendering;
+		std::unique_ptr<CSMRendering> m_CSMRendering;
 
 		D3D12_VIEWPORT m_Viewport;
 		D3D12_RECT m_ScissorRect;
 
 		std::shared_ptr<DebugRendererSystem> m_DebugRenderer;
+
+		static constexpr XMFLOAT2 CSMSizes[4] =
+		{
+			{ 2048, 2048 },
+			{ 1024, 1024 },
+			{ 512,	512	 },
+			{ 256,	256	 },
+		};
+		static constexpr float CSMSplits[4] = { 0.25f, 0.50f, 0.75f, 1.0f };
+		static constexpr float CSMDistance = 150.0f;
 
 		static constexpr DirectX::SimpleMath::Rectangle EmptyResize = {-1, -1, -1, -1};
 		DirectX::SimpleMath::Rectangle m_PendingResize = EmptyResize;
