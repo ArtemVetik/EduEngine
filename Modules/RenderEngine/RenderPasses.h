@@ -39,8 +39,8 @@ namespace EduEngine
 
 	public:
 		OpaquePass(const RenderDeviceD3D12* device, D3D_SHADER_MACRO* macros = nullptr) :
-			m_VertexShader(L"Shaders/color.hlsl", EDU_SHADER_TYPE_VERTEX, macros, "VS", "vs_5_1"),
-			m_PixelShader(L"Shaders/color.hlsl", EDU_SHADER_TYPE_PIXEL, macros, "PS", "ps_5_1")
+			m_VertexShader(L"Shaders/ForwardOpaque.hlsl", EDU_SHADER_TYPE_VERTEX, macros, "VS", "vs_5_1"),
+			m_PixelShader(L"Shaders/ForwardOpaque.hlsl", EDU_SHADER_TYPE_PIXEL, macros, "PS", "ps_5_1")
 		{
 			CD3DX12_DESCRIPTOR_RANGE objConstants;
 			objConstants.Init(D3D12_DESCRIPTOR_RANGE_TYPE_CBV, 1, 0);
