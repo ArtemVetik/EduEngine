@@ -174,7 +174,6 @@
     <ClInclude Include="pch.h" />
     <ClInclude Include="RenderEngine.h" />
     <ClInclude Include="RenderEngineDefines.h" />
-    <ClInclude Include="RenderEngineInternal.h" />
     <ClInclude Include="RenderObject.h" />
     <ClInclude Include="RenderPasses.h" />
     <ClInclude Include="RuntimeWindow.h" />

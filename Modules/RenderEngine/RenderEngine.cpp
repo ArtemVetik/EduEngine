@@ -1,7 +1,6 @@
 #include "pch.h"
 #include "../Graphics/DynamicUploadBuffer.h"
 #include "RenderEngine.h"
-#include "RenderEngineInternal.h"
 #include "GeometryGenerator.h"
 
 namespace EduEngine
@@ -31,13 +30,22 @@ namespace EduEngine
 
 	bool RenderEngine::StartUp(const RuntimeWindow& mainWindow)
 	{
-		auto device = RenderEngineInternal::GetInstance().GetDevice();
+#if defined(DEBUG) || defined(_DEBUG) 
+		Microsoft::WRL::ComPtr<ID3D12Debug> debugController;
+		HRESULT hr = D3D12GetDebugInterface(IID_PPV_ARGS(&debugController));
+		debugController->EnableDebugLayer();
+#endif
+
+		Microsoft::WRL::ComPtr<ID3D12Device> device;
+		HRESULT hardwareResult = D3D12CreateDevice(
+			nullptr,
+			D3D_FEATURE_LEVEL_11_0,
+			IID_PPV_ARGS(device.GetAddressOf()));
+
+		if (FAILED(hardwareResult))
+			throw;
 
 		m_Device = std::make_unique<RenderDeviceD3D12>(device);
-
-#if defined(DEGUG) || defined(_DEBUG)
-		QueryInterface::GetInstance().Initialize(device);
-#endif
 
 		m_SwapChain = std::make_unique<SwapChain>(m_Device.get(),
 			mainWindow.GetClientWidth(), mainWindow.GetClientHeight(), mainWindow.GetMainWindow());
@@ -47,7 +55,6 @@ namespace EduEngine
 
 		Resize(mainWindow.GetClientWidth(), mainWindow.GetClientHeight());
 
-		m_OpaquePass = std::make_unique<OpaquePass>(m_Device.get());
 		m_DebugRenderer = std::make_shared<DebugRendererSystem>(m_Device.get());
 
 		m_Device->GetCommandContext(D3D12_COMMAND_LIST_TYPE_DIRECT).Reset();

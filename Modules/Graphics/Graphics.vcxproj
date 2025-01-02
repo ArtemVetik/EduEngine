@@ -152,7 +152,6 @@
     <ClInclude Include="pch.h" />
     <ClInclude Include="DxException.h" />
     <ClInclude Include="framework.h" />
-    <ClInclude Include="QueryInterface.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="ResourceD3D12.h" />
     <ClInclude Include="RootSignatureD3D12.h" />
@@ -175,7 +174,6 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="DxException.cpp" />
-    <ClCompile Include="QueryInterface.cpp" />
     <ClCompile Include="RootSignatureD3D12.cpp" />
     <ClCompile Include="ShaderD3D12.cpp" />
     <ClCompile Include="SwapChain.cpp" />

@@ -9,7 +9,7 @@ namespace EduEngine
 	{
 	public:
 		CommandListManager(RenderDeviceD3D12& device, const D3D12_COMMAND_LIST_TYPE& listType);
-		
+
 		CommandListManager(const CommandListManager&) = delete;
 		CommandListManager(CommandListManager&&) = delete;
 		CommandListManager& operator = (const CommandListManager&) = delete;
@@ -26,7 +26,6 @@ namespace EduEngine
 		typedef std::pair<uint64_t, Microsoft::WRL::ComPtr<ID3D12CommandAllocator>> DiscardedAllocatorQueueElemType;
 		
 		std::deque<DiscardedAllocatorQueueElemType> m_DiscardedAllocators;
-		Microsoft::WRL::ComPtr<ID3D12CommandList> m_CommandList;
 
 		const D3D12_COMMAND_LIST_TYPE m_CmdListType;
 

@@ -1,6 +1,5 @@
 #pragma once
 #include "../Graphics/framework.h"
-#include "../Graphics/QueryInterface.h"
 #include "../Graphics/RenderDeviceD3D12.h"
 #include "../Graphics/SwapChain.h"
 #include "../Graphics/TextureD3D12.h"
@@ -79,15 +78,13 @@ namespace EduEngine
 		std::vector<std::shared_ptr<CameraInternal>> m_Cameras;
 		std::vector<std::shared_ptr<Light>> m_Lights;
 
-		std::unique_ptr<OpaquePass> m_OpaquePass;
 		std::unique_ptr<DeferredRendering> m_DeferredRendering;
 		std::unique_ptr<CSMRendering> m_CSMRendering;
 		std::unique_ptr<SkyboxRendering> m_SkyBoxRendering;
+		std::shared_ptr<DebugRendererSystem> m_DebugRenderer;
 
 		D3D12_VIEWPORT m_Viewport;
 		D3D12_RECT m_ScissorRect;
-
-		std::shared_ptr<DebugRendererSystem> m_DebugRenderer;
 
 		static constexpr XMFLOAT2 CSMSizes[4] =
 		{

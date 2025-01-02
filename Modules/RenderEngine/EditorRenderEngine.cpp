@@ -1,8 +1,5 @@
 #include "pch.h"
-#include <memory>
 #include "EditorRenderEngine.h"
-#include "RenderEngineInternal.h"
-#include "../Graphics/QueryInterface.h"
 
 namespace EduEngine
 {
@@ -24,13 +21,22 @@ namespace EduEngine
 
 	bool EditorRenderEngine::StartUp(const EditorWindow& editorWindow)
 	{
-		auto device = RenderEngineInternal::GetInstance().GetDevice();
+#if defined(DEBUG) || defined(_DEBUG) 
+		Microsoft::WRL::ComPtr<ID3D12Debug> debugController;
+		HRESULT hr = D3D12GetDebugInterface(IID_PPV_ARGS(&debugController));
+		debugController->EnableDebugLayer();
+#endif
+
+		Microsoft::WRL::ComPtr<ID3D12Device> device;
+		HRESULT hardwareResult = D3D12CreateDevice(
+			nullptr,
+			D3D_FEATURE_LEVEL_11_0,
+			IID_PPV_ARGS(device.GetAddressOf()));
+
+		if (FAILED(hardwareResult))
+			throw;
 
 		m_Device = std::make_unique<RenderDeviceD3D12>(device);
-
-#if defined(DEGUG) || defined(_DEBUG)
-		QueryInterface::GetInstance().Initialize(m_Device->GetD3D12Device());
-#endif
 
 		m_SwapChain = std::make_unique<SwapChain>(m_Device.get(),
 			editorWindow.GetClientWidth(), editorWindow.GetClientHeight(), editorWindow.GetMainWindow(), true);

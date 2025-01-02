@@ -81,9 +81,6 @@
     <ClInclude Include="EditorRenderEngine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="RenderEngineInternal.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="EditorWindow.h">
       <Filter>Header Files</Filter>
     </ClInclude>
