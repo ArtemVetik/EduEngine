@@ -22,8 +22,8 @@
       "Name": "Camera",
       "Parent": -1,
       "Components": [
-        8,
-        9
+        9,
+        10
       ]
     },
     {
@@ -48,8 +48,8 @@
       "Name": "Root",
       "Parent": -1,
       "Components": [
-        10,
-        11
+        11,
+        12
       ]
     },
     {
@@ -74,7 +74,8 @@
       "Name": "Mesh",
       "Parent": -1,
       "Components": [
-        12
+        13,
+        14
       ]
     },
     {
@@ -99,7 +100,7 @@
       "Name": "Red SpotLight",
       "Parent": -1,
       "Components": [
-        13
+        15
       ]
     },
     {
@@ -147,7 +148,7 @@
       "Name": "BBB",
       "Parent": 4,
       "Components": [
-        14
+        16
       ]
     },
     {
@@ -172,7 +173,7 @@
       "Name": "CCC",
       "Parent": 5,
       "Components": [
-        15
+        17
       ]
     },
     {
@@ -197,14 +198,39 @@
       "Name": "Ground",
       "Parent": -1,
       "Components": [
-        16
+        18
+      ]
+    },
+    {
+      "FileId": 8,
+      "LocalPosition": {
+        "X": -48.2185,
+        "Y": 27.624405,
+        "Z": 12.912491
+      },
+      "LocalRotation": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 0.0,
+        "W": 1.0,
+        "IsIdentity": true
+      },
+      "LocalScale": {
+        "X": 0.5,
+        "Y": 0.5,
+        "Z": 0.5
+      },
+      "Name": "Sphere",
+      "Parent": -1,
+      "Components": [
+        19
       ]
     }
   ],
   "Components": [
     {
       "Type": "EduEngine.GameCamera",
-      "FileId": 8,
+      "FileId": 9,
       "Parameters": {
         "_fov": 55.0,
         "_near": 1.0,
@@ -227,7 +253,7 @@
     },
     {
       "Type": "Script",
-      "FileId": 9,
+      "FileId": 10,
       "Parameters": {
         "_moveSpeed": 20.0,
         "_moveStrength": 8.0,
@@ -237,14 +263,14 @@
     },
     {
       "Type": "Script",
-      "FileId": 10,
+      "FileId": 11,
       "Parameters": {
         "script_guid": "ebbef268-ed62-4e62-b162-2b38d58c8c2d"
       }
     },
     {
       "Type": "Script",
-      "FileId": 11,
+      "FileId": 12,
       "Parameters": {
         "_moveSpeed": 20.0,
         "_moveStrength": 8.0,
@@ -254,15 +280,23 @@
     },
     {
       "Type": "EduEngine.Renderer",
-      "FileId": 12,
+      "FileId": 13,
       "Parameters": {
         "_mesh": "1ba135a0-3118-4431-9ae0-52867b1dc240",
         "_material": "2e92a9cb-080d-4562-8a1b-e732d688b401"
       }
     },
     {
+      "Type": "Script",
+      "FileId": 14,
+      "Parameters": {
+        "_moveSpeed": 20.0,
+        "script_guid": "2a43d640-73a5-4207-8da6-27a82273b5b3"
+      }
+    },
+    {
       "Type": "EduEngine.Light",
-      "FileId": 13,
+      "FileId": 15,
       "Parameters": {
         "_type": 0,
         "_color": {
@@ -278,25 +312,33 @@
     },
     {
       "Type": "EduEngine.Renderer",
-      "FileId": 14,
-      "Parameters": {
-        "_mesh": "1ba135a0-3118-4431-9ae0-52867b1dc240",
-        "_material": "2e92a9cb-080d-4562-8a1b-e732d688b401"
-      }
-    },
-    {
-      "Type": "EduEngine.Renderer",
-      "FileId": 15,
-      "Parameters": {
-        "_mesh": "1ba135a0-3118-4431-9ae0-52867b1dc240",
-        "_material": "2e92a9cb-080d-4562-8a1b-e732d688b401"
-      }
-    },
-    {
-      "Type": "EduEngine.Renderer",
       "FileId": 16,
       "Parameters": {
+        "_mesh": "1ba135a0-3118-4431-9ae0-52867b1dc240",
+        "_material": "2e92a9cb-080d-4562-8a1b-e732d688b401"
+      }
+    },
+    {
+      "Type": "EduEngine.Renderer",
+      "FileId": 17,
+      "Parameters": {
+        "_mesh": "1ba135a0-3118-4431-9ae0-52867b1dc240",
+        "_material": "2e92a9cb-080d-4562-8a1b-e732d688b401"
+      }
+    },
+    {
+      "Type": "EduEngine.Renderer",
+      "FileId": 18,
+      "Parameters": {
         "_mesh": "ac97f75d-4db6-4f84-9797-141d135d1a8d",
+        "_material": "fbcc38b1-28e9-4318-a04c-fb4a2887b65a"
+      }
+    },
+    {
+      "Type": "EduEngine.Renderer",
+      "FileId": 19,
+      "Parameters": {
+        "_mesh": "ae49e3e7-cefe-4e11-b73d-c76478ab71d7",
         "_material": "fbcc38b1-28e9-4318-a04c-fb4a2887b65a"
       }
     }

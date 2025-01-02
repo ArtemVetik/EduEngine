@@ -4,7 +4,8 @@ Texture2D gAlbedoTexture : register(t0);
 Texture2D gNormalTexture : register(t1);
 Texture2D gMaterialTexture : register(t2);
 Texture2D gDepthTexture : register(t3);
-StructuredBuffer<Light> gLights : register(t4);
+TextureCube gCubeMap : register(t4);
+StructuredBuffer<Light> gLights : register(t5);
 
 SamplerState gsamPointWrap : register(s0);
 SamplerState gsamPointClamp : register(s1);
@@ -89,7 +90,13 @@ float4 PS(VertexOut pIn) : SV_TARGET
     }
 
     float4 ambient = gAmbientLight * diffuseAlbedo;
-    float4 litColor = ambient + +float4(result, 0.0f);
+    float4 litColor = ambient + float4(result, 0.0f);
+    
+    float3 r = reflect(-toEyeW, normal.xyz);
+    float4 reflectionColor = gCubeMap.Sample(gsamLinearWrap, r);
+    float3 fresnelFactor = SchlickFresnel(material.rgb, normal.xyz, r);
+    litColor.rgb += material.a * fresnelFactor * reflectionColor.rgb;
+    
     litColor.a = diffuseAlbedo.a;
 	
     return litColor;

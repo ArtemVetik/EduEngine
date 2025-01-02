@@ -184,10 +184,18 @@ namespace EduEngine
 			}
 
 			lightsUploadBuffer.CreateSRV(lights.size(), sizeof(Light));
-			commandContext.GetCmdList()->SetGraphicsRootDescriptorTable(4, lightsUploadBuffer.GetSRVDescriptorGPUHandle());
+			commandContext.GetCmdList()->SetGraphicsRootDescriptorTable(5, lightsUploadBuffer.GetSRVDescriptorGPUHandle());
 		}
 
-		commandContext.GetCmdList()->SetGraphicsRootConstantBufferView(5, lightPassUploadBuffer.GetAllocation().GPUAddress);
+		commandContext.GetCmdList()->SetGraphicsRootConstantBufferView(6, lightPassUploadBuffer.GetAllocation().GPUAddress);
+
+		if (camera->GetSkyGPUPtr())
+		{
+			D3D12_GPU_DESCRIPTOR_HANDLE textDesc;
+			textDesc.ptr = reinterpret_cast<UINT64>(camera->GetSkyGPUPtr());
+			commandContext.GetCmdList()->SetGraphicsRootDescriptorTable(4, textDesc);
+		}
+
 		commandContext.GetCmdList()->DrawIndexedInstanced(6, 1, 0, 0, 0);
 	}
 

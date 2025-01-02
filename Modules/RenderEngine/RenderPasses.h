@@ -266,8 +266,12 @@ namespace EduEngine
 			depthTex.Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 3);
 			m_RootSignature.AddDescriptorParameter(1, &depthTex); // depth texture
 
+			CD3DX12_DESCRIPTOR_RANGE skybox;
+			skybox.Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 4);
+			m_RootSignature.AddDescriptorParameter(1, &skybox); // skybox
+
 			CD3DX12_DESCRIPTOR_RANGE lights;
-			lights.Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 4);
+			lights.Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 5);
 			m_RootSignature.AddDescriptorParameter(1, &lights); // lights
 
 			m_RootSignature.AddConstantBufferView(0); // pass constants
