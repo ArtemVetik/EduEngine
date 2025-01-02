@@ -77,6 +77,14 @@ namespace EduEngine
 			m_Oss << "\tPtr:\t" << camera.get() << "\n\n";
 		}
 
+		m_Oss << separator;
+		m_Oss << "Lights (" << m_RenderEngine->m_Lights.size() << "):\n";
+		for (auto& light : m_RenderEngine->m_Lights)
+		{
+			m_Oss << "\tPtr:\t" << light.get() << "\n\n";
+			m_Oss << "\tType:\t" << light->LightType << "\n\n";
+		}
+
 		m_Oss << "::EDITOR::\n\n";
 
 		if (!onlyUsed || m_EditorRenderEngine->m_PreviewTex.get())
