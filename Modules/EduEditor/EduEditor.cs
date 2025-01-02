@@ -6,16 +6,16 @@ namespace EduEngine.Editor
 {
     public static class EduEditor
     {
-        private static ImGuiInput _input = new ImGuiInput();
-        private static EditorCamera _camera = new EditorCamera();
-        private static HierarchyWindow _hierarchyWindow = new HierarchyWindow();
-        private static PropertyWindow _propertyWindow = new PropertyWindow();
-        private static GuizmoRenderer _guizmoRenderer = new GuizmoRenderer();
-        private static SceneWindow _sceneWindow = new SceneWindow(_guizmoRenderer, _hierarchyWindow, _camera);
-        private static AssetWindow _assetWindow = new AssetWindow();
-        private static AssetInfoWindow _assetInfo = new AssetInfoWindow();
-        private static RenderResourcesInfo _renderResourcesInfo = new RenderResourcesInfo();
-        private static MainMenuBar _menuBar = new MainMenuBar(_renderResourcesInfo, _hierarchyWindow);
+        private static ImGuiInput _input;
+        private static EditorCamera _camera;
+        private static HierarchyWindow _hierarchyWindow;
+        private static PropertyWindow _propertyWindow;
+        private static GuizmoRenderer _guizmoRenderer;
+        private static SceneWindow _sceneWindow;
+        private static AssetWindow _assetWindow;
+        private static AssetInfoWindow _assetInfo;
+        private static RenderResourcesInfo _renderResourcesInfo;
+        private static MainMenuBar _menuBar;
 
         private static bool _withEditor;
 
@@ -27,6 +27,17 @@ namespace EduEngine.Editor
 
             if (_withEditor)
             {
+                _input = new ImGuiInput();
+                _camera = new EditorCamera();
+                _hierarchyWindow = new HierarchyWindow();
+                _propertyWindow = new PropertyWindow();
+                _guizmoRenderer = new GuizmoRenderer();
+                _sceneWindow = new SceneWindow(_guizmoRenderer, _hierarchyWindow, _camera);
+                _assetWindow = new AssetWindow();
+                _assetInfo = new AssetInfoWindow();
+                _renderResourcesInfo = new RenderResourcesInfo();
+                _menuBar = new MainMenuBar(_renderResourcesInfo, _hierarchyWindow);
+
                 ImGui.CreateContext();
                 var io = ImGui.GetIO();
                 io.BackendFlags |= ImGuiBackendFlags.RendererHasVtxOffset;
@@ -95,9 +106,9 @@ namespace EduEngine.Editor
                 ImGui.DestroyContext(ImGui.GetCurrentContext());
 
                 EditorWindowEventInterop.RemoveFocusCallback(OnFocusChanged);
+                _renderResourcesInfo.Dispose();
             }
 
-            _renderResourcesInfo.Dispose();
             AssetDataBase.Dispose();
         }
 
