@@ -70,10 +70,10 @@ namespace EduEngine
         }
     }
 
-    ID3D12DescriptorHeap* GPUDescriptorHeap::CreateHeap(ID3D12Device* device, D3D12_DESCRIPTOR_HEAP_DESC desc)
+    Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> GPUDescriptorHeap::CreateHeap(ID3D12Device* device, D3D12_DESCRIPTOR_HEAP_DESC desc)
     {
-        ID3D12DescriptorHeap* pd3d12DescriptorHeap;
-        HRESULT hr = device->CreateDescriptorHeap(&desc, __uuidof(pd3d12DescriptorHeap), reinterpret_cast<void**>(static_cast<ID3D12DescriptorHeap**>(&pd3d12DescriptorHeap)));
+        Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> pd3d12DescriptorHeap;
+        HRESULT hr = device->CreateDescriptorHeap(&desc, IID_PPV_ARGS(pd3d12DescriptorHeap.GetAddressOf()));
 
         if (FAILED(hr))
             throw;

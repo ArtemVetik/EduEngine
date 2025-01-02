@@ -19,12 +19,12 @@ namespace EduEngine
 		)
 	{ }
 
-	DescriptorHeapAllocationManager::DescriptorHeapAllocationManager(IRenderDeviceD3D12&   deviceD3D12Impl,
-																	 IDescriptorAllocator& parentAllocator,
-																	 size_t				   thisManagerId,
-																	 ID3D12DescriptorHeap* d3d12DescriptorHeap,
-																	 uint32_t			   firstDescriptor,
-																	 uint32_t			   numDescriptors) :
+	DescriptorHeapAllocationManager::DescriptorHeapAllocationManager(IRenderDeviceD3D12&						  deviceD3D12Impl,
+																	 IDescriptorAllocator&						  parentAllocator,
+																	 size_t										  thisManagerId,
+																	 Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> d3d12DescriptorHeap,
+																	 uint32_t									  firstDescriptor,
+																	 uint32_t									  numDescriptors) :
 		m_ParentAllocator(parentAllocator),
 		m_DeviceD3D12Impl(deviceD3D12Impl),
 		m_ThisManagerId(thisManagerId),
@@ -92,11 +92,11 @@ namespace EduEngine
 		allocation.Reset();
 	}
 
-	ID3D12DescriptorHeap* DescriptorHeapAllocationManager::CreateHeap(ID3D12Device* device, D3D12_DESCRIPTOR_HEAP_DESC desc)
+	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> DescriptorHeapAllocationManager::CreateHeap(ID3D12Device* device, D3D12_DESCRIPTOR_HEAP_DESC desc)
 	{
-		ID3D12DescriptorHeap* pd3d12DescriptorHeap;
-		HRESULT hr = device->CreateDescriptorHeap(&desc, __uuidof(pd3d12DescriptorHeap), reinterpret_cast<void**>(static_cast<ID3D12DescriptorHeap**>(&pd3d12DescriptorHeap)));
-		
+		Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> pd3d12DescriptorHeap;
+		HRESULT hr = device->CreateDescriptorHeap(&desc, IID_PPV_ARGS(pd3d12DescriptorHeap.GetAddressOf()));
+
 		if (FAILED(hr))
 			throw;
 

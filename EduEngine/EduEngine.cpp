@@ -179,9 +179,14 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance,
 #ifndef EDU_NO_EDITOR
 	editorThread.get();
 	runtimeThread.get();
+
+	editorRenderEngine.reset();
 #endif
 
 	EditorInterop::Destroy();
+	
+	renderEngine.reset();
+	physicsWorld.reset();
 
 	return 0;
 }

@@ -29,7 +29,7 @@ namespace EduEngine
 		ID3D12DescriptorHeap* GetD3D12Heap() const { return m_pd3d12DescriptorHeap.Get(); }
 
 	private:
-		ID3D12DescriptorHeap* CreateHeap(ID3D12Device* device, D3D12_DESCRIPTOR_HEAP_DESC desc);
+		Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> CreateHeap(ID3D12Device* device, D3D12_DESCRIPTOR_HEAP_DESC desc);
 
 	private:
 		std::mutex m_AllocMutex;

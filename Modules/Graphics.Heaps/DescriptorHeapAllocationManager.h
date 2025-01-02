@@ -14,13 +14,12 @@ namespace EduEngine
                                         size_t                            ThisManagerId,
                                         const D3D12_DESCRIPTOR_HEAP_DESC& HeapDesc);
 
-        DescriptorHeapAllocationManager(IRenderDeviceD3D12&   pDeviceD3D12Impl,
-                                        IDescriptorAllocator& pParentAllocator,
-                                        size_t                ThisManagerId,
-                                        ID3D12DescriptorHeap* pd3d12DescriptorHeap,
-                                        uint32_t              FirstDescriptor,
-                                        uint32_t              NumDescriptors);
-
+        DescriptorHeapAllocationManager(IRenderDeviceD3D12&                          pDeviceD3D12Impl,
+                                        IDescriptorAllocator&                        pParentAllocator,
+                                        size_t                                       ThisManagerId,
+                                        Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> pd3d12DescriptorHeap,
+                                        uint32_t                                     FirstDescriptor,
+                                        uint32_t                                     NumDescriptors);
 
         DescriptorHeapAllocationManager(DescriptorHeapAllocationManager&& rhs) noexcept;
 
@@ -28,15 +27,13 @@ namespace EduEngine
         DescriptorHeapAllocationManager(const DescriptorHeapAllocationManager&) = delete;
         DescriptorHeapAllocationManager& operator = (const DescriptorHeapAllocationManager&) = delete;
 
-        ~DescriptorHeapAllocationManager() { }
-
         DescriptorHeapAllocation Allocate(QueueID queueId, uint32_t count);
         void FreeAllocation(DescriptorHeapAllocation&& allocation);
 
         size_t GetNumAvailableDescriptors() const { return m_FreeBlockManager.GetFreeSize(); }
 
     private:
-        ID3D12DescriptorHeap* CreateHeap(ID3D12Device* device, D3D12_DESCRIPTOR_HEAP_DESC desc);
+        Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> CreateHeap(ID3D12Device* device, D3D12_DESCRIPTOR_HEAP_DESC desc);
 
     private:
         VariableSizeMemoryAllocator m_FreeBlockManager;
