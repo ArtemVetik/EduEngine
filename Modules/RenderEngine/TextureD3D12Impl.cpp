@@ -22,7 +22,7 @@ namespace EduEngine
 		m_FilePath = filePath;
 	}
 
-	void TextureD3D12Impl::Load()
+	void TextureD3D12Impl::Load(D3D12_SHADER_RESOURCE_VIEW_DESC* overrideDesc)
 	{
 		if (m_RefCount > 0)
 		{
@@ -32,13 +32,35 @@ namespace EduEngine
 
 		m_Texture = std::make_shared<TextureD3D12>(m_Device, std::wstring(m_FilePath), QueueID::Direct);
 
+		auto texDesc = m_Texture->GetD3D12Resource()->GetDesc();
+		bool cubeMap = texDesc.Dimension == D3D12_RESOURCE_DIMENSION_TEXTURE2D && texDesc.DepthOrArraySize == 6;
+
 		D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc = {};
-		srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
-		srvDesc.Format = m_Texture->GetD3D12Resource()->GetDesc().Format;
-		srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
-		srvDesc.Texture2D.MostDetailedMip = 0;
-		srvDesc.Texture2D.MipLevels = m_Texture->GetD3D12Resource()->GetDesc().MipLevels;
-		srvDesc.Texture2D.ResourceMinLODClamp = 0.0f;
+
+		if (overrideDesc)
+		{
+			srvDesc = *overrideDesc;
+			srvDesc.Format = m_Texture->GetD3D12Resource()->GetDesc().Format;
+		}
+		else
+		{
+			srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+			srvDesc.Format = m_Texture->GetD3D12Resource()->GetDesc().Format;
+			srvDesc.ViewDimension = cubeMap ? D3D12_SRV_DIMENSION_TEXTURECUBE : D3D12_SRV_DIMENSION_TEXTURE2D;
+
+			if (cubeMap)
+			{
+				srvDesc.TextureCube.MostDetailedMip = 0;
+				srvDesc.TextureCube.MipLevels = m_Texture->GetD3D12Resource()->GetDesc().MipLevels;
+				srvDesc.TextureCube.ResourceMinLODClamp = 0.0f;
+			}
+			else
+			{
+				srvDesc.Texture2D.MostDetailedMip = 0;
+				srvDesc.Texture2D.MipLevels = m_Texture->GetD3D12Resource()->GetDesc().MipLevels;
+				srvDesc.Texture2D.ResourceMinLODClamp = 0.0f;
+			}
+		}
 
 		m_Texture->CreateSRVView(&srvDesc, false);
 

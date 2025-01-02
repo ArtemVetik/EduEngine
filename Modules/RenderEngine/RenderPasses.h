@@ -339,6 +339,62 @@ namespace EduEngine
 		ID3D12PipelineState* GetD3D12PipelineState() const { return m_Pso.GetD3D12PipelineState(); }
 	};
 
+	class SkyboxPass
+	{
+	public:
+		struct CB
+		{
+			DirectX::XMFLOAT4X4 World;
+			DirectX::XMFLOAT4X4 ViewProj;
+			DirectX::XMFLOAT3 EyePosW;
+			UINT Padding;
+		};
+
+	private:
+		ShaderD3D12 m_VertexShader;
+		ShaderD3D12 m_PixelShader;
+		RootSignatureD3D12 m_RootSignature;
+		PipelineStateD3D12 m_Pso;
+
+	public:
+		SkyboxPass(const RenderDeviceD3D12* device) :
+			m_VertexShader(L"Shaders/Skybox.hlsl", EDU_SHADER_TYPE_VERTEX, nullptr, "VS", "vs_5_1"),
+			m_PixelShader(L"Shaders/Skybox.hlsl", EDU_SHADER_TYPE_PIXEL, nullptr, "PS", "ps_5_1")
+		{
+			CD3DX12_DESCRIPTOR_RANGE skyTexCube;
+			skyTexCube.Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 0);
+			m_RootSignature.AddDescriptorParameter(1, &skyTexCube); // sky texture cube
+
+			m_RootSignature.AddConstantBufferView(0); // cb
+
+			m_RootSignature.Build(device);
+
+			std::vector<D3D12_INPUT_ELEMENT_DESC> mInputLayout =
+			{
+				{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0,  D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
+				{ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT,    0, 12, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
+			};
+
+			auto dss = CD3DX12_DEPTH_STENCIL_DESC(D3D12_DEFAULT);
+			dss.DepthFunc = D3D12_COMPARISON_FUNC_LESS_EQUAL;
+
+			auto rast = CD3DX12_RASTERIZER_DESC(D3D12_DEFAULT);
+			rast.CullMode = D3D12_CULL_MODE_NONE;
+
+			m_Pso.SetInputLayout({ mInputLayout.data(), (UINT)mInputLayout.size() });
+			m_Pso.SetRootSignature(&m_RootSignature);
+			m_Pso.SetDepthStencilState(dss);
+			m_Pso.SetRasterizerState(rast);
+			m_Pso.SetShader(&m_VertexShader);
+			m_Pso.SetShader(&m_PixelShader);
+			m_Pso.SetRTVFormat(DXGI_FORMAT_R8G8B8A8_UNORM);
+			m_Pso.Build(device);
+		}
+
+		ID3D12RootSignature* GetD3D12RootSignature() const { return m_RootSignature.GetD3D12RootSignature(); }
+		ID3D12PipelineState* GetD3D12PipelineState() const { return m_Pso.GetD3D12PipelineState(); }
+	};
+
 	class DebugRenderPass
 	{
 	public:

@@ -11,7 +11,7 @@ namespace EduEngine
 		m_Width(200),
 		m_Height(200)
 	{
-		m_PreviewCamera = std::make_unique<CameraInternal>(m_Width, m_Height);
+		m_PreviewCamera = std::make_unique<CameraInternal>(device, m_Width, m_Height);
 
 		D3D_SHADER_MACRO macros[] =
 		{

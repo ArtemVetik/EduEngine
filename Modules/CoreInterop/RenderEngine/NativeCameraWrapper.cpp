@@ -68,6 +68,14 @@ namespace EduEngine
 		m_NativeCamera->SetDebugRenderEnable(value);
 	}
 
+	void NativeCameraWrapper::SetSkybox(TextureWrapper^ texture)
+	{
+		if (texture == nullptr)
+			m_NativeCamera->SetSkybox(nullptr);
+		else
+			m_NativeCamera->SetSkybox(texture->GetNative());
+	}
+
 	System::Numerics::Matrix4x4 NativeCameraWrapper::GetView()
 	{
 		auto nativeMatrix = m_NativeCamera->GetViewMatrix();

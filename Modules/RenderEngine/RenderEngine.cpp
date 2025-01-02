@@ -51,6 +51,7 @@ namespace EduEngine
 		m_DebugRenderer = std::make_shared<DebugRendererSystem>(m_Device.get());
 
 		m_Device->GetCommandContext(D3D12_COMMAND_LIST_TYPE_DIRECT).Reset();
+		m_SkyBoxRendering = std::make_unique<SkyboxRendering>(m_Device.get());
 		m_DeferredRendering->InitResources();
 
 		return true;
@@ -136,7 +137,7 @@ namespace EduEngine
 
 	Camera* RenderEngine::CreateCamera()
 	{
-		auto camera = std::make_shared<CameraInternal>(m_SwapChain->GetWidth(), m_SwapChain->GetHeight());
+		auto camera = std::make_shared<CameraInternal>(m_Device.get(), m_SwapChain->GetWidth(), m_SwapChain->GetHeight());
 		m_Cameras.emplace_back(camera);
 		return camera.get();
 	}
@@ -242,6 +243,8 @@ namespace EduEngine
 			D3D12_RESOURCE_STATE_GENERIC_READ, D3D12_RESOURCE_STATE_DEPTH_WRITE));
 
 		commandContext.FlushResourceBarriers();
+
+		m_SkyBoxRendering->Render(camera);
 
 		if (camera->DebugRenderEnabled())
 		{

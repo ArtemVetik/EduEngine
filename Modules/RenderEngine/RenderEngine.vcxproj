@@ -150,6 +150,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="CameraInternal.h" />
     <ClInclude Include="CSMRendering.h" />
     <ClInclude Include="DebugRendererSystem.h" />
     <ClInclude Include="EditorMeshPreviewD3D12.h" />
@@ -177,11 +178,12 @@
     <ClInclude Include="RenderObject.h" />
     <ClInclude Include="RenderPasses.h" />
     <ClInclude Include="RuntimeWindow.h" />
+    <ClInclude Include="SkyboxRendering.h" />
     <ClInclude Include="TextureD3D12Impl.h" />
     <ClInclude Include="WindowBase.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="CameraInternal.cpp" />
     <ClCompile Include="CSMRendering.cpp" />
     <ClCompile Include="DebugRendererSystem.cpp" />
     <ClCompile Include="dllmain.cpp" />
@@ -204,6 +206,7 @@
     <ClCompile Include="RenderEngine.cpp" />
     <ClCompile Include="RenderObject.cpp" />
     <ClCompile Include="RuntimeWindow.cpp" />
+    <ClCompile Include="SkyboxRendering.cpp" />
     <ClCompile Include="TextureD3D12Impl.cpp" />
     <ClCompile Include="WindowBase.cpp" />
   </ItemGroup>

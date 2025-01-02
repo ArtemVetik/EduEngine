@@ -134,7 +134,17 @@ namespace EduEngine
 			return nullptr;
 
 		m_PreviewTex = std::make_shared<TextureD3D12Impl>(m_Device.get(), filePath);
-		m_PreviewTex->Load();
+
+		D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc = {};
+		srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+		srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2DARRAY;
+		srvDesc.Texture2DArray.MostDetailedMip = 0;
+		srvDesc.Texture2DArray.MipLevels = -1;
+		srvDesc.Texture2DArray.FirstArraySlice = 0;
+		srvDesc.Texture2DArray.ArraySize = 1;
+		srvDesc.Texture2DArray.PlaneSlice = 0;
+
+		m_PreviewTex->Load(&srvDesc);
 
 		return m_PreviewTex->GetGPUPtr();
 	}

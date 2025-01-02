@@ -5,6 +5,8 @@ using namespace DirectX;
 
 namespace EduEngine
 {
+	class ITexture;
+
 	class RENDERENGINE_API Camera
 	{
 	public:
@@ -15,6 +17,7 @@ namespace EduEngine
 		virtual void SetViewport(XMFLOAT4 viewport) = 0;
 		virtual void SetBackgroundColor(XMFLOAT4 color) = 0;
 		virtual void SetDebugRenderEnable(bool value) = 0;
+		virtual void SetSkybox(ITexture* texture) = 0;
 
 		virtual XMFLOAT4X4 GetViewMatrix() const = 0;
 		virtual XMFLOAT4X4 GetProjectionMatrix() const = 0;
@@ -27,5 +30,6 @@ namespace EduEngine
 		virtual float GetFovY() const = 0;
 		virtual float GetFovX() const = 0;
 		virtual bool DebugRenderEnabled() const = 0;
+		virtual void* GetSkyGPUPtr() const = 0;
 	};
 }

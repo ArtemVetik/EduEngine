@@ -18,6 +18,7 @@
 #include "MaterialD3D12Impl.h"
 #include "DeferredRendering.h"
 #include "CSMRendering.h"
+#include "SkyboxRendering.h"
 
 #pragma comment(lib,"d3dcompiler.lib")
 #pragma comment(lib, "D3D12.lib")
@@ -81,6 +82,7 @@ namespace EduEngine
 		std::unique_ptr<OpaquePass> m_OpaquePass;
 		std::unique_ptr<DeferredRendering> m_DeferredRendering;
 		std::unique_ptr<CSMRendering> m_CSMRendering;
+		std::unique_ptr<SkyboxRendering> m_SkyBoxRendering;
 
 		D3D12_VIEWPORT m_Viewport;
 		D3D12_RECT m_ScissorRect;
@@ -97,7 +99,7 @@ namespace EduEngine
 		static constexpr float CSMSplits[4] = { 0.25f, 0.50f, 0.75f, 1.0f };
 		static constexpr float CSMDistance = 150.0f;
 
-		static constexpr DirectX::SimpleMath::Rectangle EmptyResize = {-1, -1, -1, -1};
+		static constexpr DirectX::SimpleMath::Rectangle EmptyResize = { -1, -1, -1, -1 };
 		DirectX::SimpleMath::Rectangle m_PendingResize = EmptyResize;
 	};
 }

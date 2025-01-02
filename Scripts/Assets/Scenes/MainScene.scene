@@ -209,6 +209,7 @@
         "_fov": 55.0,
         "_near": 1.0,
         "_far": 1000.0,
+        "_skyTexture": "bfa599e7-5b09-498c-baa0-c3d14d67fac0",
         "_backgroundColor": {
           "X": 0.0,
           "Y": 0.0,

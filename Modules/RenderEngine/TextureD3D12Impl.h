@@ -13,7 +13,7 @@ namespace EduEngine
 		void UpdateFilePath(const wchar_t* filePath) override;
 		void* GetGPUPtr() override;
 
-		void Load();
+		void Load(D3D12_SHADER_RESOURCE_VIEW_DESC* overrideDesc = nullptr);
 		void Free();
 
 		const wchar_t* GetFilePath() const { return m_FilePath; }

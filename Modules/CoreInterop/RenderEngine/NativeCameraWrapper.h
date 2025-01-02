@@ -1,5 +1,6 @@
 #pragma once
 #include "../../RenderEngine/Camera.h"
+#include "TextureWrapper.h"
 
 namespace EduEngine
 {
@@ -29,6 +30,7 @@ namespace EduEngine
 		void SetViewport(Vector4 viewport);
 		void SetBackgroundColor(Vector4 color);
 		void SetDebugRenderEnable(bool value);
+		void SetSkybox(TextureWrapper^ texture);
 
 		Matrix4x4 GetView();
 		Matrix4x4 GetProjection();
