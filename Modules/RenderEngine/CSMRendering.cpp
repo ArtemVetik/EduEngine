@@ -44,6 +44,8 @@ namespace EduEngine
 		srvDesc.Texture2D.ResourceMinLODClamp = 0.0f;
 		srvDesc.Texture2D.PlaneSlice = 0;
 
+		auto& commandContext = m_Device->GetCommandContext(D3D12_COMMAND_LIST_TYPE_DIRECT);
+		
 		for (size_t i = 0; i < count; i++)
 		{
 			texDesc.Width = sizes[i].x;
@@ -51,6 +53,9 @@ namespace EduEngine
 
 			m_ShadowMaps[i] = std::make_unique<TextureD3D12>(m_Device, texDesc, &optClear, QueueID::Direct);
 			m_ShadowMaps[i]->CreateDSVView(&dsvDesc, true);
+
+			commandContext.ResourceBarrier(CD3DX12_RESOURCE_BARRIER::Transition(m_ShadowMaps[i]->GetD3D12Resource(),
+				D3D12_RESOURCE_STATE_COMMON, D3D12_RESOURCE_STATE_DEPTH_WRITE));
 		}
 
 		for (size_t i = 0; i < count; i++)
@@ -68,13 +73,6 @@ namespace EduEngine
 		float cascadeNear = 0.0f;
 
 		auto& commandContext = m_Device->GetCommandContext(D3D12_COMMAND_LIST_TYPE_DIRECT);
-
-		for (int i = 0; i < m_CascadeCount; i++)
-		{
-			commandContext.ResourceBarrier(CD3DX12_RESOURCE_BARRIER::Transition(m_ShadowMaps[i]->GetD3D12Resource(),
-				D3D12_RESOURCE_STATE_GENERIC_READ, D3D12_RESOURCE_STATE_DEPTH_WRITE));
-		}
-		commandContext.FlushResourceBarriers();
 
 		for (int i = 0; i < m_CascadeCount; i++)
 		{
@@ -141,6 +139,12 @@ namespace EduEngine
 				D3D12_RESOURCE_STATE_DEPTH_WRITE, D3D12_RESOURCE_STATE_GENERIC_READ));
 		}
 		commandContext.FlushResourceBarriers();
+
+		for (int i = 0; i < m_CascadeCount; i++)
+		{
+			commandContext.ResourceBarrier(CD3DX12_RESOURCE_BARRIER::Transition(m_ShadowMaps[i]->GetD3D12Resource(),
+				D3D12_RESOURCE_STATE_GENERIC_READ, D3D12_RESOURCE_STATE_DEPTH_WRITE));
+		}
 	}
 
 	XMMATRIX CSMRendering::CalculateLightView(Light* light)
