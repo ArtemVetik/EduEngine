@@ -143,6 +143,7 @@
     <ClInclude Include="CommandContext.h" />
     <ClInclude Include="CommandListManager.h" />
     <ClInclude Include="CommandQueueD3D12.h" />
+    <ClInclude Include="ComputePipelineStateD3D12.h" />
     <ClInclude Include="d3dx12.h" />
     <ClInclude Include="DDSTextureLoader.h" />
     <ClInclude Include="DynamicUploadBuffer.h" />
@@ -164,6 +165,7 @@
     <ClCompile Include="CommandContext.cpp" />
     <ClCompile Include="CommandListManager.cpp" />
     <ClCompile Include="CommandQueueD3D12.cpp" />
+    <ClCompile Include="ComputePipelineStateD3D12.cpp" />
     <ClCompile Include="DDSTextureLoader.cpp" />
     <ClCompile Include="DynamicUploadBuffer.cpp" />
     <ClCompile Include="GBuffer.cpp" />

@@ -4,13 +4,47 @@
 
 namespace EduEngine
 {
+	class GRAPHICS_API BufferHeapView
+	{
+	private:
+		DescriptorHeapAllocation m_Allocation;
+
+	public:
+		BufferHeapView(DescriptorHeapAllocation&& allocation) :
+			m_Allocation(std::move(allocation))
+		{
+		}
+
+		D3D12_CPU_DESCRIPTOR_HANDLE GetCpuHandle(uint32_t offset = 0) const { return m_Allocation.GetCpuHandle(); }
+
+		D3D12_GPU_DESCRIPTOR_HANDLE GetGpuHandle(uint32_t offset = 0) const { return m_Allocation.GetGpuHandle(); }
+	};
+
 	class GRAPHICS_API BufferD3D12 : public ResourceD3D12
 	{
 	public:
 		BufferD3D12(RenderDeviceD3D12*		   pDevice,
+					const D3D12_RESOURCE_DESC& desc,
+					QueueID					   queueId);
+
+		BufferD3D12(RenderDeviceD3D12*		   pDevice,
+					const D3D12_RESOURCE_DESC& desc,
 					const void*				   initData,
 					UINT64					   byteSize,
 					QueueID					   queueId);
+
+		void CreateUAV(const D3D12_UNORDERED_ACCESS_VIEW_DESC* uavDesc);
+
+		BufferHeapView* GetView(const D3D12_DESCRIPTOR_HEAP_TYPE& type) const;
+
+		static inline UINT AlignForUavCounter(UINT bufferSize)
+		{
+			const UINT alignment = D3D12_UAV_COUNTER_PLACEMENT_ALIGNMENT;
+			return (bufferSize + (alignment - 1)) & ~(alignment - 1);
+		}
+
+	private:
+		std::unique_ptr<BufferHeapView> m_UavView;
 	};
 
 	class GRAPHICS_API VertexBufferD3D12 : public BufferD3D12
@@ -20,7 +54,7 @@ namespace EduEngine
 						  const void*		 initData,
 						  UINT				 byteStride,
 						  UINT				 bufferLength) :
-			BufferD3D12(pDevice, initData, byteStride * bufferLength, QueueID::Direct)
+			BufferD3D12(pDevice, CD3DX12_RESOURCE_DESC::Buffer(byteStride * bufferLength), initData, byteStride * bufferLength, QueueID::Direct)
 		{
 			m_View.BufferLocation = m_d3d12Resource->GetGPUVirtualAddress();
 			m_View.StrideInBytes = byteStride;
@@ -41,7 +75,7 @@ namespace EduEngine
 						 UINT				byteStride,
 						 UINT				bufferLength,
 						 DXGI_FORMAT		format) :
-			BufferD3D12(pDevice, initData, byteStride * bufferLength, QueueID::Direct),
+			BufferD3D12(pDevice, CD3DX12_RESOURCE_DESC::Buffer(byteStride * bufferLength), initData, byteStride * bufferLength, QueueID::Direct),
 			m_Length(bufferLength)
 		{
 			m_View.BufferLocation = m_d3d12Resource->GetGPUVirtualAddress();

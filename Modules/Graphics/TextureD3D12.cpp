@@ -44,7 +44,7 @@ namespace EduEngine
 		UINT64 uploadBufferSize = 0;
 		m_Device->GetD3D12Device()->GetCopyableFootprints(&m_d3d12Resource->GetDesc(), 0, 1, 0, nullptr, nullptr, nullptr, &uploadBufferSize);
 
-		auto uploadBuff = m_Device->AllocateDynamicUploadGPUDescriptor(QueueID::Direct, uploadBufferSize);
+		auto uploadBuff = m_Device->AllocateDynamicUploadGPUDescriptor(m_QueueId, uploadBufferSize);
 		memcpy(uploadBuff.CPUAddress, dataPtr, uploadBufferSize);
 
 		D3D12_TEXTURE_COPY_LOCATION dst = {};
