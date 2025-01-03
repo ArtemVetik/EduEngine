@@ -21,6 +21,7 @@ namespace EduEngine
 	public:
 		static void Update();
 		static void Render();
+		static void Destroy();
 	};
 
 	class GAMEPLAYINTEROP_API EditorInterop

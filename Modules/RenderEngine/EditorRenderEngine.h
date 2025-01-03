@@ -45,8 +45,6 @@ namespace EduEngine
 		std::shared_ptr<TextureD3D12Impl> m_PreviewTex;
 		std::shared_ptr<EditorMeshPreviewD3D12> m_PreviewMesh;
 
-		std::unique_ptr<ImGuiPass> m_ImGuiPass;
-
 		D3D12_VIEWPORT m_Viewport;
 		D3D12_RECT m_ScissorRect;
 

@@ -10,7 +10,6 @@ namespace EduEngine
 	{
 	public:
 		ImGuiD3D12Impl(RenderDeviceD3D12* device,
-					   ImGuiPass*		  renderPass,
 					   void*			  pixels,
 					   int				  width,
 					   int				  height,
@@ -23,9 +22,10 @@ namespace EduEngine
 
 	private:
 		RenderDeviceD3D12* m_Device;
+
+		std::unique_ptr<ImGuiPass> m_ImGuiPass;
 		std::shared_ptr<TextureD3D12> m_FontTexture;
 
-		ImGuiPass* m_RenderPass = nullptr;
 		ImDrawData* m_DrawData = nullptr;
 	};
 }

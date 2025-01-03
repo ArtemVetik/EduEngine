@@ -17,6 +17,11 @@ namespace EduEngine
 		{
 			GameplayFramework::Render();
 		}
+
+		static void Destroy()
+		{
+			GameplayFramework::Destroy();
+		}
 	};
 
 	public ref class InternalEditorInterop

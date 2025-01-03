@@ -11,5 +11,10 @@
         {
             SceneManager.CurrentScene?.Render();
         }
+
+        public static void Destroy()
+        {
+            OverlayUI.Destroy();
+        }
     }
 }

@@ -82,6 +82,9 @@ namespace EduEngine
 		virtual Light* CreateLight() = 0;
 		virtual void RemoveLight(Light* light) = 0;
 
+		virtual void UpdateUI(ImDrawData* drawData) = 0;
+		virtual void* CreateImGuiUI(void* pixels, int texWidth, int texHeight, int bytesPerPixel) = 0;
+
 		virtual void BeginDraw() = 0;
 		virtual void Draw(Camera* camera) = 0;
 		virtual void EndDraw() = 0;

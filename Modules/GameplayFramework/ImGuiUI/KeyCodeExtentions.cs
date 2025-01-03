@@ -1,4 +1,6 @@
-﻿namespace EduEngine.Editor
+﻿using EduEngine;
+
+namespace EduEngine
 {
     internal static class KeyCodeExtentions
     {
@@ -55,7 +57,7 @@
                 _ => '\0',
             };
         }
-        
+
         public static ImGuiNET.ImGuiKey ToImGuiKey(this KeyCode keyCode)
         {
             return keyCode switch

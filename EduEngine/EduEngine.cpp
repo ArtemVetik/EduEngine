@@ -184,6 +184,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance,
 #endif
 
 	EditorInterop::Destroy();
+	GameplayInterop::Destroy();
 	
 	renderEngine.reset();
 	physicsWorld.reset();

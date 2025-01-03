@@ -68,14 +68,13 @@ namespace EduEngine.Editor
 
         public static void Update()
         {
-            _input.ProcessInput();
+            _input.ProcessInput(Input.Editor, EditorRenderEngineInterop.GetEditorSize(), EditorTime.DeltaTime, EditorTime.TotalTime);
 
             ImGui.NewFrame();
             ImGuizmo.BeginFrame();
 
             _sceneWindow.Render(out Vector2 pos, out Vector2 size);
             _guizmoRenderer.Render(_hierarchyWindow.Selected, _camera, pos.X, pos.Y, size.X, size.Y);
-            ImGui.ShowDemoWindow();
             _assetWindow.Render();
             _assetInfo.Render(_assetWindow.SelectedAsset);
             _hierarchyWindow.Render();

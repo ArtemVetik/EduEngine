@@ -120,14 +120,14 @@ namespace EduEngine
 		commandContext.GetCmdList()->DrawIndexedInstanced(renderObject->GetIndexBuffer()->GetLength(), 1, 0, 0, 0);
 	}
 
-	void DeferredRendering::RenderLights(Camera* camera, const std::vector<std::shared_ptr<Light>>& lights)
+	void DeferredRendering::RenderLights(Camera* camera, const std::vector<std::shared_ptr<Light>>& lights, D3D12_RECT* scissorRect)
 	{
 		auto& commandContext = m_Device->GetCommandContext(D3D12_COMMAND_LIST_TYPE_DIRECT);
 
 		commandContext.SetRenderTargets(1, &(m_GBuffer->GetAccumBuffRTVView()), true, nullptr);
 
 		const float color[4] = { 0, 0, 0, 1 };
-		commandContext.GetCmdList()->ClearRenderTargetView(m_SwapChain->CurrentBackBufferView(), color, 0, nullptr);
+		commandContext.GetCmdList()->ClearRenderTargetView(m_SwapChain->CurrentBackBufferView(), color, 1, scissorRect);
 
 		commandContext.GetCmdList()->SetPipelineState(m_DeferredLightPass->GetD3D12PipelineState());
 		commandContext.GetCmdList()->SetGraphicsRootSignature(m_DeferredLightPass->GetD3D12RootSignature());

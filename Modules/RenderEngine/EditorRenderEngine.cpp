@@ -119,10 +119,7 @@ namespace EduEngine
 
 	void* EditorRenderEngine::CreateEditorImGuiUI(void* pixels, int texWidth, int texHeight, int bytesPerPixel)
 	{
-		if (m_ImGuiPass == nullptr)
-			m_ImGuiPass = std::make_unique<ImGuiPass>(m_Device.get());
-
-		m_EditorUI = std::make_unique<ImGuiD3D12Impl>(m_Device.get(), m_ImGuiPass.get(), pixels, texWidth, texHeight, bytesPerPixel);
+		m_EditorUI = std::make_unique<ImGuiD3D12Impl>(m_Device.get(), pixels, texWidth, texHeight, bytesPerPixel);
 		return m_EditorUI->GetFontTexturePtr();
 	}
 

@@ -13,6 +13,11 @@ namespace EduEngine
 		InternalGameplayInterop::Render();
 	}
 
+	void GameplayInterop::Destroy()
+	{
+		InternalGameplayInterop::Destroy();
+	}
+
 	void EditorInterop::Initialize(std::wstring assetsPath, std::wstring dllPath, bool withEditor)
 	{
 		InternalEditorInterop::Initialize(assetsPath, dllPath, withEditor);

@@ -51,6 +51,9 @@ namespace EduEngine
 		Light* CreateLight() override;
 		void RemoveLight(Light* light) override;
 
+		void UpdateUI(ImDrawData* drawData) override;
+		void* CreateImGuiUI(void* pixels, int texWidth, int texHeight, int bytesPerPixel) override;
+
 		void BeginDraw() override;
 		void Draw(Camera* camera) override;
 		void EndDraw() override;
@@ -82,6 +85,8 @@ namespace EduEngine
 		std::unique_ptr<CSMRendering> m_CSMRendering;
 		std::unique_ptr<SkyboxRendering> m_SkyBoxRendering;
 		std::shared_ptr<DebugRendererSystem> m_DebugRenderer;
+
+		std::unique_ptr<ImGuiD3D12Impl> m_OverlayUI;
 
 		D3D12_VIEWPORT m_Viewport;
 		D3D12_RECT m_ScissorRect;

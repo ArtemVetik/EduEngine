@@ -177,6 +177,17 @@ namespace EduEngine
 			m_Lights.end());
 	}
 
+	void RenderEngine::UpdateUI(ImDrawData* drawData)
+	{
+		m_OverlayUI->Update(drawData);
+	}
+
+	void* RenderEngine::CreateImGuiUI(void* pixels, int texWidth, int texHeight, int bytesPerPixel)
+	{
+		m_OverlayUI = std::make_unique<ImGuiD3D12Impl>(m_Device.get(), pixels, texWidth, texHeight, bytesPerPixel);
+		return m_OverlayUI->GetFontTexturePtr();
+	}
+
 	void RenderEngine::BeginDraw()
 	{
 		if (m_PendingResize != EmptyResize)
@@ -233,7 +244,7 @@ namespace EduEngine
 			D3D12_RESOURCE_STATE_DEPTH_WRITE, D3D12_RESOURCE_STATE_GENERIC_READ));
 		commandContext.FlushResourceBarriers();
 
-		m_DeferredRendering->RenderLights(camera, m_Lights);
+		m_DeferredRendering->RenderLights(camera, m_Lights, scissorRect);
 
 		commandContext.ResourceBarrier(CD3DX12_RESOURCE_BARRIER::Transition(m_DeferredRendering->GetGBuffer()->GetAccumBuffer(),
 			D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_GENERIC_READ));
@@ -264,6 +275,14 @@ namespace EduEngine
 	{
 		auto& commandContext = m_Device->GetCommandContext(D3D12_COMMAND_LIST_TYPE_DIRECT);
 		auto& commandQueue = m_Device->GetCommandQueue(D3D12_COMMAND_LIST_TYPE_DIRECT);
+
+		if (m_OverlayUI)
+		{
+			commandContext.SetViewports(&m_Viewport, 1);
+			commandContext.SetScissorRects(&m_ScissorRect, 1);
+
+			m_OverlayUI->Draw(m_SwapChain->GetWidth(), m_SwapChain->GetHeight());
+		}
 
 		commandContext.ResourceBarrier(CD3DX12_RESOURCE_BARRIER::Transition(m_SwapChain->CurrentBackBuffer(),
 			D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PRESENT));

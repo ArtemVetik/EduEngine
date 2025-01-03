@@ -5,14 +5,14 @@
 namespace EduEngine
 {
 	ImGuiD3D12Impl::ImGuiD3D12Impl(RenderDeviceD3D12* device,
-								   ImGuiPass*		  renderPass,
 								   void*			  pixels,
 								   int				  width,
 								   int				  height,
 								   int				  bytesPerPixel) :
-		m_Device(device),
-		m_RenderPass(renderPass)
+		m_Device(device)
 	{
+		m_ImGuiPass = std::make_unique<ImGuiPass>(device);
+
 		D3D12_RESOURCE_DESC textureDesc;
 		textureDesc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
 		textureDesc.Alignment = 0;
@@ -67,8 +67,8 @@ namespace EduEngine
 		auto& commandContext = m_Device->GetCommandContext(D3D12_COMMAND_LIST_TYPE_DIRECT);
 		auto& commandQueue = m_Device->GetCommandQueue(D3D12_COMMAND_LIST_TYPE_DIRECT);
 
-		commandContext.GetCmdList()->SetPipelineState(m_RenderPass->GetD3D12PipelineState());
-		commandContext.GetCmdList()->SetGraphicsRootSignature(m_RenderPass->GetD3D12RootSignature());
+		commandContext.GetCmdList()->SetPipelineState(m_ImGuiPass->GetD3D12PipelineState());
+		commandContext.GetCmdList()->SetGraphicsRootSignature(m_ImGuiPass->GetD3D12RootSignature());
 
 		ImGuiPass::ProjectionMatrixBuffer projectionConstants;
 		XMStoreFloat4x4(&projectionConstants.ProjectionMatrix, DirectX::XMMatrixOrthographicOffCenterLH(0, displayWidth, displayHeight, 0, 0, 1));

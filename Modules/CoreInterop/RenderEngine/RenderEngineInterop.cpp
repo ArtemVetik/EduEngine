@@ -13,4 +13,14 @@ namespace EduEngine
     {
         CoreSystems::GetInstance()->GetRenderEngine()->MoveAndResize(x, y, w, h);
     }
+
+    void RenderEngineInterop::UpdateImGuiUI(IntPtr drawData)
+    {
+        CoreSystems::GetInstance()->GetRenderEngine()->UpdateUI(static_cast<ImDrawData*>(drawData.ToPointer()));
+    }
+
+    IntPtr RenderEngineInterop::CreateImGuiUI(IntPtr pixels, int texWidth, int texHeight, int bytesPerPixel)
+    {
+        return IntPtr(CoreSystems::GetInstance()->GetRenderEngine()->CreateImGuiUI(pixels.ToPointer(), texWidth, texHeight, bytesPerPixel));
+    }
 }
