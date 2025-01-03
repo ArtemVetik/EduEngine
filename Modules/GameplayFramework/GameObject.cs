@@ -168,8 +168,8 @@ namespace EduEngine
 
         internal void Render()
         {
-            foreach (var component in _components)
-                component.OnRender();
+            for (int i = 0; i < _components.Count; i++)
+                _components[i].OnRender();
         }
     }
 }
