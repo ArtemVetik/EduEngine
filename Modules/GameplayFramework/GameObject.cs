@@ -1,6 +1,4 @@
 ﻿
-using System.Reflection;
-
 namespace EduEngine
 {
     public class GameObject
@@ -9,6 +7,7 @@ namespace EduEngine
         private GameObject _parent;
         private List<Component> _components = new();
         private List<GameObject> _childs = new();
+        private object _lock = new object();
 
         public string Name;
 
@@ -33,27 +32,31 @@ namespace EduEngine
 
         public void Destroy()
         {
-            foreach (var component in _components)
+            lock (_lock)
             {
-                if (IsRuntime)
-                    component.OnDestroy();
+                foreach (var component in _components)
+                {
+                    if (IsRuntime)
+                        component.OnDestroy();
 
-                if (component is IDisposable disposable)
-                    disposable.Dispose();
+                    if (component is IDisposable disposable)
+                        disposable.Dispose();
+                }
+                _components.Clear();
+
+                while (_childs.Count > 0)
+                {
+                    var child = _childs[0];
+                    _childs.RemoveAt(0);
+
+                    child.SetParent(_parent);
+                }
+
+                SetParent(null);
+
+                SceneManager.CurrentScene?.RemoveGameObject(this);
+                IsAlive = false;
             }
-
-            while (_childs.Count > 0)
-            {
-                var child = _childs[0];
-                _childs.RemoveAt(0);
-
-                child.SetParent(_parent);
-            }
-
-            SetParent(null);
-
-            SceneManager.CurrentScene?.RemoveGameObject(this);
-            IsAlive = false;
         }
 
         public void SetParent(GameObject? parent)
@@ -78,47 +81,53 @@ namespace EduEngine
 
         public T AddComponent<T>() where T : Component
         {
-            if (typeof(T) == typeof(Transform))
-                return null;
+            lock (_lock)
+            {
+                if (typeof(T) == typeof(Transform))
+                    return null;
 
-            var component = Activator.CreateInstance(typeof(T), this);
+                var component = Activator.CreateInstance(typeof(T), this);
 
-            if (component == null || component as T == null)
-                throw new InvalidOperationException();
+                if (component == null || component as T == null)
+                    throw new InvalidOperationException();
 
-            _components.Add((T)component);
+                _components.Add((T)component);
 
-            ((T)component).OnAddComponent();
+                ((T)component).OnAddComponent();
 
-            if (IsRuntime)
-                ((T)component).OnCreate();
+                if (IsRuntime)
+                    ((T)component).OnCreate();
 
-            return (T)component;
+                return (T)component;
+            }
         }
 
         public object? AddComponent(Type type, Action<Component> initFields = null)
         {
-            if (type.IsSubclassOf(typeof(Component)) == false)
-                return null;
+            lock (_lock)
+            {
+                if (type.IsSubclassOf(typeof(Component)) == false)
+                    return null;
 
-            if (type == typeof(Transform))
-                return null;
+                if (type == typeof(Transform))
+                    return null;
 
-            var component = (Component)Activator.CreateInstance(type, this);
+                var component = (Component)Activator.CreateInstance(type, this);
 
-            if (component == null)
-                throw new InvalidOperationException();
+                if (component == null)
+                    throw new InvalidOperationException();
 
-            initFields?.Invoke(component);
+                initFields?.Invoke(component);
 
-            _components.Add(component);
+                _components.Add(component);
 
-            (component).OnAddComponent();
+                (component).OnAddComponent();
 
-            if (IsRuntime)
-                (component).OnCreate();
+                if (IsRuntime)
+                    (component).OnCreate();
 
-            return component;
+                return component;
+            }
         }
 
         public T GetComponent<T>() where T : Component
@@ -160,16 +169,22 @@ namespace EduEngine
 
         internal void RemoveComponent(Component component)
         {
-            if (component is IDisposable disposable)
-                disposable.Dispose();
+            lock (_lock)
+            {
+                if (component is IDisposable disposable)
+                    disposable.Dispose();
 
-            _components.Remove(component);
+                _components.Remove(component);
+            }
         }
 
         internal void Render()
         {
-            for (int i = 0; i < _components.Count; i++)
-                _components[i].OnRender();
+            lock (_lock)
+            {
+                foreach (var component in _components)
+                    component.OnRender();
+            }
         }
     }
 }
