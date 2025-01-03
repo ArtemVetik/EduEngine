@@ -5,9 +5,9 @@ namespace EduEngine
 {
     public class GameCamera : Component, IDisposable
     {
-        [SerializeField] private float _fov = 55.0f;
-        [SerializeField] private float _near = 0.3f;
-        [SerializeField] private float _far = 1000.0f;
+        [SerializeField, Min(0.1f)] private float _fov = 55.0f;
+        [SerializeField, Min(0.1f)] private float _near = 0.3f;
+        [SerializeField, Min(0.1f)] private float _far = 1000.0f;
         [SerializeField] private Texture _skyTexture;
         [SerializeField, Color] private Vector4 _backgroundColor = new Vector4(0, 0, 0, 1);
         [SerializeField, Range(0.0f, 1.0f)] private Vector4 _viewport = new Vector4(0, 0, 1, 1);

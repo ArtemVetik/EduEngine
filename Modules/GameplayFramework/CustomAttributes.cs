@@ -22,4 +22,15 @@
             Max = max;
         }
     }
+
+    [AttributeUsage(AttributeTargets.Field)]
+    public class MinAttribute : Attribute
+    {
+        public readonly float Value;
+
+        public MinAttribute(float value)
+        {
+            Value = value;
+        }
+    }
 }

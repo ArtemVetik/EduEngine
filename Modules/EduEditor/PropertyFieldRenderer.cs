@@ -24,6 +24,9 @@ namespace EduEngine.Editor
                 float newValue = floatValue;
                 if (ImGui.InputFloat(fieldName, ref newValue))
                 {
+                    if (field.HasAttribute(out MinAttribute min) && newValue < min.Value)
+                        newValue = min.Value;
+
                     ReflectField.Set(field, component, newValue);
                 }
             }

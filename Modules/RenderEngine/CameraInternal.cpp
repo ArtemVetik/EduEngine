@@ -115,6 +115,10 @@ namespace EduEngine
 		if (nearView) m_NearValue = *nearView;
 		if (farView) m_FarValue = *farView;
 
+		m_FovY = max(m_FovY, FLT_MIN);
+		m_NearValue = max(m_NearValue, FLT_MIN);
+		m_FarValue = max(m_FarValue, m_NearValue + 0.1f);
+
 		auto aspectRatio = (float)m_ScreenWidth / (float)m_ScreenHeight;
 		auto nearWindowHeight = 2.0f * m_NearValue * tanf(0.5f * m_FovY);
 		float halfWidth = 0.5f * aspectRatio * nearWindowHeight;
