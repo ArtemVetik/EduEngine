@@ -30,12 +30,15 @@ namespace EduEngine
 		BufferD3D12(RenderDeviceD3D12*		   pDevice,
 					const D3D12_RESOURCE_DESC& desc,
 					const void*				   initData,
-					UINT64					   byteSize,
 					QueueID					   queueId);
 
-		void CreateUAV(const D3D12_UNORDERED_ACCESS_VIEW_DESC* uavDesc);
+		void CreateCBV();
+		void CreateSRV(const D3D12_SHADER_RESOURCE_VIEW_DESC* srvDesc);
+		void CreateUAV(const D3D12_UNORDERED_ACCESS_VIEW_DESC* uavDesc, bool withCounter = false);
 
-		BufferHeapView* GetView(const D3D12_DESCRIPTOR_HEAP_TYPE& type) const;
+		BufferHeapView* GetCBVView() const;
+		BufferHeapView* GetSRVView() const;
+		BufferHeapView* GetUAVView() const;
 
 		static inline UINT AlignForUavCounter(UINT bufferSize)
 		{
@@ -44,6 +47,8 @@ namespace EduEngine
 		}
 
 	private:
+		std::unique_ptr<BufferHeapView> m_CbvView;
+		std::unique_ptr<BufferHeapView> m_SrvView;
 		std::unique_ptr<BufferHeapView> m_UavView;
 	};
 
@@ -54,7 +59,7 @@ namespace EduEngine
 						  const void*		 initData,
 						  UINT				 byteStride,
 						  UINT				 bufferLength) :
-			BufferD3D12(pDevice, CD3DX12_RESOURCE_DESC::Buffer(byteStride * bufferLength), initData, byteStride * bufferLength, QueueID::Direct)
+			BufferD3D12(pDevice, CD3DX12_RESOURCE_DESC::Buffer(byteStride * bufferLength), initData, QueueID::Direct)
 		{
 			m_View.BufferLocation = m_d3d12Resource->GetGPUVirtualAddress();
 			m_View.StrideInBytes = byteStride;
@@ -75,7 +80,7 @@ namespace EduEngine
 						 UINT				byteStride,
 						 UINT				bufferLength,
 						 DXGI_FORMAT		format) :
-			BufferD3D12(pDevice, CD3DX12_RESOURCE_DESC::Buffer(byteStride * bufferLength), initData, byteStride * bufferLength, QueueID::Direct),
+			BufferD3D12(pDevice, CD3DX12_RESOURCE_DESC::Buffer(byteStride * bufferLength), initData, QueueID::Direct),
 			m_Length(bufferLength)
 		{
 			m_View.BufferLocation = m_d3d12Resource->GetGPUVirtualAddress();

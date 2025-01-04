@@ -11,6 +11,7 @@ namespace EduEngine
 		ComputePipelineStateD3D12();
 
 		void SetRootSignature(RootSignatureD3D12* rootSignature);
+		void SetRootSignature(ID3D12RootSignature* rootSignature);
 		void SetShader(ShaderD3D12* shader);
 
 		void Build(const RenderDeviceD3D12* pDevice);

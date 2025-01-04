@@ -29,6 +29,11 @@ namespace EduEngine
 		m_Desc.BlendState = blendState;
 	}
 
+	void PipelineStateD3D12::SetRTBlendState(int rtIndex, D3D12_RENDER_TARGET_BLEND_DESC blendState)
+	{
+		m_Desc.BlendState.RenderTarget[0] = blendState;
+	}
+
 	void PipelineStateD3D12::SetInputLayout(D3D12_INPUT_LAYOUT_DESC inputLayout)
 	{
 		m_Desc.InputLayout = inputLayout;
@@ -67,6 +72,11 @@ namespace EduEngine
 	void PipelineStateD3D12::SetRootSignature(RootSignatureD3D12* rootSignature)
 	{
 		m_Desc.pRootSignature = rootSignature->GetD3D12RootSignature();
+	}
+
+	void PipelineStateD3D12::SetRootSignature(ID3D12RootSignature* rootSignature)
+	{
+		m_Desc.pRootSignature = rootSignature;
 	}
 
 	void PipelineStateD3D12::SetShader(ShaderD3D12* shader)

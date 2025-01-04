@@ -13,6 +13,11 @@ namespace EduEngine
 		m_Desc.pRootSignature = rootSignature->GetD3D12RootSignature();
 	}
 
+	void ComputePipelineStateD3D12::SetRootSignature(ID3D12RootSignature* rootSignature)
+	{
+		m_Desc.pRootSignature = rootSignature;
+	}
+
 	void ComputePipelineStateD3D12::SetShader(ShaderD3D12* shader)
 	{
 		assert(shader != nullptr);
