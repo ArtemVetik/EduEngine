@@ -20,16 +20,16 @@ void main(uint id : SV_DispatchThreadID)
 	
     if (gShapeType == 0) // rect
     {
-        emitParticle.Position = gCenterPos + randomInRect(gTotalTime * 100 + id.x, gShapeSize); 
+        emitParticle.Position = gCenterPos + randomInRect(gRandSeed + id.x, gShapeSize);
     }
     else if (gShapeType == 1) // inside sphere
     {
-        float radius = random(gTotalTime * 100 + id.x + 100, 0.0f, gShapeSize.x);
-        emitParticle.Position = gCenterPos + randomUnitVector(gTotalTime * 100 + id.x) * radius;
+        float radius = random(gRandSeed + id.x + 100, 0.0f, gShapeSize.x);
+        emitParticle.Position = gCenterPos + randomUnitVector(gRandSeed + id.x) * radius;
     }
     else if (gShapeType == 2) // sphere contour
     {
-        emitParticle.Position = gCenterPos + randomUnitVector(gTotalTime * 100 + id.x) * gShapeSize.x;
+        emitParticle.Position = gCenterPos + randomUnitVector(gRandSeed + id.x) * gShapeSize.x;
     }
     
     emitParticle.Velocity = gVelocity;
@@ -42,5 +42,5 @@ void main(uint id : SV_DispatchThreadID)
     
     GroupMemoryBarrierWithGroupSync();
     
-    DeadListCounter[0] = max((int)DeadListCounter[0] - (int)gEmitCount, 0);
+    DeadListCounter[0] = max((int) DeadListCounter[0] - (int) gEmitCount, 0);
 }

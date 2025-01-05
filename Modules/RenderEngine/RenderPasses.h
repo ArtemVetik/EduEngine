@@ -545,6 +545,8 @@ namespace EduEngine
 			float DeltaTime;
 			float TotalTime;
 			UINT EmitCount;
+			UINT RandSeed;
+			DirectX::XMFLOAT3 Padding;
 		};
 
 		struct ParticleData

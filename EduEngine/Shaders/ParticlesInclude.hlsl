@@ -16,6 +16,8 @@ cbuffer passData : register(b0)
     float gDeltaTime;
     float gTotalTime;
     uint gEmitCount;
+    uint gRandSeed;
+    float3 gPadding0;
 }
 
 cbuffer particleData : register(b1)
@@ -29,5 +31,5 @@ cbuffer particleData : register(b1)
     float3 gVelocity;
     float gLifeTime;
     float3 gAcceleration;
-    uint gPadding;
+    uint gPadding1;
 }

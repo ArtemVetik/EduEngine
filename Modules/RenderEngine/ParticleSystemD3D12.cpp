@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "ParticleSystemD3D12.h"
 #include "../Graphics/DynamicUploadBuffer.h"
+#include <random>
 
 namespace EduEngine
 {
@@ -26,12 +27,17 @@ namespace EduEngine
 
 		float timeBetweenEmit = 1.0f / EmissionRate;
 
+		std::random_device rd;
+		std::mt19937 gen(rd());
+		std::uniform_int_distribution<uint32_t> dis(0, UINT32_MAX);
+
 		ParticlesComputePass::PassData passCB = {};
 		DirectX::XMStoreFloat4x4(&passCB.MVP, DirectX::XMMatrixTranspose(camera->GetViewProjMatrix()));
 		passCB.AspectRatio = aspectRatio;
 		passCB.DeltaTime = timer.GetDeltaTime();
 		passCB.TotalTime = timer.GetTotalTime();
 		passCB.EmitCount = m_Timer / timeBetweenEmit;
+		passCB.RandSeed = dis(gen);
 
 		DynamicUploadBuffer timeUploadBuffer(m_Device, QueueID::Direct);
 		timeUploadBuffer.LoadData(passCB);
@@ -165,16 +171,16 @@ namespace EduEngine
 		srvDesc.Buffer.StructureByteStride = stride; \
 		buffer->CreateSRV(&srvDesc);				 \
 
-		CREATE_BUFFER(m_DeadList, AlignForUavCounter(particlesCount) + sizeof(UINT));
+		CREATE_BUFFER(m_DeadList, AlignForUavCounter(particlesCount * sizeof(UINT)) + sizeof(UINT));
 		CREATE_BUFFER(m_ParticlesPool, particlesCount * sizeof(Particle));
 		CREATE_BUFFER(m_DrawList, AlignForUavCounter(particlesCount * sizeof(UINT)) + sizeof(UINT));
 		CREATE_BUFFER(m_DrawArgs, AlignForUavCounter(9 * sizeof(UINT)) + sizeof(UINT));
 		CREATE_BUFFER(m_DeadListCounter, sizeof(UINT));
 
-		CREATE_UAV(m_DeadList, particlesCount, sizeof(UINT), AlignForUavCounter(particlesCount));
+		CREATE_UAV(m_DeadList, particlesCount, sizeof(UINT), AlignForUavCounter(particlesCount * sizeof(UINT)));
 		CREATE_UAV(m_ParticlesPool, particlesCount, sizeof(Particle), 0);
 		CREATE_UAV(m_DrawList, particlesCount, sizeof(UINT), AlignForUavCounter(particlesCount * sizeof(UINT)));
-		CREATE_UAV(m_DrawArgs, 9, sizeof(UINT), AlignForUavCounter(particlesCount * sizeof(UINT)));
+		CREATE_UAV(m_DrawArgs, 9, sizeof(UINT), AlignForUavCounter(9 * sizeof(UINT)));
 		CREATE_UAV(m_DeadListCounter, 1, sizeof(UINT), 0);
 
 		CREATE_SRV(m_ParticlesPool, particlesCount, sizeof(Particle));
