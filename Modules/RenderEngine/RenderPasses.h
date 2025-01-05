@@ -1,6 +1,8 @@
 #pragma once
 #include "../Graphics/PipelineStateD3D12.h"
 #include "../EduMath/SimpleMath.h"
+#include "../Graphics/ComputePipelineStateD3D12.h"
+#include "../Graphics/CommandSignatureD3D12.h"
 
 namespace EduEngine
 {
@@ -531,5 +533,174 @@ namespace EduEngine
 
 		ID3D12RootSignature* GetD3D12RootSignature() const { return m_RootSignature.GetD3D12RootSignature(); }
 		ID3D12PipelineState* GetD3D12PipelineState() const { return m_Pso.GetD3D12PipelineState(); }
+	};
+
+	class ParticlesComputePass
+	{
+	public:
+		struct PassData
+		{
+			DirectX::XMFLOAT4X4 MVP;
+			float AspectRatio;
+			float DeltaTime;
+			float TotalTime;
+			UINT EmitCount;
+		};
+
+		struct ParticleData
+		{
+			DirectX::XMFLOAT3 CenterPos;
+			UINT MaxParticles;
+			DirectX::XMFLOAT4 StartColor;
+			DirectX::XMFLOAT4 EndColor;
+			DirectX::XMFLOAT3 Velocity;
+			float LifeTime;
+			DirectX::XMFLOAT3 Acceleration;
+			UINT Padding;
+		};
+
+	private:
+		RootSignatureD3D12 m_RootSignature;
+		ShaderD3D12 m_DeadListCS;
+		ShaderD3D12 m_EmitCS;
+		ShaderD3D12 m_UpdateCS;
+		ShaderD3D12 m_CopyDrawCS;
+		ComputePipelineStateD3D12 m_DeadListPSO;
+		ComputePipelineStateD3D12 m_EmitPSO;
+		ComputePipelineStateD3D12 m_UpdatePSO;
+		ComputePipelineStateD3D12 m_CopyDrawPSO;
+
+	public:
+		ParticlesComputePass(const RenderDeviceD3D12* device) :
+			m_DeadListCS(L"Shaders/ParticlesDeadListInitCS.hlsl", EDU_SHADER_TYPE_COMPUTE, nullptr, "main", "cs_5_1"),
+			m_EmitCS(L"Shaders/ParticlesEmitCS.hlsl", EDU_SHADER_TYPE_COMPUTE, nullptr, "main", "cs_5_1"),
+			m_UpdateCS(L"Shaders/ParticlesUpdateCS.hlsl", EDU_SHADER_TYPE_COMPUTE, nullptr, "main", "cs_5_1"),
+			m_CopyDrawCS(L"Shaders/ParticlesCopyDrawCS.hlsl", EDU_SHADER_TYPE_COMPUTE, nullptr, "main", "cs_5_1")
+		{
+			CD3DX12_DESCRIPTOR_RANGE passData;
+			passData.Init(D3D12_DESCRIPTOR_RANGE_TYPE_CBV, 1, 0);
+			m_RootSignature.AddDescriptorParameter(1, &passData);
+
+			m_RootSignature.AddConstantBufferView(1);
+
+			CD3DX12_DESCRIPTOR_RANGE particlePool;
+			particlePool.Init(D3D12_DESCRIPTOR_RANGE_TYPE_UAV, 1, 0);
+			m_RootSignature.AddDescriptorParameter(1, &particlePool);
+
+			CD3DX12_DESCRIPTOR_RANGE deadList;
+			deadList.Init(D3D12_DESCRIPTOR_RANGE_TYPE_UAV, 1, 1);
+			m_RootSignature.AddDescriptorParameter(1, &deadList);
+
+			CD3DX12_DESCRIPTOR_RANGE drawList;
+			drawList.Init(D3D12_DESCRIPTOR_RANGE_TYPE_UAV, 1, 2);
+			m_RootSignature.AddDescriptorParameter(1, &drawList);
+
+			CD3DX12_DESCRIPTOR_RANGE drawArgs;
+			drawArgs.Init(D3D12_DESCRIPTOR_RANGE_TYPE_UAV, 1, 3);
+			m_RootSignature.AddDescriptorParameter(1, &drawArgs);
+
+			CD3DX12_DESCRIPTOR_RANGE deadListCounter;
+			deadListCounter.Init(D3D12_DESCRIPTOR_RANGE_TYPE_UAV, 1, 4);
+			m_RootSignature.AddDescriptorParameter(1, &deadListCounter);
+
+			m_RootSignature.Build(device);
+
+			m_DeadListPSO.SetRootSignature(&m_RootSignature);
+			m_DeadListPSO.SetShader(&m_DeadListCS);
+			m_DeadListPSO.Build(device);
+
+			m_EmitPSO.SetRootSignature(&m_RootSignature);
+			m_EmitPSO.SetShader(&m_EmitCS);
+			m_EmitPSO.Build(device);
+
+			m_UpdatePSO.SetRootSignature(&m_RootSignature);
+			m_UpdatePSO.SetShader(&m_UpdateCS);
+			m_UpdatePSO.Build(device);
+
+			m_CopyDrawPSO.SetRootSignature(&m_RootSignature);
+			m_CopyDrawPSO.SetShader(&m_CopyDrawCS);
+			m_CopyDrawPSO.Build(device);
+		}
+
+		ID3D12RootSignature* GetD3D12RootSignature() const { return m_RootSignature.GetD3D12RootSignature(); }
+		ID3D12PipelineState* GetDeadListInitPSO() const { return m_DeadListPSO.GetD3D12PipelineState(); }
+		ID3D12PipelineState* GetEmitPSO() const { return m_EmitPSO.GetD3D12PipelineState(); }
+		ID3D12PipelineState* GetUpdatePSO() const { return m_UpdatePSO.GetD3D12PipelineState(); }
+		ID3D12PipelineState* GetCopyDrawPSO() const { return m_CopyDrawPSO.GetD3D12PipelineState(); }
+	};
+
+	class ParticlesDrawPass
+	{
+	private:
+		ShaderD3D12 m_VertexShader;
+		ShaderD3D12 m_GeometryShader;
+		ShaderD3D12 m_PixelShader;
+		CommandSignatureD3D12 m_CommandRootSignature;
+		RootSignatureD3D12 m_RootSignature;
+		PipelineStateD3D12 m_Pso;
+
+	public:
+		ParticlesDrawPass(const RenderDeviceD3D12* device) :
+			m_VertexShader(L"Shaders/ParticlesDraw.hlsl", EDU_SHADER_TYPE_VERTEX, nullptr, "VS", "vs_5_1"),
+			m_GeometryShader(L"Shaders/ParticlesDraw.hlsl", EDU_SHADER_TYPE_GEOMETRY, nullptr, "GS", "gs_5_1"),
+			m_PixelShader(L"Shaders/ParticlesDraw.hlsl", EDU_SHADER_TYPE_PIXEL, nullptr, "PS", "ps_5_1")
+		{
+			CD3DX12_DESCRIPTOR_RANGE passData;
+			passData.Init(D3D12_DESCRIPTOR_RANGE_TYPE_CBV, 1, 0);
+			m_RootSignature.AddDescriptorParameter(1, &passData);
+
+			m_RootSignature.AddConstantBufferView(1);
+
+			CD3DX12_DESCRIPTOR_RANGE particlePool;
+			particlePool.Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 0);
+			m_RootSignature.AddDescriptorParameter(1, &particlePool);
+
+			CD3DX12_DESCRIPTOR_RANGE drawList;
+			drawList.Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 1);
+			m_RootSignature.AddDescriptorParameter(1, &drawList);
+
+			m_RootSignature.Build(device);
+
+			auto rastDesc = CD3DX12_RASTERIZER_DESC(D3D12_DEFAULT);
+			rastDesc.FillMode = D3D12_FILL_MODE_SOLID;
+
+			D3D12_DEPTH_STENCIL_DESC depthState = {};
+			depthState.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ZERO;
+			depthState.DepthFunc = D3D12_COMPARISON_FUNC_LESS;
+			depthState.DepthEnable = true;
+
+			D3D12_RENDER_TARGET_BLEND_DESC transparencyBlendDesc = {};
+			transparencyBlendDesc.BlendEnable = true;
+			transparencyBlendDesc.BlendOp = D3D12_BLEND_OP_ADD;
+			transparencyBlendDesc.SrcBlend = D3D12_BLEND_SRC_ALPHA;
+			transparencyBlendDesc.DestBlend = D3D12_BLEND_ONE;
+			transparencyBlendDesc.BlendOpAlpha = D3D12_BLEND_OP_ADD;
+			transparencyBlendDesc.SrcBlendAlpha = D3D12_BLEND_ZERO;
+			transparencyBlendDesc.DestBlendAlpha = D3D12_BLEND_ONE;
+			transparencyBlendDesc.RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;
+
+			m_Pso.SetRootSignature(&m_RootSignature);
+			m_Pso.SetDepthStencilState(depthState);
+			m_Pso.SetRasterizerState(rastDesc);
+			m_Pso.SetRTBlendState(0, transparencyBlendDesc);
+			m_Pso.SetPrimitiveTopology(D3D12_PRIMITIVE_TOPOLOGY_TYPE_POINT);
+			m_Pso.SetShader(&m_VertexShader);
+			m_Pso.SetShader(&m_GeometryShader);
+			m_Pso.SetShader(&m_PixelShader);
+			m_Pso.SetRTVFormat(DXGI_FORMAT_R8G8B8A8_UNORM);
+
+			m_Pso.Build(device);
+
+			D3D12_INDIRECT_ARGUMENT_DESC args[1];
+			args[0].Type = D3D12_INDIRECT_ARGUMENT_TYPE_DRAW;
+
+			m_CommandRootSignature.SetByteStride(9 * sizeof(UINT));
+			m_CommandRootSignature.SetArguments(1, args);
+			m_CommandRootSignature.Build(device);
+		}
+
+		ID3D12PipelineState* GetD3D12PipelineState() const { return m_Pso.GetD3D12PipelineState(); }
+		ID3D12RootSignature* GetD3D12RootSignature() const { return m_RootSignature.GetD3D12RootSignature(); }
+		ID3D12CommandSignature* GetD3D12CommandRootSignature() const { return m_CommandRootSignature.GetD3D12Signature(); }
 	};
 }
