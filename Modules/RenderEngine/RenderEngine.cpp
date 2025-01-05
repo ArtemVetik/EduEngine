@@ -12,7 +12,8 @@ namespace EduEngine
 		return m_Instance;
 	}
 
-	RenderEngine::RenderEngine() :
+	RenderEngine::RenderEngine(const Timer& timer) :
+		m_Timer(timer),
 		m_Viewport{},
 		m_ScissorRect{}
 	{
@@ -177,6 +178,22 @@ namespace EduEngine
 			m_Lights.end());
 	}
 
+	IParticleSystem* RenderEngine::CreateParticleSystem()
+	{
+		auto particleSystem = std::make_shared<ParticleSystemD3D12>(m_Device.get());
+		m_ParticleSystems.emplace_back(particleSystem);
+		return particleSystem.get();
+	}
+
+	void RenderEngine::RemoveParticleSystem(IParticleSystem* particleSystem)
+	{
+		m_ParticleSystems.erase(std::remove_if(m_ParticleSystems.begin(), m_ParticleSystems.end(),
+			[&particleSystem](const std::shared_ptr <IParticleSystem>& ptr) {
+				return ptr.get() == particleSystem;
+			}),
+			m_ParticleSystems.end());
+	}
+
 	void RenderEngine::UpdateUI(ImDrawData* drawData)
 	{
 		m_OverlayUI->Update(drawData);
@@ -263,6 +280,9 @@ namespace EduEngine
 		commandContext.FlushResourceBarriers();
 
 		m_SkyBoxRendering->Render(camera);
+
+		for (auto& particleSystem : m_ParticleSystems)
+			particleSystem->Compute(camera, m_Timer, (float)m_SwapChain->GetWidth() / m_SwapChain->GetHeight());
 
 		if (camera->DebugRenderEnabled())
 		{

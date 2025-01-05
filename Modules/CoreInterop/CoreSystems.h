@@ -1,8 +1,8 @@
 #pragma once
 
 #include "../RenderEngine/IRenderEngine.h"
+#include "../RenderEngine/Timer.h"
 #include "../Physics/IPhysicsWorld.h"
-#include "../InputSystem/Timer.h"
 
 #ifdef COREINTERLOP_EXPORTS
 #define COREINTERLOP_API __declspec(dllexport)

@@ -15,6 +15,7 @@
 #include "SharedMeshD3D12Impl.h"
 #include "TextureD3D12Impl.h"
 #include "MaterialD3D12Impl.h"
+#include "ParticleSystemD3D12.h"
 #include "DeferredRendering.h"
 #include "CSMRendering.h"
 #include "SkyboxRendering.h"
@@ -30,7 +31,7 @@ namespace EduEngine
 	class RenderEngine : public IRenderEngine
 	{
 	public:
-		RenderEngine();
+		RenderEngine(const Timer& timer);
 
 		RenderEngine(const RenderEngine& rhs) = delete;
 		RenderEngine& operator=(const RenderEngine& rhs) = delete;
@@ -50,6 +51,8 @@ namespace EduEngine
 		void RemoveCamera(Camera* camera) override;
 		Light* CreateLight() override;
 		void RemoveLight(Light* light) override;
+		IParticleSystem* CreateParticleSystem() override;
+		void RemoveParticleSystem(IParticleSystem* particleSystem) override;
 
 		void UpdateUI(ImDrawData* drawData) override;
 		void* CreateImGuiUI(void* pixels, int texWidth, int texHeight, int bytesPerPixel) override;
@@ -80,6 +83,7 @@ namespace EduEngine
 		std::vector<std::shared_ptr<MaterialD3D12Impl>> m_Materials;
 		std::vector<std::shared_ptr<CameraInternal>> m_Cameras;
 		std::vector<std::shared_ptr<Light>> m_Lights;
+		std::vector<std::shared_ptr<ParticleSystemD3D12>> m_ParticleSystems;
 
 		std::unique_ptr<DeferredRendering> m_DeferredRendering;
 		std::unique_ptr<CSMRendering> m_CSMRendering;
@@ -90,6 +94,8 @@ namespace EduEngine
 
 		D3D12_VIEWPORT m_Viewport;
 		D3D12_RECT m_ScissorRect;
+
+		const Timer& m_Timer;
 
 		static constexpr XMFLOAT2 CSMSizes[4] =
 		{

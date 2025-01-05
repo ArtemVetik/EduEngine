@@ -22,8 +22,8 @@
       "Name": "Camera",
       "Parent": -1,
       "Components": [
-        10,
-        11
+        11,
+        12
       ]
     },
     {
@@ -48,8 +48,8 @@
       "Name": "Root",
       "Parent": -1,
       "Components": [
-        12,
-        13
+        13,
+        14
       ]
     },
     {
@@ -74,8 +74,8 @@
       "Name": "Mesh",
       "Parent": -1,
       "Components": [
-        14,
-        15
+        15,
+        16
       ]
     },
     {
@@ -100,7 +100,7 @@
       "Name": "Red SpotLight",
       "Parent": -1,
       "Components": [
-        16
+        17
       ]
     },
     {
@@ -148,7 +148,7 @@
       "Name": "BBB",
       "Parent": 4,
       "Components": [
-        17
+        18
       ]
     },
     {
@@ -173,7 +173,7 @@
       "Name": "CCC",
       "Parent": 5,
       "Components": [
-        18
+        19
       ]
     },
     {
@@ -198,7 +198,7 @@
       "Name": "Ground",
       "Parent": -1,
       "Components": [
-        19
+        20
       ]
     },
     {
@@ -223,7 +223,7 @@
       "Name": "Sphere",
       "Parent": -1,
       "Components": [
-        20
+        21
       ]
     },
     {
@@ -248,14 +248,39 @@
       "Name": "UI",
       "Parent": -1,
       "Components": [
-        21
+        22
+      ]
+    },
+    {
+      "FileId": 10,
+      "LocalPosition": {
+        "X": 0.0,
+        "Y": 50.0,
+        "Z": 0.0
+      },
+      "LocalRotation": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 0.0,
+        "W": 1.0,
+        "IsIdentity": true
+      },
+      "LocalScale": {
+        "X": 1.0,
+        "Y": 1.0,
+        "Z": 1.0
+      },
+      "Name": "ParticleSystem",
+      "Parent": -1,
+      "Components": [
+        23
       ]
     }
   ],
   "Components": [
     {
       "Type": "EduEngine.GameCamera",
-      "FileId": 10,
+      "FileId": 11,
       "Parameters": {
         "_fov": 55.0,
         "_near": 1.0,
@@ -273,12 +298,12 @@
           "Z": 1.0,
           "W": 1.0
         },
-        "_debugDraw": true
+        "_debugDraw": false
       }
     },
     {
       "Type": "Script",
-      "FileId": 11,
+      "FileId": 12,
       "Parameters": {
         "_moveSpeed": 20.0,
         "_moveStrength": 8.0,
@@ -288,14 +313,14 @@
     },
     {
       "Type": "Script",
-      "FileId": 12,
+      "FileId": 13,
       "Parameters": {
         "script_guid": "ebbef268-ed62-4e62-b162-2b38d58c8c2d"
       }
     },
     {
       "Type": "Script",
-      "FileId": 13,
+      "FileId": 14,
       "Parameters": {
         "_moveSpeed": 20.0,
         "_moveStrength": 8.0,
@@ -305,7 +330,7 @@
     },
     {
       "Type": "EduEngine.Renderer",
-      "FileId": 14,
+      "FileId": 15,
       "Parameters": {
         "_mesh": "1ba135a0-3118-4431-9ae0-52867b1dc240",
         "_material": "2e92a9cb-080d-4562-8a1b-e732d688b401"
@@ -313,7 +338,7 @@
     },
     {
       "Type": "Script",
-      "FileId": 15,
+      "FileId": 16,
       "Parameters": {
         "_moveSpeed": 20.0,
         "script_guid": "2a43d640-73a5-4207-8da6-27a82273b5b3"
@@ -321,7 +346,7 @@
     },
     {
       "Type": "EduEngine.Light",
-      "FileId": 16,
+      "FileId": 17,
       "Parameters": {
         "_type": 0,
         "_color": {
@@ -337,14 +362,6 @@
     },
     {
       "Type": "EduEngine.Renderer",
-      "FileId": 17,
-      "Parameters": {
-        "_mesh": "1ba135a0-3118-4431-9ae0-52867b1dc240",
-        "_material": "2e92a9cb-080d-4562-8a1b-e732d688b401"
-      }
-    },
-    {
-      "Type": "EduEngine.Renderer",
       "FileId": 18,
       "Parameters": {
         "_mesh": "1ba135a0-3118-4431-9ae0-52867b1dc240",
@@ -355,13 +372,21 @@
       "Type": "EduEngine.Renderer",
       "FileId": 19,
       "Parameters": {
+        "_mesh": "1ba135a0-3118-4431-9ae0-52867b1dc240",
+        "_material": "2e92a9cb-080d-4562-8a1b-e732d688b401"
+      }
+    },
+    {
+      "Type": "EduEngine.Renderer",
+      "FileId": 20,
+      "Parameters": {
         "_mesh": "ac97f75d-4db6-4f84-9797-141d135d1a8d",
         "_material": "fbcc38b1-28e9-4318-a04c-fb4a2887b65a"
       }
     },
     {
       "Type": "EduEngine.Renderer",
-      "FileId": 20,
+      "FileId": 21,
       "Parameters": {
         "_mesh": "ae49e3e7-cefe-4e11-b73d-c76478ab71d7",
         "_material": "fbcc38b1-28e9-4318-a04c-fb4a2887b65a"
@@ -369,9 +394,45 @@
     },
     {
       "Type": "Script",
-      "FileId": 21,
+      "FileId": 22,
       "Parameters": {
         "script_guid": "73d5c373-6369-447b-b810-1b5a6c0f9442"
+      }
+    },
+    {
+      "Type": "EduEngine.ParticleSystem",
+      "FileId": 23,
+      "Parameters": {
+        "_maxParticlesCount": 1000,
+        "_offset": {
+          "X": 0.0,
+          "Y": 0.0,
+          "Z": 0.0
+        },
+        "_emissionRate": 150.0,
+        "_lifeTime": 4.0,
+        "_velocity": {
+          "X": 0.0,
+          "Y": -3.0,
+          "Z": 0.0
+        },
+        "_acceleration": {
+          "X": 0.0,
+          "Y": -3.0,
+          "Z": 0.0
+        },
+        "_startColor": {
+          "X": 1.0,
+          "Y": 0.0,
+          "Z": 0.0,
+          "W": 1.0
+        },
+        "_endColor": {
+          "X": 0.0,
+          "Y": 1.0,
+          "Z": 0.0,
+          "W": 0.0
+        }
       }
     }
   ]

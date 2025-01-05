@@ -81,6 +81,9 @@
     <ClInclude Include="RenderEngine\LightWrapper.h">
       <Filter>RenderEngine</Filter>
     </ClInclude>
+    <ClInclude Include="RenderEngine\NativeParticleSystemWrapper.h">
+      <Filter>RenderEngine</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp">
@@ -129,6 +132,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="RenderEngine\LightWrapper.cpp">
+      <Filter>RenderEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderEngine\NativeParticleSystemWrapper.cpp">
       <Filter>RenderEngine</Filter>
     </ClCompile>
   </ItemGroup>

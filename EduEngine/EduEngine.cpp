@@ -2,8 +2,8 @@
 #include <thread>
 #include "Common.h"
 #include "RuntimeRender.h"
-#include "../Modules/InputSystem/Timer.h"
 #include "../Modules/InputSystem/InputManager.h"
+#include "../Modules/RenderEngine/Timer.h"
 #include "../Modules/RenderEngine/RuntimeWindow.h"
 #include "../Modules/RenderEngine/IRenderEngine.h"
 #include "../Modules/RenderEngine/Camera.h"
@@ -50,18 +50,18 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance,
 #endif
 	InputManager::GetInstance().Initialize(hInstance, runtimeWindow.GetMainWindow());
 
-	std::shared_ptr<IRenderEngine> renderEngine = IRenderEngine::Create(runtimeWindow);
+	Timer runtimeTimer = Timer(runtimeWindow.GetMainWindow(), L"EduEngine");
+#ifndef EDU_NO_EDITOR
+	Timer editorTimer = Timer(editorWindow.GetMainWindow(), L"EduEngine");
+#endif
+
+	std::shared_ptr<IRenderEngine> renderEngine = IRenderEngine::Create(runtimeWindow, runtimeTimer);
 #ifndef EDU_NO_EDITOR
 	std::shared_ptr<IEditorRenderEngine> editorRenderEngine = IEditorRenderEngine::Create(editorWindow);
 #endif
 
 	PhysicsFactory physicsFactory;
 	std::shared_ptr<IPhysicsWorld> physicsWorld = physicsFactory.Create();
-
-	Timer runtimeTimer = Timer(runtimeWindow.GetMainWindow(), L"EduEngine");
-#ifndef EDU_NO_EDITOR
-	Timer editorTimer = Timer(editorWindow.GetMainWindow(), L"EduEngine");
-#endif
 
 #ifndef EDU_NO_EDITOR
 	CoreSystems coreSystems(renderEngine.get(), editorRenderEngine.get(), physicsWorld.get(), &runtimeTimer, &editorTimer);
@@ -185,7 +185,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance,
 
 	EditorInterop::Destroy();
 	GameplayInterop::Destroy();
-	
+
 	renderEngine.reset();
 	physicsWorld.reset();
 

@@ -111,6 +111,12 @@
     <ClInclude Include="CameraInternal.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ParticleSystemD3D12.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Timer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -174,6 +180,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CameraInternal.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ParticleSystemD3D12.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Timer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

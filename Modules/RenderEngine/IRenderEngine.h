@@ -5,6 +5,7 @@
 #include "../EduMath/SimpleMath.h"
 #include "imgui/imgui.h"
 #include "IDebugRendererSystem.h"
+#include "Timer.h"
 #include "Camera.h"
 #include "RuntimeWindow.h"
 #include "EditorWindow.h"
@@ -66,6 +67,20 @@ namespace EduEngine
 		float SpotPower = 64.0f;							 // spot light only
 	};
 
+	class RENDERENGINE_API IParticleSystem
+	{
+	public:
+		virtual void SetMaxParticles(UINT num) = 0;
+
+		float EmissionRate = 0.0f;
+		float LifeTime;
+		DirectX::XMFLOAT3 CenterPos;
+		DirectX::XMFLOAT4 StartColor;
+		DirectX::XMFLOAT4 EndColor;
+		DirectX::XMFLOAT3 Velocity;
+		DirectX::XMFLOAT3 Acceleration;
+	};
+
 	class RENDERENGINE_API IRenderEngine
 	{
 	public:
@@ -81,6 +96,8 @@ namespace EduEngine
 		virtual void RemoveCamera(Camera* camera) = 0;
 		virtual Light* CreateLight() = 0;
 		virtual void RemoveLight(Light* light) = 0;
+		virtual IParticleSystem* CreateParticleSystem() = 0;
+		virtual void RemoveParticleSystem(IParticleSystem* particleSystem) = 0;
 
 		virtual void UpdateUI(ImDrawData* drawData) = 0;
 		virtual void* CreateImGuiUI(void* pixels, int texWidth, int texHeight, int bytesPerPixel) = 0;
@@ -92,7 +109,7 @@ namespace EduEngine
 		virtual DirectX::SimpleMath::Vector2 GetScreenSize() const = 0;
 		virtual IDebugRendererSystem* GetDebugRender() const = 0;
 
-		static std::shared_ptr<IRenderEngine> Create(const RuntimeWindow& mainWindow);
+		static std::shared_ptr<IRenderEngine> Create(const RuntimeWindow& mainWindow, const Timer& timer);
 	};
 
 	class RENDERENGINE_API IEditorRenderEngine
