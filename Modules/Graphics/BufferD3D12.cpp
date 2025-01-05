@@ -3,7 +3,9 @@
 
 namespace EduEngine
 {
-	BufferD3D12::BufferD3D12(RenderDeviceD3D12* pDevice, const D3D12_RESOURCE_DESC& desc, QueueID queueId) :
+	BufferD3D12::BufferD3D12(RenderDeviceD3D12*			pDevice,
+							 const D3D12_RESOURCE_DESC& desc,
+							 QueueID					queueId) :
 		ResourceD3D12(pDevice, queueId)
 	{
 		// Create the actual default buffer resource.
@@ -17,12 +19,12 @@ namespace EduEngine
 
 		THROW_IF_FAILED(hr, L"Failed to create resource in default heap");
 
-		m_d3d12Resource->SetName(L"BufferD3D12"); // TODO: set buffer name
+		m_d3d12Resource->SetName(L"BufferD3D12");
 
 		auto& cmdContext = pDevice->GetCommandContext(D3D12_COMMAND_LIST_TYPE_DIRECT);
 
 		cmdContext.ResourceBarrier(CD3DX12_RESOURCE_BARRIER::Transition(m_d3d12Resource.Get(),
-			D3D12_RESOURCE_STATE_COPY_DEST, D3D12_RESOURCE_STATE_GENERIC_READ));
+			D3D12_RESOURCE_STATE_COMMON, D3D12_RESOURCE_STATE_GENERIC_READ));
 		cmdContext.FlushResourceBarriers();
 	}
 
@@ -45,13 +47,18 @@ namespace EduEngine
 
 		m_d3d12Resource->SetName(L"BufferD3D12"); // TODO: set buffer name
 
+		LoadData(initData);
+	}
+
+	void BufferD3D12::LoadData(const void* data)
+	{
 		Microsoft::WRL::ComPtr<ID3D12Resource> uploadBuffer;
 		// In order to copy CPU memory data into our default buffer, we need to create
 		// an intermediate upload heap. 
-		hr = m_Device->GetD3D12Device()->CreateCommittedResource(
+		HRESULT hr = m_Device->GetD3D12Device()->CreateCommittedResource(
 			&CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD),
 			D3D12_HEAP_FLAG_NONE,
-			&desc,
+			&m_d3d12Resource->GetDesc(),
 			D3D12_RESOURCE_STATE_GENERIC_READ,
 			nullptr,
 			IID_PPV_ARGS(uploadBuffer.GetAddressOf()));
@@ -60,17 +67,17 @@ namespace EduEngine
 
 		// Describe the data we want to copy into the default buffer.
 		D3D12_SUBRESOURCE_DATA subResourceData = {};
-		subResourceData.pData = initData;
-		subResourceData.RowPitch = desc.Width;
+		subResourceData.pData = data;
+		subResourceData.RowPitch = m_d3d12Resource->GetDesc().Width;
 		subResourceData.SlicePitch = subResourceData.RowPitch;
 
 		// Schedule to copy the data to the default buffer resource.  At a high level, the helper function UpdateSubresources
 		// will copy the CPU memory into the intermediate upload heap.  Then, using ID3D12CommandList::CopySubresourceRegion,
 		// the intermediate upload heap data will be copied to mBuffer.
-		auto& cmdContext = pDevice->GetCommandContext(D3D12_COMMAND_LIST_TYPE_DIRECT);
+		auto& cmdContext = m_Device->GetCommandContext(D3D12_COMMAND_LIST_TYPE_DIRECT);
 
 		cmdContext.ResourceBarrier(CD3DX12_RESOURCE_BARRIER::Transition(m_d3d12Resource.Get(),
-			D3D12_RESOURCE_STATE_COMMON, D3D12_RESOURCE_STATE_COPY_DEST));
+			D3D12_RESOURCE_STATE_GENERIC_READ, D3D12_RESOURCE_STATE_COPY_DEST));
 		cmdContext.FlushResourceBarriers();
 
 		cmdContext.UpdateSubresource(m_d3d12Resource.Get(), uploadBuffer.Get(), &subResourceData);
@@ -85,7 +92,7 @@ namespace EduEngine
 
 		ReleaseResourceWrapper releaseObject;
 		releaseObject.AddResource(std::move(uploadBuffer));
-		m_Device->SafeReleaseObject(queueId, std::move(releaseObject));
+		m_Device->SafeReleaseObject(m_QueueId, std::move(releaseObject));
 	}
 
 	void BufferD3D12::CreateCBV()
@@ -107,12 +114,11 @@ namespace EduEngine
 		m_SrvView = std::make_unique<BufferHeapView>(std::move(allocation));
 	}
 
-	void BufferD3D12::CreateUAV(const D3D12_UNORDERED_ACCESS_VIEW_DESC* uavDesc, bool withCounter)
+	void BufferD3D12::CreateUAV(const D3D12_UNORDERED_ACCESS_VIEW_DESC* uavDesc)
 	{
+		auto counter = uavDesc->Buffer.CounterOffsetInBytes == 0 ? nullptr : m_d3d12Resource.Get();
 		DescriptorHeapAllocation allocation = m_Device->AllocateGPUDescriptor(m_QueueId, D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV, 1);
-		m_Device->GetD3D12Device()->CreateUnorderedAccessView(m_d3d12Resource.Get(), 
-															  withCounter ? m_d3d12Resource.Get() : nullptr, 
-															  uavDesc, allocation.GetCpuHandle());
+		m_Device->GetD3D12Device()->CreateUnorderedAccessView(m_d3d12Resource.Get(), counter, uavDesc, allocation.GetCpuHandle());
 		m_UavView = std::make_unique<BufferHeapView>(std::move(allocation));
 	}
 
@@ -129,5 +135,23 @@ namespace EduEngine
 	BufferHeapView* BufferD3D12::GetUAVView() const
 	{
 		return m_UavView.get();
+	}
+
+	UploadBufferD3D12::UploadBufferD3D12(RenderDeviceD3D12*			pDevice,
+										 const D3D12_RESOURCE_DESC& desc,
+										 QueueID					queueId) :
+		ResourceD3D12(pDevice, queueId)
+	{
+		HRESULT hr = m_Device->GetD3D12Device()->CreateCommittedResource(
+			&CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD),
+			D3D12_HEAP_FLAG_NONE,
+			&desc,
+			D3D12_RESOURCE_STATE_GENERIC_READ,
+			nullptr,
+			IID_PPV_ARGS(m_d3d12Resource.GetAddressOf()));
+
+		THROW_IF_FAILED(hr, L"Failed to create resource in upload heap");
+
+		m_d3d12Resource->SetName(L"UploadBufferD3D12");
 	}
 }

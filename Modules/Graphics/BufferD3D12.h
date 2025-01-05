@@ -4,6 +4,12 @@
 
 namespace EduEngine
 {
+	static inline UINT AlignForUavCounter(UINT bufferSize)
+	{
+		const UINT alignment = D3D12_UAV_COUNTER_PLACEMENT_ALIGNMENT;
+		return (bufferSize + (alignment - 1)) & ~(alignment - 1);
+	}
+
 	class GRAPHICS_API BufferHeapView
 	{
 	private:
@@ -32,19 +38,15 @@ namespace EduEngine
 					const void*				   initData,
 					QueueID					   queueId);
 
+		void LoadData(const void* data);
+
 		void CreateCBV();
 		void CreateSRV(const D3D12_SHADER_RESOURCE_VIEW_DESC* srvDesc);
-		void CreateUAV(const D3D12_UNORDERED_ACCESS_VIEW_DESC* uavDesc, bool withCounter = false);
+		void CreateUAV(const D3D12_UNORDERED_ACCESS_VIEW_DESC* uavDesc);
 
 		BufferHeapView* GetCBVView() const;
 		BufferHeapView* GetSRVView() const;
 		BufferHeapView* GetUAVView() const;
-
-		static inline UINT AlignForUavCounter(UINT bufferSize)
-		{
-			const UINT alignment = D3D12_UAV_COUNTER_PLACEMENT_ALIGNMENT;
-			return (bufferSize + (alignment - 1)) & ~(alignment - 1);
-		}
 
 	private:
 		std::unique_ptr<BufferHeapView> m_CbvView;
@@ -94,6 +96,14 @@ namespace EduEngine
 	private:
 		UINT m_Length;
 		D3D12_INDEX_BUFFER_VIEW m_View;
+	};
+
+	class GRAPHICS_API UploadBufferD3D12 : public ResourceD3D12
+	{
+	public:
+		UploadBufferD3D12(RenderDeviceD3D12*		 pDevice,
+						  const D3D12_RESOURCE_DESC& desc,
+						  QueueID					 queueId);
 	};
 }
 
