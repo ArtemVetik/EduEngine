@@ -549,6 +549,8 @@ namespace EduEngine
 
 		struct ParticleData
 		{
+			UINT SpawnType;
+			DirectX::XMFLOAT3 SpawnSize;
 			DirectX::XMFLOAT3 CenterPos;
 			UINT MaxParticles;
 			DirectX::XMFLOAT4 StartColor;

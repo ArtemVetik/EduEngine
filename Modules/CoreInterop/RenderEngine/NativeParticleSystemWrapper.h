@@ -14,6 +14,8 @@ namespace EduEngine
 		!NativeParticleSystemWrapper();
 
 		void SetMaxParticles(unsigned int num);
+		void SetShapeType(UINT value);
+		void SetShapeSize(Vector3 value);
 		void SetCenterPosition(Vector3 value);
 		void SetEmissionRate(float value);
 		void SetLifeTime(float value);

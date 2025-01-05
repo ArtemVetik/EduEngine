@@ -38,6 +38,8 @@ namespace EduEngine
 		timeUploadBuffer.CreateCBV();
 
 		ParticlesComputePass::ParticleData particleData = {};
+		particleData.SpawnType = ShapeType;
+		particleData.SpawnSize = ShapeSize;
 		particleData.MaxParticles = m_MaxParticles;
 		particleData.LifeTime = LifeTime;
 		particleData.CenterPos = CenterPos;

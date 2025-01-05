@@ -19,6 +19,14 @@ float random(uint seed, float min, float max)
     return min + random(seed) * (max - min);
 }
 
+float3 randomInRect(uint seed, float3 rectSize)
+{
+    float x = random(seed, -rectSize.x, rectSize.x);
+    float y = random(seed + 1, -rectSize.y, rectSize.y);
+    float z = random(seed + 2, -rectSize.z, rectSize.z);
+    return float3(x, y, z);
+}
+
 float3 randomUnitVector(uint seed)
 {
     // Generating random values for azimuth and zenith

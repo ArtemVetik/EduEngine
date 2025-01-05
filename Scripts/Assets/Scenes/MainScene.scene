@@ -404,6 +404,12 @@
       "FileId": 23,
       "Parameters": {
         "_maxParticlesCount": 1000,
+        "_shapeType": 2,
+        "_shapeSize": {
+          "X": 15.0,
+          "Y": 0.0,
+          "Z": 0.0
+        },
         "_offset": {
           "X": 0.0,
           "Y": 0.0,
@@ -413,12 +419,12 @@
         "_lifeTime": 4.0,
         "_velocity": {
           "X": 0.0,
-          "Y": -3.0,
+          "Y": 0.0,
           "Z": 0.0
         },
         "_acceleration": {
           "X": 0.0,
-          "Y": -3.0,
+          "Y": 0.0,
           "Z": 0.0
         },
         "_startColor": {

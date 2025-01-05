@@ -5,7 +5,17 @@ namespace EduEngine
 {
     public class ParticleSystem : Component, IDisposable
     {
+        [Serializable]
+        public enum ShapeType
+        {
+            Rect = 0,
+            Sphere = 1,
+            SphereContour = 2,
+        }
+
         [SerializeField] private int _maxParticlesCount;
+        [SerializeField] private ShapeType _shapeType;
+        [SerializeField] private Vector3 _shapeSize;
         [SerializeField] private Vector3 _offset;
         [SerializeField] private float _emissionRate;
         [SerializeField] private float _lifeTime;
@@ -55,6 +65,8 @@ namespace EduEngine
                 _nativeParticles.SetMaxParticles((uint)_maxParticlesCount);
 
             _nativeParticles.SetEmissionRate(_emissionRate);
+            _nativeParticles.SetShapeType((uint)_shapeType);
+            _nativeParticles.SetShapeSize(_shapeSize);
             _nativeParticles.SetLifeTime(_lifeTime);
             _nativeParticles.SetVelocity(_velocity);
             _nativeParticles.SetAcceleration(_acceleration);

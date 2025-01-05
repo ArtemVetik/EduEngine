@@ -74,6 +74,8 @@ namespace EduEngine
 
 		float EmissionRate = 0.0f;
 		float LifeTime;
+		UINT ShapeType;
+		DirectX::XMFLOAT3 ShapeSize;
 		DirectX::XMFLOAT3 CenterPos;
 		DirectX::XMFLOAT4 StartColor;
 		DirectX::XMFLOAT4 EndColor;

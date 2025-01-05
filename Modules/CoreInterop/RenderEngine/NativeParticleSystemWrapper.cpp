@@ -27,6 +27,16 @@ namespace EduEngine
 		m_NativeParticleSystem->SetMaxParticles(num);
 	}
 
+	void NativeParticleSystemWrapper::SetShapeType(UINT value)
+	{
+		m_NativeParticleSystem->ShapeType = value;
+	}
+
+	void NativeParticleSystemWrapper::SetShapeSize(Vector3 value)
+	{
+		m_NativeParticleSystem->ShapeSize = { value.X, value.Y, value.Z };
+	}
+
 	void NativeParticleSystemWrapper::SetCenterPosition(Vector3 value)
 	{
 		m_NativeParticleSystem->CenterPos = { value.X, value.Y, value.Z };

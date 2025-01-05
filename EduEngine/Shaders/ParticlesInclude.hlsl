@@ -20,6 +20,8 @@ cbuffer passData : register(b0)
 
 cbuffer particleData : register(b1)
 {
+    uint gShapeType;
+    float3 gShapeSize;
     float3 gCenterPos;
     uint gMaxParticles;
     float4 gStartColor;

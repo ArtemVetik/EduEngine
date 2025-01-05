@@ -18,7 +18,20 @@ void main(uint id : SV_DispatchThreadID)
     if (emitParticle.Alive != 0.0f)
         return;
 	
-    emitParticle.Position = gCenterPos + float3(random(gTotalTime * 100 + id.x, -15, 15), 0, random(gTotalTime * 100 + id.x + 1, -15, 15));
+    if (gShapeType == 0) // rect
+    {
+        emitParticle.Position = gCenterPos + randomInRect(gTotalTime * 100 + id.x, gShapeSize); 
+    }
+    else if (gShapeType == 1) // inside sphere
+    {
+        float radius = random(gTotalTime * 100 + id.x + 100, 0.0f, gShapeSize.x);
+        emitParticle.Position = gCenterPos + randomUnitVector(gTotalTime * 100 + id.x) * radius;
+    }
+    else if (gShapeType == 2) // sphere contour
+    {
+        emitParticle.Position = gCenterPos + randomUnitVector(gTotalTime * 100 + id.x) * gShapeSize.x;
+    }
+    
     emitParticle.Velocity = gVelocity;
     emitParticle.Color = gStartColor;
     emitParticle.Age = 0.0f;
