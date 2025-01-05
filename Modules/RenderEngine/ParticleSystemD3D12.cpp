@@ -87,7 +87,13 @@ namespace EduEngine
 		commandContext.GetCmdList()->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(m_DrawList->GetD3D12Resource(),
 			D3D12_RESOURCE_STATE_UNORDERED_ACCESS, D3D12_RESOURCE_STATE_COPY_DEST));
 
-		commandContext.GetCmdList()->CopyResource(m_DrawList->GetD3D12Resource(), m_DrawListUpload->GetD3D12Resource());
+		commandContext.GetCmdList()->CopyBufferRegion(
+			m_DrawList->GetD3D12Resource(),
+			AlignForUavCounter(particleData.MaxParticles * sizeof(UINT)),
+			m_DrawListUpload->GetD3D12Resource(),
+			0,
+			sizeof(UINT)
+		);
 
 		commandContext.GetCmdList()->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(m_DrawList->GetD3D12Resource(),
 			D3D12_RESOURCE_STATE_COPY_DEST, D3D12_RESOURCE_STATE_UNORDERED_ACCESS));
@@ -199,7 +205,7 @@ namespace EduEngine
 #undef CREATE_SRV
 #undef CREATE_UAV
 
-		auto uploadDesc = CD3DX12_RESOURCE_DESC::Buffer(AlignForUavCounter(particlesCount * sizeof(UINT)) + sizeof(UINT));
+		auto uploadDesc = CD3DX12_RESOURCE_DESC::Buffer(sizeof(UINT));
 		m_DrawListUpload = std::make_unique<UploadBufferD3D12>(m_Device, uploadDesc, QueueID::Direct);
 	}
 }
