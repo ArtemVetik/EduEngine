@@ -3,7 +3,8 @@
 
 namespace EduEngine
 {
-	PipelineStateD3D12::PipelineStateD3D12()
+	PipelineStateD3D12::PipelineStateD3D12() :
+		m_Device(nullptr)
 	{
 		ZeroMemory(&m_Desc, sizeof(D3D12_GRAPHICS_PIPELINE_STATE_DESC));
 
@@ -17,6 +18,17 @@ namespace EduEngine
 		m_Desc.SampleDesc.Count = 1;
 		m_Desc.SampleDesc.Quality = 0;
 		m_Desc.DSVFormat = DXGI_FORMAT_D24_UNORM_S8_UINT;
+	}
+
+	PipelineStateD3D12::~PipelineStateD3D12()
+	{
+		if (!m_Device)
+			return;
+
+		ReleaseResourceWrapper staleResource = {};
+		staleResource.AddPageable(std::move(m_PSO));
+
+		m_Device->SafeReleaseObject(QueueID::Direct, std::move(staleResource));
 	}
 
 	void PipelineStateD3D12::SetPrimitiveTopology(D3D12_PRIMITIVE_TOPOLOGY_TYPE topology)
@@ -99,11 +111,19 @@ namespace EduEngine
 		assert(1);
 	}
 
-	void PipelineStateD3D12::Build(const RenderDeviceD3D12* pDevice)
+	void PipelineStateD3D12::Build(RenderDeviceD3D12* pDevice)
 	{
+		assert(m_Device == nullptr);
+
+		m_Device = pDevice;
 		HRESULT hr = pDevice->GetD3D12Device()->CreateGraphicsPipelineState(&m_Desc, IID_PPV_ARGS(&m_PSO));
 
 		THROW_IF_FAILED(hr, L"Failed to create PSO");
+	}
+
+	void PipelineStateD3D12::SetName(const wchar_t* name)
+	{
+		m_PSO->SetName(name);
 	}
 
 	ID3D12PipelineState* PipelineStateD3D12::GetD3D12PipelineState() const

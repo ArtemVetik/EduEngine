@@ -3,6 +3,23 @@
 
 namespace EduEngine
 {
+	RootSignatureD3D12::RootSignatureD3D12() :
+		m_Device(nullptr),
+		m_QueueId{}
+	{
+	}
+
+	RootSignatureD3D12::~RootSignatureD3D12()
+	{
+		if (!m_Device)
+			return;
+
+		ReleaseResourceWrapper staleResource = {};
+		staleResource.AddRootSignature(std::move(m_Signature));
+
+		m_Device->SafeReleaseObject(m_QueueId, std::move(staleResource));
+	}
+
 	void RootSignatureD3D12::AddConstantBufferView(UINT					   shaderRegister,
 												   UINT					   registerSpace /* = 0 */,
 												   D3D12_SHADER_VISIBILITY visibility /* = D3D12_SHADER_VISIBILITY_ALL */)
@@ -21,8 +38,13 @@ namespace EduEngine
 		m_SlotParameters.emplace_back(slotParameter);
 	}
 
-	void RootSignatureD3D12::Build(const RenderDeviceD3D12* pDevice)
+	void RootSignatureD3D12::Build(RenderDeviceD3D12* pDevice, QueueID queueId)
 	{
+		assert(m_Device == nullptr);
+
+		m_Device = pDevice;
+		m_QueueId = queueId;
+
 		auto staticSamplers = GetStaticSamplers();
 
 		CD3DX12_ROOT_SIGNATURE_DESC rootSigDesc(m_SlotParameters.size(), m_SlotParameters.data(), (UINT)staticSamplers.size(),
@@ -46,6 +68,11 @@ namespace EduEngine
 			IID_PPV_ARGS(&m_Signature));
 
 		THROW_IF_FAILED(hr, L"Failed to create root signature");
+	}
+
+	void RootSignatureD3D12::SetName(const wchar_t* name)
+	{
+		m_Signature->SetName(name);
 	}
 
 	ID3D12RootSignature* RootSignatureD3D12::GetD3D12RootSignature() const

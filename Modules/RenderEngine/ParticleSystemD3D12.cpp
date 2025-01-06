@@ -11,7 +11,7 @@ namespace EduEngine
 		m_MaxParticles(0),
 		m_Timer(0)
 	{
-		m_ComputePass = std::make_unique<ParticlesComputePass>(m_Device);
+		m_ComputePass = std::make_unique<ParticlesComputePass>(m_Device, QueueID::Direct);
 		m_DrawPass = std::make_unique<ParticlesDrawPass>(m_Device);
 	}
 

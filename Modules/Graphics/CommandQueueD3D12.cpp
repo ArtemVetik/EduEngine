@@ -43,6 +43,11 @@ namespace EduEngine
 		commandContext->DiscardAllocator(m_NextCmdList.load());
 	}
 
+	void CommandQueueD3D12::Wait(CommandQueueD3D12* other, UINT64 fenceValue)
+	{
+		m_CommandQueue->Wait(m_Fence.Get(), fenceValue);
+	}
+
 	void CommandQueueD3D12::SafeReleaseObject(ReleaseResourceWrapper&& staleObject)
 	{
 		m_ReleaseObjectsQueue.emplace_back(m_NextCmdList.load(), std::move(staleObject));

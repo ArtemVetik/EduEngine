@@ -40,7 +40,7 @@ namespace EduEngine
 		PipelineStateD3D12 m_Pso;
 
 	public:
-		OpaquePass(const RenderDeviceD3D12* device, D3D_SHADER_MACRO* macros = nullptr) :
+		OpaquePass(RenderDeviceD3D12* device, D3D_SHADER_MACRO* macros = nullptr) :
 			m_VertexShader(L"Shaders/ForwardOpaque.hlsl", EDU_SHADER_TYPE_VERTEX, macros, "VS", "vs_5_1"),
 			m_PixelShader(L"Shaders/ForwardOpaque.hlsl", EDU_SHADER_TYPE_PIXEL, macros, "PS", "ps_5_1")
 		{
@@ -62,7 +62,7 @@ namespace EduEngine
 
 			m_RootSignature.AddConstantBufferView(2); // pass constants
 
-			m_RootSignature.Build(device);
+			m_RootSignature.Build(device, QueueID::Direct);
 
 			std::vector<D3D12_INPUT_ELEMENT_DESC> mInputLayout =
 			{
@@ -103,7 +103,7 @@ namespace EduEngine
 		PipelineStateD3D12 m_Pso;
 
 	public:
-		ShadowMapPass(const RenderDeviceD3D12* device) :
+		ShadowMapPass(RenderDeviceD3D12* device) :
 			m_VertexShader(L"Shaders/Shadows.hlsl", EDU_SHADER_TYPE_VERTEX, nullptr, "VS", "vs_5_1")
 		{
 			CD3DX12_DESCRIPTOR_RANGE objConstants;
@@ -114,7 +114,7 @@ namespace EduEngine
 			passConstants.Init(D3D12_DESCRIPTOR_RANGE_TYPE_CBV, 1, 1);
 			m_RootSignature.AddDescriptorParameter(1, &passConstants); // pass constants
 
-			m_RootSignature.Build(device);
+			m_RootSignature.Build(device, QueueID::Direct);
 
 			std::vector<D3D12_INPUT_ELEMENT_DESC> mInputLayout =
 			{
@@ -179,7 +179,7 @@ namespace EduEngine
 		PipelineStateD3D12 m_Pso;
 
 	public:
-		GBufferPass(const RenderDeviceD3D12* device) :
+		GBufferPass(RenderDeviceD3D12* device) :
 			m_VertexShader(L"Shaders/GBuffer.hlsl", EDU_SHADER_TYPE_VERTEX, nullptr, "VS", "vs_5_1"),
 			m_PixelShader(L"Shaders/GBuffer.hlsl", EDU_SHADER_TYPE_PIXEL, nullptr, "PS", "ps_5_1")
 		{
@@ -201,7 +201,7 @@ namespace EduEngine
 
 			m_RootSignature.AddConstantBufferView(2); // pass constants
 
-			m_RootSignature.Build(device);
+			m_RootSignature.Build(device, QueueID::Direct);
 
 			std::vector<D3D12_INPUT_ELEMENT_DESC> mInputLayout =
 			{
@@ -248,7 +248,7 @@ namespace EduEngine
 		PipelineStateD3D12 m_Pso;
 
 	public:
-		DeferredLightPass(const RenderDeviceD3D12* device) :
+		DeferredLightPass(RenderDeviceD3D12* device) :
 			m_VertexShader(L"Shaders/DeferredLightPass.hlsl", EDU_SHADER_TYPE_VERTEX, nullptr, "VS", "vs_5_1"),
 			m_PixelShader(L"Shaders/DeferredLightPass.hlsl", EDU_SHADER_TYPE_PIXEL, nullptr, "PS", "ps_5_1")
 		{
@@ -278,7 +278,7 @@ namespace EduEngine
 
 			m_RootSignature.AddConstantBufferView(0); // pass constants
 
-			m_RootSignature.Build(device);
+			m_RootSignature.Build(device, QueueID::Direct);
 
 			std::vector<D3D12_INPUT_ELEMENT_DESC> mInputLayout =
 			{
@@ -313,7 +313,7 @@ namespace EduEngine
 		PipelineStateD3D12 m_Pso;
 
 	public:
-		ToneMappingPass(const RenderDeviceD3D12* device) :
+		ToneMappingPass(RenderDeviceD3D12* device) :
 			m_VertexShader(L"Shaders/ToneMapping.hlsl", EDU_SHADER_TYPE_VERTEX, nullptr, "VS", "vs_5_1"),
 			m_PixelShader(L"Shaders/ToneMapping.hlsl", EDU_SHADER_TYPE_PIXEL, nullptr, "PS", "ps_5_1")
 		{
@@ -321,7 +321,7 @@ namespace EduEngine
 			accumTex.Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 0);
 			m_RootSignature.AddDescriptorParameter(1, &accumTex); // accumulation buffer
 
-			m_RootSignature.Build(device);
+			m_RootSignature.Build(device, QueueID::Direct);
 
 			std::vector<D3D12_INPUT_ELEMENT_DESC> mInputLayout =
 			{
@@ -363,7 +363,7 @@ namespace EduEngine
 		PipelineStateD3D12 m_Pso;
 
 	public:
-		SkyboxPass(const RenderDeviceD3D12* device) :
+		SkyboxPass(RenderDeviceD3D12* device) :
 			m_VertexShader(L"Shaders/Skybox.hlsl", EDU_SHADER_TYPE_VERTEX, nullptr, "VS", "vs_5_1"),
 			m_PixelShader(L"Shaders/Skybox.hlsl", EDU_SHADER_TYPE_PIXEL, nullptr, "PS", "ps_5_1")
 		{
@@ -373,7 +373,7 @@ namespace EduEngine
 
 			m_RootSignature.AddConstantBufferView(0); // cb
 
-			m_RootSignature.Build(device);
+			m_RootSignature.Build(device, QueueID::Direct);
 
 			std::vector<D3D12_INPUT_ELEMENT_DESC> mInputLayout =
 			{
@@ -418,12 +418,12 @@ namespace EduEngine
 		PipelineStateD3D12 m_Pso;
 
 	public:
-		DebugRenderPass(const RenderDeviceD3D12* device) :
+		DebugRenderPass(RenderDeviceD3D12* device) :
 			m_VertexShader(L"Shaders/debugRender.hlsl", EDU_SHADER_TYPE_VERTEX, nullptr, "VS", "vs_5_1"),
 			m_PixelShader(L"Shaders/debugRender.hlsl", EDU_SHADER_TYPE_PIXEL, nullptr, "PS", "ps_5_1")
 		{
 			m_RootSignature.AddConstantBufferView(0); // mvp
-			m_RootSignature.Build(device);
+			m_RootSignature.Build(device, QueueID::Direct);
 
 			std::vector<D3D12_INPUT_ELEMENT_DESC> mInputLayout =
 			{
@@ -477,7 +477,7 @@ namespace EduEngine
 		PipelineStateD3D12 m_Pso;
 
 	public:
-		ImGuiPass(const RenderDeviceD3D12* device) :
+		ImGuiPass(RenderDeviceD3D12* device) :
 			m_VertexShader(L"Shaders/imgui.hlsl", EDU_SHADER_TYPE_VERTEX, nullptr, "VS", "vs_5_1"),
 			m_PixelShader(L"Shaders/imgui.hlsl", EDU_SHADER_TYPE_PIXEL, nullptr, "PS", "ps_5_1")
 		{
@@ -487,7 +487,7 @@ namespace EduEngine
 			fontTexture.Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 0);
 			m_RootSignature.AddDescriptorParameter(1, &fontTexture);
 
-			m_RootSignature.Build(device);
+			m_RootSignature.Build(device, QueueID::Direct);
 
 			std::vector<D3D12_INPUT_ELEMENT_DESC> mInputLayout =
 			{
@@ -575,7 +575,7 @@ namespace EduEngine
 		ComputePipelineStateD3D12 m_CopyDrawPSO;
 
 	public:
-		ParticlesComputePass(const RenderDeviceD3D12* device) :
+		ParticlesComputePass(RenderDeviceD3D12* device, QueueID queueId) :
 			m_DeadListCS(L"Shaders/ParticlesDeadListInitCS.hlsl", EDU_SHADER_TYPE_COMPUTE, nullptr, "main", "cs_5_1"),
 			m_EmitCS(L"Shaders/ParticlesEmitCS.hlsl", EDU_SHADER_TYPE_COMPUTE, nullptr, "main", "cs_5_1"),
 			m_UpdateCS(L"Shaders/ParticlesUpdateCS.hlsl", EDU_SHADER_TYPE_COMPUTE, nullptr, "main", "cs_5_1"),
@@ -607,23 +607,28 @@ namespace EduEngine
 			deadListCounter.Init(D3D12_DESCRIPTOR_RANGE_TYPE_UAV, 1, 4);
 			m_RootSignature.AddDescriptorParameter(1, &deadListCounter);
 
-			m_RootSignature.Build(device);
+			m_RootSignature.Build(device, queueId);
+			m_RootSignature.SetName(L"ParticleComputeRootSignature");
 
 			m_DeadListPSO.SetRootSignature(&m_RootSignature);
 			m_DeadListPSO.SetShader(&m_DeadListCS);
-			m_DeadListPSO.Build(device);
+			m_DeadListPSO.Build(device, queueId);
+			m_DeadListPSO.SetName(L"ParticlesDeadListPSO");
 
 			m_EmitPSO.SetRootSignature(&m_RootSignature);
 			m_EmitPSO.SetShader(&m_EmitCS);
-			m_EmitPSO.Build(device);
+			m_EmitPSO.Build(device, queueId);
+			m_EmitPSO.SetName(L"ParticlesEmitPSO");
 
 			m_UpdatePSO.SetRootSignature(&m_RootSignature);
 			m_UpdatePSO.SetShader(&m_UpdateCS);
-			m_UpdatePSO.Build(device);
+			m_UpdatePSO.Build(device, queueId);
+			m_UpdatePSO.SetName(L"ParticlesUpdatePSO");
 
 			m_CopyDrawPSO.SetRootSignature(&m_RootSignature);
 			m_CopyDrawPSO.SetShader(&m_CopyDrawCS);
-			m_CopyDrawPSO.Build(device);
+			m_CopyDrawPSO.Build(device, QueueID::Direct);
+			m_CopyDrawPSO.SetName(L"ParticlesCopyDrawPSO");
 		}
 
 		ID3D12RootSignature* GetD3D12RootSignature() const { return m_RootSignature.GetD3D12RootSignature(); }
@@ -639,12 +644,12 @@ namespace EduEngine
 		ShaderD3D12 m_VertexShader;
 		ShaderD3D12 m_GeometryShader;
 		ShaderD3D12 m_PixelShader;
-		CommandSignatureD3D12 m_CommandRootSignature;
+		CommandSignatureD3D12 m_CommandSignature;
 		RootSignatureD3D12 m_RootSignature;
 		PipelineStateD3D12 m_Pso;
 
 	public:
-		ParticlesDrawPass(const RenderDeviceD3D12* device) :
+		ParticlesDrawPass(RenderDeviceD3D12* device) :
 			m_VertexShader(L"Shaders/ParticlesDraw.hlsl", EDU_SHADER_TYPE_VERTEX, nullptr, "VS", "vs_5_1"),
 			m_GeometryShader(L"Shaders/ParticlesDraw.hlsl", EDU_SHADER_TYPE_GEOMETRY, nullptr, "GS", "gs_5_1"),
 			m_PixelShader(L"Shaders/ParticlesDraw.hlsl", EDU_SHADER_TYPE_PIXEL, nullptr, "PS", "ps_5_1")
@@ -663,7 +668,8 @@ namespace EduEngine
 			drawList.Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 1);
 			m_RootSignature.AddDescriptorParameter(1, &drawList);
 
-			m_RootSignature.Build(device);
+			m_RootSignature.Build(device, QueueID::Direct);
+			m_RootSignature.SetName(L"ParticleDrawRootSignature");
 
 			auto rastDesc = CD3DX12_RASTERIZER_DESC(D3D12_DEFAULT);
 			rastDesc.FillMode = D3D12_FILL_MODE_SOLID;
@@ -694,17 +700,19 @@ namespace EduEngine
 			m_Pso.SetRTVFormat(DXGI_FORMAT_R8G8B8A8_UNORM);
 
 			m_Pso.Build(device);
+			m_Pso.SetName(L"ParticlesDrawPSO");
 
 			D3D12_INDIRECT_ARGUMENT_DESC args[1];
 			args[0].Type = D3D12_INDIRECT_ARGUMENT_TYPE_DRAW;
 
-			m_CommandRootSignature.SetByteStride(9 * sizeof(UINT));
-			m_CommandRootSignature.SetArguments(1, args);
-			m_CommandRootSignature.Build(device);
+			m_CommandSignature.SetByteStride(9 * sizeof(UINT));
+			m_CommandSignature.SetArguments(1, args);
+			m_CommandSignature.Build(device);
+			m_CommandSignature.SetName(L"ParticlesCommandSignature");
 		}
 
 		ID3D12PipelineState* GetD3D12PipelineState() const { return m_Pso.GetD3D12PipelineState(); }
 		ID3D12RootSignature* GetD3D12RootSignature() const { return m_RootSignature.GetD3D12RootSignature(); }
-		ID3D12CommandSignature* GetD3D12CommandRootSignature() const { return m_CommandRootSignature.GetD3D12Signature(); }
+		ID3D12CommandSignature* GetD3D12CommandRootSignature() const { return m_CommandSignature.GetD3D12Signature(); }
 	};
 }

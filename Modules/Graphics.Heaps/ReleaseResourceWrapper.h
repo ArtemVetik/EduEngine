@@ -59,6 +59,8 @@ namespace EduEngine
 
 		ReleaseResourceWrapper(ReleaseResourceWrapper&& rhs) noexcept :
 			m_Resource{ std::move(rhs.m_Resource) },
+			m_RootSignature{ std::move(rhs.m_RootSignature) },
+			m_Pageable{ std::move(rhs.m_Pageable) },
 			m_StaleAllocation{ std::move(rhs.m_StaleAllocation) }
 		{
 		}
@@ -68,6 +70,16 @@ namespace EduEngine
 			m_Resource = std::move(resource);
 		}
 
+		void AddRootSignature(Microsoft::WRL::ComPtr<ID3D12RootSignature>&& signature)
+		{
+			m_RootSignature = std::move(signature);
+		}
+
+		void AddPageable(Microsoft::WRL::ComPtr<ID3D12Pageable>&& pageable)
+		{
+			m_Pageable = std::move(pageable);
+		}
+
 		void AddStaleAllocation(StaleAllocation&& allocation)
 		{
 			m_StaleAllocation = std::move(allocation);
@@ -75,6 +87,8 @@ namespace EduEngine
 
 	private:
 		Microsoft::WRL::ComPtr<ID3D12Resource> m_Resource;
+		Microsoft::WRL::ComPtr<ID3D12RootSignature> m_RootSignature;
+		Microsoft::WRL::ComPtr<ID3D12Pageable> m_Pageable;
 		StaleAllocation m_StaleAllocation;
 	};
 }

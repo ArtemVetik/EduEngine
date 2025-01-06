@@ -18,7 +18,8 @@ namespace EduEngine
 		CommandQueueD3D12& operator = (CommandQueueD3D12&&) = delete;
 
 		void CloseAndExecuteCommandContext(CommandContext* commandContext);
-
+		
+		void Wait(CommandQueueD3D12* other, UINT64 fenceValue);
 		void SafeReleaseObject(ReleaseResourceWrapper&& staleObject);
 		void ProcessReleaseQueue(bool forceRelease = false);
 
