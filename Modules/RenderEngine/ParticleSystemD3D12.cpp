@@ -106,12 +106,26 @@ namespace EduEngine
 		commandContext.GetCmdList()->SetPipelineState(m_ComputePass->GetCopyDrawPSO());
 		commandContext.GetCmdList()->Dispatch(1, 1, 1);
 
+		m_DirtyBuffers = false;
+	}
+
+	void ParticleSystemD3D12::Draw(Camera* camera, const Timer& timer, float aspectRatio)
+	{
+		ParticlesComputePass::PassData passCB = {};
+		DirectX::XMStoreFloat4x4(&passCB.MVP, DirectX::XMMatrixTranspose(camera->GetViewProjMatrix()));
+		passCB.AspectRatio = aspectRatio;
+
+		DynamicUploadBuffer timeUploadBuffer(m_Device, QueueID::Direct);
+		timeUploadBuffer.LoadData(passCB);
+		timeUploadBuffer.CreateCBV();
+
+		auto& commandContext = m_Device->GetCommandContext(D3D12_COMMAND_LIST_TYPE_DIRECT);
+
 		commandContext.GetCmdList()->SetPipelineState(m_DrawPass->GetD3D12PipelineState());
 		commandContext.GetCmdList()->SetGraphicsRootSignature(m_DrawPass->GetD3D12RootSignature());
 		commandContext.GetCmdList()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_POINTLIST);
 
 		commandContext.GetCmdList()->SetGraphicsRootDescriptorTable(0, timeUploadBuffer.GetCBVDescriptorGPUHandle());
-		commandContext.GetCmdList()->SetGraphicsRootConstantBufferView(1, particleUploadBuffer.GetAllocation().GPUAddress);
 		commandContext.GetCmdList()->SetGraphicsRootDescriptorTable(2, m_ParticlesPool->GetSRVView()->GetGpuHandle());
 		commandContext.GetCmdList()->SetGraphicsRootDescriptorTable(3, m_DrawList->GetSRVView()->GetGpuHandle());
 
@@ -128,8 +142,6 @@ namespace EduEngine
 
 		commandContext.GetCmdList()->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(m_DrawArgs->GetD3D12Resource(),
 			D3D12_RESOURCE_STATE_INDIRECT_ARGUMENT, D3D12_RESOURCE_STATE_UNORDERED_ACCESS));
-
-		m_DirtyBuffers = false;
 	}
 
 	void ParticleSystemD3D12::SetMaxParticles(UINT num)

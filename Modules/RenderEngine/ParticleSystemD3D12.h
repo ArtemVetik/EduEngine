@@ -11,6 +11,7 @@ namespace EduEngine
 		ParticleSystemD3D12(RenderDeviceD3D12* device);
 
 		void Compute(Camera* camera, const Timer& timer, float aspectRatio);
+		void Draw(Camera* camera, const Timer& timer, float aspectRatio);
 
 		void SetMaxParticles(UINT num) override;
 

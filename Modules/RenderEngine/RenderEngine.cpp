@@ -236,6 +236,9 @@ namespace EduEngine
 			m_Viewport.Height * camera->GetViewport().w
 		};
 
+		for (auto& particleSystem : m_ParticleSystems)
+			particleSystem->Compute(camera, m_Timer, (float)m_SwapChain->GetWidth() / m_SwapChain->GetHeight());
+
 		for (int i = 0; i < m_Lights.size(); i++)
 		{
 			if (m_Lights[i]->LightType == Light::Type::Directional)
@@ -282,7 +285,7 @@ namespace EduEngine
 		m_SkyBoxRendering->Render(camera);
 
 		for (auto& particleSystem : m_ParticleSystems)
-			particleSystem->Compute(camera, m_Timer, (float)m_SwapChain->GetWidth() / m_SwapChain->GetHeight());
+			particleSystem->Draw(camera, m_Timer, (float)m_SwapChain->GetWidth() / m_SwapChain->GetHeight());
 
 		if (camera->DebugRenderEnabled())
 		{
