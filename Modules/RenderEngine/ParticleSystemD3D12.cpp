@@ -5,13 +5,14 @@
 
 namespace EduEngine
 {
-	ParticleSystemD3D12::ParticleSystemD3D12(RenderDeviceD3D12* device) :
+	ParticleSystemD3D12::ParticleSystemD3D12(RenderDeviceD3D12* device, bool asyncCompute) :
 		m_Device(device),
+		m_AsyncCompute(asyncCompute),
 		m_DirtyBuffers(true),
 		m_MaxParticles(0),
 		m_Timer(0)
 	{
-		m_ComputePass = std::make_unique<ParticlesComputePass>(m_Device, QueueID::Direct);
+		m_ComputePass = std::make_unique<ParticlesComputePass>(m_Device, asyncCompute ? QueueID::Compute : QueueID::Direct);
 		m_DrawPass = std::make_unique<ParticlesDrawPass>(m_Device);
 	}
 
@@ -39,7 +40,7 @@ namespace EduEngine
 		passCB.EmitCount = m_Timer / timeBetweenEmit;
 		passCB.RandSeed = dis(gen);
 
-		DynamicUploadBuffer timeUploadBuffer(m_Device, QueueID::Direct);
+		DynamicUploadBuffer timeUploadBuffer(m_Device, m_AsyncCompute ? QueueID::Compute : QueueID::Direct);
 		timeUploadBuffer.LoadData(passCB);
 		timeUploadBuffer.CreateCBV();
 
@@ -54,13 +55,14 @@ namespace EduEngine
 		particleData.Velocity = Velocity;
 		particleData.Acceleration = Acceleration;
 
-		DynamicUploadBuffer particleUploadBuffer(m_Device, QueueID::Direct);
+		DynamicUploadBuffer particleUploadBuffer(m_Device, m_AsyncCompute ? QueueID::Compute : QueueID::Direct);
 		particleUploadBuffer.LoadData(particleData);
 
 		if (m_DirtyBuffers)
 			InitBuffers(m_MaxParticles);
 
-		auto& commandContext = m_Device->GetCommandContext(D3D12_COMMAND_LIST_TYPE_DIRECT);
+		auto contextType = m_AsyncCompute ? D3D12_COMMAND_LIST_TYPE_COMPUTE : D3D12_COMMAND_LIST_TYPE_DIRECT;
+		auto& commandContext = m_Device->GetCommandContext(contextType);
 
 		commandContext.GetCmdList()->SetComputeRootSignature(m_ComputePass->GetD3D12RootSignature());
 		commandContext.GetCmdList()->SetComputeRootDescriptorTable(0, timeUploadBuffer.GetCBVDescriptorGPUHandle());
@@ -111,6 +113,12 @@ namespace EduEngine
 
 	void ParticleSystemD3D12::Draw(Camera* camera, const Timer& timer, float aspectRatio)
 	{
+		if (m_MaxParticles == 0)
+			return;
+
+		if (EmissionRate == 0)
+			return;
+
 		ParticlesComputePass::PassData passCB = {};
 		DirectX::XMStoreFloat4x4(&passCB.MVP, DirectX::XMMatrixTranspose(camera->GetViewProjMatrix()));
 		passCB.AspectRatio = aspectRatio;
@@ -174,9 +182,10 @@ namespace EduEngine
 		srvDesc.ViewDimension = D3D12_SRV_DIMENSION_BUFFER;
 		srvDesc.Buffer.FirstElement = 0;
 
-#define CREATE_BUFFER(buffer, width)											 \
-		desc.Width = width;														 \
-		buffer = std::make_unique<BufferD3D12>(m_Device, desc, QueueID::Direct); \
+#define CREATE_BUFFER(buffer, width)												\
+		desc.Width = width;															\
+		buffer = std::make_unique<BufferD3D12>(m_Device, desc,						\
+								 m_AsyncCompute ? QueueID::Both : QueueID::Direct); \
 
 #define CREATE_UAV(buffer, numElements, stride, counterOffset) \
 		uavDesc.Buffer.NumElements = numElements;			   \
@@ -218,6 +227,6 @@ namespace EduEngine
 #undef CREATE_UAV
 
 		auto uploadDesc = CD3DX12_RESOURCE_DESC::Buffer(sizeof(UINT));
-		m_DrawListUpload = std::make_unique<UploadBufferD3D12>(m_Device, uploadDesc, QueueID::Direct);
+		m_DrawListUpload = std::make_unique<UploadBufferD3D12>(m_Device, uploadDesc, m_AsyncCompute ? QueueID::Both : QueueID::Direct);
 	}
 }

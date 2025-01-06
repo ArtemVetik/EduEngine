@@ -180,7 +180,7 @@ namespace EduEngine
 
 	IParticleSystem* RenderEngine::CreateParticleSystem()
 	{
-		auto particleSystem = std::make_shared<ParticleSystemD3D12>(m_Device.get());
+		auto particleSystem = std::make_shared<ParticleSystemD3D12>(m_Device.get(), AsyncComputeParticles);
 		m_ParticleSystems.emplace_back(particleSystem);
 		return particleSystem.get();
 	}
@@ -214,14 +214,20 @@ namespace EduEngine
 			m_PendingResize = EmptyResize;
 		}
 
-		auto& commandContext = m_Device->GetCommandContext(D3D12_COMMAND_LIST_TYPE_DIRECT);
-		commandContext.Reset();
-
-		commandContext.ResourceBarrier(CD3DX12_RESOURCE_BARRIER::Transition(m_SwapChain->CurrentBackBuffer(),
-			D3D12_RESOURCE_STATE_PRESENT, D3D12_RESOURCE_STATE_RENDER_TARGET));
-
 		ID3D12DescriptorHeap* descriptorHeaps[] = { m_Device->GetD3D12DescriptorHeap() };
-		commandContext.GetCmdList()->SetDescriptorHeaps(_countof(descriptorHeaps), descriptorHeaps);
+
+		auto& directCommandContext = m_Device->GetCommandContext(D3D12_COMMAND_LIST_TYPE_DIRECT);
+		directCommandContext.Reset();
+		directCommandContext.ResourceBarrier(CD3DX12_RESOURCE_BARRIER::Transition(m_SwapChain->CurrentBackBuffer(),
+			D3D12_RESOURCE_STATE_PRESENT, D3D12_RESOURCE_STATE_RENDER_TARGET));
+		directCommandContext.GetCmdList()->SetDescriptorHeaps(_countof(descriptorHeaps), descriptorHeaps);
+
+		if (AsyncComputeParticles)
+		{
+			auto& computeCommandContext = m_Device->GetCommandContext(D3D12_COMMAND_LIST_TYPE_COMPUTE);
+			computeCommandContext.Reset();
+			computeCommandContext.GetCmdList()->SetDescriptorHeaps(_countof(descriptorHeaps), descriptorHeaps);
+		}
 	}
 
 	void RenderEngine::Draw(Camera* camera)
@@ -284,6 +290,28 @@ namespace EduEngine
 
 		m_SkyBoxRendering->Render(camera);
 
+		if (AsyncComputeParticles)
+		{
+			auto& directCommandQueue = m_Device->GetCommandQueue(D3D12_COMMAND_LIST_TYPE_DIRECT);
+			auto& computeCommandQueue = m_Device->GetCommandQueue(D3D12_COMMAND_LIST_TYPE_COMPUTE);
+
+			directCommandQueue.CloseAndExecuteCommandContext(&commandContext);
+			commandContext.Reset();
+
+			directCommandQueue.Wait(&computeCommandQueue, computeCommandQueue.GetCompletedFenceNum() + 1);
+
+			ID3D12DescriptorHeap* descriptorHeaps[] = { m_Device->GetD3D12DescriptorHeap() };
+			commandContext.GetCmdList()->SetDescriptorHeaps(_countof(descriptorHeaps), descriptorHeaps);
+			commandContext.SetViewports(&m_Viewport, 1);
+			commandContext.SetScissorRects(scissorRect, 1);
+			commandContext.SetRenderTargets(1, &(m_SwapChain->CurrentBackBufferView()), true, &(m_SwapChain->DepthStencilView()));
+
+			auto& computeCommandContext = m_Device->GetCommandContext(D3D12_COMMAND_LIST_TYPE_COMPUTE);
+
+			computeCommandQueue.CloseAndExecuteCommandContext(&computeCommandContext);
+			computeCommandContext.Reset();
+		}
+
 		for (auto& particleSystem : m_ParticleSystems)
 			particleSystem->Draw(camera, m_Timer, (float)m_SwapChain->GetWidth() / m_SwapChain->GetHeight());
 
@@ -310,8 +338,8 @@ namespace EduEngine
 		commandContext.ResourceBarrier(CD3DX12_RESOURCE_BARRIER::Transition(m_SwapChain->CurrentBackBuffer(),
 			D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PRESENT));
 		commandContext.FlushResourceBarriers();
-		commandQueue.CloseAndExecuteCommandContext(&commandContext);
 
+		commandQueue.CloseAndExecuteCommandContext(&commandContext);
 		commandContext.Reset();
 
 		m_SwapChain->Present();

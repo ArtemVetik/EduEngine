@@ -97,6 +97,8 @@ namespace EduEngine
 
 		const Timer& m_Timer;
 
+		static constexpr bool AsyncComputeParticles = true;
+
 		static constexpr XMFLOAT2 CSMSizes[4] =
 		{
 			{ 2048, 2048 },
