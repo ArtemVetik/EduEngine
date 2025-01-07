@@ -6,13 +6,16 @@ namespace EduEngine.Editor
     {
         public static void Set(FieldInfo? field, object? obj, object? value)
         {
-            if (field == null)
-                return;
+            lock (GameObject.Lock)
+            {
+                if (field == null)
+                    return;
 
-            field.SetValue(obj, value);
+                field.SetValue(obj, value);
 
-            var flags = BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance;
-            field.DeclaringType?.GetMethod("OnFieldChangedByReflection", flags)?.Invoke(obj, new object[] { field.Name });
+                var flags = BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance;
+                field.DeclaringType?.GetMethod("OnFieldChangedByReflection", flags)?.Invoke(obj, new object[] { field.Name });
+            }
         }
     }
 }

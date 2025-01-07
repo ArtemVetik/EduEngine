@@ -3,11 +3,12 @@ namespace EduEngine
 {
     public class GameObject
     {
+        internal static object Lock = new object();
+
         private Guid _guid;
         private GameObject _parent;
         private List<Component> _components = new();
         private List<GameObject> _childs = new();
-        private object _lock = new object();
 
         public string Name;
 
@@ -32,7 +33,7 @@ namespace EduEngine
 
         public void Destroy()
         {
-            lock (_lock)
+            lock (Lock)
             {
                 foreach (var component in _components)
                 {
@@ -81,7 +82,7 @@ namespace EduEngine
 
         public T AddComponent<T>() where T : Component
         {
-            lock (_lock)
+            lock (Lock)
             {
                 if (typeof(T) == typeof(Transform))
                     return null;
@@ -104,7 +105,7 @@ namespace EduEngine
 
         public object? AddComponent(Type type, Action<Component> initFields = null)
         {
-            lock (_lock)
+            lock (Lock)
             {
                 if (type.IsSubclassOf(typeof(Component)) == false)
                     return null;
@@ -169,7 +170,7 @@ namespace EduEngine
 
         internal void RemoveComponent(Component component)
         {
-            lock (_lock)
+            lock (Lock)
             {
                 if (component is IDisposable disposable)
                     disposable.Dispose();
@@ -180,7 +181,7 @@ namespace EduEngine
 
         internal void Render()
         {
-            lock (_lock)
+            lock (Lock)
             {
                 foreach (var component in _components)
                     component.OnRender();

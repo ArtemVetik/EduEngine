@@ -88,7 +88,10 @@ namespace EduEngine.Editor
 
         public void Render()
         {
-            _nativeCamera.Render();
+            lock (GameObject.Lock)
+            {
+                _nativeCamera.Render();
+            }
         }
     }
 }
