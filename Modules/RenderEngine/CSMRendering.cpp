@@ -4,9 +4,9 @@
 
 namespace EduEngine
 {
-	CSMRendering::CSMRendering(RenderDeviceD3D12* device, float shadowDistance, int count, const XMFLOAT2* sizes, const float* cascadeSplits) :
+	CSMRendering::CSMRendering(RenderDeviceD3D12* device, const RenderSettings* settings, int count, const XMFLOAT2* sizes, const float* cascadeSplits) :
 		m_Device(device),
-		m_ShadowDistance(shadowDistance),
+		m_Settings(settings),
 		m_CascadeCount(count)
 	{
 		for (int i = 0; i < m_CascadeCount; i++)
@@ -45,7 +45,7 @@ namespace EduEngine
 		srvDesc.Texture2D.PlaneSlice = 0;
 
 		auto& commandContext = m_Device->GetCommandContext(D3D12_COMMAND_LIST_TYPE_DIRECT);
-		
+
 		for (size_t i = 0; i < count; i++)
 		{
 			texDesc.Width = sizes[i].x;
@@ -76,7 +76,7 @@ namespace EduEngine
 
 		for (int i = 0; i < m_CascadeCount; i++)
 		{
-			float cascadeFar = m_CascadeSplits[i] * m_ShadowDistance;
+			float cascadeFar = m_CascadeSplits[i] * m_Settings->GetShadowDistance();
 
 			XMMATRIX lightProj = CalculateCascadeProjection(cascadeNear, cascadeFar, camera, lightView);
 
@@ -209,10 +209,10 @@ namespace EduEngine
 
 		float l = minCorner.x;
 		float b = minCorner.y;
-		float n = minCorner.z - m_ShadowDistance;
+		float n = minCorner.z - m_Settings->GetShadowDistance();
 		float r = maxCorner.x;
 		float t = maxCorner.y;
-		float f = maxCorner.z + m_ShadowDistance;
+		float f = maxCorner.z + m_Settings->GetShadowDistance();
 
 		return DirectX::XMMatrixOrthographicOffCenterLH(l, r, b, t, n, f);
 	}

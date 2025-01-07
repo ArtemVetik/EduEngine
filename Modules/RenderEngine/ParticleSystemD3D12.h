@@ -8,9 +8,9 @@ namespace EduEngine
 	class ParticleSystemD3D12 : public IParticleSystem
 	{
 	public:
-		ParticleSystemD3D12(RenderDeviceD3D12* device, bool asyncCompute);
+		ParticleSystemD3D12(RenderDeviceD3D12* device, const RenderSettings* renderSettings);
 
-		void Compute(Camera* camera, const Timer& timer, float aspectRatio);
+		void Compute(const Timer& timer, float aspectRatio);
 		void Draw(Camera* camera, const Timer& timer, float aspectRatio);
 
 		void SetMaxParticles(UINT num) override;
@@ -22,6 +22,7 @@ namespace EduEngine
 
 	private:
 		RenderDeviceD3D12* m_Device;
+		const RenderSettings* m_RenderSettings;
 
 		std::unique_ptr<ParticlesComputePass> m_ComputePass;
 		std::unique_ptr<ParticlesDrawPass> m_DrawPass;

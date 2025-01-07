@@ -52,7 +52,7 @@ namespace EduEngine
 			mainWindow.GetClientWidth(), mainWindow.GetClientHeight(), mainWindow.GetMainWindow());
 		m_DeferredRendering = std::make_unique<DeferredRendering>(m_Device.get(), m_SwapChain.get());
 
-		m_CSMRendering = std::make_unique<CSMRendering>(m_Device.get(), CSMDistance, 4, CSMSizes, CSMSplits);
+		m_CSMRendering = std::make_unique<CSMRendering>(m_Device.get(), &m_RenderSettings, 4, CSMSizes, CSMSplits);
 
 		Resize(mainWindow.GetClientWidth(), mainWindow.GetClientHeight());
 
@@ -180,7 +180,7 @@ namespace EduEngine
 
 	IParticleSystem* RenderEngine::CreateParticleSystem()
 	{
-		auto particleSystem = std::make_shared<ParticleSystemD3D12>(m_Device.get(), AsyncComputeParticles);
+		auto particleSystem = std::make_shared<ParticleSystemD3D12>(m_Device.get(), &m_RenderSettings);
 		m_ParticleSystems.emplace_back(particleSystem);
 		return particleSystem.get();
 	}
@@ -222,11 +222,25 @@ namespace EduEngine
 			D3D12_RESOURCE_STATE_PRESENT, D3D12_RESOURCE_STATE_RENDER_TARGET));
 		directCommandContext.GetCmdList()->SetDescriptorHeaps(_countof(descriptorHeaps), descriptorHeaps);
 
-		if (AsyncComputeParticles)
+		if (m_RenderSettings.GetAsyncComputeParticles())
 		{
 			auto& computeCommandContext = m_Device->GetCommandContext(D3D12_COMMAND_LIST_TYPE_COMPUTE);
 			computeCommandContext.Reset();
 			computeCommandContext.GetCmdList()->SetDescriptorHeaps(_countof(descriptorHeaps), descriptorHeaps);
+		}
+
+		for (auto& particleSystem : m_ParticleSystems)
+			particleSystem->Compute(m_Timer, (float)m_SwapChain->GetWidth() / m_SwapChain->GetHeight());
+
+		if (m_RenderSettings.GetAsyncComputeParticles())
+		{
+			auto& directCommandQueue = m_Device->GetCommandQueue(D3D12_COMMAND_LIST_TYPE_DIRECT);
+			auto& computeCommandQueue = m_Device->GetCommandQueue(D3D12_COMMAND_LIST_TYPE_COMPUTE);
+			auto& computeCommandContext = m_Device->GetCommandContext(D3D12_COMMAND_LIST_TYPE_COMPUTE);
+
+			computeCommandQueue.Wait(&directCommandQueue, directCommandQueue.GetNextCmdListNum());
+			computeCommandQueue.CloseAndExecuteCommandContext(&computeCommandContext);
+			computeCommandContext.Reset();
 		}
 	}
 
@@ -241,9 +255,6 @@ namespace EduEngine
 			m_Viewport.Width * camera->GetViewport().z,
 			m_Viewport.Height * camera->GetViewport().w
 		};
-
-		for (auto& particleSystem : m_ParticleSystems)
-			particleSystem->Compute(camera, m_Timer, (float)m_SwapChain->GetWidth() / m_SwapChain->GetHeight());
 
 		for (int i = 0; i < m_Lights.size(); i++)
 		{
@@ -290,26 +301,20 @@ namespace EduEngine
 
 		m_SkyBoxRendering->Render(camera);
 
-		if (AsyncComputeParticles)
+		if (m_RenderSettings.GetAsyncComputeParticles())
 		{
 			auto& directCommandQueue = m_Device->GetCommandQueue(D3D12_COMMAND_LIST_TYPE_DIRECT);
 			auto& computeCommandQueue = m_Device->GetCommandQueue(D3D12_COMMAND_LIST_TYPE_COMPUTE);
 
 			directCommandQueue.CloseAndExecuteCommandContext(&commandContext);
 			commandContext.Reset();
-
-			directCommandQueue.Wait(&computeCommandQueue, computeCommandQueue.GetCompletedFenceNum() + 1);
+			directCommandQueue.Wait(&computeCommandQueue, computeCommandQueue.GetNextCmdListNum());
 
 			ID3D12DescriptorHeap* descriptorHeaps[] = { m_Device->GetD3D12DescriptorHeap() };
 			commandContext.GetCmdList()->SetDescriptorHeaps(_countof(descriptorHeaps), descriptorHeaps);
 			commandContext.SetViewports(&m_Viewport, 1);
 			commandContext.SetScissorRects(scissorRect, 1);
 			commandContext.SetRenderTargets(1, &(m_SwapChain->CurrentBackBufferView()), true, &(m_SwapChain->DepthStencilView()));
-
-			auto& computeCommandContext = m_Device->GetCommandContext(D3D12_COMMAND_LIST_TYPE_COMPUTE);
-
-			computeCommandQueue.CloseAndExecuteCommandContext(&computeCommandContext);
-			computeCommandContext.Reset();
 		}
 
 		for (auto& particleSystem : m_ParticleSystems)
@@ -341,9 +346,10 @@ namespace EduEngine
 
 		commandQueue.CloseAndExecuteCommandContext(&commandContext);
 		commandContext.Reset();
-
 		m_SwapChain->Present();
 		m_Device->FinishFrame();
+
+		m_RenderSettings.ApplyChanges();
 	}
 
 	void RenderEngine::MoveAndResize(UINT x, UINT y, UINT w, UINT h)

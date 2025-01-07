@@ -171,6 +171,7 @@
     <ClInclude Include="MaterialD3D12Impl.h" />
     <ClInclude Include="ParticleSystemD3D12.h" />
     <ClInclude Include="RenderResourcesInfo.h" />
+    <ClInclude Include="RenderSettings.h" />
     <ClInclude Include="SharedMeshD3D12Impl.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="RenderEngine.h" />
@@ -198,6 +199,7 @@
     <ClCompile Include="MaterialD3D12Impl.cpp" />
     <ClCompile Include="ParticleSystemD3D12.cpp" />
     <ClCompile Include="RenderResourcesInfo.cpp" />
+    <ClCompile Include="RenderSettings.cpp" />
     <ClCompile Include="SharedMeshD3D12Impl.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

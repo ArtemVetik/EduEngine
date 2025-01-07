@@ -15,6 +15,8 @@ namespace EduEngine
 		pDevice->GetD3D12Device()->CreateCommandQueue(&desc, IID_PPV_ARGS(&m_CommandQueue));
 		pDevice->GetD3D12Device()->CreateFence(0, D3D12_FENCE_FLAG_SHARED, IID_PPV_ARGS(&m_Fence));
 
+		m_CommandQueue->SetName(type == D3D12_COMMAND_LIST_TYPE_DIRECT ? L"DirectCommandQueue" : L"ComputeCommandQueue");
+
 		m_DynUploadHeap = std::make_unique<DynamicUploadHeap>(true, pDevice, 2048);
 	}
 
@@ -45,7 +47,7 @@ namespace EduEngine
 
 	void CommandQueueD3D12::Wait(CommandQueueD3D12* other, UINT64 fenceValue)
 	{
-		m_CommandQueue->Wait(m_Fence.Get(), fenceValue);
+		m_CommandQueue->Wait(other->m_Fence.Get(), fenceValue);
 	}
 
 	void CommandQueueD3D12::SafeReleaseObject(ReleaseResourceWrapper&& staleObject)

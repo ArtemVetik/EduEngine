@@ -5,6 +5,7 @@
 #include "../EduMath/SimpleMath.h"
 #include "imgui/imgui.h"
 #include "IDebugRendererSystem.h"
+#include "RenderSettings.h"
 #include "Timer.h"
 #include "Camera.h"
 #include "RuntimeWindow.h"
@@ -110,6 +111,7 @@ namespace EduEngine
 		virtual void MoveAndResize(UINT x, UINT y, UINT w, UINT h) = 0;
 		virtual DirectX::SimpleMath::Vector2 GetScreenSize() const = 0;
 		virtual IDebugRendererSystem* GetDebugRender() const = 0;
+		virtual RenderSettings* GetRenderSettings() = 0;
 
 		static std::shared_ptr<IRenderEngine> Create(const RuntimeWindow& mainWindow, const Timer& timer);
 	};

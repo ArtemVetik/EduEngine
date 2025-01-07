@@ -67,6 +67,7 @@ namespace EduEngine
 		DirectX::SimpleMath::Vector2 GetScreenSize() const override;
 
 		IDebugRendererSystem* GetDebugRender() const override { return m_DebugRenderer.get(); }
+		RenderSettings* GetRenderSettings() override { return &m_RenderSettings; }
 
 		static RenderEngine* GetInstance();
 
@@ -89,6 +90,7 @@ namespace EduEngine
 		std::unique_ptr<CSMRendering> m_CSMRendering;
 		std::unique_ptr<SkyboxRendering> m_SkyBoxRendering;
 		std::shared_ptr<DebugRendererSystem> m_DebugRenderer;
+		RenderSettings m_RenderSettings;
 
 		std::unique_ptr<ImGuiD3D12Impl> m_OverlayUI;
 
@@ -96,8 +98,6 @@ namespace EduEngine
 		D3D12_RECT m_ScissorRect;
 
 		const Timer& m_Timer;
-
-		static constexpr bool AsyncComputeParticles = true;
 
 		static constexpr XMFLOAT2 CSMSizes[4] =
 		{
@@ -107,7 +107,6 @@ namespace EduEngine
 			{ 256,	256	 },
 		};
 		static constexpr float CSMSplits[4] = { 0.25f, 0.50f, 0.75f, 1.0f };
-		static constexpr float CSMDistance = 150.0f;
 
 		static constexpr DirectX::SimpleMath::Rectangle EmptyResize = { -1, -1, -1, -1 };
 		DirectX::SimpleMath::Rectangle m_PendingResize = EmptyResize;

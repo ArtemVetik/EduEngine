@@ -403,19 +403,19 @@
       "Type": "EduEngine.ParticleSystem",
       "FileId": 23,
       "Parameters": {
-        "_maxParticlesCount": 1000,
-        "_shapeType": 2,
+        "_maxParticlesCount": 1000000,
+        "_shapeType": 0,
         "_shapeSize": {
-          "X": 15.0,
-          "Y": 0.0,
-          "Z": 0.0
+          "X": 58.0,
+          "Y": 73.0,
+          "Z": 119.0
         },
         "_offset": {
           "X": 0.0,
           "Y": 0.0,
           "Z": 0.0
         },
-        "_emissionRate": 150.0,
+        "_emissionRate": 50000.0,
         "_lifeTime": 4.0,
         "_velocity": {
           "X": 0.0,

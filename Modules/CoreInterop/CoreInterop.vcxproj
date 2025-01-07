@@ -138,6 +138,7 @@
     <ClInclude Include="RenderEngine\MeshData.h" />
     <ClInclude Include="RenderEngine\NativeParticleSystemWrapper.h" />
     <ClInclude Include="RenderEngine\RenderResourcesInfoWrapper.h" />
+    <ClInclude Include="RenderEngine\RenderSettingsInterop.h" />
     <ClInclude Include="RenderEngine\SharedMeshWrapper.h" />
     <ClInclude Include="RenderEngine\NativeCameraWrapper.h" />
     <ClInclude Include="RenderEngine\NativeRenderObjectWrapper.h" />
@@ -159,6 +160,7 @@
     <ClCompile Include="RenderEngine\MaterialWrapper.cpp" />
     <ClCompile Include="RenderEngine\NativeParticleSystemWrapper.cpp" />
     <ClCompile Include="RenderEngine\RenderResourcesInfoWrapper.cpp" />
+    <ClCompile Include="RenderEngine\RenderSettingsInterop.cpp" />
     <ClCompile Include="RenderEngine\SharedMeshWrapper.cpp" />
     <ClCompile Include="RenderEngine\NativeCameraWrapper.cpp" />
     <ClCompile Include="RenderEngine\NativeRenderObjectWrapper.cpp" />

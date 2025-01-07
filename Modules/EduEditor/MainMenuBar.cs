@@ -7,6 +7,7 @@ namespace EduEngine.Editor
     {
         private readonly RenderResourcesInfo _renderResourcesInfo;
         private readonly HierarchyWindow _hierarchyWindow;
+        private readonly RenderSettingsWindow _renderSettingsWindow;
 
         private SceneData? _sceneData = null;
 
@@ -14,6 +15,7 @@ namespace EduEngine.Editor
         {
             _renderResourcesInfo = renderResourcesInfo;
             _hierarchyWindow = hierarchyWindow;
+            _renderSettingsWindow = new RenderSettingsWindow();
         }
 
         public void Render()
@@ -25,6 +27,14 @@ namespace EduEngine.Editor
                 if (ImGui.MenuItem("Render Objects Stats"))
                 {
                     _renderResourcesInfo.Show = true;
+                }
+                ImGui.EndMenu();
+            }
+            if (ImGui.BeginMenu("Settings"))
+            {
+                if (ImGui.MenuItem("Render Settings"))
+                {
+                    _renderSettingsWindow.Show = true;
                 }
                 ImGui.EndMenu();
             }
@@ -76,6 +86,9 @@ namespace EduEngine.Editor
                 ImGui.EndDisabled();
 
             ImGui.EndMainMenuBar();
+
+
+            _renderSettingsWindow.Render();
         }
     }
 }

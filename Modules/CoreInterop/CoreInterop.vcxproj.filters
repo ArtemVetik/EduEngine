@@ -84,6 +84,9 @@
     <ClInclude Include="RenderEngine\NativeParticleSystemWrapper.h">
       <Filter>RenderEngine</Filter>
     </ClInclude>
+    <ClInclude Include="RenderEngine\RenderSettingsInterop.h">
+      <Filter>RenderEngine</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp">
@@ -135,6 +138,9 @@
       <Filter>RenderEngine</Filter>
     </ClCompile>
     <ClCompile Include="RenderEngine\NativeParticleSystemWrapper.cpp">
+      <Filter>RenderEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderEngine\RenderSettingsInterop.cpp">
       <Filter>RenderEngine</Filter>
     </ClCompile>
   </ItemGroup>
