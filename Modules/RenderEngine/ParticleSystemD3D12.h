@@ -15,6 +15,8 @@ namespace EduEngine
 
 		void SetMaxParticles(UINT num) override;
 
+		UINT GetMaxParticles() const;
+
 	private:
 		void InitBuffers(UINT particlesCount);
 

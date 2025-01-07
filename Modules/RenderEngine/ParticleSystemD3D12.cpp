@@ -158,6 +158,11 @@ namespace EduEngine
 		m_DirtyBuffers = true;
 	}
 
+	UINT ParticleSystemD3D12::GetMaxParticles() const
+	{
+		return m_MaxParticles;
+	}
+
 	void ParticleSystemD3D12::InitBuffers(UINT particlesCount)
 	{
 		D3D12_RESOURCE_DESC desc = {};
