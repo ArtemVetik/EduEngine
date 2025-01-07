@@ -78,6 +78,7 @@ namespace EduEngine
 			m_Pso.SetShader(&m_PixelShader);
 			m_Pso.SetRTVFormat(DXGI_FORMAT_R8G8B8A8_UNORM);
 			m_Pso.Build(device);
+			m_Pso.SetName(L"ForwardOpaquePSO");
 		}
 
 		ID3D12RootSignature* GetD3D12RootSignature() const { return m_RootSignature.GetD3D12RootSignature(); }
@@ -132,6 +133,7 @@ namespace EduEngine
 			m_Pso.SetRasterizerState(rast);
 			m_Pso.SetShader(&m_VertexShader);
 			m_Pso.Build(device);
+			m_Pso.SetName(L"ShadowMapPSO");
 		}
 
 		ID3D12RootSignature* GetD3D12RootSignature() const { return m_RootSignature.GetD3D12RootSignature(); }
@@ -217,6 +219,7 @@ namespace EduEngine
 			m_Pso.SetShader(&m_VertexShader);
 			m_Pso.SetShader(&m_PixelShader);
 			m_Pso.Build(device);
+			m_Pso.SetName(L"GBufferPSO");
 		}
 
 		ID3D12RootSignature* GetD3D12RootSignature() const { return m_RootSignature.GetD3D12RootSignature(); }
@@ -298,6 +301,7 @@ namespace EduEngine
 			m_Pso.SetShader(&m_VertexShader);
 			m_Pso.SetShader(&m_PixelShader);
 			m_Pso.Build(device);
+			m_Pso.SetName(L"DeferredLightPSO");
 		}
 
 		ID3D12RootSignature* GetD3D12RootSignature() const { return m_RootSignature.GetD3D12RootSignature(); }
@@ -339,6 +343,7 @@ namespace EduEngine
 			m_Pso.SetShader(&m_PixelShader);
 			m_Pso.SetRTVFormat(DXGI_FORMAT_R8G8B8A8_UNORM);
 			m_Pso.Build(device);
+			m_Pso.SetName(L"ToneMappingPSO");
 		}
 
 		ID3D12RootSignature* GetD3D12RootSignature() const { return m_RootSignature.GetD3D12RootSignature(); }
@@ -395,6 +400,7 @@ namespace EduEngine
 			m_Pso.SetShader(&m_PixelShader);
 			m_Pso.SetRTVFormat(DXGI_FORMAT_R8G8B8A8_UNORM);
 			m_Pso.Build(device);
+			m_Pso.SetName(L"SkyboxPSO");
 		}
 
 		ID3D12RootSignature* GetD3D12RootSignature() const { return m_RootSignature.GetD3D12RootSignature(); }
@@ -456,6 +462,7 @@ namespace EduEngine
 			m_Pso.SetShader(&m_PixelShader);
 			m_Pso.SetRTVFormat(DXGI_FORMAT_R8G8B8A8_UNORM);
 			m_Pso.Build(device);
+			m_Pso.SetName(L"DebugRenderPSO");
 		}
 
 		ID3D12RootSignature* GetD3D12RootSignature() const { return m_RootSignature.GetD3D12RootSignature(); }
@@ -527,8 +534,8 @@ namespace EduEngine
 			depthStencilDesc.DepthEnable = false;
 			m_Pso.SetDepthStencilState(depthStencilDesc);
 			m_Pso.SetRTVFormat(DXGI_FORMAT_R8G8B8A8_UNORM);
-
 			m_Pso.Build(device);
+			m_Pso.SetName(L"ImGuiPSO");
 		}
 
 		ID3D12RootSignature* GetD3D12RootSignature() const { return m_RootSignature.GetD3D12RootSignature(); }
