@@ -88,6 +88,15 @@ namespace EduEngine
 
             foreach (var goData in data.GameObjects)
             {
+                if (goData.Parent < 0)
+                    continue;
+
+                if (goIds.TryGetValue(goData.Parent, out GameObject parent))
+                    goIds[goData.FileId].SetParent(parent);
+            }
+
+            foreach (var goData in data.GameObjects)
+            {
                 GameObject go = goIds[goData.FileId];
 
                 foreach (var componentId in goData.Components)
@@ -112,15 +121,6 @@ namespace EduEngine
                         var component = go.AddComponent(type, (component) => SetParameters(component, componentData.Parameters, goIds));
                     }
                 }
-            }
-
-            foreach (var goData in data.GameObjects)
-            {
-                if (goData.Parent < 0)
-                    continue;
-
-                if (goIds.TryGetValue(goData.Parent, out GameObject parent))
-                    goIds[goData.FileId].SetParent(parent);
             }
         }
 

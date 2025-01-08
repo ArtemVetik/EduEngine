@@ -24,6 +24,7 @@ namespace EduEngine.Editor
             {
                 _guid = guid;
                 _assetData = AssetDataBase.GetAssetData(guid);
+                _sourceInfo = null;
 
                 ImGui.SetWindowFocus("AssetInfo");
             }
