@@ -22,6 +22,18 @@ namespace EduEngine
         public override void OnAddComponent()
         {
             SetTrigger(_isTrigger);
+            var rigidbodyList = GameObject.GetComponentsInParent<RigidBody>();
+
+            foreach (var body in rigidbodyList)
+                body.AttachCollider(this);
+        }
+
+        public override void OnDestroy()
+        {
+            var rigidbodyList = GameObject.GetComponentsInParent<RigidBody>();
+
+            foreach (var body in rigidbodyList)
+                body.DetachCollider(this);
         }
 
         public void Dispose()
@@ -37,12 +49,15 @@ namespace EduEngine
 
         public override void Update()
         {
-            _nativeShape?.DebugDraw(Matrix4x4.CreateTranslation(GameObject.Transform.Position));
+            _nativeShape?.SetLocalTransform(GameObject.Transform.LocalPosition, GameObject.Transform.LocalRotation);
+            _nativeShape?.DebugDraw(Matrix4x4.CreateFromQuaternion(GameObject.Transform.Rotation) *
+                                    Matrix4x4.CreateTranslation(GameObject.Transform.Position));
         }
 
         public override void UpdateEditor()
         {
-            _nativeShape?.DebugDraw(Matrix4x4.CreateTranslation(GameObject.Transform.Position));
+            _nativeShape?.DebugDraw(Matrix4x4.CreateFromQuaternion(GameObject.Transform.Rotation) *
+                                    Matrix4x4.CreateTranslation(GameObject.Transform.Position));
         }
 
         internal NativePhysicsShapeWrapper GetShape()

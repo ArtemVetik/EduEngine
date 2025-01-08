@@ -155,6 +155,34 @@ namespace EduEngine
             return components.ToArray();
         }
 
+        public T[] GetComponentsInChildren<T>() where T : Component
+        {
+            List<T> components = new List<T>();
+            GetComponentsInChildren(this, components);
+
+            return components.ToArray();
+        }
+
+        public T[] GetComponentsInParent<T>() where T : Component
+        {
+            List<T> components = new List<T>();
+            
+            var parent = this;
+
+            while (parent != null)
+            {
+                foreach (var component in parent._components)
+                {
+                    if (component is T target)
+                        components.Add(target);
+                }
+
+                parent = parent._parent;
+            }
+
+            return components.ToArray();
+        }
+
         public override bool Equals(object? obj)
         {
             if (obj is GameObject gameObject)
@@ -186,6 +214,18 @@ namespace EduEngine
                 foreach (var component in _components)
                     component.OnRender();
             }
+        }
+
+        private void GetComponentsInChildren<T>(GameObject go, List<T> components) where T : Component
+        {
+            foreach (var component in go._components)
+            {
+                if (component is T target)
+                    components.Add(target);
+            }
+
+            foreach (var child in go.Childs)
+                GetComponentsInChildren(child, components);
         }
     }
 }

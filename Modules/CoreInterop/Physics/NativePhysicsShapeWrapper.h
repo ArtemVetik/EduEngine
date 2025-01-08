@@ -38,6 +38,7 @@ namespace EduEngine
 		~NativePhysicsShapeWrapper();
 		!NativePhysicsShapeWrapper();
 
+		void SetLocalTransform(Vector3 position, Quaternion rotation);
 		void SetGeometry(ColliderData^ shape);
 		void SetMaterial(float staticFriction, float dynamicFriction, float restitution);
 		void SetTrigger(bool isTrigger);

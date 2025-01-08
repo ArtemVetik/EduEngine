@@ -17,12 +17,20 @@ namespace EduEngine
 	NativePhysicsShapeWrapper::!NativePhysicsShapeWrapper()
 	{
 		if (!m_NativeShape)
-			return; 
+			return;
 
 		CoreSystems::GetInstance()->GetPhysicsWorld()->RemoveShape(m_NativeShape);
 		m_ManagedHandle.Free();
 
 		m_NativeShape = nullptr;
+	}
+
+	void NativePhysicsShapeWrapper::SetLocalTransform(Vector3 position, Quaternion rotation)
+	{
+		m_NativeShape->SetLocalTransform(
+			{ position.X, position.Y, position.Z },
+			{ rotation.X, rotation.Y, rotation.Z, rotation.W }
+		);
 	}
 
 	void NativePhysicsShapeWrapper::SetGeometry(ColliderData^ shape)

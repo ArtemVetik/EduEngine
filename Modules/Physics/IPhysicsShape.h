@@ -29,6 +29,7 @@ namespace EduEngine
 	class PHYSICS_API IPhysicsShape
 	{
 	public:
+		virtual void SetLocalTransform(DirectX::SimpleMath::Vector3 position, DirectX::SimpleMath::Quaternion rotation) = 0;
 		virtual void SetGeometry(ColliderShape& shape) = 0;
 		virtual void SetMaterial(float staticFriction, float dynamicFriction, float restitution) = 0;
 		virtual void SetTrigger(bool isTrigger) = 0;

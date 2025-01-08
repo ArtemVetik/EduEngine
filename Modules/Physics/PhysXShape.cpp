@@ -10,7 +10,7 @@ namespace EduEngine
 	{
 		PxGeometry* pxGeo = ToPxGeometry(shape);
 		m_Material = m_Physics->createMaterial(0.5f, 0.5f, 0.5f);
-		m_Shape = m_Physics->createShape(*pxGeo, *m_Material);
+		m_Shape = m_Physics->createShape(*pxGeo, *m_Material, true);
 
 		m_UserData.Shape = this;
 		m_UserData.UserData = userData;
@@ -24,6 +24,15 @@ namespace EduEngine
 	{
 		PX_RELEASE(m_Material);
 		PX_RELEASE(m_Shape);
+	}
+
+	void PhysXShape::SetLocalTransform(DirectX::SimpleMath::Vector3 position, DirectX::SimpleMath::Quaternion rotation)
+	{
+		PxTransform transform = {};
+		transform.p = { position.x, position.y, position.z };
+		transform.q = { rotation.x, rotation.y, rotation.z, rotation.w };
+
+		m_Shape->setLocalPose(transform);
 	}
 
 	void PhysXShape::SetGeometry(ColliderShape& shape)

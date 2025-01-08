@@ -54,9 +54,18 @@ namespace EduEngine
             _physicObject?.AddForce(force, forceMode);
         }
 
+        internal void AttachCollider(Collider collider) 
+        {
+            _physicObject?.AttachShape(collider.GetShape());
+        }
+        internal void DetachCollider(Collider collider)
+        {
+            _physicObject?.DetachShape(collider.GetShape());
+        }
+
         private void AttachAllColliders()
         {
-            var colliders = GameObject.GetComponents<Collider>();
+            var colliders = GameObject.GetComponentsInChildren<Collider>();
 
             foreach (Collider collider in colliders)
                 _physicObject?.AttachShape(collider.GetShape());

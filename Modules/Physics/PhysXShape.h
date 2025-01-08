@@ -22,6 +22,7 @@ namespace EduEngine
 		PhysXShape(ColliderShape& shape, PxPhysics* physics, void* userData);
 		~PhysXShape();
 
+		void SetLocalTransform(DirectX::SimpleMath::Vector3 position, DirectX::SimpleMath::Quaternion rotation) override;
 		void SetGeometry(ColliderShape& shape) override;
 		void SetMaterial(float staticFriction, float dynamicFriction, float restitution) override;
 		void SetTrigger(bool isTrigger) override;
