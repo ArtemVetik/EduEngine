@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0-windows7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="AssetManager">
+      <HintPath>..\..\Modules\AssetManager\bin\Release\net8.0-windows7.0\AssetManager.dll</HintPath>
+    </Reference>
+    <Reference Include="CoreInterop">
+      <HintPath>..\..\Modules\GameplayFramework\bin\Release\net8.0-windows7.0\CoreInterop.dll</HintPath>
+    </Reference>
+    <Reference Include="GameplayFramework">
+      <HintPath>..\..\Modules\GameplayFramework\bin\Release\net8.0-windows7.0\GameplayFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="ImGui.NET">
+      <HintPath>..\..\Modules\GameplayFramework\bin\Release\net8.0-windows7.0\ImGui.NET.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

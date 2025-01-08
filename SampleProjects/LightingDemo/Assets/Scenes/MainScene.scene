@@ -1,0 +1,311 @@
+{
+  "GameObjects": [
+    {
+      "FileId": 0,
+      "LocalPosition": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 0.0
+      },
+      "LocalRotation": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 0.0,
+        "W": 1.0,
+        "IsIdentity": true
+      },
+      "LocalScale": {
+        "X": 0.9999999,
+        "Y": 1.0,
+        "Z": 1.0
+      },
+      "Name": "PointLightSpawner",
+      "Parent": 3,
+      "Components": [
+        8
+      ]
+    },
+    {
+      "FileId": 1,
+      "LocalPosition": {
+        "X": 0.0,
+        "Y": 10.0,
+        "Z": -60.0
+      },
+      "LocalRotation": {
+        "X": 0.13052623,
+        "Y": 0.0,
+        "Z": 0.0,
+        "W": 0.9914449,
+        "IsIdentity": false
+      },
+      "LocalScale": {
+        "X": 1.0,
+        "Y": 0.9999997,
+        "Z": 0.9999997
+      },
+      "Name": "Camera",
+      "Parent": -1,
+      "Components": [
+        9,
+        10
+      ]
+    },
+    {
+      "FileId": 2,
+      "LocalPosition": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 0.0
+      },
+      "LocalRotation": {
+        "X": 0.38268346,
+        "Y": -2.7533753E-08,
+        "Z": 1.1404855E-08,
+        "W": 0.9238795,
+        "IsIdentity": false
+      },
+      "LocalScale": {
+        "X": 1.0000198,
+        "Y": 1.0000077,
+        "Z": 1.0000374
+      },
+      "Name": "Directional Light",
+      "Parent": 7,
+      "Components": [
+        11
+      ]
+    },
+    {
+      "FileId": 3,
+      "LocalPosition": {
+        "X": 60.0,
+        "Y": 0.0,
+        "Z": 0.0
+      },
+      "LocalRotation": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 0.0,
+        "W": 1.0,
+        "IsIdentity": true
+      },
+      "LocalScale": {
+        "X": 100.0,
+        "Y": 0.1,
+        "Z": 100.0
+      },
+      "Name": "PointLightGround",
+      "Parent": -1,
+      "Components": [
+        12
+      ]
+    },
+    {
+      "FileId": 4,
+      "LocalPosition": {
+        "X": -60.0,
+        "Y": 0.0,
+        "Z": 0.0
+      },
+      "LocalRotation": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 0.0,
+        "W": 1.0,
+        "IsIdentity": true
+      },
+      "LocalScale": {
+        "X": 100.0,
+        "Y": 0.1,
+        "Z": 100.0
+      },
+      "Name": "SpotlightGround",
+      "Parent": -1,
+      "Components": [
+        13
+      ]
+    },
+    {
+      "FileId": 5,
+      "LocalPosition": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 0.0
+      },
+      "LocalRotation": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 0.0,
+        "W": 1.0,
+        "IsIdentity": true
+      },
+      "LocalScale": {
+        "X": 1.0,
+        "Y": 1.0,
+        "Z": 1.0
+      },
+      "Name": "SpotlightSpawner",
+      "Parent": 4,
+      "Components": [
+        14
+      ]
+    },
+    {
+      "FileId": 6,
+      "LocalPosition": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 0.0
+      },
+      "LocalRotation": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 0.0,
+        "W": 1.0,
+        "IsIdentity": true
+      },
+      "LocalScale": {
+        "X": 1.0,
+        "Y": 1.0,
+        "Z": 1.0
+      },
+      "Name": "Sample UI",
+      "Parent": -1,
+      "Components": [
+        15
+      ]
+    },
+    {
+      "FileId": 7,
+      "LocalPosition": {
+        "X": 0.0,
+        "Y": 50.0,
+        "Z": 0.0
+      },
+      "LocalRotation": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 0.0,
+        "W": 1.0,
+        "IsIdentity": true
+      },
+      "LocalScale": {
+        "X": 1.0,
+        "Y": 1.0,
+        "Z": 1.0
+      },
+      "Name": "SunRoot",
+      "Parent": -1,
+      "Components": [
+        16
+      ]
+    }
+  ],
+  "Components": [
+    {
+      "Type": "Script",
+      "FileId": 8,
+      "Parameters": {
+        "_sphereMesh": "71f90207-01d7-4770-b1e5-93b3be170e78",
+        "_material": "a66f8a49-88b7-4968-9e3a-7408d94e14e7",
+        "_spawnCount": 100,
+        "_spawnArea": 40,
+        "script_guid": "48bc3dfe-42f7-4dfd-875b-489601979be8"
+      }
+    },
+    {
+      "Type": "EduEngine.GameCamera",
+      "FileId": 9,
+      "Parameters": {
+        "_fov": 55.0,
+        "_near": 0.3,
+        "_far": 1000.0,
+        "_skyTexture": "0b03e1b5-d45b-4b39-83e8-dc1bcca1bc2e",
+        "_backgroundColor": {
+          "X": 0.6278835,
+          "Y": 0.9852941,
+          "Z": 0.96426994,
+          "W": 1.0
+        },
+        "_viewport": {
+          "X": 0.0,
+          "Y": 0.0,
+          "Z": 1.0,
+          "W": 1.0
+        },
+        "_debugDraw": false
+      }
+    },
+    {
+      "Type": "EduEngine.Scripts.SampleCameraController",
+      "FileId": 10,
+      "Parameters": {
+        "_moveSpeed": 20.0,
+        "_moveStrength": 8.0,
+        "_rotateStrength": 20.0
+      }
+    },
+    {
+      "Type": "EduEngine.Light",
+      "FileId": 11,
+      "Parameters": {
+        "_type": 0,
+        "_color": {
+          "X": 1.0,
+          "Y": 1.0,
+          "Z": 1.0
+        },
+        "_power": 1.0,
+        "_falloffStart": 0.0,
+        "_falloffEnd": 0.0,
+        "_spotPower": 0.0
+      }
+    },
+    {
+      "Type": "EduEngine.Renderer",
+      "FileId": 12,
+      "Parameters": {
+        "_mesh": "27196449-62bc-424f-b32b-117e44b5146b",
+        "_material": "88f937c2-e3f6-469f-a883-d2e4174927cb"
+      }
+    },
+    {
+      "Type": "EduEngine.Renderer",
+      "FileId": 13,
+      "Parameters": {
+        "_mesh": "27196449-62bc-424f-b32b-117e44b5146b",
+        "_material": "88f937c2-e3f6-469f-a883-d2e4174927cb"
+      }
+    },
+    {
+      "Type": "Script",
+      "FileId": 14,
+      "Parameters": {
+        "_cylinderMesh": "fe0d444b-2f85-4618-81da-6a7c91c0f0e2",
+        "_material": "a66f8a49-88b7-4968-9e3a-7408d94e14e7",
+        "_lightRows": 10,
+        "_lightColumns": 10,
+        "_spawnArea": 40,
+        "script_guid": "03ac11d1-0b93-406b-acb0-244b594644eb"
+      }
+    },
+    {
+      "Type": "Script",
+      "FileId": 15,
+      "Parameters": {
+        "_pointlightSpawnerObject": 0,
+        "_spotlightSpawnerObject": 5,
+        "script_guid": "e6a7f4a8-7b61-4bcd-986e-a5874cc713e9"
+      }
+    },
+    {
+      "Type": "Script",
+      "FileId": 16,
+      "Parameters": {
+        "_speed": 1.0,
+        "script_guid": "9e37a4a8-3fc1-458e-8a2f-a1b81e38c88c"
+      }
+    }
+  ]
+}
