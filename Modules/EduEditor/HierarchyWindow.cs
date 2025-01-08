@@ -53,6 +53,7 @@ namespace EduEngine.Editor
             }
 
             var deleteItems = new List<GameObject>();
+            var copyItems = new List<GameObject>();
 
             if (AssetDataBase.HasGUID(SceneManager.CurrentScene.GUID))
             {
@@ -71,7 +72,7 @@ namespace EduEngine.Editor
                     if (item.Parent != null)
                         continue;
 
-                    RenderGameObjectTree(item, ref deleteItems);
+                    RenderGameObjectTree(item, ref deleteItems, ref copyItems);
                 }
 
                 ImGui.TreePop();
@@ -87,10 +88,13 @@ namespace EduEngine.Editor
             foreach (var item in deleteItems)
                 item.Destroy();
 
+            foreach (var item in copyItems)
+                CopyGameObject(item);
+
             ImGui.End();
         }
 
-        private void RenderGameObjectTree(GameObject go, ref List<GameObject> deleteItems)
+        private void RenderGameObjectTree(GameObject go, ref List<GameObject> deleteItems, ref List<GameObject> copyItems)
         {
             ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags.OpenOnArrow;
 
@@ -119,6 +123,10 @@ namespace EduEngine.Editor
                 {
                     deleteItems.Add(go);
                 }
+                if (ImGui.MenuItem("Copy"))
+                {
+                    copyItems.Add(go);
+                }
                 ImGui.EndPopup();
             }
 
@@ -126,9 +134,35 @@ namespace EduEngine.Editor
             {
                 foreach (var child in go.Childs)
                 {
-                    RenderGameObjectTree(child, ref deleteItems);
+                    RenderGameObjectTree(child, ref deleteItems, ref copyItems);
                 }
                 ImGui.TreePop();
+            }
+        }
+
+        private void CopyGameObject(GameObject reference)
+        {
+            var obj = new EditorGameObject();
+            obj.SetParent(reference.Parent);
+            obj.Transform.LocalPosition = reference.Transform.LocalPosition;
+            obj.Transform.LocalRotation = reference.Transform.LocalRotation;
+            obj.Transform.LocalScale = reference.Transform.LocalScale;
+            obj.Name = reference.Name + " Copy";
+
+            var components = reference.GetComponents<Component>();
+            foreach (var component in components)
+            {
+                var fields = ComponentFields.FindAll(component);
+
+                obj.AddComponent(component.GetType(), (c) =>
+                {
+                    foreach (var field in fields)
+                    {
+                        var objField = ComponentFields.FindField(c.GetType(), field.Name);
+                        var value = field.GetValue(component);
+                        objField.SetValue(c, value);
+                    }
+                });
             }
         }
     }
