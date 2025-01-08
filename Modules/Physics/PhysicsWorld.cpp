@@ -5,6 +5,17 @@
 
 namespace EduEngine
 {
+	PxFilterFlags CollisionFilterShader(
+		PxFilterObjectAttributes attributes0, PxFilterData filterData0,
+		PxFilterObjectAttributes attributes1, PxFilterData filterData1,
+		PxPairFlags& pairFlags, const void*, PxU32) {
+		pairFlags = PxPairFlag::eCONTACT_DEFAULT;
+		pairFlags |= PxPairFlag::eNOTIFY_TOUCH_FOUND;
+		pairFlags |= PxPairFlag::eNOTIFY_TOUCH_LOST;
+		pairFlags |= PxPairFlag::eNOTIFY_CONTACT_POINTS;
+		return PxFilterFlag::eDEFAULT;
+	}
+
 	PhysicsWorld::PhysicsWorld()
 	{
 		m_Foundation = PxCreateFoundation(PX_PHYSICS_VERSION, m_Allocator, m_ErrorCallback);
@@ -15,7 +26,7 @@ namespace EduEngine
 		sceneDesc.gravity = PxVec3(0.0f, -9.81f, 0.0f);
 		m_Dispatcher = PxDefaultCpuDispatcherCreate(2);
 		sceneDesc.cpuDispatcher = m_Dispatcher;
-		sceneDesc.filterShader = PxDefaultSimulationFilterShader;
+		sceneDesc.filterShader = CollisionFilterShader;
 		sceneDesc.simulationEventCallback = &m_EventCallback;
 
 		m_Scene = m_Physics->createScene(sceneDesc);

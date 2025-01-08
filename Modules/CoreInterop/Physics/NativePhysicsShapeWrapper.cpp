@@ -44,7 +44,7 @@ namespace EduEngine
 	{
 		m_TriggerEnterCallback = callback;
 
-		m_TriggerEnterInternal = gcnew ShapeCallbackDelegate(this, &NativePhysicsShapeWrapper::OnTriggerEnter);
+		m_TriggerEnterInternal = gcnew ShapeTriggerCallbackDelegate(this, &NativePhysicsShapeWrapper::OnTriggerEnter);
 		IntPtr rahPtr = Marshal::GetFunctionPointerForDelegate(m_TriggerEnterInternal);
 		auto callbackFunctionCpp = static_cast<void(__stdcall*)(void*)>(rahPtr.ToPointer());
 
@@ -55,11 +55,33 @@ namespace EduEngine
 	{
 		m_TriggerExitCallback = callback;
 
-		m_TriggerExitInternal = gcnew ShapeCallbackDelegate(this, &NativePhysicsShapeWrapper::OnTriggerExit);
+		m_TriggerExitInternal = gcnew ShapeTriggerCallbackDelegate(this, &NativePhysicsShapeWrapper::OnTriggerExit);
 		IntPtr rahPtr = Marshal::GetFunctionPointerForDelegate(m_TriggerExitInternal);
 		auto callbackFunctionCpp = static_cast<void(__stdcall*)(void*)>(rahPtr.ToPointer());
 
 		m_NativeShape->SetTriggerExitCallback(callbackFunctionCpp);
+	}
+
+	void NativePhysicsShapeWrapper::SetCollisionEnterCallback(Action<CollisionData^>^ callback)
+	{
+		m_CollisionEnterCallback = callback;
+
+		m_CollisionEnterInternal = gcnew ShapeCollisionCallbackDelegate(this, &NativePhysicsShapeWrapper::OnCollisionEnter);
+		IntPtr rahPtr = Marshal::GetFunctionPointerForDelegate(m_CollisionEnterInternal);
+		auto callbackFunctionCpp = static_cast<void(__stdcall*)(PhysXCollisionData)>(rahPtr.ToPointer());
+
+		m_NativeShape->SetCollisionEnterCallback(callbackFunctionCpp);
+	}
+
+	void NativePhysicsShapeWrapper::SetCollisionExitCallback(Action<CollisionData^>^ callback)
+	{
+		m_CollisionExitCallback = callback;
+
+		m_CollisionExitInternal = gcnew ShapeCollisionCallbackDelegate(this, &NativePhysicsShapeWrapper::OnCollisionExit);
+		IntPtr rahPtr = Marshal::GetFunctionPointerForDelegate(m_CollisionExitInternal);
+		auto callbackFunctionCpp = static_cast<void(__stdcall*)(PhysXCollisionData)>(rahPtr.ToPointer());
+
+		m_NativeShape->SetCollisionExitCallback(callbackFunctionCpp);
 	}
 
 	void NativePhysicsShapeWrapper::OnTriggerEnter(void* otherObject)
@@ -72,6 +94,37 @@ namespace EduEngine
 	{
 		auto objectGCHandle = GCHandle::FromIntPtr(IntPtr(otherObject));
 		m_TriggerExitCallback->Invoke(objectGCHandle.Target);
+	}
+
+	void NativePhysicsShapeWrapper::OnCollisionEnter(PhysXCollisionData collisionData)
+	{
+		m_CollisionEnterCallback->Invoke(CreateCollisionData(collisionData));
+	}
+
+	void NativePhysicsShapeWrapper::OnCollisionExit(PhysXCollisionData collisionData)
+	{
+		m_CollisionExitCallback->Invoke(CreateCollisionData(collisionData));
+	}
+
+	CollisionData^ NativePhysicsShapeWrapper::CreateCollisionData(PhysXCollisionData nativeData)
+	{
+		auto data = gcnew CollisionData();
+		data->Other = GCHandle::FromIntPtr(IntPtr(nativeData.OtherUserData)).Target;
+		data->ContactCount = nativeData.ContactCount;
+		data->Contacts = gcnew array<CollisionContactData>(nativeData.ContactCount);
+		for (size_t i = 0; i < nativeData.ContactCount; i++)
+		{
+			auto point = nativeData.Contacts[i].Point;
+			auto normal = nativeData.Contacts[i].Normal;
+			auto impulse = nativeData.Contacts[i].Impulse;
+
+			data->Contacts[i].Point = Vector3(point.x, point.y, point.z);
+			data->Contacts[i].Normal = Vector3(normal.x, normal.y, normal.z);
+			data->Contacts[i].Impulse = Vector3(impulse.x, impulse.y, impulse.z);
+			data->Contacts[i].Separation = nativeData.Contacts[i].Separation;
+		}
+
+		return data;
 	}
 
 	void NativePhysicsShapeWrapper::DebugDraw(System::Numerics::Matrix4x4 worldMatrix)

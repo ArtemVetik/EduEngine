@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using System.Numerics;
 
 namespace EduEngine
 {
@@ -14,6 +15,8 @@ namespace EduEngine
             _nativeShape = new NativePhysicsShapeWrapper(shape, this);
             _nativeShape.SetTriggerEnterCallback(OnTriggerEnter);
             _nativeShape.SetTriggerExitCallback(OnTriggerExit);
+            _nativeShape.SetCollisionEnterCallback(OnCollisionEnter);
+            _nativeShape.SetCollisionExitCallback(OnCollisionExit);
         }
 
         public override void OnAddComponent()
@@ -34,12 +37,12 @@ namespace EduEngine
 
         public override void Update()
         {
-            _nativeShape?.DebugDraw(GameObject.Transform.WorldMatrix);
+            _nativeShape?.DebugDraw(Matrix4x4.CreateTranslation(GameObject.Transform.Position));
         }
 
         public override void UpdateEditor()
         {
-            _nativeShape?.DebugDraw(GameObject.Transform.WorldMatrix);
+            _nativeShape?.DebugDraw(Matrix4x4.CreateTranslation(GameObject.Transform.Position));
         }
 
         internal NativePhysicsShapeWrapper GetShape()
@@ -68,6 +71,22 @@ namespace EduEngine
 
             foreach (var component in components)
                 (component as IColliderCallbacks)?.OnTriggerExit(otherCollider);
+        }
+
+        private void OnCollisionEnter(CollisionData collisionData)
+        {
+            var components = GameObject.GetComponents<Component>();
+            var a = collisionData.Contacts;
+            foreach (var component in components)
+                (component as IColliderCallbacks)?.OnCollisionEnter(collisionData);
+        }
+
+        private void OnCollisionExit(CollisionData collisionData)
+        {
+            var components = GameObject.GetComponents<Component>();
+
+            foreach (var component in components)
+                (component as IColliderCallbacks)?.OnCollisionExit(collisionData);
         }
 
         [DynamicDependency(nameof(OnFieldChangedByReflection))]

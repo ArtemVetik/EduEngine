@@ -67,6 +67,16 @@ namespace EduEngine
 		m_TriggerExit = callback;
 	}
 
+	void PhysXShape::SetCollisionEnterCallback(std::function<void(PhysXCollisionData)> callback)
+	{
+		m_CollisionEnter = callback;
+	}
+
+	void PhysXShape::SetCollisionExitCallback(std::function<void(PhysXCollisionData)> callback)
+	{
+		m_CollisionExit = callback;
+	}
+
 	void PhysXShape::CallTriggerEnter(void* otherUserData)
 	{
 		if (m_TriggerEnter)
@@ -77,6 +87,18 @@ namespace EduEngine
 	{
 		if (m_TriggerExit)
 			m_TriggerExit(otherUserData);
+	}
+
+	void PhysXShape::CallCollisionEnter(PhysXCollisionData collisionData)
+	{
+		if (m_CollisionEnter)
+			m_CollisionEnter(collisionData);
+	}
+
+	void PhysXShape::CallCollisionExit(PhysXCollisionData collisionData)
+	{
+		if (m_CollisionExit)
+			m_CollisionExit(collisionData);
 	}
 
 	PxGeometry* PhysXShape::ToPxGeometry(ColliderShape& shape)

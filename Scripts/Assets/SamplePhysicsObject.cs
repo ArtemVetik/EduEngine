@@ -1,10 +1,22 @@
-﻿namespace EduEngine.Scripts
+﻿using System.Reflection;
+
+namespace EduEngine.Scripts
 {
     public class SamplePhysicsObject : Component, IColliderCallbacks
     {
         public SamplePhysicsObject(GameObject parent)
             : base(parent)
         {
+        }
+
+        public void OnCollisionEnter(CollisionData collisionData)
+        {
+            Console.WriteLine($"Collision Enter: {collisionData.Other}");
+        }
+
+        public void OnCollisionExit(CollisionData collisionData)
+        {
+            Console.WriteLine($"Collision Exit: {collisionData.Other}");
         }
 
         public void OnTriggerEnter(Collider other)

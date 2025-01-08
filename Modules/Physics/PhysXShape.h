@@ -29,11 +29,15 @@ namespace EduEngine
 
 		void SetTriggerEnterCallback(std::function<void(void*)> callback) override;
 		void SetTriggerExitCallback(std::function<void(void*)> callback) override;
+		void SetCollisionEnterCallback(std::function<void(PhysXCollisionData)> callback) override;
+		void SetCollisionExitCallback(std::function<void(PhysXCollisionData)> callback) override;
 		
 		PxShape& GetPxShape() const { return *m_Shape; };
 
 		void CallTriggerEnter(void* otherUserData);
 		void CallTriggerExit(void* otherUserData);
+		void CallCollisionEnter(PhysXCollisionData collisionData);
+		void CallCollisionExit(PhysXCollisionData collisionData);
 
 	private:
 		PxGeometry* ToPxGeometry(ColliderShape& shape);
@@ -48,5 +52,7 @@ namespace EduEngine
 
 		std::function<void(void*)> m_TriggerEnter;
 		std::function<void(void*)> m_TriggerExit;
+		std::function<void(PhysXCollisionData)> m_CollisionEnter;
+		std::function<void(PhysXCollisionData)> m_CollisionExit;
 	};
 }
