@@ -1,4 +1,5 @@
-﻿
+﻿using System.Numerics;
+
 namespace EduEngine
 {
     public class GameObject
@@ -60,11 +61,26 @@ namespace EduEngine
             }
         }
 
-        public void SetParent(GameObject? parent)
+        public void SetParent(GameObject? parent, bool stayWorldPosition = false)
         {
+            Vector3 position = Vector3.Zero;
+            Quaternion rotation = Quaternion.Identity;
+
+            if (stayWorldPosition)
+            {
+                position = Transform.Position;
+                rotation = Transform.Rotation;
+            }
+
             _parent?._childs.Remove(this);
             _parent = parent;
             _parent?._childs.Add(this);
+
+            if (stayWorldPosition)
+            {
+                Transform.Position = position;
+                Transform.Rotation = rotation;
+            }
         }
 
         public void Update()

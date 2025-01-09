@@ -48,9 +48,9 @@ namespace EduEngine.Editor
 
             AddChilds(go, ref ignoreParents);
 
-            ImGuiEx.RenderGameObjectSelect(go.Parent, "Parent", (selectedGameObject) =>
+            ImGuiEx.RenderGameObjectSelect(go.Parent, "Parent", (selected) =>
             {
-                go.SetParent(selectedGameObject);
+                go.SetParent(selected, true);
             }, ignoreParents);
         }
 
