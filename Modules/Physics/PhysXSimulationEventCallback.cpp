@@ -27,6 +27,9 @@ namespace EduEngine
 				PhysXShapeUserData* userData = (PhysXShapeUserData*)contactPair.shapes[0]->userData;
 				PhysXShapeUserData* otherUserData = (PhysXShapeUserData*)contactPair.shapes[1]->userData;
 
+				if (!userData || !otherUserData)
+					continue;
+
 				PxContactPairPoint contacts[PhysXCollisionData::MaxContacts];
 				contactPair.extractContacts(contacts, contactPair.contactCount);
 

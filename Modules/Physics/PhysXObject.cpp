@@ -11,6 +11,8 @@ namespace EduEngine
 		PxQuat pxQuat(rotation.x, rotation.y, rotation.z, rotation.w);
 		PxTransform pxTransform(pxPos, pxQuat);
 
+		m_Static = isStatic;
+
 		if (isStatic)
 			m_Actor = physics->createRigidStatic(pxTransform);
 		else
@@ -64,6 +66,9 @@ namespace EduEngine
 		assert(physXShape != nullptr);
 
 		m_Actor->attachShape(physXShape->GetPxShape());
+
+		if (!m_Static)
+			PxRigidBodyExt::updateMassAndInertia(*m_Actor->is<PxRigidDynamic>(), 10.0f);
 	}
 
 	void PhysXObject::DetachShape(IPhysicsShape* shape)
@@ -72,5 +77,42 @@ namespace EduEngine
 		assert(physXShape != nullptr);
 
 		m_Actor->detachShape(physXShape->GetPxShape());
+
+		if (!m_Static)
+		{
+			PxRigidBodyExt::updateMassAndInertia(*m_Actor->is<PxRigidDynamic>(), 10.0f);
+			(m_Actor->is<PxRigidDynamic>())->wakeUp();
+		}
+	}
+
+	void PhysXObject::SetGlobalTransform(DirectX::SimpleMath::Vector3 position, DirectX::SimpleMath::Quaternion rotation)
+	{
+		PxTransform pos = {};
+		pos.p = { position.x, position.y, position.z };
+		pos.q = { rotation.x, rotation.y, rotation.z, rotation.w };
+		m_Actor->setGlobalPose(pos);
+	}
+
+	void PhysXObject::SetMass(float mass)
+	{
+		auto dynamicActor = m_Actor->is<PxRigidDynamic>();
+
+		if (dynamicActor)
+		{
+			dynamicActor->setMass(mass);
+			PxRigidBodyExt::updateMassAndInertia(*dynamicActor, 10.0f);
+		}
+	}
+
+	DirectX::SimpleMath::Vector3 PhysXObject::GetLinearVelocity()
+	{
+		auto dynamicActor = m_Actor->is<PxRigidDynamic>();
+
+		PxVec3 velocity = { 0, 0, 0 };
+
+		if (dynamicActor)
+			velocity = dynamicActor->getLinearVelocity();
+
+		return DirectX::SimpleMath::Vector3(velocity.x, velocity.y, velocity.z);
 	}
 }

@@ -7,6 +7,11 @@ namespace EduEngine
     {
         [SerializeField] private bool _isTrigger = false;
 
+        private readonly List<Collider> _onTriggerEnter = new();
+        private readonly List<Collider> _onTriggerExit = new();
+        private readonly List<CollisionData> _onCollisionEnter = new();
+        private readonly List<CollisionData> _onCollisionExit = new();
+
         private NativePhysicsShapeWrapper _nativeShape;
 
         internal Collider(GameObject parent, ColliderData shape)
@@ -19,25 +24,30 @@ namespace EduEngine
             _nativeShape.SetCollisionExitCallback(OnCollisionExit);
         }
 
+        public RigidBody ParentBody { get; internal set; } = null;
+
         public override void OnAddComponent()
         {
             SetTrigger(_isTrigger);
             var rigidbodyList = GameObject.GetComponentsInParent<RigidBody>();
 
             foreach (var body in rigidbodyList)
+            {
                 body.AttachCollider(this);
-        }
-
-        public override void OnDestroy()
-        {
-            var rigidbodyList = GameObject.GetComponentsInParent<RigidBody>();
-
-            foreach (var body in rigidbodyList)
-                body.DetachCollider(this);
+                ParentBody = body;
+            }
         }
 
         public void Dispose()
         {
+            var rigidbodyList = GameObject.GetComponentsInParent<RigidBody>();
+
+            foreach (var body in rigidbodyList)
+            {
+                body.DetachCollider(this);
+                ParentBody = null;
+            }
+
             _nativeShape.Dispose();
             _nativeShape = null;
         }
@@ -49,9 +59,30 @@ namespace EduEngine
 
         public override void Update()
         {
-            _nativeShape?.SetLocalTransform(GameObject.Transform.LocalPosition, GameObject.Transform.LocalRotation);
-            _nativeShape?.DebugDraw(Matrix4x4.CreateFromQuaternion(GameObject.Transform.Rotation) *
-                                    Matrix4x4.CreateTranslation(GameObject.Transform.Position));
+            if (ParentBody != null && ParentBody.GameObject.Parent != GameObject.Parent)
+                _nativeShape?.SetLocalTransform(GameObject.Transform.LocalPosition, GameObject.Transform.LocalRotation);
+
+            if (_onTriggerEnter.Count > 0 || _onTriggerExit.Count > 0 || _onCollisionEnter.Count > 0 || _onCollisionExit.Count > 0)
+            {
+                var components = GameObject.GetComponents<Component>();
+
+                foreach (var component in components)
+                {
+                    foreach (var item in _onTriggerEnter)
+                        (component as IColliderCallbacks)?.OnTriggerEnter(item);
+                    foreach (var item in _onTriggerExit)
+                        (component as IColliderCallbacks)?.OnTriggerExit(item);
+                    foreach (var item in _onCollisionEnter)
+                        (component as IColliderCallbacks)?.OnCollisionEnter(item);
+                    foreach (var item in _onCollisionExit)
+                        (component as IColliderCallbacks)?.OnCollisionExit(item);
+                }
+
+                _onTriggerEnter.Clear();
+                _onTriggerExit.Clear();
+                _onCollisionEnter.Clear();
+                _onCollisionExit.Clear();
+            }
         }
 
         public override void UpdateEditor()
@@ -73,35 +104,23 @@ namespace EduEngine
         private void OnTriggerEnter(object other)
         {
             var otherCollider = (Collider)other;
-            var components = GameObject.GetComponents<Component>();
-
-            foreach (var component in components)
-                (component as IColliderCallbacks)?.OnTriggerEnter(otherCollider);
+            _onTriggerEnter.Add(otherCollider);
         }
 
         private void OnTriggerExit(object other)
         {
             var otherCollider = (Collider)other;
-            var components = GameObject.GetComponents<Component>();
-
-            foreach (var component in components)
-                (component as IColliderCallbacks)?.OnTriggerExit(otherCollider);
+            _onTriggerExit.Add(otherCollider);
         }
 
         private void OnCollisionEnter(CollisionData collisionData)
         {
-            var components = GameObject.GetComponents<Component>();
-            var a = collisionData.Contacts;
-            foreach (var component in components)
-                (component as IColliderCallbacks)?.OnCollisionEnter(collisionData);
+            _onCollisionEnter.Add(collisionData);
         }
 
         private void OnCollisionExit(CollisionData collisionData)
         {
-            var components = GameObject.GetComponents<Component>();
-
-            foreach (var component in components)
-                (component as IColliderCallbacks)?.OnCollisionExit(collisionData);
+            _onCollisionExit.Add(collisionData);
         }
 
         [DynamicDependency(nameof(OnFieldChangedByReflection))]

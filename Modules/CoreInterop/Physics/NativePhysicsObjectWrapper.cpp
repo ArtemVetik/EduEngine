@@ -23,6 +23,19 @@ namespace EduEngine
 		CoreSystems::GetInstance()->GetPhysicsWorld()->RemoveBody(m_NativeObject);
 	}
 
+	void NativePhysicsObjectWrapper::SetGlobalTransform(Numerics::Vector3 position, Numerics::Quaternion rotation)
+	{
+		m_NativeObject->SetGlobalTransform(
+			{ position.X, position.Y, position.Z },
+			{ rotation.X, rotation.Y, rotation.Z, rotation.W }
+		);
+	}
+
+	void NativePhysicsObjectWrapper::SetMass(float mass)
+	{
+		m_NativeObject->SetMass(mass);
+	}
+
 	void NativePhysicsObjectWrapper::AddForce(Numerics::Vector3 force, ForceMode forceMode)
 	{
 		m_NativeObject->AddForce({ force.X, force.Y, force.Z }, (NativeForceMode)forceMode);
@@ -48,5 +61,11 @@ namespace EduEngine
 	{
 		auto quat = m_NativeObject->GetRotation();
 		return Numerics::Quaternion(quat.x, quat.y, quat.z, quat.w);
+	}
+
+	Numerics::Vector3 NativePhysicsObjectWrapper::GetLinearVelocity()
+	{
+		auto velocity = m_NativeObject->GetLinearVelocity();
+		return System::Numerics::Vector3(velocity.x, velocity.y, velocity.z);
 	}
 }

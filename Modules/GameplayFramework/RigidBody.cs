@@ -1,10 +1,12 @@
-﻿using System.Numerics;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Numerics;
 
 namespace EduEngine
 {
     public class RigidBody : Component, IDisposable
     {
         [SerializeField] private bool _isStatic = false;
+        [SerializeField] private float _mass = 1.0f;
 
         private NativePhysicsObjectWrapper _physicObject;
 
@@ -12,6 +14,8 @@ namespace EduEngine
             : base(parent)
         {
         }
+
+        public Vector3 Velocity => _physicObject.GetLinearVelocity();
 
         public bool IsStatic
         {
@@ -49,12 +53,17 @@ namespace EduEngine
             GameObject.Transform.Rotation = _physicObject.GetRotation();
         }
 
+        public void SetTransform(Vector3 position, Quaternion rotation)
+        {
+            _physicObject.SetGlobalTransform(position, rotation);
+        }
+
         public void AddForce(Vector3 force, ForceMode forceMode)
         {
             _physicObject?.AddForce(force, forceMode);
         }
 
-        internal void AttachCollider(Collider collider) 
+        internal void AttachCollider(Collider collider)
         {
             _physicObject?.AttachShape(collider.GetShape());
         }
@@ -68,7 +77,19 @@ namespace EduEngine
             var colliders = GameObject.GetComponentsInChildren<Collider>();
 
             foreach (Collider collider in colliders)
+            {
                 _physicObject?.AttachShape(collider.GetShape());
+                collider.ParentBody = this;
+            }
+        }
+
+        [DynamicDependency(nameof(OnFieldChangedByReflection))]
+        private void OnFieldChangedByReflection(string fieldName)
+        {
+            if (fieldName == nameof(_isStatic))
+                IsStatic = _isStatic;
+            if (fieldName == nameof(_mass))
+                _physicObject.SetMass(_mass);
         }
     }
 }

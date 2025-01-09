@@ -6,6 +6,10 @@ namespace EduEngine
     {
         internal readonly string GUID;
 
+        private HashSet<GameObject> _gameObjects = new HashSet<GameObject>();
+        private HashSet<GameObject> _pendingAddGameObjects = new HashSet<GameObject>();
+        private HashSet<GameObject> _pendingRemoveGameObjects = new HashSet<GameObject>();
+
         internal Scene(string guid)
         {
             GUID = guid;
@@ -65,9 +69,5 @@ namespace EduEngine
             foreach (var gameObject in _gameObjects)
                 gameObject.Render();
         }
-
-        private HashSet<GameObject> _gameObjects = new HashSet<GameObject>();
-        private HashSet<GameObject> _pendingAddGameObjects = new HashSet<GameObject>();
-        private HashSet<GameObject> _pendingRemoveGameObjects = new HashSet<GameObject>();
     }
 }

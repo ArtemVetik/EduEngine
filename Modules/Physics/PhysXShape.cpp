@@ -22,8 +22,15 @@ namespace EduEngine
 
 	PhysXShape::~PhysXShape()
 	{
+		m_Shape->userData = nullptr;
+		m_UserData.Shape = nullptr;
+		m_UserData.UserData = nullptr;
+
 		PX_RELEASE(m_Material);
 		PX_RELEASE(m_Shape);
+
+		m_Material = nullptr;
+		m_Shape = nullptr;
 	}
 
 	void PhysXShape::SetLocalTransform(DirectX::SimpleMath::Vector3 position, DirectX::SimpleMath::Quaternion rotation)

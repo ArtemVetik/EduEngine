@@ -13,6 +13,7 @@ namespace EduEngine
         public override void OnAddComponent()
         {
             Setup(_radius);
+            base.OnAddComponent();
         }
 
         public override void OnCreate()

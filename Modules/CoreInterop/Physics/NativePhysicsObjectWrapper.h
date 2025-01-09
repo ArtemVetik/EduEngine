@@ -25,11 +25,14 @@ namespace EduEngine
 		~NativePhysicsObjectWrapper();
 		!NativePhysicsObjectWrapper();
 
+		void SetGlobalTransform(Numerics::Vector3 position, Numerics::Quaternion rotation);
+		void SetMass(float mass);
 		void AddForce(Numerics::Vector3 force, ForceMode forceMode);
 		void AttachShape(NativePhysicsShapeWrapper^ shape);
 		void DetachShape(NativePhysicsShapeWrapper^ shape);
 		Numerics::Vector3 GetPosition();
 		Numerics::Quaternion GetRotation();
+		Numerics::Vector3 GetLinearVelocity();
 
 		IPhysicsObject* GetNativeObject() { return m_NativeObject; }
 	};

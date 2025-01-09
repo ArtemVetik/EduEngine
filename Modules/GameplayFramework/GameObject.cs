@@ -69,14 +69,17 @@ namespace EduEngine
 
         public void Update()
         {
-            Transform.Update();
-
-            foreach (var component in _components)
+            lock (Lock)
             {
-                if (IsRuntime)
-                    component.Update();
-                else
-                    component.UpdateEditor();
+                Transform.Update();
+
+                foreach (var component in _components)
+                {
+                    if (IsRuntime)
+                        component.Update();
+                    else
+                        component.UpdateEditor();
+                }
             }
         }
 
@@ -166,7 +169,7 @@ namespace EduEngine
         public T[] GetComponentsInParent<T>() where T : Component
         {
             List<T> components = new List<T>();
-            
+
             var parent = this;
 
             while (parent != null)
