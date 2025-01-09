@@ -9,6 +9,12 @@ namespace EduEngine.Editor
             public GameObject Go;
         }
 
+        internal HierarchyWindow(EditorCamera camera)
+        {
+            _camera = camera;
+        }
+
+        private EditorCamera _camera;
         private List<GameObject> _deleteItems = new List<GameObject>();
         private List<GameObject> _copyItems = new List<GameObject>();
         private List<(GameObject, GameObject?)> _moveItems = new List<(GameObject, GameObject?)>();
@@ -81,7 +87,7 @@ namespace EduEngine.Editor
 
         private void RenderGameObjectTree(GameObject go)
         {
-            ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags.OpenOnArrow | ImGuiTreeNodeFlags.OpenOnDoubleClick | ImGuiTreeNodeFlags.DefaultOpen;
+            ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags.OpenOnArrow;
 
             if (go.Childs.Count == 0)
                 flags |= ImGuiTreeNodeFlags.Leaf;
@@ -93,6 +99,15 @@ namespace EduEngine.Editor
 
             if (ImGui.IsItemClicked())
                 Selected = go;
+
+            if (ImGui.IsItemClicked(ImGuiMouseButton.Left) && ImGui.IsMouseDoubleClicked(ImGuiMouseButton.Left))
+            {
+                var maxScale = MathF.Max(MathF.Abs(go.Transform.LossyScale.X),
+                    MathF.Max(MathF.Abs(go.Transform.LossyScale.Y), MathF.Abs(go.Transform.LossyScale.Z)));
+
+                var offset = _camera.Forward * (maxScale + 5);
+                _camera.SetTarget(go.Transform.Position - offset);
+            }
 
             HandleDragAndDrop(new DragNode() { Go = go });
 

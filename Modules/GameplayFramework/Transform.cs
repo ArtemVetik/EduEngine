@@ -79,7 +79,7 @@ namespace EduEngine
         {
             get
             {
-                Matrix4x4.Decompose(WorldMatrix, out _, out _, out Vector3 scale);
+                Matrix4x4.Decompose(WorldMatrix, out Vector3 scale, out _, out _);
                 return scale;
             }
         }

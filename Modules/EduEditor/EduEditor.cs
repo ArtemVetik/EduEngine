@@ -29,7 +29,7 @@ namespace EduEngine.Editor
             {
                 _input = new ImGuiInput();
                 _camera = new EditorCamera();
-                _hierarchyWindow = new HierarchyWindow();
+                _hierarchyWindow = new HierarchyWindow(_camera);
                 _propertyWindow = new PropertyWindow();
                 _guizmoRenderer = new GuizmoRenderer();
                 _sceneWindow = new SceneWindow(_guizmoRenderer, _hierarchyWindow, _camera);

@@ -93,5 +93,10 @@ namespace EduEngine.Editor
                 _nativeCamera.Render();
             }
         }
+
+        public void SetTarget(Vector3 target)
+        {
+            _targetPosition = target;
+        }
     }
 }
