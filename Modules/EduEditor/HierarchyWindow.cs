@@ -90,6 +90,18 @@ namespace EduEngine.Editor
 
         private void RenderGameObjectTree(GameObject go)
         {
+            bool ChildSelected(GameObject go)
+            {
+                if (go == Selected)
+                    return true;
+
+                foreach (var child in go.Childs)
+                    if (ChildSelected(child))
+                        return true;
+
+                return false;
+            }
+
             ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags.OpenOnArrow;
 
             if (go.Childs.Count == 0)
@@ -97,6 +109,9 @@ namespace EduEngine.Editor
 
             if (go == Selected)
                 flags |= ImGuiTreeNodeFlags.Selected;
+
+            if (ChildSelected(go))
+                flags |= ImGuiTreeNodeFlags.DefaultOpen;
 
             bool open = ImGui.TreeNodeEx(go.Name + "##" + go.Guid.ToString(), flags);
 

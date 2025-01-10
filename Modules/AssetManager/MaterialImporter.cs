@@ -7,6 +7,9 @@ namespace EduEngine
     {
         public static void CreateMaterialFile(string materialName, MaterialData data)
         {
+            if (materialName.StartsWith("\\") == false)
+                materialName = "\\" + materialName;
+
             var fullPath = $"{AssetDataBase.AssetsPath}{materialName}.edumat";
 
             File.WriteAllText(fullPath, JsonConvert.SerializeObject(data, Formatting.Indented));
