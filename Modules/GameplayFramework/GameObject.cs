@@ -9,6 +9,7 @@ namespace EduEngine
         private Guid _guid;
         private GameObject _parent;
         private List<Component> _components = new();
+        private List<Component> _addedComponents = new();
         private List<GameObject> _childs = new();
 
         public string Name;
@@ -86,6 +87,11 @@ namespace EduEngine
         {
             lock (Lock)
             {
+                foreach (var component in _addedComponents)
+                    component.OnGameStart();
+
+                _addedComponents.Clear();
+
                 var dirtyScale = Transform.DirtyScale;
 
                 Transform.Update();
@@ -120,7 +126,10 @@ namespace EduEngine
                 ((T)component).OnAddComponent();
 
                 if (IsRuntime)
+                {
                     ((T)component).OnCreate();
+                    _addedComponents.Add((T)component);
+                }
 
                 return (T)component;
             }
@@ -148,7 +157,10 @@ namespace EduEngine
                 (component).OnAddComponent();
 
                 if (IsRuntime)
+                {
                     (component).OnCreate();
+                    _addedComponents.Add(component);
+                }
 
                 return component;
             }

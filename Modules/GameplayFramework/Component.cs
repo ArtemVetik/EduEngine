@@ -16,6 +16,7 @@
 
         public virtual void OnAddComponent() { }
         public virtual void OnCreate() { }
+        public virtual void OnGameStart() { }
         public virtual void OnDestroy() { }
         public virtual void Update() { }
         public virtual void UpdateEditor() { }
