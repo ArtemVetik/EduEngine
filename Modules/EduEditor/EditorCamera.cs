@@ -98,5 +98,7 @@ namespace EduEngine.Editor
         {
             _targetPosition = target;
         }
+
+        internal NativeCameraWrapper GetWrapper() => _nativeCamera;
     }
 }

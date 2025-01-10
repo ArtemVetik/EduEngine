@@ -15,11 +15,13 @@ namespace EduEngine.Editor
         }
 
         private EditorCamera _camera;
+        private DragNode _draggingNode = null;
+        private DragNode _dropTargetNode = null;
+        private float _lastClick = -1f;
+
         private List<GameObject> _deleteItems = new List<GameObject>();
         private List<GameObject> _copyItems = new List<GameObject>();
         private List<(GameObject, GameObject?)> _moveItems = new List<(GameObject, GameObject?)>();
-        private DragNode _draggingNode = null;
-        private DragNode _dropTargetNode = null;
 
         public GameObject? Selected { get; private set; }
 
@@ -36,6 +38,7 @@ namespace EduEngine.Editor
                 return;
             }
 
+            PickObject();
             RenderHierarhyPopup();
             RenderScene();
 
@@ -249,6 +252,43 @@ namespace EduEngine.Editor
 
             foreach (var child in childsCopy)
                 CopyGameObject(child, obj);
+        }
+        private void PickObject()
+        {
+            if (Input.Editor.MouseButtonDown(0) && SceneManager.CurrentScene != null)
+            {
+                if (Input.Runtime.MousePosition.X < 0 || Input.Runtime.MousePosition.X > Screen.Size.X ||
+                    Input.Runtime.MousePosition.Y < 0 || Input.Runtime.MousePosition.Y > Screen.Size.Y)
+                {
+                    return;
+                }
+
+                if (EditorTime.TotalTime - _lastClick > 0.4f)
+                {
+                    _lastClick = EditorTime.TotalTime;
+                    return;
+                }
+
+                float minDist = float.MaxValue;
+
+                foreach (var go in SceneManager.CurrentScene.Objects)
+                {
+                    var renderer = go.GetComponent<Renderer>();
+
+                    if (renderer == null)
+                        continue;
+
+                    float pickDistance;
+                    if (RayPickingInterop.Intersect(renderer.GetWrapper(), _camera.GetWrapper(), Screen.Size, Input.Runtime.MousePosition, out pickDistance))
+                    {
+                        if (pickDistance < minDist)
+                        {
+                            Selected = go;
+                            minDist = pickDistance;
+                        }
+                    }
+                }
+            }
         }
     }
 }

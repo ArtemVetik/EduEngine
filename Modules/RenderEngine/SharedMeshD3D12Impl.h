@@ -28,6 +28,8 @@ namespace EduEngine
 		VertexBufferD3D12* GetVertexBuffer() const { return m_VertexBuffer.get(); }
 		IndexBufferD3D12* GetIndexBuffer() const { return m_IndexBuffer.get(); }
 
+		const aiMesh* GetAiMesh() const { return m_Scene->mMeshes[0]; }
+
 	private:
 		RenderDeviceD3D12* m_Device;
 		Assimp::Importer m_AssimpImporter;

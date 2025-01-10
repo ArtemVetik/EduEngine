@@ -137,6 +137,7 @@
     <ClInclude Include="RenderEngine\MaterialWrapper.h" />
     <ClInclude Include="RenderEngine\MeshData.h" />
     <ClInclude Include="RenderEngine\NativeParticleSystemWrapper.h" />
+    <ClInclude Include="RenderEngine\RayPickingInterop.h" />
     <ClInclude Include="RenderEngine\RenderResourcesInfoWrapper.h" />
     <ClInclude Include="RenderEngine\RenderSettingsInterop.h" />
     <ClInclude Include="RenderEngine\SharedMeshWrapper.h" />
@@ -159,6 +160,7 @@
     <ClCompile Include="RenderEngine\LightWrapper.cpp" />
     <ClCompile Include="RenderEngine\MaterialWrapper.cpp" />
     <ClCompile Include="RenderEngine\NativeParticleSystemWrapper.cpp" />
+    <ClCompile Include="RenderEngine\RayPickingInterop.cpp" />
     <ClCompile Include="RenderEngine\RenderResourcesInfoWrapper.cpp" />
     <ClCompile Include="RenderEngine\RenderSettingsInterop.cpp" />
     <ClCompile Include="RenderEngine\SharedMeshWrapper.cpp" />

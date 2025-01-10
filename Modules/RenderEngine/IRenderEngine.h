@@ -46,6 +46,9 @@ namespace EduEngine
 
 		virtual void SetMesh(IMesh* mesh) = 0;
 		virtual void SetMaterial(IMaterial* material) = 0;
+
+		virtual IMesh* GetMesh() const = 0;
+		virtual IMaterial* GetMaterial() const = 0;
 	};
 
 	class RENDERENGINE_API Light

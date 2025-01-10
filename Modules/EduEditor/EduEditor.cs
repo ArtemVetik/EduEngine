@@ -29,9 +29,9 @@ namespace EduEngine.Editor
             {
                 _input = new ImGuiInput();
                 _camera = new EditorCamera();
+                _guizmoRenderer = new GuizmoRenderer();
                 _hierarchyWindow = new HierarchyWindow(_camera);
                 _propertyWindow = new PropertyWindow();
-                _guizmoRenderer = new GuizmoRenderer();
                 _sceneWindow = new SceneWindow(_guizmoRenderer, _hierarchyWindow, _camera);
                 _assetWindow = new AssetWindow();
                 _assetInfo = new AssetInfoWindow();
@@ -74,11 +74,11 @@ namespace EduEngine.Editor
             ImGuizmo.BeginFrame();
 
             _sceneWindow.Render(out Vector2 pos, out Vector2 size);
-            _guizmoRenderer.Render(_hierarchyWindow.Selected, _camera, pos.X, pos.Y, size.X, size.Y);
             _assetWindow.Render();
             _assetInfo.Render(_assetWindow.SelectedAsset);
-            _hierarchyWindow.Render();
             _propertyWindow.Render(_hierarchyWindow.Selected);
+            _hierarchyWindow.Render();
+            _guizmoRenderer.Render(_hierarchyWindow.Selected, _camera, pos.X, pos.Y, size.X, size.Y);
             _renderResourcesInfo.Render();
             _menuBar.Render();
 

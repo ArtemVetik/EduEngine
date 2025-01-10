@@ -29,7 +29,7 @@ namespace EduEngine
 			return;
 		}
 
-		m_Scene = m_AssimpImporter.ReadFile(m_FilePath, aiProcess_PreTransformVertices | aiProcessPreset_TargetRealtime_Fast);
+		m_Scene = m_AssimpImporter.ReadFile(m_FilePath, aiProcess_PreTransformVertices | aiProcessPreset_TargetRealtime_Fast | aiProcess_GenBoundingBoxes);
 
 		NativeMeshData meshData;
 		for (int i = 0; i < m_Scene->mMeshes[0]->mNumVertices; i++)

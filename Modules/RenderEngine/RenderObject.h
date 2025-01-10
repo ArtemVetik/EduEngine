@@ -19,8 +19,8 @@ namespace EduEngine
 		VertexBufferD3D12* GetVertexBuffer() const;
 		IndexBufferD3D12* GetIndexBuffer() const;
 	
-		IMesh* GetMesh() const { return m_Mesh; }
-		IMaterial* GetMaterial() const { return m_Material; }
+		IMesh* GetMesh() const override { return m_Mesh; }
+		IMaterial* GetMaterial() const override { return m_Material; }
 
 	private:
 		SharedMeshD3D12Impl* m_Mesh;

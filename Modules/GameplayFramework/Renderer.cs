@@ -57,6 +57,8 @@ namespace EduEngine
             SetMaterial(_material);
         }
 
+        internal NativeRenderObjectWrapper GetWrapper() => _renderObject;
+
         [DynamicDependency(nameof(OnFieldChangedByReflection))]
         private void OnFieldChangedByReflection(string fieldName)
         {
