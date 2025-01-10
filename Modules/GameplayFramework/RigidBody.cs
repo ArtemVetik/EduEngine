@@ -10,6 +10,8 @@ namespace EduEngine
 
         private NativePhysicsObjectWrapper _physicObject;
 
+        private List<Collider> _attachedColliders = new();
+
         public RigidBody(GameObject parent)
             : base(parent)
         {
@@ -40,6 +42,11 @@ namespace EduEngine
 
         public void Dispose()
         {
+            foreach (var collider in _attachedColliders)
+                collider.ParentBody = null;
+
+            _attachedColliders.Clear();
+
             _physicObject.Dispose();
             _physicObject = null;
         }
@@ -66,19 +73,30 @@ namespace EduEngine
         internal void AttachCollider(Collider collider)
         {
             _physicObject?.AttachShape(collider.GetShape());
+            _attachedColliders.Add(collider);
         }
+
         internal void DetachCollider(Collider collider)
         {
             _physicObject?.DetachShape(collider.GetShape());
+            _attachedColliders.Remove(collider);
         }
 
         private void AttachAllColliders()
         {
+            foreach (var collider in _attachedColliders)
+                collider.ParentBody = null;
+
+            _attachedColliders.Clear();
+
             var colliders = GameObject.GetComponentsInChildren<Collider>();
 
             foreach (Collider collider in colliders)
             {
-                _physicObject?.AttachShape(collider.GetShape());
+                if (collider.ParentBody != null)
+                    continue;
+
+                AttachCollider(collider);
                 collider.ParentBody = this;
             }
         }

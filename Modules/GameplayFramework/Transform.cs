@@ -18,6 +18,8 @@ namespace EduEngine
             UpdateWorldMatrix();
         }
 
+        internal bool DirtyScale { get; private set; }
+
         public Vector3 Position
         {
             get => new Vector3(WorldMatrix.M41, WorldMatrix.M42, WorldMatrix.M43);
@@ -90,6 +92,7 @@ namespace EduEngine
             {
                 _localScale = value;
                 UpdateWorldMatrix();
+                DirtyScale = true;
             }
         }
         public Vector3 Forward => Vector3.Transform(Vector3.UnitZ, Rotation);
@@ -97,6 +100,16 @@ namespace EduEngine
         public Vector3 Up => Vector3.Transform(Vector3.UnitY, Rotation);
         public Matrix4x4 LocalWorldMatrix { get; private set; }
         public Matrix4x4 WorldMatrix => GameObject.Parent == null ? LocalWorldMatrix : LocalWorldMatrix * GameObject.Parent.Transform.WorldMatrix;
+
+        public override void Update()
+        {
+            DirtyScale = false;
+        }
+
+        public override void UpdateEditor()
+        {
+            DirtyScale = false;
+        }
 
         public void SetLocalWorldMatrix(Matrix4x4 matrix)
         {

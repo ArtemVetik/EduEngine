@@ -47,6 +47,11 @@ namespace EduEngine
 		m_ColliderGeometry = shape;
 		PxGeometry* pxGeo = ToPxGeometry(shape);
 		m_Shape->setGeometry(*pxGeo);
+
+		if (auto parent = m_Shape->getActor())
+			if (auto dynamicParent = parent->is<PxRigidDynamic>())
+				dynamicParent->wakeUp();
+
 		delete pxGeo;
 	}
 

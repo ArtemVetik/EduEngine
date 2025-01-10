@@ -31,22 +31,17 @@ namespace EduEngine
             SetTrigger(_isTrigger);
             var rigidbodyList = GameObject.GetComponentsInParent<RigidBody>();
 
-            foreach (var body in rigidbodyList)
+            if (rigidbodyList.Length > 0)
             {
-                body.AttachCollider(this);
-                ParentBody = body;
+                rigidbodyList[0].AttachCollider(this);
+                ParentBody = rigidbodyList[0];
             }
         }
 
         public void Dispose()
         {
-            var rigidbodyList = GameObject.GetComponentsInParent<RigidBody>();
-
-            foreach (var body in rigidbodyList)
-            {
-                body.DetachCollider(this);
-                ParentBody = null;
-            }
+            ParentBody?.DetachCollider(this);
+            ParentBody = null;
 
             _nativeShape.Dispose();
             _nativeShape = null;
@@ -88,7 +83,7 @@ namespace EduEngine
         public override void UpdateEditor()
         {
             _nativeShape?.DebugDraw(Matrix4x4.CreateFromQuaternion(GameObject.Transform.Rotation) *
-                                    Matrix4x4.CreateTranslation(GameObject.Transform.Position));
+                      Matrix4x4.CreateTranslation(GameObject.Transform.Position));
         }
 
         internal NativePhysicsShapeWrapper GetShape()

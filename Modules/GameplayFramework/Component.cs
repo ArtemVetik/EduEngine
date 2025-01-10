@@ -20,5 +20,6 @@
         public virtual void Update() { }
         public virtual void UpdateEditor() { }
         public virtual void OnRender() { }
+        public virtual void OnScaleChanged() { }
     }
 }

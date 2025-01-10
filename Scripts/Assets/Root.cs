@@ -24,7 +24,7 @@ namespace EduEngine.Scripts
                 cube.AddComponent<SamplePhysicsObject>();
                 cube.AddComponent<Renderer>().SetMesh(_mesh);
                 var collider = cube.AddComponent<BoxCollider>();
-                collider.Setup(10.2f, 1.2f, 10.2f);
+                collider.Setup(10.2f, 1.2f, 10.2f, Vector3.One);
                 collider.SetTrigger(true);
                 cube.AddComponent<RigidBody>().IsStatic = true;
 
@@ -39,7 +39,7 @@ namespace EduEngine.Scripts
                 sphere.AddComponent<Renderer>();
                 sphere.AddComponent<SamplePhysicsObject>();
                 var collider = sphere.AddComponent<SphereCollider>();
-                collider.Setup(radius + 0.1f);
+                collider.Setup(radius + 0.1f, 1);
                 sphere.AddComponent<RigidBody>();
 
                 _spawned.Add(sphere);

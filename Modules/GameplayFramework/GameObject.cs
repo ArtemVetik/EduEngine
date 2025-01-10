@@ -87,7 +87,12 @@ namespace EduEngine
         {
             lock (Lock)
             {
+                var dirtyScale = Transform.DirtyScale;
+
                 Transform.Update();
+
+                if (dirtyScale)
+                    SendScaleChanged(this);
 
                 foreach (var component in _components)
                 {
@@ -245,6 +250,15 @@ namespace EduEngine
 
             foreach (var child in go.Childs)
                 GetComponentsInChildren(child, components);
+        }
+
+        private void SendScaleChanged(GameObject go)
+        {
+            foreach(var component in go._components)
+                component.OnScaleChanged();
+
+            foreach (var child in go._childs)
+                SendScaleChanged(child);
         }
     }
 }
