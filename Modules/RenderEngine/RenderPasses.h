@@ -146,6 +146,7 @@ namespace EduEngine
 		struct ObjectConstants
 		{
 			DirectX::XMFLOAT4X4 World;
+			DirectX::XMFLOAT4X4 TexTransform = DirectX::SimpleMath::Matrix::Identity;
 		};
 
 		struct MaterialConstants

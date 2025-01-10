@@ -83,6 +83,7 @@ namespace EduEngine
 
 		GBufferPass::ObjectConstants objConstants;
 		objConstants.World = renderObject->WorldMatrix.Transpose();
+		objConstants.TexTransform = renderObject->TextureTransform.Transpose();
 
 		DynamicUploadBuffer objUploadBuffer(m_Device, QueueID::Direct);
 		objUploadBuffer.LoadData(objConstants);

@@ -43,6 +43,7 @@ namespace EduEngine
 	{
 	public:
 		DirectX::SimpleMath::Matrix WorldMatrix = DirectX::SimpleMath::Matrix::Identity;
+		DirectX::SimpleMath::Matrix TextureTransform = DirectX::SimpleMath::Matrix::Identity;
 
 		virtual void SetMesh(IMesh* mesh) = 0;
 		virtual void SetMaterial(IMaterial* material) = 0;

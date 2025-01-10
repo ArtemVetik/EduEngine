@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using System.Numerics;
 
 namespace EduEngine
 {
@@ -6,6 +7,7 @@ namespace EduEngine
     {
         [SerializeField] private SharedMesh _mesh;
         [SerializeField] private Material _material;
+        [SerializeField] private Vector2 _texScale = Vector2.One;
 
         private NativeRenderObjectWrapper _renderObject;
 
@@ -55,6 +57,7 @@ namespace EduEngine
         {
             SetMesh(_mesh);
             SetMaterial(_material);
+            _renderObject?.SetTextureTransform(Matrix4x4.CreateScale(new Vector3(_texScale.X, _texScale.Y, 0)));
         }
 
         internal NativeRenderObjectWrapper GetWrapper() => _renderObject;
@@ -62,8 +65,7 @@ namespace EduEngine
         [DynamicDependency(nameof(OnFieldChangedByReflection))]
         private void OnFieldChangedByReflection(string fieldName)
         {
-            SetMesh(_mesh);
-            SetMaterial(_material);
+            OnAddComponent();
         }
     }
 }

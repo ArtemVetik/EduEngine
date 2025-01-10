@@ -19,6 +19,7 @@ namespace EduEngine
         !NativeRenderObjectWrapper();
 
         void SetWorldMatrix(Matrix4x4 matrix);
+        void SetTextureTransform(Matrix4x4 matrix);
         void SetMesh(SharedMeshWrapper^ mesh);
         void SetMaterial(MaterialWrapper^ material);
 
