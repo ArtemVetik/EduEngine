@@ -46,12 +46,11 @@ namespace EduEngine
                 }
                 _components.Clear();
 
-                while (_childs.Count > 0)
+                var childsCopy = _childs.ToArray();
+                
+                foreach (var child in childsCopy)
                 {
-                    var child = _childs[0];
-                    _childs.RemoveAt(0);
-
-                    child.SetParent(_parent);
+                    child.Destroy();
                 }
 
                 SetParent(null);

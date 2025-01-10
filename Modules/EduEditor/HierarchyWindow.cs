@@ -19,9 +19,9 @@ namespace EduEngine.Editor
         private DragNode _dropTargetNode = null;
         private float _lastClick = -1f;
 
-        private List<GameObject> _deleteItems = new List<GameObject>();
-        private List<GameObject> _copyItems = new List<GameObject>();
-        private List<(GameObject, GameObject?)> _moveItems = new List<(GameObject, GameObject?)>();
+        private GameObject _deleteItem = null;
+        private GameObject _copyItem = null;
+        private (GameObject, GameObject?) _moveItem = (null, null);
 
         public GameObject? Selected { get; private set; }
 
@@ -74,18 +74,18 @@ namespace EduEngine.Editor
                 ImGui.TreePop();
             }
 
-            foreach (var item in _deleteItems)
-                item.Destroy();
+            if (_deleteItem != null)
+                _deleteItem.Destroy();
 
-            foreach (var item in _copyItems)
-                CopyGameObject(item, item.Parent);
+            if (_copyItem != null)
+                CopyGameObjectHierarhy(_copyItem, _copyItem.Parent);
 
-            foreach (var item in _moveItems)
-                item.Item1.SetParent(item.Item2, true);
+            if (_moveItem.Item1 != null)
+                _moveItem.Item1.SetParent(_moveItem.Item2, true);
 
-            _deleteItems.Clear();
-            _copyItems.Clear();
-            _moveItems.Clear();
+            _deleteItem = null;
+            _copyItem = null;
+            _moveItem = (null, null);
         }
 
         private void RenderGameObjectTree(GameObject go)
@@ -123,11 +123,11 @@ namespace EduEngine.Editor
             {
                 if (ImGui.MenuItem("Delete"))
                 {
-                    _deleteItems.Add(go);
+                    _deleteItem = go;
                 }
                 if (ImGui.MenuItem("Copy"))
                 {
-                    _copyItems.Add(go);
+                    _copyItem = go;
                 }
                 ImGui.EndPopup();
             }
@@ -179,7 +179,7 @@ namespace EduEngine.Editor
                 parent = parent.Parent;
             }
 
-            _moveItems.Add((go, newParent));
+            _moveItem = (go, newParent);
         }
 
         private bool ClickOnEmptyArea()
@@ -223,7 +223,7 @@ namespace EduEngine.Editor
                 ImGui.EndPopup();
             }
         }
-        private void CopyGameObject(GameObject reference, GameObject parent)
+        private void CopyGameObjectHierarhy(GameObject reference, GameObject parent)
         {
             var obj = new EditorGameObject();
             obj.SetParent(parent);
@@ -251,7 +251,7 @@ namespace EduEngine.Editor
             var childsCopy = reference.Childs.ToArray();
 
             foreach (var child in childsCopy)
-                CopyGameObject(child, obj);
+                CopyGameObjectHierarhy(child, obj);
         }
         private void PickObject()
         {
