@@ -45,7 +45,7 @@ namespace EduEngine
 
 	void PhysicsWorld::Update()
 	{
-		m_Scene->simulate(1 / 60.0f);
+		m_Scene->simulate(1 / 120.0f);
 		m_Scene->fetchResults(true);
 	}
 

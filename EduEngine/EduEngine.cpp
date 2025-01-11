@@ -77,7 +77,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance,
 
 	RuntimeRender runtimeRender(renderEngine.get());
 
-	const float fixedTimeStep = 1.0f / 60.0f;
+	const float fixedTimeStep = 1.0f / 120.0f;
 	float physixsAccumulator = 0.0f;
 
 	MSG msg = { 0 };
