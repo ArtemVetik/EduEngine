@@ -38,6 +38,7 @@ namespace EduEngine
 
 		TextureD3D12(RenderDeviceD3D12* pDevice, Microsoft::WRL::ComPtr<ID3D12Resource> resource, QueueID queueId);
 		TextureD3D12(RenderDeviceD3D12* pDevice, std::wstring ddsTexPath, QueueID queueId);
+		~TextureD3D12();
 
 		void LoadData(void* dataPtr);
 
