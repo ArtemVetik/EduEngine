@@ -1,0 +1,15 @@
+{
+  "TextureGUID": "3589cee1-94a3-440d-80e1-be55f9b7ec98",
+  "DiffuseAlbedo": {
+    "X": 1.0,
+    "Y": 1.0,
+    "Z": 1.0,
+    "W": 0.0
+  },
+  "FresnelR0": {
+    "X": 0.02,
+    "Y": 0.02,
+    "Z": 0.02
+  },
+  "Roughness": 0.0
+}
