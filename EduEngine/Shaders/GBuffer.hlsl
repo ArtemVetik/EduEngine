@@ -14,6 +14,7 @@ SamplerComparisonState gsamShadow : register(s6);
 cbuffer cbPerObject : register(b0)
 {
     float4x4 gWorld;
+    float4x4 gTexTransform;
 };
 
 cbuffer cbMaterial : register(b1)
@@ -102,7 +103,7 @@ VertexOut VS(VertexIn vin)
     vout.PosH = mul(posW, gViewProj);
     vout.NormalW = mul(vin.NormalL, (float3x3) gWorld);
     vout.TangentW = mul(vin.TangentU, (float3x3) gWorld);
-    vout.TexC = vin.TexC;
+    vout.TexC = mul(float4(vin.TexC, 0.0f, 1.0f), gTexTransform);
     vout.Depth = mul(mul(float4(vin.PosL, 1.0f), gWorld), gView).z;
 	
     return vout;
