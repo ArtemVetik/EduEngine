@@ -19,6 +19,9 @@ namespace EduEngine
 
         public void Clear()
         {
+            var ui = OverlayUI.GetInstance();
+            ui?.EndContext();
+
             foreach (var gameObject in _gameObjects)
                 gameObject.Destroy();
         }
@@ -50,16 +53,6 @@ namespace EduEngine
                 _gameObjects.Remove(pendingGameObject);
 
             _pendingRemoveGameObjects.Clear();
-
-            if (ui != null)
-            {
-                ImGui.Render();
-
-                unsafe
-                {
-                    RenderEngineInterop.UpdateImGuiUI(new IntPtr(ImGui.GetDrawData().NativePtr));
-                }
-            }
 
             ui?.EndContext();
         }

@@ -99,12 +99,12 @@ namespace EduEngine
                 if (dirtyScale)
                     SendScaleChanged(this);
 
-                foreach (var component in _components)
+                for (int i = 0; i < _components.Count; i++)
                 {
                     if (IsRuntime)
-                        component.Update();
+                        _components[i].Update();
                     else
-                        component.UpdateEditor();
+                        _components[i].UpdateEditor();
                 }
             }
         }

@@ -4,7 +4,7 @@ using System.Reflection;
 
 namespace EduEngine
 {
-    public static class SceneImporter
+    internal static class SceneImporter
     {
         public static SceneData ToSceneData(Scene scene)
         {

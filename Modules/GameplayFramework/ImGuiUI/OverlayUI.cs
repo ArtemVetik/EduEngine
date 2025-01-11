@@ -67,7 +67,14 @@ namespace EduEngine
         public void EndContext()
         {
             if (_prevContextId == null)
-                throw new InvalidOperationException();
+                return;
+
+            ImGui.Render();
+
+            unsafe
+            {
+                RenderEngineInterop.UpdateImGuiUI(new IntPtr(ImGui.GetDrawData().NativePtr));
+            }
 
             ImGui.SetCurrentContext(_prevContextId.Value);
             _prevContextId = null;
