@@ -18,6 +18,7 @@ namespace EduEngine
         }
 
         public Material Material => _material;
+        public Vector2 TextureScale => _texScale;
 
         public override void Update()
         {
@@ -47,6 +48,12 @@ namespace EduEngine
                 _renderObject?.SetMaterial(null);
             else
                 _renderObject?.SetMaterial(_material.Wrapper);
+        }
+
+        public void SetTextureScale(Vector2 newTexScale)
+        {
+            _texScale = newTexScale;
+            _renderObject?.SetTextureTransform(Matrix4x4.CreateScale(new Vector3(_texScale.X, _texScale.Y, 0)));
         }
 
         public void Dispose()

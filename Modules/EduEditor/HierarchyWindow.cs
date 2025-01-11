@@ -38,9 +38,11 @@ namespace EduEngine.Editor
                 return;
             }
 
-            PickObject();
+            if (EngineStateManager.CurrentState == EngineState.Editor)
+                PickObject();
+
             RenderHierarhyPopup();
-            RenderScene();
+            RenderSceneTree();
 
             if (ClickOnEmptyArea())
                 Selected = null;
@@ -48,7 +50,7 @@ namespace EduEngine.Editor
             ImGui.End();
         }
 
-        private void RenderScene()
+        private void RenderSceneTree()
         {
             if (AssetDataBase.HasGUID(SceneManager.CurrentScene.GUID))
             {
