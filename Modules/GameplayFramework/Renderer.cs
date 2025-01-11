@@ -17,6 +17,8 @@ namespace EduEngine
             _renderObject = new NativeRenderObjectWrapper();
         }
 
+        public Material Material => _material;
+
         public override void Update()
         {
             _renderObject?.SetWorldMatrix(GameObject.Transform.WorldMatrix);

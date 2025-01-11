@@ -32,15 +32,18 @@ namespace EduEngine
 
         public void SetMainTexture(Texture? texture)
         {
-            if (_nativeMaterial == null)
-                return;
+            lock (GameObject.Lock)
+            {
+                if (_nativeMaterial == null)
+                    return;
 
-            _mainTexture = texture;
+                _mainTexture = texture;
 
-            if (texture == null)
-                _nativeMaterial.SetTexture(null);
-            else
-                _nativeMaterial.SetTexture(texture.GetWrapper());
+                if (texture == null)
+                    _nativeMaterial.SetTexture(null);
+                else
+                    _nativeMaterial.SetTexture(texture.GetWrapper());
+            }
         }
 
         protected override void OnDelete()
