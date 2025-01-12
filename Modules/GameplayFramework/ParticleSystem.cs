@@ -23,6 +23,7 @@ namespace EduEngine
         [SerializeField] private Vector3 _acceleration;
         [SerializeField, Color] private Vector4 _startColor;
         [SerializeField, Color] private Vector4 _endColor;
+        [SerializeField] private Texture _colorTexture;
 
         private NativeParticleSystemWrapper _nativeParticles;
 
@@ -72,6 +73,7 @@ namespace EduEngine
             _nativeParticles.SetAcceleration(_acceleration);
             _nativeParticles.SetStartColor(_startColor);
             _nativeParticles.SetEndColor(_endColor);
+            _nativeParticles.SetColorTexture(_colorTexture?.GetWrapper());
         }
     }
 }

@@ -2,6 +2,7 @@
 #include "IRenderEngine.h"
 #include "RenderPasses.h"
 #include "../Graphics/BufferD3D12.h"
+#include "TextureD3D12Impl.h"
 
 namespace EduEngine
 {
@@ -14,6 +15,7 @@ namespace EduEngine
 		void Draw(Camera* camera, const Timer& timer, float aspectRatio);
 
 		void SetMaxParticles(UINT num) override;
+		void SetColorTexture(ITexture* texture) override;
 
 		UINT GetMaxParticles() const;
 
@@ -33,6 +35,7 @@ namespace EduEngine
 		std::unique_ptr<BufferD3D12> m_DrawList;
 		std::unique_ptr<BufferD3D12> m_DrawArgs;
 		std::unique_ptr<BufferD3D12> m_DeadListCounter;
+		TextureD3D12Impl* m_ColorTexture;
 
 		bool m_AsyncCompute;
 		bool m_DirtyBuffers;

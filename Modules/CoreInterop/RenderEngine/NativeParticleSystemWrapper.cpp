@@ -71,4 +71,12 @@ namespace EduEngine
 	{
 		m_NativeParticleSystem->EndColor = { value.X, value.Y, value.Z, value.W };
 	}
+
+	void NativeParticleSystemWrapper::SetColorTexture(TextureWrapper^ texture)
+	{
+		if (texture == nullptr)
+			m_NativeParticleSystem->SetColorTexture(nullptr);
+		else
+			m_NativeParticleSystem->SetColorTexture(texture->GetNative());
+	}
 }

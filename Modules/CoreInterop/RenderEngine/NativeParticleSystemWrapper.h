@@ -1,4 +1,5 @@
 #pragma once
+#include "TextureWrapper.h"
 #include "../../RenderEngine/IRenderEngine.h"
 
 namespace EduEngine
@@ -23,6 +24,7 @@ namespace EduEngine
 		void SetAcceleration(Vector3 value);
 		void SetStartColor(Vector4 value);
 		void SetEndColor(Vector4 value);
+		void SetColorTexture(TextureWrapper^ texture);
 
 	private:
 		IParticleSystem* m_NativeParticleSystem;

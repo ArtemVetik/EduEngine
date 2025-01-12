@@ -76,6 +76,7 @@ namespace EduEngine
 	{
 	public:
 		virtual void SetMaxParticles(UINT num) = 0;
+		virtual void SetColorTexture(ITexture* texture) = 0;
 
 		float EmissionRate = 0.0f;
 		float LifeTime;

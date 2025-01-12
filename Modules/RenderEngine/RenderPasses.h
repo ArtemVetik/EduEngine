@@ -559,8 +559,8 @@ namespace EduEngine
 
 		struct ParticleData
 		{
-			UINT SpawnType;
-			DirectX::XMFLOAT3 SpawnSize;
+			UINT ShapeType;
+			DirectX::XMFLOAT3 ShapeSize;
 			DirectX::XMFLOAT3 CenterPos;
 			UINT MaxParticles;
 			DirectX::XMFLOAT4 StartColor;
@@ -675,6 +675,10 @@ namespace EduEngine
 			CD3DX12_DESCRIPTOR_RANGE drawList;
 			drawList.Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 1);
 			m_RootSignature.AddDescriptorParameter(1, &drawList);
+
+			CD3DX12_DESCRIPTOR_RANGE colorTexture;
+			colorTexture.Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 2);
+			m_RootSignature.AddDescriptorParameter(1, &colorTexture);
 
 			m_RootSignature.Build(device, QueueID::Direct);
 			m_RootSignature.SetName(L"ParticleDrawRootSignature");

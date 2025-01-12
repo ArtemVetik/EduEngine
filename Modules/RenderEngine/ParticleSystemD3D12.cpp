@@ -8,6 +8,7 @@ namespace EduEngine
 	ParticleSystemD3D12::ParticleSystemD3D12(RenderDeviceD3D12* device, const RenderSettings* renderSettings) :
 		m_Device(device),
 		m_RenderSettings(renderSettings),
+		m_ColorTexture(nullptr),
 		m_DirtyBuffers(true),
 		m_MaxParticles(0),
 		m_Timer(0)
@@ -49,8 +50,8 @@ namespace EduEngine
 		timeUploadBuffer.CreateCBV();
 
 		ParticlesComputePass::ParticleData particleData = {};
-		particleData.SpawnType = ShapeType;
-		particleData.SpawnSize = ShapeSize;
+		particleData.ShapeType = ShapeType;
+		particleData.ShapeSize = ShapeSize;
 		particleData.MaxParticles = m_MaxParticles;
 		particleData.LifeTime = LifeTime;
 		particleData.CenterPos = CenterPos;
@@ -145,6 +146,14 @@ namespace EduEngine
 		commandContext.GetCmdList()->SetGraphicsRootDescriptorTable(2, m_ParticlesPool->GetSRVView()->GetGpuHandle());
 		commandContext.GetCmdList()->SetGraphicsRootDescriptorTable(3, m_DrawList->GetSRVView()->GetGpuHandle());
 
+		printf("%p -- %p\n", m_ColorTexture, (m_ColorTexture ? m_ColorTexture->GetGPUPtr() : 0));
+		if (m_ColorTexture && m_ColorTexture->GetGPUPtr())
+		{
+			D3D12_GPU_DESCRIPTOR_HANDLE colorTex;
+			colorTex.ptr = reinterpret_cast<UINT64>(m_ColorTexture->GetGPUPtr());
+			commandContext.GetCmdList()->SetGraphicsRootDescriptorTable(4, colorTex);
+		}
+
 		commandContext.GetCmdList()->ExecuteIndirect(
 			m_DrawPass->GetD3D12CommandRootSignature(),
 			1,
@@ -158,6 +167,17 @@ namespace EduEngine
 	{
 		m_MaxParticles = num;
 		m_DirtyBuffers = true;
+	}
+
+	void ParticleSystemD3D12::SetColorTexture(ITexture* texture)
+	{
+		if (m_ColorTexture)
+			m_ColorTexture->Free();
+
+		m_ColorTexture = dynamic_cast<TextureD3D12Impl*>(texture);
+
+		if (m_ColorTexture)
+			m_ColorTexture->Load();
 	}
 
 	UINT ParticleSystemD3D12::GetMaxParticles() const
