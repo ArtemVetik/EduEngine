@@ -558,21 +558,23 @@ namespace EduEngine
 			UINT RandSeed;
 			float Near;
 			float Far;
-			float Padding;
+			UINT Padding0;
+			DirectX::XMFLOAT3 CenterPos;
+			UINT Padding1;
 		};
 
 		struct ParticleData
 		{
 			UINT ShapeType;
 			DirectX::XMFLOAT3 ShapeSize;
-			DirectX::XMFLOAT3 CenterPos;
 			UINT MaxParticles;
+			DirectX::XMFLOAT3 Padding2;
 			DirectX::XMFLOAT4 StartColor;
 			DirectX::XMFLOAT4 EndColor;
 			DirectX::XMFLOAT3 Velocity;
 			float LifeTime;
 			DirectX::XMFLOAT3 Acceleration;
-			UINT Padding;
+			UINT Padding3;
 		};
 
 	private:

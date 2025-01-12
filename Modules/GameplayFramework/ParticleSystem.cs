@@ -36,7 +36,7 @@ namespace EduEngine
 
         public override void OnAddComponent()
         {
-            InitParticles(true);
+            InitParticles();
         }
 
         public override void Update()
@@ -58,24 +58,25 @@ namespace EduEngine
         [DynamicDependency(nameof(OnFieldChangedByReflection))]
         private void OnFieldChangedByReflection(string fieldName)
         {
-            InitParticles(fieldName == nameof(_maxParticlesCount));
+            InitParticles();
         }
 
-        private void InitParticles(bool setMaxValue)
+        private void InitParticles()
         {
-            if (setMaxValue)
-                _nativeParticles.SetMaxParticles((uint)_maxParticlesCount);
+            ParticleData particleData = new ParticleData();
+            particleData.MaxParticles = (uint)_maxParticlesCount;
+            particleData.ShapeType = (uint)_shapeType;
+            particleData.LifeTime = _lifeTime;
+            particleData.EmissionRate = _emissionRate;
+            particleData.ShapeSize = _shapeSize;
+            particleData.StartColor = _startColor;
+            particleData.EndColor = _endColor;
+            particleData.Velocity = _velocity;
+            particleData.Acceleration = _acceleration;
+            particleData.ScreenSpaceCollision = _screenSpaceCollision;
 
-            _nativeParticles.SetEmissionRate(_emissionRate);
-            _nativeParticles.SetShapeType((uint)_shapeType);
-            _nativeParticles.SetShapeSize(_shapeSize);
-            _nativeParticles.SetLifeTime(_lifeTime);
-            _nativeParticles.SetVelocity(_velocity);
-            _nativeParticles.SetAcceleration(_acceleration);
-            _nativeParticles.SetStartColor(_startColor);
-            _nativeParticles.SetEndColor(_endColor);
+            _nativeParticles.SetParticlesData(ref particleData);
             _nativeParticles.SetColorTexture(_colorTexture?.GetWrapper());
-            _nativeParticles.SetScreenSpaceCollision(_screenSpaceCollision);
         }
     }
 }

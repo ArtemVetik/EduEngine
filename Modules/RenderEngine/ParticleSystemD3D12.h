@@ -15,15 +15,15 @@ namespace EduEngine
 		void Compute(const Timer& timer, D3D12_GPU_DESCRIPTOR_HANDLE normalTex, const SwapChain* swapChain);
 		void Draw(Camera* camera, const Timer& timer, float aspectRatio);
 
-		void SetMaxParticles(UINT num) override;
+		void SetParticlesData(NativeStaticParticleData data) override;
+		void SetCenterPos(DirectX::XMFLOAT3 pos) override;
 		void SetColorTexture(ITexture* texture) override;
-		void SetScreenSpaceCollision(bool enabled) override;
 
 		UINT GetMaxParticles() const;
 
 	private:
 		void InitBuffers(UINT particlesCount);
-		void InitComputePass();
+		void InitComputePass(bool screenSpaceCollision);
 
 	private:
 		RenderDeviceD3D12* m_Device;
@@ -39,13 +39,14 @@ namespace EduEngine
 		std::unique_ptr<BufferD3D12> m_DrawList;
 		std::unique_ptr<BufferD3D12> m_DrawArgs;
 		std::unique_ptr<BufferD3D12> m_DeadListCounter;
+		std::unique_ptr<BufferD3D12> m_ParticleDataBuffer;
 		TextureD3D12Impl* m_ColorTexture;
 
-		bool m_AsyncCompute;
-		bool m_ScreenSpaceCollision;
-		bool m_DirtyBuffers;
-		UINT m_MaxParticles;
+		DirectX::XMFLOAT3 m_CenterPos;
+		NativeStaticParticleData m_ParticleData;
 		float m_Timer;
+		bool m_AsyncCompute;
+		bool m_DirtyBuffers;
 
 		struct Particle
 		{

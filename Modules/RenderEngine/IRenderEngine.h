@@ -72,22 +72,26 @@ namespace EduEngine
 		float SpotPower = 64.0f;							 // spot light only
 	};
 
+	struct RENDERENGINE_API NativeStaticParticleData
+	{
+		UINT MaxParticles = 0;
+		UINT ShapeType = 0;
+		float LifeTime = 0.0f;
+		float EmissionRate = 0.0f;
+		DirectX::XMFLOAT3 ShapeSize = { 0, 0, 0 };
+		DirectX::XMFLOAT4 StartColor = { 0, 0, 0, 0 };
+		DirectX::XMFLOAT4 EndColor = { 0, 0, 0, 0 };
+		DirectX::XMFLOAT3 Velocity = { 0, 0, 0 };
+		DirectX::XMFLOAT3 Acceleration = { 0, 0, 0 };
+		bool ScreenSpaceCollision = false;
+	};
+
 	class RENDERENGINE_API IParticleSystem
 	{
 	public:
-		virtual void SetMaxParticles(UINT num) = 0;
+		virtual void SetParticlesData(NativeStaticParticleData data) = 0;
+		virtual void SetCenterPos(DirectX::XMFLOAT3 pos) = 0;
 		virtual void SetColorTexture(ITexture* texture) = 0;
-		virtual void SetScreenSpaceCollision(bool enabled) = 0;
-
-		float EmissionRate = 0.0f;
-		float LifeTime;
-		UINT ShapeType;
-		DirectX::XMFLOAT3 ShapeSize;
-		DirectX::XMFLOAT3 CenterPos;
-		DirectX::XMFLOAT4 StartColor;
-		DirectX::XMFLOAT4 EndColor;
-		DirectX::XMFLOAT3 Velocity;
-		DirectX::XMFLOAT3 Acceleration;
 	};
 
 	class RENDERENGINE_API IRenderEngine

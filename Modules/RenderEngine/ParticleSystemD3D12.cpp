@@ -11,18 +11,20 @@ namespace EduEngine
 		m_LastRenderCamera(nullptr),
 		m_ColorTexture(nullptr),
 		m_DirtyBuffers(true),
-		m_MaxParticles(0),
+		m_ParticleData{},
 		m_Timer(0)
 	{
 		m_AsyncCompute = m_RenderSettings->GetAsyncComputeParticles();
+		m_DrawPass = std::make_unique<ParticlesDrawPass>(m_Device);
+		InitComputePass(false);
 	}
 
 	void ParticleSystemD3D12::Compute(const Timer& timer, D3D12_GPU_DESCRIPTOR_HANDLE normalTex, const SwapChain* swapChain)
 	{
-		if (m_MaxParticles == 0)
+		if (m_ParticleData.MaxParticles == 0)
 			return;
 
-		if (EmissionRate == 0)
+		if (m_ParticleData.EmissionRate == 0)
 			return;
 
 		m_Timer += timer.GetDeltaTime();
@@ -31,9 +33,9 @@ namespace EduEngine
 			m_DirtyBuffers = true;
 
 		if (m_DirtyBuffers)
-			InitBuffers(m_MaxParticles);
+			InitBuffers(m_ParticleData.MaxParticles);
 
-		float timeBetweenEmit = 1.0f / EmissionRate;
+		float timeBetweenEmit = 1.0f / m_ParticleData.EmissionRate;
 
 		std::random_device rd;
 		std::mt19937 gen(rd());
@@ -52,31 +54,18 @@ namespace EduEngine
 		passCB.TotalTime = timer.GetTotalTime();
 		passCB.EmitCount = m_Timer / timeBetweenEmit;
 		passCB.RandSeed = dis(gen);
+		passCB.CenterPos = m_CenterPos;
 
 		DynamicUploadBuffer timeUploadBuffer(m_Device, m_AsyncCompute ? QueueID::Compute : QueueID::Direct);
 		timeUploadBuffer.LoadData(passCB);
 		timeUploadBuffer.CreateCBV();
-
-		ParticlesComputePass::ParticleData particleData = {};
-		particleData.ShapeType = ShapeType;
-		particleData.ShapeSize = ShapeSize;
-		particleData.MaxParticles = m_MaxParticles;
-		particleData.LifeTime = LifeTime;
-		particleData.CenterPos = CenterPos;
-		particleData.StartColor = StartColor;
-		particleData.EndColor = EndColor;
-		particleData.Velocity = Velocity;
-		particleData.Acceleration = Acceleration;
-
-		DynamicUploadBuffer particleUploadBuffer(m_Device, m_AsyncCompute ? QueueID::Compute : QueueID::Direct);
-		particleUploadBuffer.LoadData(particleData);
 
 		auto contextType = m_AsyncCompute ? D3D12_COMMAND_LIST_TYPE_COMPUTE : D3D12_COMMAND_LIST_TYPE_DIRECT;
 		auto& commandContext = m_Device->GetCommandContext(contextType);
 
 		commandContext.GetCmdList()->SetComputeRootSignature(m_ComputePass->GetD3D12RootSignature());
 		commandContext.GetCmdList()->SetComputeRootDescriptorTable(0, timeUploadBuffer.GetCBVDescriptorGPUHandle());
-		commandContext.GetCmdList()->SetComputeRootConstantBufferView(1, particleUploadBuffer.GetAllocation().GPUAddress);
+		commandContext.GetCmdList()->SetComputeRootConstantBufferView(1, m_ParticleDataBuffer->GetD3D12Resource()->GetGPUVirtualAddress());
 		commandContext.GetCmdList()->SetComputeRootDescriptorTable(2, m_ParticlesPool->GetUAVView()->GetGpuHandle());
 		commandContext.GetCmdList()->SetComputeRootDescriptorTable(3, m_DeadList->GetUAVView()->GetGpuHandle());
 		commandContext.GetCmdList()->SetComputeRootDescriptorTable(4, m_DrawList->GetUAVView()->GetGpuHandle());
@@ -88,7 +77,7 @@ namespace EduEngine
 		if (m_DirtyBuffers)
 		{
 			commandContext.GetCmdList()->SetPipelineState(m_ComputePass->GetDeadListInitPSO());
-			commandContext.GetCmdList()->Dispatch(m_MaxParticles / 32 + 1, 1, 1);
+			commandContext.GetCmdList()->Dispatch(m_ParticleData.MaxParticles / 32 + 1, 1, 1);
 		}
 
 		if (m_Timer >= timeBetweenEmit)
@@ -103,7 +92,7 @@ namespace EduEngine
 
 		commandContext.GetCmdList()->CopyBufferRegion(
 			m_DrawList->GetD3D12Resource(),
-			AlignForUavCounter(particleData.MaxParticles * sizeof(UINT)),
+			AlignForUavCounter(m_ParticleData.MaxParticles * sizeof(UINT)),
 			m_DrawListUpload->GetD3D12Resource(),
 			0,
 			sizeof(UINT)
@@ -113,7 +102,7 @@ namespace EduEngine
 			D3D12_RESOURCE_STATE_COPY_DEST, D3D12_RESOURCE_STATE_UNORDERED_ACCESS));
 
 		commandContext.GetCmdList()->SetPipelineState(m_ComputePass->GetUpdatePSO());
-		commandContext.GetCmdList()->Dispatch(m_MaxParticles / 32 + 1, 1, 1);
+		commandContext.GetCmdList()->Dispatch(m_ParticleData.MaxParticles / 32 + 1, 1, 1);
 
 		commandContext.ResourceBarrier(CD3DX12_RESOURCE_BARRIER::Transition(m_DrawArgs->GetD3D12Resource(),
 			D3D12_RESOURCE_STATE_INDIRECT_ARGUMENT, D3D12_RESOURCE_STATE_UNORDERED_ACCESS));
@@ -132,10 +121,10 @@ namespace EduEngine
 
 	void ParticleSystemD3D12::Draw(Camera* camera, const Timer& timer, float aspectRatio)
 	{
-		if (m_MaxParticles == 0)
+		if (m_ParticleData.MaxParticles == 0)
 			return;
 
-		if (EmissionRate == 0)
+		if (m_ParticleData.EmissionRate == 0)
 			return;
 
 		ParticlesComputePass::PassData passCB = {};
@@ -174,10 +163,43 @@ namespace EduEngine
 		m_LastRenderCamera = camera;
 	}
 
-	void ParticleSystemD3D12::SetMaxParticles(UINT num)
+	void ParticleSystemD3D12::SetParticlesData(NativeStaticParticleData data)
 	{
-		m_MaxParticles = num;
-		m_DirtyBuffers = true;
+		if (m_ParticleData.MaxParticles != data.MaxParticles)
+			m_DirtyBuffers = true;
+
+		if (m_ParticleData.ScreenSpaceCollision != data.ScreenSpaceCollision)
+			InitComputePass(data.ScreenSpaceCollision);
+
+		m_ParticleData = data;
+
+		ParticlesComputePass::ParticleData bufferData = {};
+		bufferData.MaxParticles = data.MaxParticles;
+		bufferData.ShapeType = data.ShapeType;
+		bufferData.ShapeSize = data.ShapeSize;
+		bufferData.StartColor = data.StartColor;
+		bufferData.EndColor = data.EndColor;
+		bufferData.Velocity = data.Velocity;
+		bufferData.LifeTime = data.LifeTime;
+		bufferData.Acceleration = data.Acceleration;
+
+		D3D12_RESOURCE_DESC desc = {};
+		desc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
+		desc.Width = sizeof(ParticlesComputePass::ParticleData);
+		desc.Height = 1;
+		desc.DepthOrArraySize = 1;
+		desc.MipLevels = 1;
+		desc.Format = DXGI_FORMAT_UNKNOWN;
+		desc.SampleDesc.Count = 1;
+		desc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
+		desc.Flags = D3D12_RESOURCE_FLAG_NONE;
+
+		m_ParticleDataBuffer = std::make_unique<BufferD3D12>(m_Device, desc, &bufferData, m_AsyncCompute ? QueueID::Both : QueueID::Direct);
+	}
+
+	void ParticleSystemD3D12::SetCenterPos(DirectX::XMFLOAT3 pos)
+	{
+		m_CenterPos = pos;
 	}
 
 	void ParticleSystemD3D12::SetColorTexture(ITexture* texture)
@@ -191,15 +213,9 @@ namespace EduEngine
 			m_ColorTexture->Load();
 	}
 
-	void ParticleSystemD3D12::SetScreenSpaceCollision(bool enabled)
-	{
-		m_ScreenSpaceCollision = enabled;
-		InitComputePass();
-	}
-
 	UINT ParticleSystemD3D12::GetMaxParticles() const
 	{
-		return m_MaxParticles;
+		return m_ParticleData.MaxParticles;
 	}
 
 	void ParticleSystemD3D12::InitBuffers(UINT particlesCount)
@@ -281,16 +297,13 @@ namespace EduEngine
 
 		auto uploadDesc = CD3DX12_RESOURCE_DESC::Buffer(sizeof(UINT));
 		m_DrawListUpload = std::make_unique<UploadBufferD3D12>(m_Device, uploadDesc, m_AsyncCompute ? QueueID::Both : QueueID::Direct);
-
-		InitComputePass();
-		m_DrawPass = std::make_unique<ParticlesDrawPass>(m_Device);
 	}
 
-	void ParticleSystemD3D12::InitComputePass()
+	void ParticleSystemD3D12::InitComputePass(bool screenSpaceCollision)
 	{
 		D3D_SHADER_MACRO macros[] =
 		{
-			{ "SCREEN_SPACE_COLLISION", m_ScreenSpaceCollision ? "1" : "0"},
+			{ "SCREEN_SPACE_COLLISION", screenSpaceCollision ? "1" : "0"},
 			{ NULL, NULL }
 		};
 

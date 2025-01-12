@@ -22,54 +22,19 @@ namespace EduEngine
 		m_NativeParticleSystem = nullptr;
 	}
 
-	void NativeParticleSystemWrapper::SetMaxParticles(unsigned int num)
+	void NativeParticleSystemWrapper::SetParticlesData(ParticleData% data)
 	{
-		m_NativeParticleSystem->SetMaxParticles(num);
+		NativeStaticParticleData nativeData = {};
+
+		pin_ptr<ParticleData> pinnedStruct = &data;
+		std::memcpy(&nativeData, pinnedStruct, sizeof(NativeStaticParticleData));
+
+		m_NativeParticleSystem->SetParticlesData(nativeData);
 	}
 
-	void NativeParticleSystemWrapper::SetShapeType(UINT value)
+	void NativeParticleSystemWrapper::SetCenterPosition(Vector3 position)
 	{
-		m_NativeParticleSystem->ShapeType = value;
-	}
-
-	void NativeParticleSystemWrapper::SetShapeSize(Vector3 value)
-	{
-		m_NativeParticleSystem->ShapeSize = { value.X, value.Y, value.Z };
-	}
-
-	void NativeParticleSystemWrapper::SetCenterPosition(Vector3 value)
-	{
-		m_NativeParticleSystem->CenterPos = { value.X, value.Y, value.Z };
-	}
-
-	void NativeParticleSystemWrapper::SetEmissionRate(float value)
-	{
-		m_NativeParticleSystem->EmissionRate = value;
-	}
-
-	void NativeParticleSystemWrapper::SetLifeTime(float value)
-	{
-		m_NativeParticleSystem->LifeTime = value;
-	}
-
-	void NativeParticleSystemWrapper::SetVelocity(Vector3 value)
-	{
-		m_NativeParticleSystem->Velocity = { value.X, value.Y, value.Z };
-	}
-
-	void NativeParticleSystemWrapper::SetAcceleration(Vector3 value)
-	{
-		m_NativeParticleSystem->Acceleration = { value.X, value.Y, value.Z };
-	}
-
-	void NativeParticleSystemWrapper::SetStartColor(Vector4 value)
-	{
-		m_NativeParticleSystem->StartColor = { value.X, value.Y, value.Z, value.W };
-	}
-
-	void NativeParticleSystemWrapper::SetEndColor(Vector4 value)
-	{
-		m_NativeParticleSystem->EndColor = { value.X, value.Y, value.Z, value.W };
+		m_NativeParticleSystem->SetCenterPos({ position.X, position.Y, position.Z });
 	}
 
 	void NativeParticleSystemWrapper::SetColorTexture(TextureWrapper^ texture)
@@ -78,10 +43,5 @@ namespace EduEngine
 			m_NativeParticleSystem->SetColorTexture(nullptr);
 		else
 			m_NativeParticleSystem->SetColorTexture(texture->GetNative());
-	}
-
-	void NativeParticleSystemWrapper::SetScreenSpaceCollision(bool enabled)
-	{
-		m_NativeParticleSystem->SetScreenSpaceCollision(enabled);
 	}
 }

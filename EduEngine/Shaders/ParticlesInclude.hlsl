@@ -22,18 +22,20 @@ cbuffer passData : register(b0)
     float gNear;
     float gFar;
     float gPadding0;
+    float3 gCenterPos;
+    float gPadding1;
 }
 
 cbuffer particleData : register(b1)
 {
     uint gShapeType;
     float3 gShapeSize;
-    float3 gCenterPos;
     uint gMaxParticles;
+    float3 gPadding2;
     float4 gStartColor;
     float4 gEndColor;
     float3 gVelocity;
     float gLifeTime;
     float3 gAcceleration;
-    uint gPadding1;
+    uint gPadding3;
 }
