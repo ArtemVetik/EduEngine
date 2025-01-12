@@ -548,13 +548,17 @@ namespace EduEngine
 	public:
 		struct PassData
 		{
+			DirectX::XMFLOAT4X4 WorldView;
+			DirectX::XMFLOAT4X4 Proj;
 			DirectX::XMFLOAT4X4 MVP;
 			float AspectRatio;
 			float DeltaTime;
 			float TotalTime;
 			UINT EmitCount;
 			UINT RandSeed;
-			DirectX::XMFLOAT3 Padding;
+			float Near;
+			float Far;
+			float Padding;
 		};
 
 		struct ParticleData
@@ -583,11 +587,11 @@ namespace EduEngine
 		ComputePipelineStateD3D12 m_CopyDrawPSO;
 
 	public:
-		ParticlesComputePass(RenderDeviceD3D12* device, QueueID queueId) :
-			m_DeadListCS(L"Shaders/ParticlesDeadListInitCS.hlsl", EDU_SHADER_TYPE_COMPUTE, nullptr, "main", "cs_5_1"),
-			m_EmitCS(L"Shaders/ParticlesEmitCS.hlsl", EDU_SHADER_TYPE_COMPUTE, nullptr, "main", "cs_5_1"),
-			m_UpdateCS(L"Shaders/ParticlesUpdateCS.hlsl", EDU_SHADER_TYPE_COMPUTE, nullptr, "main", "cs_5_1"),
-			m_CopyDrawCS(L"Shaders/ParticlesCopyDrawCS.hlsl", EDU_SHADER_TYPE_COMPUTE, nullptr, "main", "cs_5_1")
+		ParticlesComputePass(RenderDeviceD3D12* device, QueueID queueId, D3D_SHADER_MACRO* macros = nullptr) :
+			m_DeadListCS(L"Shaders/ParticlesDeadListInitCS.hlsl", EDU_SHADER_TYPE_COMPUTE, macros, "main", "cs_5_1"),
+			m_EmitCS(L"Shaders/ParticlesEmitCS.hlsl", EDU_SHADER_TYPE_COMPUTE, macros, "main", "cs_5_1"),
+			m_UpdateCS(L"Shaders/ParticlesUpdateCS.hlsl", EDU_SHADER_TYPE_COMPUTE, macros, "main", "cs_5_1"),
+			m_CopyDrawCS(L"Shaders/ParticlesCopyDrawCS.hlsl", EDU_SHADER_TYPE_COMPUTE, macros, "main", "cs_5_1")
 		{
 			CD3DX12_DESCRIPTOR_RANGE passData;
 			passData.Init(D3D12_DESCRIPTOR_RANGE_TYPE_CBV, 1, 0);
@@ -614,6 +618,14 @@ namespace EduEngine
 			CD3DX12_DESCRIPTOR_RANGE deadListCounter;
 			deadListCounter.Init(D3D12_DESCRIPTOR_RANGE_TYPE_UAV, 1, 4);
 			m_RootSignature.AddDescriptorParameter(1, &deadListCounter);
+
+			CD3DX12_DESCRIPTOR_RANGE depthTexture;
+			depthTexture.Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 0);
+			m_RootSignature.AddDescriptorParameter(1, &depthTexture);
+
+			CD3DX12_DESCRIPTOR_RANGE normalTexture;
+			normalTexture.Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 1);
+			m_RootSignature.AddDescriptorParameter(1, &normalTexture);
 
 			m_RootSignature.Build(device, queueId);
 			m_RootSignature.SetName(L"ParticleComputeRootSignature");

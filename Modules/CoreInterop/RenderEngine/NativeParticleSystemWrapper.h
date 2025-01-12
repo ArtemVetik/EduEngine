@@ -25,6 +25,7 @@ namespace EduEngine
 		void SetStartColor(Vector4 value);
 		void SetEndColor(Vector4 value);
 		void SetColorTexture(TextureWrapper^ texture);
+		void SetScreenSpaceCollision(bool enabled);
 
 	private:
 		IParticleSystem* m_NativeParticleSystem;

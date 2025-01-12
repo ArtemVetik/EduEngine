@@ -230,7 +230,7 @@ namespace EduEngine
 		}
 
 		for (auto& particleSystem : m_ParticleSystems)
-			particleSystem->Compute(m_Timer, (float)m_SwapChain->GetWidth() / m_SwapChain->GetHeight());
+			particleSystem->Compute(m_Timer, m_DeferredRendering->GetGBuffer()->GetGBufferSRVView(1), m_SwapChain.get());
 
 		if (m_RenderSettings.GetAsyncComputeParticles())
 		{

@@ -8,6 +8,7 @@ namespace EduEngine
 	ParticleSystemD3D12::ParticleSystemD3D12(RenderDeviceD3D12* device, const RenderSettings* renderSettings) :
 		m_Device(device),
 		m_RenderSettings(renderSettings),
+		m_LastRenderCamera(nullptr),
 		m_ColorTexture(nullptr),
 		m_DirtyBuffers(true),
 		m_MaxParticles(0),
@@ -16,7 +17,7 @@ namespace EduEngine
 		m_AsyncCompute = m_RenderSettings->GetAsyncComputeParticles();
 	}
 
-	void ParticleSystemD3D12::Compute(const Timer& timer, float aspectRatio)
+	void ParticleSystemD3D12::Compute(const Timer& timer, D3D12_GPU_DESCRIPTOR_HANDLE normalTex, const SwapChain* swapChain)
 	{
 		if (m_MaxParticles == 0)
 			return;
@@ -39,7 +40,14 @@ namespace EduEngine
 		std::uniform_int_distribution<uint32_t> dis(0, UINT32_MAX);
 
 		ParticlesComputePass::PassData passCB = {};
-		passCB.AspectRatio = aspectRatio;
+		if (m_LastRenderCamera)
+		{
+			XMStoreFloat4x4(&passCB.WorldView, XMMatrixTranspose(XMLoadFloat4x4(&m_LastRenderCamera->GetViewMatrix())));
+			XMStoreFloat4x4(&passCB.Proj, XMMatrixTranspose(XMLoadFloat4x4(&m_LastRenderCamera->GetProjectionMatrix())));
+			passCB.Near = m_LastRenderCamera->GetNear();
+			passCB.Far = m_LastRenderCamera->GetFar();
+		}
+		passCB.AspectRatio = (float)swapChain->GetWidth() / (float)swapChain->GetHeight();
 		passCB.DeltaTime = timer.GetDeltaTime();
 		passCB.TotalTime = timer.GetTotalTime();
 		passCB.EmitCount = m_Timer / timeBetweenEmit;
@@ -74,6 +82,8 @@ namespace EduEngine
 		commandContext.GetCmdList()->SetComputeRootDescriptorTable(4, m_DrawList->GetUAVView()->GetGpuHandle());
 		commandContext.GetCmdList()->SetComputeRootDescriptorTable(5, m_DrawArgs->GetUAVView()->GetGpuHandle());
 		commandContext.GetCmdList()->SetComputeRootDescriptorTable(6, m_DeadListCounter->GetUAVView()->GetGpuHandle());
+		commandContext.GetCmdList()->SetComputeRootDescriptorTable(7, swapChain->DepthStencilSRVView());
+		commandContext.GetCmdList()->SetComputeRootDescriptorTable(8, normalTex);
 
 		if (m_DirtyBuffers)
 		{
@@ -146,7 +156,6 @@ namespace EduEngine
 		commandContext.GetCmdList()->SetGraphicsRootDescriptorTable(2, m_ParticlesPool->GetSRVView()->GetGpuHandle());
 		commandContext.GetCmdList()->SetGraphicsRootDescriptorTable(3, m_DrawList->GetSRVView()->GetGpuHandle());
 
-		printf("%p -- %p\n", m_ColorTexture, (m_ColorTexture ? m_ColorTexture->GetGPUPtr() : 0));
 		if (m_ColorTexture && m_ColorTexture->GetGPUPtr())
 		{
 			D3D12_GPU_DESCRIPTOR_HANDLE colorTex;
@@ -161,6 +170,8 @@ namespace EduEngine
 			0,
 			nullptr,
 			0);
+
+		m_LastRenderCamera = camera;
 	}
 
 	void ParticleSystemD3D12::SetMaxParticles(UINT num)
@@ -178,6 +189,12 @@ namespace EduEngine
 
 		if (m_ColorTexture)
 			m_ColorTexture->Load();
+	}
+
+	void ParticleSystemD3D12::SetScreenSpaceCollision(bool enabled)
+	{
+		m_ScreenSpaceCollision = enabled;
+		InitComputePass();
 	}
 
 	UINT ParticleSystemD3D12::GetMaxParticles() const
@@ -265,7 +282,18 @@ namespace EduEngine
 		auto uploadDesc = CD3DX12_RESOURCE_DESC::Buffer(sizeof(UINT));
 		m_DrawListUpload = std::make_unique<UploadBufferD3D12>(m_Device, uploadDesc, m_AsyncCompute ? QueueID::Both : QueueID::Direct);
 
-		m_ComputePass = std::make_unique<ParticlesComputePass>(m_Device, m_AsyncCompute ? QueueID::Both : QueueID::Direct);
+		InitComputePass();
 		m_DrawPass = std::make_unique<ParticlesDrawPass>(m_Device);
+	}
+
+	void ParticleSystemD3D12::InitComputePass()
+	{
+		D3D_SHADER_MACRO macros[] =
+		{
+			{ "SCREEN_SPACE_COLLISION", m_ScreenSpaceCollision ? "1" : "0"},
+			{ NULL, NULL }
+		};
+
+		m_ComputePass = std::make_unique<ParticlesComputePass>(m_Device, m_AsyncCompute ? QueueID::Both : QueueID::Direct, macros);
 	}
 }

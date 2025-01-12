@@ -24,6 +24,7 @@ namespace EduEngine
         [SerializeField, Color] private Vector4 _startColor;
         [SerializeField, Color] private Vector4 _endColor;
         [SerializeField] private Texture _colorTexture;
+        [SerializeField] private bool _screenSpaceCollision;
 
         private NativeParticleSystemWrapper _nativeParticles;
 
@@ -74,6 +75,7 @@ namespace EduEngine
             _nativeParticles.SetStartColor(_startColor);
             _nativeParticles.SetEndColor(_endColor);
             _nativeParticles.SetColorTexture(_colorTexture?.GetWrapper());
+            _nativeParticles.SetScreenSpaceCollision(_screenSpaceCollision);
         }
     }
 }

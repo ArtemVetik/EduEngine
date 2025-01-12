@@ -79,4 +79,9 @@ namespace EduEngine
 		else
 			m_NativeParticleSystem->SetColorTexture(texture->GetNative());
 	}
+
+	void NativeParticleSystemWrapper::SetScreenSpaceCollision(bool enabled)
+	{
+		m_NativeParticleSystem->SetScreenSpaceCollision(enabled);
+	}
 }

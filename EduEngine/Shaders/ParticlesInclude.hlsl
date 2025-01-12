@@ -11,13 +11,17 @@ struct Particle
 
 cbuffer passData : register(b0)
 {
+    float4x4 gWorldView;
+    float4x4 gProj;
     float4x4 gMVP;
     float gAspectRatio;
     float gDeltaTime;
     float gTotalTime;
     uint gEmitCount;
     uint gRandSeed;
-    float3 gPadding0;
+    float gNear;
+    float gFar;
+    float gPadding0;
 }
 
 cbuffer particleData : register(b1)

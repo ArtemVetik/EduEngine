@@ -14,6 +14,9 @@ RWStructuredBuffer<uint> DrawList : register(u2);
 RWStructuredBuffer<uint> DrawArgs : register(u3);
 RWStructuredBuffer<uint> DeadListCounter : register(u4);
 
+Texture2D gDepthTexture : register(t0);
+Texture2D gNormalTexture : register(t1);
+
 [numthreads(32, 1, 1)]
 void main(uint id : SV_DispatchThreadID)
 {
@@ -32,6 +35,30 @@ void main(uint id : SV_DispatchThreadID)
     particle.Velocity += gAcceleration * gDeltaTime;
     particle.Position += particle.Velocity * gDeltaTime;
     particle.Color = lerp(gStartColor, gEndColor, particle.Age / gLifeTime);
+    
+#if SCREEN_SPACE_COLLISION
+    float3 viewPos = mul(float4(particle.Position, 1.0f), gWorldView).xyz;
+	float4 clipSpacePos = mul(float4(viewPos, 1.0f), gProj);
+	clipSpacePos /= clipSpacePos.w;
+	float2 aClipSpacePos = abs(clipSpacePos);
+	
+	if (aClipSpacePos.x < 1.0f && aClipSpacePos.y < 1.0f)
+	{
+		float2 uv = clipSpacePos.xy * float2(0.5f, -0.5f) + 0.5;
+        float depthValue = gDepthTexture.SampleLevel(gsamPointWrap, uv, 0).r;
+        float3 normalValue = gNormalTexture.SampleLevel(gsamPointWrap, uv, 0);
+		
+        float linearEyeDepth = gNear * gFar / (depthValue * (gNear - gFar) + gFar);
+
+		float radius = particle.Size;
+		float surfaceThickness = 10.0f;
+
+        if (viewPos.z > linearEyeDepth - radius && viewPos.z < linearEyeDepth + radius + surfaceThickness)
+		{
+            particle.Velocity = normalize(normalValue) * length(particle.Velocity);
+        }
+	}
+#endif
     
     ParticlePool[id.x] = particle;
 	
