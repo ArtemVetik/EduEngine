@@ -19,6 +19,30 @@ float random(uint seed, float min, float max)
     return min + random(seed) * (max - min);
 }
 
+float randomOnBound(uint seed, float min, float max)
+{
+    return min + step(random(seed), 0.5f) * (max - min);
+}
+
+float3 random(uint seed, float3 min, float3 max)
+{
+    return float3(
+        random(seed + 0, min.x, max.x),
+        random(seed + 1, min.y, max.y),
+        random(seed + 2, min.z, max.z)
+    );
+}
+
+float4 random(uint seed, float4 min, float4 max)
+{
+    return float4(
+        random(seed + 0, min.x, max.x),
+        random(seed + 1, min.y, max.y),
+        random(seed + 2, min.z, max.z),
+        random(seed + 2, min.w, max.w)
+    );
+}
+
 float3 randomInRect(uint seed, float3 rectSize)
 {
     float x = random(seed, -rectSize.x, rectSize.x);

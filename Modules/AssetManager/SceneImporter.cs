@@ -207,7 +207,7 @@ namespace EduEngine
         private static Dictionary<string, object> GetParameters(Component component, Dictionary<GameObject, int> objectIds, out string componentType)
         {
             var parameters = new Dictionary<string, object>();
-            var fields = ComponentFields.FindAll(component);
+            var fields = ComponentFields.FindAll(component.GetType());
 
             foreach (var field in fields)
             {

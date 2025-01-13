@@ -6,17 +6,17 @@ namespace EduEngine.Editor
 {
     internal static class PropertyFieldRenderer
     {
-        public static void RenderField(FieldInfo field, Component component)
+        public static void RenderField(FieldInfo field, object obj)
         {
-            var fieldName = field.Name + $"##field{component.GUID}";
-            var fieldValue = field.GetValue(component);
+            var fieldName = field.Name + $"##field{obj.GetHashCode()}";
+            var fieldValue = field.GetValue(obj);
 
             if (fieldValue is int intValue)
             {
                 int newValue = intValue;
                 if (ImGui.InputInt(fieldName, ref newValue))
                 {
-                    ReflectField.Set(field, component, newValue);
+                    ReflectField.Set(field, obj, newValue);
                 }
             }
             else if (fieldValue is float floatValue)
@@ -27,7 +27,7 @@ namespace EduEngine.Editor
                     if (field.HasAttribute(out MinAttribute min) && newValue < min.Value)
                         newValue = min.Value;
 
-                    ReflectField.Set(field, component, newValue);
+                    ReflectField.Set(field, obj, newValue);
                 }
             }
             else if (fieldValue is string stringValue)
@@ -35,7 +35,7 @@ namespace EduEngine.Editor
                 string newValue = stringValue;
                 if (ImGui.InputText(fieldName, ref newValue, 256))
                 {
-                    ReflectField.Set(field, component, newValue);
+                    ReflectField.Set(field, obj, newValue);
                 }
             }
             else if (fieldValue is bool boolValue)
@@ -43,7 +43,7 @@ namespace EduEngine.Editor
                 bool newValue = boolValue;
                 if (ImGui.Checkbox(fieldName, ref newValue))
                 {
-                    ReflectField.Set(field, component, newValue);
+                    ReflectField.Set(field, obj, newValue);
                 }
             }
             else if (fieldValue is Vector2 vector2Value)
@@ -52,12 +52,12 @@ namespace EduEngine.Editor
                 if (field.HasAttribute(out RangeAttribute range))
                 {
                     if (ImGui.SliderFloat2(fieldName, ref newValue, range.Min, range.Max))
-                        ReflectField.Set(field, component, newValue);
+                        ReflectField.Set(field, obj, newValue);
                 }
                 else
                 {
                     if (ImGui.DragFloat2(fieldName, ref newValue))
-                        ReflectField.Set(field, component, newValue);
+                        ReflectField.Set(field, obj, newValue);
                 }
             }
             else if (fieldValue is Vector3 vector3Value)
@@ -66,17 +66,17 @@ namespace EduEngine.Editor
                 if (field.HasAttribute(out ColorAttribute _))
                 {
                     if (ImGui.ColorEdit3(fieldName, ref newValue))
-                        ReflectField.Set(field, component, newValue);
+                        ReflectField.Set(field, obj, newValue);
                 }
                 else if (field.HasAttribute(out RangeAttribute range))
                 {
                     if (ImGui.SliderFloat3(fieldName, ref newValue, range.Min, range.Max))
-                        ReflectField.Set(field, component, newValue);
+                        ReflectField.Set(field, obj, newValue);
                 }
                 else
                 {
                     if (ImGui.DragFloat3(fieldName, ref newValue))
-                        ReflectField.Set(field, component, newValue);
+                        ReflectField.Set(field, obj, newValue);
                 }
             }
             else if (fieldValue is Vector4 vector4Value)
@@ -85,17 +85,17 @@ namespace EduEngine.Editor
                 if (field.HasAttribute(out ColorAttribute _))
                 {
                     if (ImGui.ColorEdit4(fieldName, ref newValue))
-                        ReflectField.Set(field, component, newValue);
+                        ReflectField.Set(field, obj, newValue);
                 }
                 else if (field.HasAttribute(out RangeAttribute range))
                 {
                     if (ImGui.SliderFloat4(fieldName, ref newValue, range.Min, range.Max))
-                        ReflectField.Set(field, component, newValue);
+                        ReflectField.Set(field, obj, newValue);
                 }
                 else
                 {
                     if (ImGui.DragFloat4(fieldName, ref newValue))
-                        ReflectField.Set(field, component, newValue);
+                        ReflectField.Set(field, obj, newValue);
                 }
             }
             else if (fieldValue is Enum enumValue)
@@ -108,7 +108,7 @@ namespace EduEngine.Editor
                     {
                         if (ImGui.Selectable(name))
                         {
-                            ReflectField.Set(field, component, Enum.Parse(field.FieldType, name));
+                            ReflectField.Set(field, obj, Enum.Parse(field.FieldType, name));
                         }
                     }
 
@@ -119,14 +119,14 @@ namespace EduEngine.Editor
             {
                 ImGuiEx.RenderGameObjectSelect(fieldValue as GameObject, field.Name, (selectedGameObject) =>
                 {
-                    ReflectField.Set(field, component, selectedGameObject);
+                    ReflectField.Set(field, obj, selectedGameObject);
                 });
             }
             else if (field.FieldType.IsSubclassOf(typeof(Asset)))
             {
                 ImGuiEx.RenderAssetSelect(field.FieldType, fieldValue as Asset, fieldName, (selectedAsset) =>
                 {
-                    ReflectField.Set(field, component, selectedAsset);
+                    ReflectField.Set(field, obj, selectedAsset);
                 });
             }
             else

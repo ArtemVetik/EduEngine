@@ -34,7 +34,14 @@ void main(uint id : SV_DispatchThreadID)
     
     particle.Velocity += gAcceleration * gDeltaTime;
     particle.Position += particle.Velocity * gDeltaTime;
-    particle.Color = lerp(gStartColor, gEndColor, particle.Age / gLifeTime);
+    
+    float normAge = particle.Age / gLifeTime;
+    
+    if (length(particle.Velocity) > 0)
+        particle.Velocity += -normalize(particle.Velocity) * step(normAge, gDragTime) * gDragForce * gDeltaTime;
+     
+    particle.Color = lerp(particle.StartColor, gEndColor, normAge);
+    particle.Size = lerp(particle.StartSize, gEndSize, normAge);
     
 #if SCREEN_SPACE_COLLISION
     float3 viewPos = mul(float4(particle.Position, 1.0f), gWorldView).xyz;

@@ -72,24 +72,39 @@ namespace EduEngine
 		float SpotPower = 64.0f;							 // spot light only
 	};
 
-	struct RENDERENGINE_API NativeStaticParticleData
+	struct RENDERENGINE_API ParticleStaticBufferData
 	{
-		UINT MaxParticles = 0;
-		UINT ShapeType = 0;
-		float LifeTime = 0.0f;
+		UINT ShapeType;
+		DirectX::XMFLOAT3 ShapeSize;
+		UINT MaxParticles;
+		DirectX::XMFLOAT3 MinStartSize;
+		float LifeTime;
+		DirectX::XMFLOAT3 MaxStartSize;
+		float DragForce;
+		DirectX::XMFLOAT3 EndSize;
+		DirectX::XMFLOAT4 MinStartColor;
+		DirectX::XMFLOAT4 MaxStartColor;
+		DirectX::XMFLOAT4 EndColor;
+		DirectX::XMFLOAT3 MinStartVelocity;
+		bool RandVelocityOnBound;
+		DirectX::XMFLOAT3 MaxStartVelocity;
+		float DragTime;
+		DirectX::XMFLOAT3 Acceleration;
+		UINT Padding;
+	};
+
+	struct RENDERENGINE_API ParticleStaticData
+	{
 		float EmissionRate = 0.0f;
-		DirectX::XMFLOAT3 ShapeSize = { 0, 0, 0 };
-		DirectX::XMFLOAT4 StartColor = { 0, 0, 0, 0 };
-		DirectX::XMFLOAT4 EndColor = { 0, 0, 0, 0 };
-		DirectX::XMFLOAT3 Velocity = { 0, 0, 0 };
-		DirectX::XMFLOAT3 Acceleration = { 0, 0, 0 };
 		bool ScreenSpaceCollision = false;
+
+		ParticleStaticBufferData BufferData;
 	};
 
 	class RENDERENGINE_API IParticleSystem
 	{
 	public:
-		virtual void SetParticlesData(NativeStaticParticleData data) = 0;
+		virtual void SetParticlesData(ParticleStaticData data) = 0;
 		virtual void SetCenterPos(DirectX::XMFLOAT3 pos) = 0;
 		virtual void SetColorTexture(ITexture* texture) = 0;
 	};

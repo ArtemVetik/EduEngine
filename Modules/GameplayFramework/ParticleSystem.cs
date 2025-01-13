@@ -16,15 +16,24 @@ namespace EduEngine
         [SerializeField] private int _maxParticlesCount;
         [SerializeField] private ShapeType _shapeType;
         [SerializeField] private Vector3 _shapeSize;
+        [SerializeField] private Vector3 _minStartSize;
+        [SerializeField] private Vector3 _maxStartSize;
+        [SerializeField] private Vector3 _endSize;
         [SerializeField] private Vector3 _offset;
         [SerializeField] private float _emissionRate;
         [SerializeField] private float _lifeTime;
-        [SerializeField] private Vector3 _velocity;
+        [SerializeField] private Vector3 _minStartVelocity;
+        [SerializeField] private Vector3 _maxStartVelocity;
+        [SerializeField] private bool _randVelocityOnBound;
         [SerializeField] private Vector3 _acceleration;
-        [SerializeField, Color] private Vector4 _startColor;
+        [SerializeField, Color] private Vector4 _minStartColor;
+        [SerializeField, Color] private Vector4 _maxStartColor;
         [SerializeField, Color] private Vector4 _endColor;
+        [SerializeField] private float _dragTime;
+        [SerializeField] private float _dragForce;
         [SerializeField] private Texture _colorTexture;
         [SerializeField] private bool _screenSpaceCollision;
+        [SerializeField] private ParticleData _test;
 
         private NativeParticleSystemWrapper _nativeParticles;
 
@@ -64,16 +73,25 @@ namespace EduEngine
         private void InitParticles()
         {
             ParticleData particleData = new ParticleData();
-            particleData.MaxParticles = (uint)_maxParticlesCount;
-            particleData.ShapeType = (uint)_shapeType;
-            particleData.LifeTime = _lifeTime;
             particleData.EmissionRate = _emissionRate;
-            particleData.ShapeSize = _shapeSize;
-            particleData.StartColor = _startColor;
-            particleData.EndColor = _endColor;
-            particleData.Velocity = _velocity;
-            particleData.Acceleration = _acceleration;
             particleData.ScreenSpaceCollision = _screenSpaceCollision;
+
+            particleData.ShapeType = (uint)_shapeType;
+            particleData.ShapeSize = _shapeSize;
+            particleData.MaxParticles = (uint)_maxParticlesCount;
+            particleData.MinStartSize = _minStartSize;
+            particleData.LifeTime = _lifeTime;
+            particleData.MaxStartSize = _maxStartSize;
+            particleData.DragForce = _dragForce;
+            particleData.EndSize = _endSize;
+            particleData.MinStartColor = _minStartColor;
+            particleData.MaxStartColor = _maxStartColor;
+            particleData.EndColor = _endColor;
+            particleData.MinStartVelocity = _minStartVelocity;
+            particleData.RandVelocityOnBound = _randVelocityOnBound;
+            particleData.MaxStartVelocity = _maxStartVelocity;
+            particleData.DragTime = _dragTime;
+            particleData.Acceleration = _acceleration;
 
             _nativeParticles.SetParticlesData(ref particleData);
             _nativeParticles.SetColorTexture(_colorTexture?.GetWrapper());

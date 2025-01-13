@@ -252,7 +252,7 @@ namespace EduEngine.Editor
             var components = reference.GetComponents<Component>();
             foreach (var component in components)
             {
-                var fields = ComponentFields.FindAll(component);
+                var fields = ComponentFields.FindAll(component.GetType());
 
                 obj.AddComponent(component.GetType(), (c) =>
                 {

@@ -24,7 +24,7 @@ void main(uint id : SV_DispatchThreadID)
     }
     else if (gShapeType == 1) // inside sphere
     {
-        float radius = random(gRandSeed + id.x + 100, 0.0f, gShapeSize.x);
+        float radius = random(gRandSeed + id.x + 1, 0.0f, gShapeSize.x);
         emitParticle.Position = gCenterPos + randomUnitVector(gRandSeed + id.x) * radius;
     }
     else if (gShapeType == 2) // sphere contour
@@ -32,12 +32,16 @@ void main(uint id : SV_DispatchThreadID)
         emitParticle.Position = gCenterPos + randomUnitVector(gRandSeed + id.x) * gShapeSize.x;
     }
     
-    emitParticle.Velocity = gVelocity;
-    emitParticle.Color = gStartColor;
+    if (gRandVelocityOnBound)
+        emitParticle.Velocity = randomUnitVector(gRandSeed + id.x + 3) * gMinStartVelocity.x;
+    else
+        emitParticle.Velocity = random(gRandSeed + id.x + 3, gMinStartVelocity, gMaxStartVelocity);
+    
+    emitParticle.StartColor = random(gRandSeed + id.x + 3, gMinStartColor, gMaxStartColor);
     emitParticle.Age = 0.0f;
-    emitParticle.Size = 0.8;
+    emitParticle.StartSize = random(gRandSeed + id.x + 4, gMinStartSize, gMaxStartSize);
     emitParticle.Alive = 1.0f;
-
+    
     ParticlePool[emitIndex] = emitParticle;
     
     GroupMemoryBarrierWithGroupSync();

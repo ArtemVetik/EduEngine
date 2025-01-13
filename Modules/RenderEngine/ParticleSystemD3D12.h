@@ -15,7 +15,7 @@ namespace EduEngine
 		void Compute(const Timer& timer, D3D12_GPU_DESCRIPTOR_HANDLE normalTex, const SwapChain* swapChain);
 		void Draw(Camera* camera, const Timer& timer, float aspectRatio);
 
-		void SetParticlesData(NativeStaticParticleData data) override;
+		void SetParticlesData(ParticleStaticData data) override;
 		void SetCenterPos(DirectX::XMFLOAT3 pos) override;
 		void SetColorTexture(ITexture* texture) override;
 
@@ -43,18 +43,20 @@ namespace EduEngine
 		TextureD3D12Impl* m_ColorTexture;
 
 		DirectX::XMFLOAT3 m_CenterPos;
-		NativeStaticParticleData m_ParticleData;
+		ParticleStaticData m_ParticleData;
 		float m_Timer;
 		bool m_AsyncCompute;
 		bool m_DirtyBuffers;
 
 		struct Particle
 		{
+			DirectX::XMFLOAT4 StartColor;
 			DirectX::XMFLOAT4 Color;
 			DirectX::XMFLOAT3 Position;
 			float Age;
 			DirectX::XMFLOAT3 Velocity;
-			float Size;
+			DirectX::XMFLOAT3 StartSize;
+			DirectX::XMFLOAT3 Size;
 			float Alive;
 			DirectX::XMFLOAT3 Padding;
 		};

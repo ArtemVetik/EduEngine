@@ -4,10 +4,10 @@ namespace EduEngine
 {
     public static class ComponentFields
     {
-        public static List<FieldInfo> FindAll(Component component)
+        public static List<FieldInfo> FindAll(Type componentType)
         {
             var fields = new List<FieldInfo>();
-            var baseType = component.GetType();
+            var baseType = componentType;
 
             while (baseType != null && baseType != typeof(Component))
             {

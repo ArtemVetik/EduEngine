@@ -3,7 +3,7 @@
 struct VS_OUTPUT
 {
     float3 Position : POSITION;
-    float Size      : SIZE;
+    float3 Size      : SIZE;
     float4 Color    : COLOR;
 };
 
@@ -50,7 +50,7 @@ void GS(point VS_OUTPUT input[1], inout TriangleStream<GS_OUTPUT> outStream)
     offsets[1] = float2(-1.0f, +1.0f);
     offsets[2] = float2(+1.0f, -1.0f);
     offsets[3] = float2(+1.0f, +1.0f);
-	
+    
 	[unroll]
     for (int i = 0; i < 4; i++)
     {
@@ -59,7 +59,7 @@ void GS(point VS_OUTPUT input[1], inout TriangleStream<GS_OUTPUT> outStream)
         float depthChange = output.Position.z / output.Position.w;
         
         offsets[i].y *= gAspectRatio;
-        output.Position.xy += offsets[i] * depthChange * input[0].Size;
+        output.Position.xy += offsets[i] * input[0].Size.xy * depthChange;
         output.Color = input[0].Color;
         output.UV = saturate(offsets[i]);
         

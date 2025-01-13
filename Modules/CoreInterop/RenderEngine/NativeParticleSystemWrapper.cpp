@@ -24,10 +24,10 @@ namespace EduEngine
 
 	void NativeParticleSystemWrapper::SetParticlesData(ParticleData% data)
 	{
-		NativeStaticParticleData nativeData = {};
+		ParticleStaticData nativeData = {};
 
 		pin_ptr<ParticleData> pinnedStruct = &data;
-		std::memcpy(&nativeData, pinnedStruct, sizeof(NativeStaticParticleData));
+		std::memcpy(&nativeData, pinnedStruct, sizeof(ParticleStaticData));
 
 		m_NativeParticleSystem->SetParticlesData(nativeData);
 	}

@@ -3,6 +3,7 @@
 #include "../EduMath/SimpleMath.h"
 #include "../Graphics/ComputePipelineStateD3D12.h"
 #include "../Graphics/CommandSignatureD3D12.h"
+#include "IRenderEngine.h"
 
 namespace EduEngine
 {
@@ -565,16 +566,7 @@ namespace EduEngine
 
 		struct ParticleData
 		{
-			UINT ShapeType;
-			DirectX::XMFLOAT3 ShapeSize;
-			UINT MaxParticles;
-			DirectX::XMFLOAT3 Padding2;
-			DirectX::XMFLOAT4 StartColor;
-			DirectX::XMFLOAT4 EndColor;
-			DirectX::XMFLOAT3 Velocity;
-			float LifeTime;
-			DirectX::XMFLOAT3 Acceleration;
-			UINT Padding3;
+			ParticleStaticBufferData BufferData;
 		};
 
 	private:

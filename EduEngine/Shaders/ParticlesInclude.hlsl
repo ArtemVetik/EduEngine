@@ -1,10 +1,12 @@
 struct Particle
 {
+    float4 StartColor;
     float4 Color;
     float3 Position;
     float Age;
     float3 Velocity;
-    float Size;
+    float3 StartSize;
+    float3 Size;
     float Alive;
     float3 Padding;
 };
@@ -31,11 +33,18 @@ cbuffer particleData : register(b1)
     uint gShapeType;
     float3 gShapeSize;
     uint gMaxParticles;
-    float3 gPadding2;
-    float4 gStartColor;
-    float4 gEndColor;
-    float3 gVelocity;
+    float3 gMinStartSize;
     float gLifeTime;
+    float3 gMaxStartSize;
+    float gDragForce;
+    float3 gEndSize;
+    float4 gMinStartColor;
+    float4 gMaxStartColor;
+    float4 gEndColor;
+    float3 gMinStartVelocity;
+    bool gRandVelocityOnBound;
+    float3 gMaxStartVelocity;
+    float gDragTime;
     float3 gAcceleration;
     uint gPadding3;
 }

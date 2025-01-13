@@ -98,7 +98,7 @@ namespace EduEngine.Editor
 
         private void RenderComponentFields(Component component)
         {
-            var fields = ComponentFields.FindAll(component);
+            var fields = ComponentFields.FindAll(component.GetType());
 
             foreach (var field in fields)
             {
