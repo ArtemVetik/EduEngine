@@ -1,0 +1,2749 @@
+{
+  "GameObjects": [
+    {
+      "FileId": 0,
+      "LocalPosition": {
+        "X": -59.24001,
+        "Y": 21.93425,
+        "Z": -36.39563
+      },
+      "LocalRotation": {
+        "X": 0.06700279,
+        "Y": 0.3906078,
+        "Z": -0.028519895,
+        "W": 0.9176725,
+        "IsIdentity": false
+      },
+      "LocalScale": {
+        "X": 0.99999994,
+        "Y": 1.0,
+        "Z": 0.99999994
+      },
+      "Name": "Camera",
+      "Parent": -1,
+      "Components": [
+        56,
+        57
+      ]
+    },
+    {
+      "FileId": 1,
+      "LocalPosition": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 0.0
+      },
+      "LocalRotation": {
+        "X": 9.701283E-11,
+        "Y": 4.2685674E-11,
+        "Z": -8.4396615E-11,
+        "W": 1.0,
+        "IsIdentity": false
+      },
+      "LocalScale": {
+        "X": 124.062355,
+        "Y": 0.49999976,
+        "Z": 30.0
+      },
+      "Name": "Ground",
+      "Parent": -1,
+      "Components": [
+        58
+      ]
+    },
+    {
+      "FileId": 2,
+      "LocalPosition": {
+        "X": 0.0,
+        "Y": 10.0,
+        "Z": 0.20307446
+      },
+      "LocalRotation": {
+        "X": 0.3535534,
+        "Y": 0.3535534,
+        "Z": -0.14644665,
+        "W": 0.85355335,
+        "IsIdentity": false
+      },
+      "LocalScale": {
+        "X": 0.99998283,
+        "Y": 0.9999961,
+        "Z": 0.99999386
+      },
+      "Name": "Light",
+      "Parent": -1,
+      "Components": [
+        59
+      ]
+    },
+    {
+      "FileId": 3,
+      "LocalPosition": {
+        "X": 0.0,
+        "Y": 3.0,
+        "Z": 0.0
+      },
+      "LocalRotation": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 0.0,
+        "W": 1.0,
+        "IsIdentity": true
+      },
+      "LocalScale": {
+        "X": 1.0,
+        "Y": 1.0,
+        "Z": 1.0
+      },
+      "Name": "Particles",
+      "Parent": 4,
+      "Components": [
+        60,
+        61
+      ]
+    },
+    {
+      "FileId": 4,
+      "LocalPosition": {
+        "X": 6.0,
+        "Y": 0.5,
+        "Z": 0.0
+      },
+      "LocalRotation": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 0.0,
+        "W": 1.0,
+        "IsIdentity": true
+      },
+      "LocalScale": {
+        "X": 1.0,
+        "Y": 1.0,
+        "Z": 1.0
+      },
+      "Name": "Pool2",
+      "Parent": 40,
+      "Components": []
+    },
+    {
+      "FileId": 5,
+      "LocalPosition": {
+        "X": 0.0,
+        "Y": 2.4795532E-05,
+        "Z": 0.0
+      },
+      "LocalRotation": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 0.0,
+        "W": 1.0,
+        "IsIdentity": true
+      },
+      "LocalScale": {
+        "X": 2.0,
+        "Y": 2.0,
+        "Z": 2.0
+      },
+      "Name": "Sphere",
+      "Parent": 4,
+      "Components": [
+        62
+      ]
+    },
+    {
+      "FileId": 6,
+      "LocalPosition": {
+        "X": -1.9073486E-06,
+        "Y": 1.0,
+        "Z": -5.0
+      },
+      "LocalRotation": {
+        "X": 0.0,
+        "Y": 0.70710665,
+        "Z": 0.0,
+        "W": 0.7071069,
+        "IsIdentity": false
+      },
+      "LocalScale": {
+        "X": 0.3999963,
+        "Y": 2.0,
+        "Z": 9.9998665
+      },
+      "Name": "Wall",
+      "Parent": 4,
+      "Components": [
+        63
+      ]
+    },
+    {
+      "FileId": 7,
+      "LocalPosition": {
+        "X": -4.999996,
+        "Y": 0.99993515,
+        "Z": -3.432762E-05
+      },
+      "LocalRotation": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 0.0,
+        "W": 1.0,
+        "IsIdentity": true
+      },
+      "LocalScale": {
+        "X": 0.4,
+        "Y": 2.0,
+        "Z": 10.0
+      },
+      "Name": "Wall",
+      "Parent": 4,
+      "Components": [
+        64
+      ]
+    },
+    {
+      "FileId": 8,
+      "LocalPosition": {
+        "X": 5.0,
+        "Y": 1.0,
+        "Z": -4.339218E-05
+      },
+      "LocalRotation": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 0.0,
+        "W": 1.0,
+        "IsIdentity": true
+      },
+      "LocalScale": {
+        "X": 0.4,
+        "Y": 2.0,
+        "Z": 10.0
+      },
+      "Name": "Wall",
+      "Parent": 4,
+      "Components": [
+        65
+      ]
+    },
+    {
+      "FileId": 9,
+      "LocalPosition": {
+        "X": -1.7397454E-06,
+        "Y": 1.0,
+        "Z": 5.0
+      },
+      "LocalRotation": {
+        "X": 0.0,
+        "Y": 0.70710665,
+        "Z": 0.0,
+        "W": 0.7071069,
+        "IsIdentity": false
+      },
+      "LocalScale": {
+        "X": 0.39999652,
+        "Y": 2.0,
+        "Z": 9.999873
+      },
+      "Name": "Wall",
+      "Parent": 4,
+      "Components": [
+        66
+      ]
+    },
+    {
+      "FileId": 10,
+      "LocalPosition": {
+        "X": -6.0,
+        "Y": 0.5,
+        "Z": 0.0
+      },
+      "LocalRotation": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 0.0,
+        "W": 1.0,
+        "IsIdentity": true
+      },
+      "LocalScale": {
+        "X": 1.0,
+        "Y": 1.0,
+        "Z": 1.0
+      },
+      "Name": "Pool",
+      "Parent": 40,
+      "Components": []
+    },
+    {
+      "FileId": 11,
+      "LocalPosition": {
+        "X": 0.0,
+        "Y": 3.0,
+        "Z": 0.0
+      },
+      "LocalRotation": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 0.0,
+        "W": 1.0,
+        "IsIdentity": true
+      },
+      "LocalScale": {
+        "X": 1.0,
+        "Y": 1.0,
+        "Z": 1.0
+      },
+      "Name": "Particles",
+      "Parent": 10,
+      "Components": [
+        67,
+        68
+      ]
+    },
+    {
+      "FileId": 12,
+      "LocalPosition": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 0.0
+      },
+      "LocalRotation": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 0.0,
+        "W": 1.0,
+        "IsIdentity": true
+      },
+      "LocalScale": {
+        "X": 2.0,
+        "Y": 2.0,
+        "Z": 2.0
+      },
+      "Name": "Sphere",
+      "Parent": 10,
+      "Components": [
+        69
+      ]
+    },
+    {
+      "FileId": 13,
+      "LocalPosition": {
+        "X": 0.0005540848,
+        "Y": 1.0,
+        "Z": -5.0
+      },
+      "LocalRotation": {
+        "X": 0.0,
+        "Y": 0.70710665,
+        "Z": 0.0,
+        "W": 0.7071069,
+        "IsIdentity": false
+      },
+      "LocalScale": {
+        "X": 0.39999598,
+        "Y": 2.0,
+        "Z": 10.0
+      },
+      "Name": "Wall",
+      "Parent": 10,
+      "Components": [
+        70
+      ]
+    },
+    {
+      "FileId": 14,
+      "LocalPosition": {
+        "X": -5.0,
+        "Y": 1.0,
+        "Z": 0.0
+      },
+      "LocalRotation": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 0.0,
+        "W": 1.0,
+        "IsIdentity": true
+      },
+      "LocalScale": {
+        "X": 0.4,
+        "Y": 2.0,
+        "Z": 10.0
+      },
+      "Name": "Wall",
+      "Parent": 10,
+      "Components": [
+        71
+      ]
+    },
+    {
+      "FileId": 15,
+      "LocalPosition": {
+        "X": 0.0,
+        "Y": 0.21,
+        "Z": 1.384679E-11
+      },
+      "LocalRotation": {
+        "X": -8.731148E-12,
+        "Y": 0.0,
+        "Z": 0.0,
+        "W": 1.0,
+        "IsIdentity": false
+      },
+      "LocalScale": {
+        "X": 10.0,
+        "Y": 0.1,
+        "Z": 10.000001
+      },
+      "Name": "Floor",
+      "Parent": 4,
+      "Components": [
+        72
+      ]
+    },
+    {
+      "FileId": 16,
+      "LocalPosition": {
+        "X": -1.7397454E-06,
+        "Y": 1.0,
+        "Z": 5.0
+      },
+      "LocalRotation": {
+        "X": 0.0,
+        "Y": 0.70710665,
+        "Z": 0.0,
+        "W": 0.7071069,
+        "IsIdentity": false
+      },
+      "LocalScale": {
+        "X": 0.39999652,
+        "Y": 2.0,
+        "Z": 9.999873
+      },
+      "Name": "Wall",
+      "Parent": 10,
+      "Components": [
+        73
+      ]
+    },
+    {
+      "FileId": 17,
+      "LocalPosition": {
+        "X": -48.0,
+        "Y": 7.4330344,
+        "Z": 0.0
+      },
+      "LocalRotation": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 0.0,
+        "W": 1.0,
+        "IsIdentity": true
+      },
+      "LocalScale": {
+        "X": 1.0,
+        "Y": 1.0,
+        "Z": 1.0
+      },
+      "Name": "Fireworks",
+      "Parent": -1,
+      "Components": []
+    },
+    {
+      "FileId": 18,
+      "LocalPosition": {
+        "X": 2.5492344,
+        "Y": 7.4436617,
+        "Z": 3.9046814
+      },
+      "LocalRotation": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 0.0,
+        "W": 1.0,
+        "IsIdentity": true
+      },
+      "LocalScale": {
+        "X": 1.0,
+        "Y": 1.0,
+        "Z": 1.0
+      },
+      "Name": "FireworkParticle",
+      "Parent": 17,
+      "Components": [
+        74,
+        75
+      ]
+    },
+    {
+      "FileId": 19,
+      "LocalPosition": {
+        "X": -7.7264204,
+        "Y": 5.6309013,
+        "Z": 0.0
+      },
+      "LocalRotation": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 0.0,
+        "W": 1.0,
+        "IsIdentity": true
+      },
+      "LocalScale": {
+        "X": 1.0,
+        "Y": 1.0,
+        "Z": 1.0
+      },
+      "Name": "FireworkParticle",
+      "Parent": 17,
+      "Components": [
+        76,
+        77
+      ]
+    },
+    {
+      "FileId": 20,
+      "LocalPosition": {
+        "X": 0.0,
+        "Y": 2.5,
+        "Z": 0.0
+      },
+      "LocalRotation": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 0.0,
+        "W": 1.0,
+        "IsIdentity": true
+      },
+      "LocalScale": {
+        "X": 1.0000006,
+        "Y": 1.0000006,
+        "Z": 0.99999994
+      },
+      "Name": "Particles",
+      "Parent": 21,
+      "Components": [
+        78
+      ]
+    },
+    {
+      "FileId": 21,
+      "LocalPosition": {
+        "X": 5.0,
+        "Y": 0.0,
+        "Z": 0.0
+      },
+      "LocalRotation": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 0.0,
+        "W": 1.0,
+        "IsIdentity": true
+      },
+      "LocalScale": {
+        "X": 1.0,
+        "Y": 1.0,
+        "Z": 1.0
+      },
+      "Name": "Bonfire",
+      "Parent": -1,
+      "Components": []
+    },
+    {
+      "FileId": 22,
+      "LocalPosition": {
+        "X": 0.0,
+        "Y": 1.7684137,
+        "Z": 0.0
+      },
+      "LocalRotation": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 0.0,
+        "W": 1.0,
+        "IsIdentity": true
+      },
+      "LocalScale": {
+        "X": 1.0000006,
+        "Y": 1.0000006,
+        "Z": 0.99999994
+      },
+      "Name": "Main",
+      "Parent": 21,
+      "Components": [
+        79
+      ]
+    },
+    {
+      "FileId": 23,
+      "LocalPosition": {
+        "X": 0.0,
+        "Y": 1.7374856,
+        "Z": 0.0
+      },
+      "LocalRotation": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 0.0,
+        "W": 1.0,
+        "IsIdentity": true
+      },
+      "LocalScale": {
+        "X": 1.0000006,
+        "Y": 1.0000006,
+        "Z": 0.99999994
+      },
+      "Name": "Smoke",
+      "Parent": 21,
+      "Components": [
+        80
+      ]
+    },
+    {
+      "FileId": 24,
+      "LocalPosition": {
+        "X": 0.0,
+        "Y": 1.0,
+        "Z": 0.0
+      },
+      "LocalRotation": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 0.0,
+        "W": 1.0,
+        "IsIdentity": true
+      },
+      "LocalScale": {
+        "X": 0.5,
+        "Y": 0.5,
+        "Z": 0.5
+      },
+      "Name": "BonfireModel",
+      "Parent": 21,
+      "Components": [
+        81
+      ]
+    },
+    {
+      "FileId": 25,
+      "LocalPosition": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": -1.5
+      },
+      "LocalRotation": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 0.0,
+        "W": 1.0,
+        "IsIdentity": true
+      },
+      "LocalScale": {
+        "X": 0.5,
+        "Y": 0.5,
+        "Z": 0.5
+      },
+      "Name": "BallTrail",
+      "Parent": 29,
+      "Components": [
+        82
+      ]
+    },
+    {
+      "FileId": 26,
+      "LocalPosition": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 0.0
+      },
+      "LocalRotation": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 0.0,
+        "W": 1.0,
+        "IsIdentity": true
+      },
+      "LocalScale": {
+        "X": 1.0,
+        "Y": 1.0,
+        "Z": 1.0
+      },
+      "Name": "Particle",
+      "Parent": 25,
+      "Components": [
+        83
+      ]
+    },
+    {
+      "FileId": 27,
+      "LocalPosition": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 0.0
+      },
+      "LocalRotation": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 0.0,
+        "W": 1.0,
+        "IsIdentity": true
+      },
+      "LocalScale": {
+        "X": 1.0,
+        "Y": 1.0,
+        "Z": 1.0
+      },
+      "Name": "Ball",
+      "Parent": 25,
+      "Components": [
+        84
+      ]
+    },
+    {
+      "FileId": 28,
+      "LocalPosition": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 0.0
+      },
+      "LocalRotation": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 0.0,
+        "W": 1.0,
+        "IsIdentity": true
+      },
+      "LocalScale": {
+        "X": 1.0,
+        "Y": 1.0,
+        "Z": 1.0
+      },
+      "Name": "FireworkParticle",
+      "Parent": 17,
+      "Components": [
+        85,
+        86
+      ]
+    },
+    {
+      "FileId": 29,
+      "LocalPosition": {
+        "X": 0.0,
+        "Y": 5.9918118,
+        "Z": 0.0
+      },
+      "LocalRotation": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 0.0,
+        "W": 1.0,
+        "IsIdentity": true
+      },
+      "LocalScale": {
+        "X": 1.0000175,
+        "Y": 1.0000036,
+        "Z": 1.000007
+      },
+      "Name": "BallTrailRoot",
+      "Parent": 46,
+      "Components": [
+        87
+      ]
+    },
+    {
+      "FileId": 30,
+      "LocalPosition": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 0.0
+      },
+      "LocalRotation": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 0.0,
+        "W": 1.0,
+        "IsIdentity": true
+      },
+      "LocalScale": {
+        "X": 1.0,
+        "Y": 1.0,
+        "Z": 1.0
+      },
+      "Name": "Effect",
+      "Parent": 32,
+      "Components": [
+        88
+      ]
+    },
+    {
+      "FileId": 31,
+      "LocalPosition": {
+        "X": 0.0,
+        "Y": 0.29129457,
+        "Z": 0.8565608
+      },
+      "LocalRotation": {
+        "X": 0.0,
+        "Y": -0.70710665,
+        "Z": 0.0,
+        "W": 0.7071069,
+        "IsIdentity": false
+      },
+      "LocalScale": {
+        "X": 0.6999778,
+        "Y": 0.7,
+        "Z": 0.6999778
+      },
+      "Name": "Model",
+      "Parent": 32,
+      "Components": [
+        89
+      ]
+    },
+    {
+      "FileId": 32,
+      "LocalPosition": {
+        "X": 0.0,
+        "Y": 1.8546333,
+        "Z": 2.795289
+      },
+      "LocalRotation": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 0.0,
+        "W": 1.0,
+        "IsIdentity": true
+      },
+      "LocalScale": {
+        "X": 1.0,
+        "Y": 1.0,
+        "Z": 1.0
+      },
+      "Name": "Root",
+      "Parent": 49,
+      "Components": []
+    },
+    {
+      "FileId": 33,
+      "LocalPosition": {
+        "X": 0.0,
+        "Y": 9.488657,
+        "Z": 0.0
+      },
+      "LocalRotation": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 0.0,
+        "W": 1.0,
+        "IsIdentity": true
+      },
+      "LocalScale": {
+        "X": 1.0,
+        "Y": 1.0,
+        "Z": 1.0
+      },
+      "Name": "Water",
+      "Parent": 35,
+      "Components": [
+        90
+      ]
+    },
+    {
+      "FileId": 34,
+      "LocalPosition": {
+        "X": 0.0,
+        "Y": 1.0,
+        "Z": 0.0
+      },
+      "LocalRotation": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 0.0,
+        "W": 1.0,
+        "IsIdentity": true
+      },
+      "LocalScale": {
+        "X": 1.0,
+        "Y": 1.0,
+        "Z": 1.0
+      },
+      "Name": "Smoke",
+      "Parent": 35,
+      "Components": [
+        91
+      ]
+    },
+    {
+      "FileId": 35,
+      "LocalPosition": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 0.0
+      },
+      "LocalRotation": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 0.0,
+        "W": 1.0,
+        "IsIdentity": true
+      },
+      "LocalScale": {
+        "X": 1.0,
+        "Y": 1.0,
+        "Z": 1.0
+      },
+      "Name": "RainRoot",
+      "Parent": 52,
+      "Components": []
+    },
+    {
+      "FileId": 36,
+      "LocalPosition": {
+        "X": 0.0,
+        "Y": 9.605548,
+        "Z": 0.0
+      },
+      "LocalRotation": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 0.0,
+        "W": 1.0,
+        "IsIdentity": true
+      },
+      "LocalScale": {
+        "X": 1.63,
+        "Y": 1.63,
+        "Z": 1.63
+      },
+      "Name": "Model",
+      "Parent": 35,
+      "Components": [
+        92
+      ]
+    },
+    {
+      "FileId": 37,
+      "LocalPosition": {
+        "X": 0.0,
+        "Y": 3.5,
+        "Z": 6.2
+      },
+      "LocalRotation": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 0.0,
+        "W": 1.0,
+        "IsIdentity": true
+      },
+      "LocalScale": {
+        "X": 10.0,
+        "Y": 5.8,
+        "Z": 0.39150038
+      },
+      "Name": "Wall",
+      "Parent": 52,
+      "Components": [
+        93
+      ]
+    },
+    {
+      "FileId": 38,
+      "LocalPosition": {
+        "X": 0.0,
+        "Y": 0.4,
+        "Z": 1.0000894
+      },
+      "LocalRotation": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 0.0,
+        "W": 1.0,
+        "IsIdentity": true
+      },
+      "LocalScale": {
+        "X": 10.0,
+        "Y": 0.5,
+        "Z": 10.0
+      },
+      "Name": "Podium",
+      "Parent": 52,
+      "Components": [
+        94
+      ]
+    },
+    {
+      "FileId": 39,
+      "LocalPosition": {
+        "X": 5.0,
+        "Y": 1.0,
+        "Z": 0.0
+      },
+      "LocalRotation": {
+        "X": -8.731148E-12,
+        "Y": 0.0,
+        "Z": 0.0,
+        "W": 1.0,
+        "IsIdentity": false
+      },
+      "LocalScale": {
+        "X": 0.4,
+        "Y": 2.0,
+        "Z": 10.000001
+      },
+      "Name": "Wall",
+      "Parent": 10,
+      "Components": [
+        95
+      ]
+    },
+    {
+      "FileId": 40,
+      "LocalPosition": {
+        "X": -18.0,
+        "Y": 0.0,
+        "Z": 0.0
+      },
+      "LocalRotation": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 0.0,
+        "W": 1.0,
+        "IsIdentity": true
+      },
+      "LocalScale": {
+        "X": 1.0,
+        "Y": 1.0,
+        "Z": 1.0
+      },
+      "Name": "SSC",
+      "Parent": -1,
+      "Components": []
+    },
+    {
+      "FileId": 41,
+      "LocalPosition": {
+        "X": 0.0,
+        "Y": 0.21,
+        "Z": 1.384679E-11
+      },
+      "LocalRotation": {
+        "X": -8.731148E-12,
+        "Y": 0.0,
+        "Z": 0.0,
+        "W": 1.0,
+        "IsIdentity": false
+      },
+      "LocalScale": {
+        "X": 10.0,
+        "Y": 0.1,
+        "Z": 10.000001
+      },
+      "Name": "Floor",
+      "Parent": 10,
+      "Components": [
+        96
+      ]
+    },
+    {
+      "FileId": 42,
+      "LocalPosition": {
+        "X": 0.00064468384,
+        "Y": -7.000252,
+        "Z": 0.99990475
+      },
+      "LocalRotation": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 0.0,
+        "W": 1.0,
+        "IsIdentity": true
+      },
+      "LocalScale": {
+        "X": 20.0,
+        "Y": 0.5,
+        "Z": 12.0
+      },
+      "Name": "Podium",
+      "Parent": 17,
+      "Components": [
+        97
+      ]
+    },
+    {
+      "FileId": 43,
+      "LocalPosition": {
+        "X": 0.0,
+        "Y": -4.0,
+        "Z": 7.2
+      },
+      "LocalRotation": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 0.0,
+        "W": 1.0,
+        "IsIdentity": true
+      },
+      "LocalScale": {
+        "X": 20.0,
+        "Y": 5.8,
+        "Z": 0.39150038
+      },
+      "Name": "Wall",
+      "Parent": 17,
+      "Components": [
+        98
+      ]
+    },
+    {
+      "FileId": 44,
+      "LocalPosition": {
+        "X": 0.0,
+        "Y": 0.4,
+        "Z": 0.99990475
+      },
+      "LocalRotation": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 0.0,
+        "W": 1.0,
+        "IsIdentity": true
+      },
+      "LocalScale": {
+        "X": 25.0,
+        "Y": 0.5,
+        "Z": 15.0
+      },
+      "Name": "Podium",
+      "Parent": 40,
+      "Components": [
+        99
+      ]
+    },
+    {
+      "FileId": 45,
+      "LocalPosition": {
+        "X": 0.0,
+        "Y": 3.5,
+        "Z": 8.743271
+      },
+      "LocalRotation": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 0.0,
+        "W": 1.0,
+        "IsIdentity": true
+      },
+      "LocalScale": {
+        "X": 25.0,
+        "Y": 5.8,
+        "Z": 0.39150038
+      },
+      "Name": "Wall",
+      "Parent": 40,
+      "Components": [
+        100
+      ]
+    },
+    {
+      "FileId": 46,
+      "LocalPosition": {
+        "X": 20.0,
+        "Y": 0.0,
+        "Z": 0.0
+      },
+      "LocalRotation": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 0.0,
+        "W": 1.0,
+        "IsIdentity": true
+      },
+      "LocalScale": {
+        "X": 1.0,
+        "Y": 1.0,
+        "Z": 1.0
+      },
+      "Name": "BallTrail",
+      "Parent": -1,
+      "Components": []
+    },
+    {
+      "FileId": 47,
+      "LocalPosition": {
+        "X": 0.0,
+        "Y": 0.4,
+        "Z": 1.0000894
+      },
+      "LocalRotation": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 0.0,
+        "W": 1.0,
+        "IsIdentity": true
+      },
+      "LocalScale": {
+        "X": 10.0,
+        "Y": 0.5,
+        "Z": 10.0
+      },
+      "Name": "Podium",
+      "Parent": 21,
+      "Components": [
+        101
+      ]
+    },
+    {
+      "FileId": 48,
+      "LocalPosition": {
+        "X": 0.00011062622,
+        "Y": 3.5,
+        "Z": 6.2
+      },
+      "LocalRotation": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 0.0,
+        "W": 1.0,
+        "IsIdentity": true
+      },
+      "LocalScale": {
+        "X": 10.0,
+        "Y": 5.8,
+        "Z": 0.39150038
+      },
+      "Name": "Wall",
+      "Parent": 21,
+      "Components": [
+        102
+      ]
+    },
+    {
+      "FileId": 49,
+      "LocalPosition": {
+        "X": 35.0,
+        "Y": 0.0,
+        "Z": 0.0
+      },
+      "LocalRotation": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 0.0,
+        "W": 1.0,
+        "IsIdentity": true
+      },
+      "LocalScale": {
+        "X": 1.0,
+        "Y": 1.0,
+        "Z": 1.0
+      },
+      "Name": "Flamethrower",
+      "Parent": -1,
+      "Components": []
+    },
+    {
+      "FileId": 50,
+      "LocalPosition": {
+        "X": 0.0,
+        "Y": 3.5,
+        "Z": 6.2
+      },
+      "LocalRotation": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 0.0,
+        "W": 1.0,
+        "IsIdentity": true
+      },
+      "LocalScale": {
+        "X": 10.0,
+        "Y": 5.8,
+        "Z": 0.39150038
+      },
+      "Name": "Wall",
+      "Parent": 46,
+      "Components": [
+        103
+      ]
+    },
+    {
+      "FileId": 51,
+      "LocalPosition": {
+        "X": 0.0,
+        "Y": 0.4,
+        "Z": 1.0000894
+      },
+      "LocalRotation": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 0.0,
+        "W": 1.0,
+        "IsIdentity": true
+      },
+      "LocalScale": {
+        "X": 10.0,
+        "Y": 0.5,
+        "Z": 10.0
+      },
+      "Name": "Podium",
+      "Parent": 46,
+      "Components": [
+        104
+      ]
+    },
+    {
+      "FileId": 52,
+      "LocalPosition": {
+        "X": 52.0,
+        "Y": 0.0,
+        "Z": 0.0
+      },
+      "LocalRotation": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 0.0,
+        "W": 1.0,
+        "IsIdentity": true
+      },
+      "LocalScale": {
+        "X": 1.0,
+        "Y": 1.0,
+        "Z": 1.0
+      },
+      "Name": "Rain",
+      "Parent": -1,
+      "Components": []
+    },
+    {
+      "FileId": 53,
+      "LocalPosition": {
+        "X": 0.0,
+        "Y": 0.4,
+        "Z": 1.0000894
+      },
+      "LocalRotation": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 0.0,
+        "W": 1.0,
+        "IsIdentity": true
+      },
+      "LocalScale": {
+        "X": 10.0,
+        "Y": 0.5,
+        "Z": 10.0
+      },
+      "Name": "Podium",
+      "Parent": 49,
+      "Components": [
+        105
+      ]
+    },
+    {
+      "FileId": 54,
+      "LocalPosition": {
+        "X": 0.0,
+        "Y": 3.5,
+        "Z": 6.2
+      },
+      "LocalRotation": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 0.0,
+        "W": 1.0,
+        "IsIdentity": true
+      },
+      "LocalScale": {
+        "X": 10.0,
+        "Y": 5.8,
+        "Z": 0.39150038
+      },
+      "Name": "Wall",
+      "Parent": 49,
+      "Components": [
+        106
+      ]
+    },
+    {
+      "FileId": 55,
+      "LocalPosition": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 0.0
+      },
+      "LocalRotation": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 0.0,
+        "W": 1.0,
+        "IsIdentity": true
+      },
+      "LocalScale": {
+        "X": 1.0,
+        "Y": 1.0,
+        "Z": 1.0
+      },
+      "Name": "UIRoot",
+      "Parent": -1,
+      "Components": [
+        107
+      ]
+    }
+  ],
+  "Components": [
+    {
+      "Type": "EduEngine.GameCamera",
+      "FileId": 56,
+      "Parameters": {
+        "_fov": 55.0,
+        "_near": 0.3,
+        "_far": 1000.0,
+        "_skyTexture": "bee78c93-6483-4111-898d-035726d3e92e",
+        "_backgroundColor": {
+          "X": 0.0,
+          "Y": 0.0,
+          "Z": 0.0,
+          "W": 1.0
+        },
+        "_viewport": {
+          "X": 0.0,
+          "Y": 0.0,
+          "Z": 1.0,
+          "W": 1.0
+        },
+        "_debugDraw": false
+      }
+    },
+    {
+      "Type": "EduEngine.Scripts.SampleCameraController",
+      "FileId": 57,
+      "Parameters": {
+        "_moveSpeed": 20.0,
+        "_moveStrength": 8.0,
+        "_rotateStrength": 20.0
+      }
+    },
+    {
+      "Type": "EduEngine.Renderer",
+      "FileId": 58,
+      "Parameters": {
+        "_mesh": "5f990d95-e7f5-4ee9-8213-c956459ceaef",
+        "_material": "ccdc693b-c6dd-48c4-ad9e-a0c6e2b767c7",
+        "_texScale": {
+          "X": 64.0,
+          "Y": 32.0
+        }
+      }
+    },
+    {
+      "Type": "EduEngine.Light",
+      "FileId": 59,
+      "Parameters": {
+        "_type": 0,
+        "_color": {
+          "X": 1.0,
+          "Y": 1.0,
+          "Z": 1.0
+        },
+        "_power": 1.0,
+        "_falloffStart": 0.0,
+        "_falloffEnd": 0.0,
+        "_spotPower": 0.0
+      }
+    },
+    {
+      "Type": "EduEngine.ParticleSystem",
+      "FileId": 60,
+      "Parameters": {
+        "_emissionEnabled": true,
+        "_maxParticlesCount": 4000,
+        "_shapeType": 1,
+        "_shapeSize": {
+          "X": 0.0,
+          "Y": 0.0,
+          "Z": 0.0
+        },
+        "_minStartSize": {
+          "X": 0.05,
+          "Y": 0.05,
+          "Z": 0.05
+        },
+        "_maxStartSize": {
+          "X": 0.05,
+          "Y": 0.05,
+          "Z": 0.05
+        },
+        "_endSize": {
+          "X": 0.05,
+          "Y": 0.05,
+          "Z": 0.05
+        },
+        "_offset": {
+          "X": 0.0,
+          "Y": 0.0,
+          "Z": 0.0
+        },
+        "_emissionRate": 800.0,
+        "_lifeTime": 4.0,
+        "_minStartVelocity": {
+          "X": 0.0,
+          "Y": 0.0,
+          "Z": 0.0
+        },
+        "_maxStartVelocity": {
+          "X": 0.0,
+          "Y": 0.0,
+          "Z": 0.0
+        },
+        "_randVelocityOnBound": false,
+        "_acceleration": {
+          "X": 0.0,
+          "Y": -4.0,
+          "Z": 0.0
+        },
+        "_minStartColor": {
+          "X": 0.0,
+          "Y": 0.35294104,
+          "Z": 1.0,
+          "W": 1.0
+        },
+        "_maxStartColor": {
+          "X": 0.0,
+          "Y": 0.3529412,
+          "Z": 1.0,
+          "W": 1.0
+        },
+        "_endColor": {
+          "X": 0.2588234,
+          "Y": 0.0,
+          "Z": 1.0,
+          "W": 0.0
+        },
+        "_dragTime": 0.0,
+        "_dragForce": 0.0,
+        "_colorTexture": "b8e2c5b9-c6ef-4451-a36b-ec3b1fea2660",
+        "_screenSpaceCollision": true,
+        "_collisionEnergyLoss": 1.0
+      }
+    },
+    {
+      "Type": "Script",
+      "FileId": 61,
+      "Parameters": {
+        "_maxOffset": 2.0,
+        "script_guid": "8064bcc1-1d7f-4f76-8945-41f8edfb5018"
+      }
+    },
+    {
+      "Type": "EduEngine.Renderer",
+      "FileId": 62,
+      "Parameters": {
+        "_mesh": "a2d224b4-9d69-4fc0-b92c-2bb843958d8f",
+        "_material": "37ba7448-3a76-4aa9-a8e2-a45e34878310",
+        "_texScale": {
+          "X": 4.0,
+          "Y": 4.0
+        }
+      }
+    },
+    {
+      "Type": "EduEngine.Renderer",
+      "FileId": 63,
+      "Parameters": {
+        "_mesh": "5f990d95-e7f5-4ee9-8213-c956459ceaef",
+        "_material": "37ba7448-3a76-4aa9-a8e2-a45e34878310",
+        "_texScale": {
+          "X": 8.0,
+          "Y": 32.0
+        }
+      }
+    },
+    {
+      "Type": "EduEngine.Renderer",
+      "FileId": 64,
+      "Parameters": {
+        "_mesh": "5f990d95-e7f5-4ee9-8213-c956459ceaef",
+        "_material": "37ba7448-3a76-4aa9-a8e2-a45e34878310",
+        "_texScale": {
+          "X": 8.0,
+          "Y": 32.0
+        }
+      }
+    },
+    {
+      "Type": "EduEngine.Renderer",
+      "FileId": 65,
+      "Parameters": {
+        "_mesh": "5f990d95-e7f5-4ee9-8213-c956459ceaef",
+        "_material": "37ba7448-3a76-4aa9-a8e2-a45e34878310",
+        "_texScale": {
+          "X": 8.0,
+          "Y": 32.0
+        }
+      }
+    },
+    {
+      "Type": "EduEngine.Renderer",
+      "FileId": 66,
+      "Parameters": {
+        "_mesh": "5f990d95-e7f5-4ee9-8213-c956459ceaef",
+        "_material": "37ba7448-3a76-4aa9-a8e2-a45e34878310",
+        "_texScale": {
+          "X": 8.0,
+          "Y": 32.0
+        }
+      }
+    },
+    {
+      "Type": "EduEngine.ParticleSystem",
+      "FileId": 67,
+      "Parameters": {
+        "_emissionEnabled": true,
+        "_maxParticlesCount": 4000,
+        "_shapeType": 1,
+        "_shapeSize": {
+          "X": 1.0,
+          "Y": 0.0,
+          "Z": 1.0
+        },
+        "_minStartSize": {
+          "X": 0.05,
+          "Y": 0.05,
+          "Z": 0.05
+        },
+        "_maxStartSize": {
+          "X": 0.05,
+          "Y": 0.05,
+          "Z": 0.05
+        },
+        "_endSize": {
+          "X": 0.05,
+          "Y": 0.05,
+          "Z": 0.05
+        },
+        "_offset": {
+          "X": 0.0,
+          "Y": 0.0,
+          "Z": 0.0
+        },
+        "_emissionRate": 800.0,
+        "_lifeTime": 4.0,
+        "_minStartVelocity": {
+          "X": 0.0,
+          "Y": 0.0,
+          "Z": 0.0
+        },
+        "_maxStartVelocity": {
+          "X": 0.0,
+          "Y": 0.0,
+          "Z": 0.0
+        },
+        "_randVelocityOnBound": false,
+        "_acceleration": {
+          "X": 0.0,
+          "Y": -4.0,
+          "Z": 0.0
+        },
+        "_minStartColor": {
+          "X": 0.0,
+          "Y": 1.0,
+          "Z": 0.0,
+          "W": 1.0
+        },
+        "_maxStartColor": {
+          "X": 0.0,
+          "Y": 1.0,
+          "Z": 0.0,
+          "W": 1.0
+        },
+        "_endColor": {
+          "X": 1.0,
+          "Y": 1.0,
+          "Z": 1.0,
+          "W": 0.9843137
+        },
+        "_dragTime": 0.0,
+        "_dragForce": 0.0,
+        "_colorTexture": "b8e2c5b9-c6ef-4451-a36b-ec3b1fea2660",
+        "_screenSpaceCollision": true,
+        "_collisionEnergyLoss": 1.0
+      }
+    },
+    {
+      "Type": "Script",
+      "FileId": 68,
+      "Parameters": {
+        "_maxOffset": 2.0,
+        "script_guid": "8064bcc1-1d7f-4f76-8945-41f8edfb5018"
+      }
+    },
+    {
+      "Type": "EduEngine.Renderer",
+      "FileId": 69,
+      "Parameters": {
+        "_mesh": "a2d224b4-9d69-4fc0-b92c-2bb843958d8f",
+        "_material": "37ba7448-3a76-4aa9-a8e2-a45e34878310",
+        "_texScale": {
+          "X": 4.0,
+          "Y": 4.0
+        }
+      }
+    },
+    {
+      "Type": "EduEngine.Renderer",
+      "FileId": 70,
+      "Parameters": {
+        "_mesh": "5f990d95-e7f5-4ee9-8213-c956459ceaef",
+        "_material": "37ba7448-3a76-4aa9-a8e2-a45e34878310",
+        "_texScale": {
+          "X": 8.0,
+          "Y": 32.0
+        }
+      }
+    },
+    {
+      "Type": "EduEngine.Renderer",
+      "FileId": 71,
+      "Parameters": {
+        "_mesh": "5f990d95-e7f5-4ee9-8213-c956459ceaef",
+        "_material": "37ba7448-3a76-4aa9-a8e2-a45e34878310",
+        "_texScale": {
+          "X": 8.0,
+          "Y": 32.0
+        }
+      }
+    },
+    {
+      "Type": "EduEngine.Renderer",
+      "FileId": 72,
+      "Parameters": {
+        "_mesh": "5f990d95-e7f5-4ee9-8213-c956459ceaef",
+        "_material": "37ba7448-3a76-4aa9-a8e2-a45e34878310",
+        "_texScale": {
+          "X": 32.0,
+          "Y": 32.0
+        }
+      }
+    },
+    {
+      "Type": "EduEngine.Renderer",
+      "FileId": 73,
+      "Parameters": {
+        "_mesh": "5f990d95-e7f5-4ee9-8213-c956459ceaef",
+        "_material": "37ba7448-3a76-4aa9-a8e2-a45e34878310",
+        "_texScale": {
+          "X": 8.0,
+          "Y": 32.0
+        }
+      }
+    },
+    {
+      "Type": "EduEngine.ParticleSystem",
+      "FileId": 74,
+      "Parameters": {
+        "_emissionEnabled": true,
+        "_maxParticlesCount": 500,
+        "_shapeType": 2,
+        "_shapeSize": {
+          "X": 0.0,
+          "Y": 0.0,
+          "Z": 0.0
+        },
+        "_minStartSize": {
+          "X": 0.3,
+          "Y": 0.3,
+          "Z": 0.3
+        },
+        "_maxStartSize": {
+          "X": 0.3,
+          "Y": 0.3,
+          "Z": 0.3
+        },
+        "_endSize": {
+          "X": 0.0,
+          "Y": 0.0,
+          "Z": 0.0
+        },
+        "_offset": {
+          "X": 0.0,
+          "Y": 0.0,
+          "Z": 0.0
+        },
+        "_emissionRate": 1000.0,
+        "_lifeTime": 2.0,
+        "_minStartVelocity": {
+          "X": 8.0,
+          "Y": 0.0,
+          "Z": 0.0
+        },
+        "_maxStartVelocity": {
+          "X": 0.0,
+          "Y": 0.0,
+          "Z": 0.0
+        },
+        "_randVelocityOnBound": true,
+        "_acceleration": {
+          "X": 0.0,
+          "Y": 0.0,
+          "Z": 0.0
+        },
+        "_minStartColor": {
+          "X": 1.0,
+          "Y": 0.7941177,
+          "Z": 0.0,
+          "W": 1.0
+        },
+        "_maxStartColor": {
+          "X": 0.23529387,
+          "Y": 0.0,
+          "Z": 1.0,
+          "W": 1.0
+        },
+        "_endColor": {
+          "X": 1.0,
+          "Y": 1.0,
+          "Z": 1.0,
+          "W": 1.0
+        },
+        "_dragTime": 0.2,
+        "_dragForce": 10.0,
+        "_colorTexture": "6adbad4b-1b7b-4a2b-942d-773c7f94a0d6",
+        "_screenSpaceCollision": false,
+        "_collisionEnergyLoss": 0.0
+      }
+    },
+    {
+      "Type": "Script",
+      "FileId": 75,
+      "Parameters": {
+        "_waitTime": 0.0,
+        "script_guid": "cf5d0172-6a20-4035-b843-997399947ce5"
+      }
+    },
+    {
+      "Type": "EduEngine.ParticleSystem",
+      "FileId": 76,
+      "Parameters": {
+        "_emissionEnabled": true,
+        "_maxParticlesCount": 500,
+        "_shapeType": 2,
+        "_shapeSize": {
+          "X": 0.0,
+          "Y": 0.0,
+          "Z": 0.0
+        },
+        "_minStartSize": {
+          "X": 0.2,
+          "Y": 0.2,
+          "Z": 0.2
+        },
+        "_maxStartSize": {
+          "X": 0.2,
+          "Y": 0.2,
+          "Z": 0.2
+        },
+        "_endSize": {
+          "X": 0.0,
+          "Y": 0.0,
+          "Z": 0.0
+        },
+        "_offset": {
+          "X": 0.0,
+          "Y": 0.0,
+          "Z": 0.0
+        },
+        "_emissionRate": 1000.0,
+        "_lifeTime": 2.0,
+        "_minStartVelocity": {
+          "X": 7.0,
+          "Y": 0.0,
+          "Z": 0.0
+        },
+        "_maxStartVelocity": {
+          "X": 0.0,
+          "Y": 0.0,
+          "Z": 0.0
+        },
+        "_randVelocityOnBound": true,
+        "_acceleration": {
+          "X": 0.0,
+          "Y": 0.0,
+          "Z": 0.0
+        },
+        "_minStartColor": {
+          "X": 0.82843137,
+          "Y": 0.0,
+          "Z": 0.68223786,
+          "W": 1.0
+        },
+        "_maxStartColor": {
+          "X": 0.21119282,
+          "Y": 0.41868514,
+          "Z": 0.9166667,
+          "W": 1.0
+        },
+        "_endColor": {
+          "X": 1.0,
+          "Y": 1.0,
+          "Z": 1.0,
+          "W": 1.0
+        },
+        "_dragTime": 0.2,
+        "_dragForce": 10.0,
+        "_colorTexture": "6adbad4b-1b7b-4a2b-942d-773c7f94a0d6",
+        "_screenSpaceCollision": false,
+        "_collisionEnergyLoss": 0.0
+      }
+    },
+    {
+      "Type": "Script",
+      "FileId": 77,
+      "Parameters": {
+        "_waitTime": 1.0,
+        "script_guid": "cf5d0172-6a20-4035-b843-997399947ce5"
+      }
+    },
+    {
+      "Type": "EduEngine.ParticleSystem",
+      "FileId": 78,
+      "Parameters": {
+        "_emissionEnabled": true,
+        "_maxParticlesCount": 200,
+        "_shapeType": 0,
+        "_shapeSize": {
+          "X": 2.0,
+          "Y": 1.0,
+          "Z": 2.0
+        },
+        "_minStartSize": {
+          "X": 0.1,
+          "Y": 0.1,
+          "Z": 0.1
+        },
+        "_maxStartSize": {
+          "X": 0.1,
+          "Y": 0.1,
+          "Z": 0.1
+        },
+        "_endSize": {
+          "X": 0.1,
+          "Y": 0.1,
+          "Z": 0.1
+        },
+        "_offset": {
+          "X": 0.0,
+          "Y": 0.0,
+          "Z": 0.0
+        },
+        "_emissionRate": 15.0,
+        "_lifeTime": 5.0,
+        "_minStartVelocity": {
+          "X": -0.2,
+          "Y": -0.2,
+          "Z": -0.2
+        },
+        "_maxStartVelocity": {
+          "X": 0.2,
+          "Y": 0.2,
+          "Z": 0.2
+        },
+        "_randVelocityOnBound": false,
+        "_acceleration": {
+          "X": 0.0,
+          "Y": 0.0,
+          "Z": 0.0
+        },
+        "_minStartColor": {
+          "X": 1.0,
+          "Y": 0.8102653,
+          "Z": 0.07843137,
+          "W": 1.0
+        },
+        "_maxStartColor": {
+          "X": 1.0,
+          "Y": 0.44117647,
+          "Z": 0.0,
+          "W": 1.0
+        },
+        "_endColor": {
+          "X": 1.0,
+          "Y": 0.7058823,
+          "Z": 0.0,
+          "W": 0.0
+        },
+        "_dragTime": 0.0,
+        "_dragForce": 0.0,
+        "_colorTexture": "b8e2c5b9-c6ef-4451-a36b-ec3b1fea2660",
+        "_screenSpaceCollision": false,
+        "_collisionEnergyLoss": 0.0
+      }
+    },
+    {
+      "Type": "EduEngine.ParticleSystem",
+      "FileId": 79,
+      "Parameters": {
+        "_emissionEnabled": true,
+        "_maxParticlesCount": 40,
+        "_shapeType": 0,
+        "_shapeSize": {
+          "X": 1.0,
+          "Y": 0.5,
+          "Z": 1.0
+        },
+        "_minStartSize": {
+          "X": 0.5,
+          "Y": 0.5,
+          "Z": 0.5
+        },
+        "_maxStartSize": {
+          "X": 0.5,
+          "Y": 0.5,
+          "Z": 0.5
+        },
+        "_endSize": {
+          "X": 0.4,
+          "Y": 0.4,
+          "Z": 0.4
+        },
+        "_offset": {
+          "X": 0.0,
+          "Y": 0.0,
+          "Z": 0.0
+        },
+        "_emissionRate": 10.0,
+        "_lifeTime": 2.0,
+        "_minStartVelocity": {
+          "X": 0.0,
+          "Y": 0.0,
+          "Z": 0.0
+        },
+        "_maxStartVelocity": {
+          "X": 0.0,
+          "Y": 0.0,
+          "Z": 0.0
+        },
+        "_randVelocityOnBound": false,
+        "_acceleration": {
+          "X": 0.0,
+          "Y": 0.0,
+          "Z": 0.0
+        },
+        "_minStartColor": {
+          "X": 1.0,
+          "Y": 1.0,
+          "Z": 1.0,
+          "W": 1.0
+        },
+        "_maxStartColor": {
+          "X": 1.0,
+          "Y": 1.0,
+          "Z": 1.0,
+          "W": 1.0
+        },
+        "_endColor": {
+          "X": 1.0,
+          "Y": 1.0,
+          "Z": 1.0,
+          "W": 0.0
+        },
+        "_dragTime": 0.0,
+        "_dragForce": 0.0,
+        "_colorTexture": "cb983fe2-1332-4ab5-b80e-2383a4b11267",
+        "_screenSpaceCollision": false,
+        "_collisionEnergyLoss": 0.0
+      }
+    },
+    {
+      "Type": "EduEngine.ParticleSystem",
+      "FileId": 80,
+      "Parameters": {
+        "_emissionEnabled": true,
+        "_maxParticlesCount": 40,
+        "_shapeType": 0,
+        "_shapeSize": {
+          "X": 1.2,
+          "Y": 1.2,
+          "Z": 1.2
+        },
+        "_minStartSize": {
+          "X": 0.2,
+          "Y": 0.2,
+          "Z": 0.2
+        },
+        "_maxStartSize": {
+          "X": 0.2,
+          "Y": 0.2,
+          "Z": 0.2
+        },
+        "_endSize": {
+          "X": 0.3,
+          "Y": 0.3,
+          "Z": 0.3
+        },
+        "_offset": {
+          "X": 0.0,
+          "Y": 0.0,
+          "Z": 0.0
+        },
+        "_emissionRate": 4.0,
+        "_lifeTime": 4.0,
+        "_minStartVelocity": {
+          "X": 0.0,
+          "Y": 0.0,
+          "Z": 0.0
+        },
+        "_maxStartVelocity": {
+          "X": 0.0,
+          "Y": 0.0,
+          "Z": 0.0
+        },
+        "_randVelocityOnBound": false,
+        "_acceleration": {
+          "X": 0.0,
+          "Y": 0.1,
+          "Z": 0.0
+        },
+        "_minStartColor": {
+          "X": 1.0,
+          "Y": 1.0,
+          "Z": 1.0,
+          "W": 1.0
+        },
+        "_maxStartColor": {
+          "X": 1.0,
+          "Y": 1.0,
+          "Z": 1.0,
+          "W": 1.0
+        },
+        "_endColor": {
+          "X": 1.0,
+          "Y": 1.0,
+          "Z": 1.0,
+          "W": 0.0
+        },
+        "_dragTime": 0.0,
+        "_dragForce": 0.0,
+        "_colorTexture": "df5d2c1d-32d1-484c-b8a4-ca94b1a5dff6",
+        "_screenSpaceCollision": false,
+        "_collisionEnergyLoss": 0.0
+      }
+    },
+    {
+      "Type": "EduEngine.Renderer",
+      "FileId": 81,
+      "Parameters": {
+        "_mesh": "097434a6-6afa-4410-bbe5-875c8395c718",
+        "_material": "90d9ab13-c35b-43bb-8ca6-b2091f50a1c3",
+        "_texScale": {
+          "X": 1.0,
+          "Y": -1.0
+        }
+      }
+    },
+    {
+      "Type": "Script",
+      "FileId": 82,
+      "Parameters": {
+        "script_guid": "03a8a6be-1656-43e9-8671-eb319a0717cb"
+      }
+    },
+    {
+      "Type": "EduEngine.ParticleSystem",
+      "FileId": 83,
+      "Parameters": {
+        "_emissionEnabled": true,
+        "_maxParticlesCount": 1000,
+        "_shapeType": 2,
+        "_shapeSize": {
+          "X": 0.4,
+          "Y": 3.0,
+          "Z": 3.0
+        },
+        "_minStartSize": {
+          "X": 0.2,
+          "Y": 0.2,
+          "Z": 0.2
+        },
+        "_maxStartSize": {
+          "X": 0.2,
+          "Y": 0.2,
+          "Z": 0.2
+        },
+        "_endSize": {
+          "X": 0.0,
+          "Y": 0.0,
+          "Z": 0.0
+        },
+        "_offset": {
+          "X": 0.0,
+          "Y": 0.0,
+          "Z": 0.0
+        },
+        "_emissionRate": 200.0,
+        "_lifeTime": 3.0,
+        "_minStartVelocity": {
+          "X": 0.0,
+          "Y": 0.0,
+          "Z": 0.0
+        },
+        "_maxStartVelocity": {
+          "X": 0.0,
+          "Y": 0.0,
+          "Z": 0.0
+        },
+        "_randVelocityOnBound": false,
+        "_acceleration": {
+          "X": 0.0,
+          "Y": -0.2,
+          "Z": 0.0
+        },
+        "_minStartColor": {
+          "X": 0.05882311,
+          "Y": 0.0,
+          "Z": 1.0,
+          "W": 1.0
+        },
+        "_maxStartColor": {
+          "X": 0.5882354,
+          "Y": 0.0,
+          "Z": 1.0,
+          "W": 1.0
+        },
+        "_endColor": {
+          "X": 1.0,
+          "Y": 1.0,
+          "Z": 1.0,
+          "W": 1.0
+        },
+        "_dragTime": 0.0,
+        "_dragForce": 0.0,
+        "_colorTexture": "f5724877-6bbe-448b-bcde-b5db8357d34e",
+        "_screenSpaceCollision": false,
+        "_collisionEnergyLoss": 0.0
+      }
+    },
+    {
+      "Type": "EduEngine.Renderer",
+      "FileId": 84,
+      "Parameters": {
+        "_mesh": "a2d224b4-9d69-4fc0-b92c-2bb843958d8f",
+        "_material": "a4532899-4446-41bb-ba5a-bb9344ccf69b",
+        "_texScale": {
+          "X": 1.0,
+          "Y": 1.0
+        }
+      }
+    },
+    {
+      "Type": "EduEngine.ParticleSystem",
+      "FileId": 85,
+      "Parameters": {
+        "_emissionEnabled": true,
+        "_maxParticlesCount": 500,
+        "_shapeType": 2,
+        "_shapeSize": {
+          "X": 0.0,
+          "Y": 0.0,
+          "Z": 0.0
+        },
+        "_minStartSize": {
+          "X": 0.3,
+          "Y": 0.3,
+          "Z": 0.3
+        },
+        "_maxStartSize": {
+          "X": 0.3,
+          "Y": 0.3,
+          "Z": 0.3
+        },
+        "_endSize": {
+          "X": 0.0,
+          "Y": 0.0,
+          "Z": 0.0
+        },
+        "_offset": {
+          "X": 0.0,
+          "Y": 0.0,
+          "Z": 0.0
+        },
+        "_emissionRate": 1000.0,
+        "_lifeTime": 2.0,
+        "_minStartVelocity": {
+          "X": 10.0,
+          "Y": 0.0,
+          "Z": 0.0
+        },
+        "_maxStartVelocity": {
+          "X": 0.0,
+          "Y": 0.0,
+          "Z": 0.0
+        },
+        "_randVelocityOnBound": true,
+        "_acceleration": {
+          "X": 0.0,
+          "Y": 0.0,
+          "Z": 0.0
+        },
+        "_minStartColor": {
+          "X": 1.0,
+          "Y": 0.17647058,
+          "Z": 0.0,
+          "W": 1.0
+        },
+        "_maxStartColor": {
+          "X": 0.0,
+          "Y": 1.0,
+          "Z": 0.14705873,
+          "W": 1.0
+        },
+        "_endColor": {
+          "X": 1.0,
+          "Y": 1.0,
+          "Z": 1.0,
+          "W": 1.0
+        },
+        "_dragTime": 0.1,
+        "_dragForce": 10.0,
+        "_colorTexture": "6adbad4b-1b7b-4a2b-942d-773c7f94a0d6",
+        "_screenSpaceCollision": false,
+        "_collisionEnergyLoss": 0.0
+      }
+    },
+    {
+      "Type": "Script",
+      "FileId": 86,
+      "Parameters": {
+        "_waitTime": 2.0,
+        "script_guid": "cf5d0172-6a20-4035-b843-997399947ce5"
+      }
+    },
+    {
+      "Type": "Script",
+      "FileId": 87,
+      "Parameters": {
+        "script_guid": "1f2df460-612b-4c17-ab3e-87bcaa20312c"
+      }
+    },
+    {
+      "Type": "EduEngine.ParticleSystem",
+      "FileId": 88,
+      "Parameters": {
+        "_emissionEnabled": true,
+        "_maxParticlesCount": 500,
+        "_shapeType": 0,
+        "_shapeSize": {
+          "X": 0.2,
+          "Y": 0.2,
+          "Z": 0.0
+        },
+        "_minStartSize": {
+          "X": 0.05,
+          "Y": 0.05,
+          "Z": 0.05
+        },
+        "_maxStartSize": {
+          "X": 0.1,
+          "Y": 0.1,
+          "Z": 0.1
+        },
+        "_endSize": {
+          "X": 0.3,
+          "Y": 0.3,
+          "Z": 0.3
+        },
+        "_offset": {
+          "X": 0.0,
+          "Y": 0.0,
+          "Z": 0.0
+        },
+        "_emissionRate": 100.0,
+        "_lifeTime": 2.0,
+        "_minStartVelocity": {
+          "X": -0.5,
+          "Y": 0.0,
+          "Z": -4.0
+        },
+        "_maxStartVelocity": {
+          "X": 0.5,
+          "Y": 0.0,
+          "Z": -6.0
+        },
+        "_randVelocityOnBound": false,
+        "_acceleration": {
+          "X": 0.0,
+          "Y": 0.0,
+          "Z": 0.0
+        },
+        "_minStartColor": {
+          "X": 1.0,
+          "Y": 0.5588235,
+          "Z": 0.0,
+          "W": 1.0
+        },
+        "_maxStartColor": {
+          "X": 1.0,
+          "Y": 0.29411763,
+          "Z": 0.0,
+          "W": 0.99215686
+        },
+        "_endColor": {
+          "X": 1.0,
+          "Y": 0.8183391,
+          "Z": 0.58823526,
+          "W": 0.0
+        },
+        "_dragTime": 0.5,
+        "_dragForce": 10.0,
+        "_colorTexture": "df5d2c1d-32d1-484c-b8a4-ca94b1a5dff6",
+        "_screenSpaceCollision": false,
+        "_collisionEnergyLoss": 0.0
+      }
+    },
+    {
+      "Type": "EduEngine.Renderer",
+      "FileId": 89,
+      "Parameters": {
+        "_mesh": "04911873-7a3c-4817-ae06-3bdce24a6f53",
+        "_material": "84ea7016-861a-4642-ba5a-0461dcea3ab1",
+        "_texScale": {
+          "X": 1.0,
+          "Y": -1.0
+        }
+      }
+    },
+    {
+      "Type": "EduEngine.ParticleSystem",
+      "FileId": 90,
+      "Parameters": {
+        "_emissionEnabled": true,
+        "_maxParticlesCount": 1000,
+        "_shapeType": 0,
+        "_shapeSize": {
+          "X": 2.0,
+          "Y": 0.0,
+          "Z": 2.0
+        },
+        "_minStartSize": {
+          "X": 0.05,
+          "Y": 0.1,
+          "Z": 0.05
+        },
+        "_maxStartSize": {
+          "X": 0.05,
+          "Y": 0.4,
+          "Z": 0.05
+        },
+        "_endSize": {
+          "X": 0.05,
+          "Y": 0.05,
+          "Z": 0.05
+        },
+        "_offset": {
+          "X": 0.0,
+          "Y": 0.0,
+          "Z": 0.0
+        },
+        "_emissionRate": 300.0,
+        "_lifeTime": 2.0,
+        "_minStartVelocity": {
+          "X": 0.0,
+          "Y": -3.0,
+          "Z": 0.0
+        },
+        "_maxStartVelocity": {
+          "X": 0.0,
+          "Y": -3.0,
+          "Z": 0.0
+        },
+        "_randVelocityOnBound": false,
+        "_acceleration": {
+          "X": 0.0,
+          "Y": -4.0,
+          "Z": 0.0
+        },
+        "_minStartColor": {
+          "X": 0.0,
+          "Y": 0.21176457,
+          "Z": 1.0,
+          "W": 1.0
+        },
+        "_maxStartColor": {
+          "X": 0.0,
+          "Y": 0.64705884,
+          "Z": 1.0,
+          "W": 1.0
+        },
+        "_endColor": {
+          "X": 0.62254906,
+          "Y": 0.8112746,
+          "Z": 1.0,
+          "W": 1.0
+        },
+        "_dragTime": 0.73,
+        "_dragForce": 200.0,
+        "_colorTexture": "05551c3e-6b26-456e-acbd-e00ca05f1e9a",
+        "_screenSpaceCollision": false,
+        "_collisionEnergyLoss": 0.0
+      }
+    },
+    {
+      "Type": "EduEngine.ParticleSystem",
+      "FileId": 91,
+      "Parameters": {
+        "_emissionEnabled": true,
+        "_maxParticlesCount": 500,
+        "_shapeType": 0,
+        "_shapeSize": {
+          "X": 2.0,
+          "Y": 0.5,
+          "Z": 2.0
+        },
+        "_minStartSize": {
+          "X": 0.1,
+          "Y": 0.1,
+          "Z": 0.1
+        },
+        "_maxStartSize": {
+          "X": 0.1,
+          "Y": 0.1,
+          "Z": 0.1
+        },
+        "_endSize": {
+          "X": 0.1,
+          "Y": 0.1,
+          "Z": 0.1
+        },
+        "_offset": {
+          "X": 0.0,
+          "Y": 0.0,
+          "Z": 0.0
+        },
+        "_emissionRate": 50.0,
+        "_lifeTime": 6.0,
+        "_minStartVelocity": {
+          "X": -0.2,
+          "Y": 0.3,
+          "Z": -0.2
+        },
+        "_maxStartVelocity": {
+          "X": 0.2,
+          "Y": 0.3,
+          "Z": 0.2
+        },
+        "_randVelocityOnBound": false,
+        "_acceleration": {
+          "X": 0.0,
+          "Y": -0.1,
+          "Z": 0.0
+        },
+        "_minStartColor": {
+          "X": 1.0,
+          "Y": 1.0,
+          "Z": 1.0,
+          "W": 1.0
+        },
+        "_maxStartColor": {
+          "X": 0.6764706,
+          "Y": 0.6764706,
+          "Z": 0.6764706,
+          "W": 1.0
+        },
+        "_endColor": {
+          "X": 1.0,
+          "Y": 1.0,
+          "Z": 1.0,
+          "W": 0.0
+        },
+        "_dragTime": 0.0,
+        "_dragForce": 0.0,
+        "_colorTexture": "df5d2c1d-32d1-484c-b8a4-ca94b1a5dff6",
+        "_screenSpaceCollision": false,
+        "_collisionEnergyLoss": 0.0
+      }
+    },
+    {
+      "Type": "EduEngine.Renderer",
+      "FileId": 92,
+      "Parameters": {
+        "_mesh": "aca57e90-9ebf-42c4-8bf3-6ef2886fff6f",
+        "_material": "3116514e-791e-42ef-bb03-3a8252168726",
+        "_texScale": {
+          "X": 1.0,
+          "Y": 1.0
+        }
+      }
+    },
+    {
+      "Type": "EduEngine.Renderer",
+      "FileId": 93,
+      "Parameters": {
+        "_mesh": "5f990d95-e7f5-4ee9-8213-c956459ceaef",
+        "_material": "a4532899-4446-41bb-ba5a-bb9344ccf69b",
+        "_texScale": {
+          "X": 16.0,
+          "Y": 32.0
+        }
+      }
+    },
+    {
+      "Type": "EduEngine.Renderer",
+      "FileId": 94,
+      "Parameters": {
+        "_mesh": "5f990d95-e7f5-4ee9-8213-c956459ceaef",
+        "_material": "a4532899-4446-41bb-ba5a-bb9344ccf69b",
+        "_texScale": {
+          "X": 32.0,
+          "Y": 32.0
+        }
+      }
+    },
+    {
+      "Type": "EduEngine.Renderer",
+      "FileId": 95,
+      "Parameters": {
+        "_mesh": "5f990d95-e7f5-4ee9-8213-c956459ceaef",
+        "_material": "37ba7448-3a76-4aa9-a8e2-a45e34878310",
+        "_texScale": {
+          "X": 8.0,
+          "Y": 32.0
+        }
+      }
+    },
+    {
+      "Type": "EduEngine.Renderer",
+      "FileId": 96,
+      "Parameters": {
+        "_mesh": "5f990d95-e7f5-4ee9-8213-c956459ceaef",
+        "_material": "37ba7448-3a76-4aa9-a8e2-a45e34878310",
+        "_texScale": {
+          "X": 32.0,
+          "Y": 32.0
+        }
+      }
+    },
+    {
+      "Type": "EduEngine.Renderer",
+      "FileId": 97,
+      "Parameters": {
+        "_mesh": "5f990d95-e7f5-4ee9-8213-c956459ceaef",
+        "_material": "a4532899-4446-41bb-ba5a-bb9344ccf69b",
+        "_texScale": {
+          "X": 32.0,
+          "Y": 16.0
+        }
+      }
+    },
+    {
+      "Type": "EduEngine.Renderer",
+      "FileId": 98,
+      "Parameters": {
+        "_mesh": "5f990d95-e7f5-4ee9-8213-c956459ceaef",
+        "_material": "a4532899-4446-41bb-ba5a-bb9344ccf69b",
+        "_texScale": {
+          "X": 16.0,
+          "Y": 32.0
+        }
+      }
+    },
+    {
+      "Type": "EduEngine.Renderer",
+      "FileId": 99,
+      "Parameters": {
+        "_mesh": "5f990d95-e7f5-4ee9-8213-c956459ceaef",
+        "_material": "a4532899-4446-41bb-ba5a-bb9344ccf69b",
+        "_texScale": {
+          "X": 64.0,
+          "Y": 40.0
+        }
+      }
+    },
+    {
+      "Type": "EduEngine.Renderer",
+      "FileId": 100,
+      "Parameters": {
+        "_mesh": "5f990d95-e7f5-4ee9-8213-c956459ceaef",
+        "_material": "a4532899-4446-41bb-ba5a-bb9344ccf69b",
+        "_texScale": {
+          "X": 16.0,
+          "Y": 64.0
+        }
+      }
+    },
+    {
+      "Type": "EduEngine.Renderer",
+      "FileId": 101,
+      "Parameters": {
+        "_mesh": "5f990d95-e7f5-4ee9-8213-c956459ceaef",
+        "_material": "a4532899-4446-41bb-ba5a-bb9344ccf69b",
+        "_texScale": {
+          "X": 32.0,
+          "Y": 32.0
+        }
+      }
+    },
+    {
+      "Type": "EduEngine.Renderer",
+      "FileId": 102,
+      "Parameters": {
+        "_mesh": "5f990d95-e7f5-4ee9-8213-c956459ceaef",
+        "_material": "a4532899-4446-41bb-ba5a-bb9344ccf69b",
+        "_texScale": {
+          "X": 16.0,
+          "Y": 32.0
+        }
+      }
+    },
+    {
+      "Type": "EduEngine.Renderer",
+      "FileId": 103,
+      "Parameters": {
+        "_mesh": "5f990d95-e7f5-4ee9-8213-c956459ceaef",
+        "_material": "a4532899-4446-41bb-ba5a-bb9344ccf69b",
+        "_texScale": {
+          "X": 16.0,
+          "Y": 32.0
+        }
+      }
+    },
+    {
+      "Type": "EduEngine.Renderer",
+      "FileId": 104,
+      "Parameters": {
+        "_mesh": "5f990d95-e7f5-4ee9-8213-c956459ceaef",
+        "_material": "a4532899-4446-41bb-ba5a-bb9344ccf69b",
+        "_texScale": {
+          "X": 32.0,
+          "Y": 32.0
+        }
+      }
+    },
+    {
+      "Type": "EduEngine.Renderer",
+      "FileId": 105,
+      "Parameters": {
+        "_mesh": "5f990d95-e7f5-4ee9-8213-c956459ceaef",
+        "_material": "a4532899-4446-41bb-ba5a-bb9344ccf69b",
+        "_texScale": {
+          "X": 32.0,
+          "Y": 32.0
+        }
+      }
+    },
+    {
+      "Type": "EduEngine.Renderer",
+      "FileId": 106,
+      "Parameters": {
+        "_mesh": "5f990d95-e7f5-4ee9-8213-c956459ceaef",
+        "_material": "a4532899-4446-41bb-ba5a-bb9344ccf69b",
+        "_texScale": {
+          "X": 16.0,
+          "Y": 32.0
+        }
+      }
+    },
+    {
+      "Type": "Script",
+      "FileId": 107,
+      "Parameters": {
+        "script_guid": "563705f7-e25d-490c-823c-b738ee3f44c5"
+      }
+    }
+  ]
+}
