@@ -1,4 +1,5 @@
 #include "ParticlesInclude.hlsl"
+#include "ColorCommon.hlsl"
 
 struct VS_OUTPUT
 {
@@ -69,5 +70,5 @@ void GS(point VS_OUTPUT input[1], inout TriangleStream<GS_OUTPUT> outStream)
 
 float4 PS(GS_OUTPUT input) : SV_TARGET
 {
-    return ColorTexture.Sample(gsamLinearWrap, input.UV) * input.Color;
+    return ColorTexture.Sample(gsamLinearWrap, float2(input.UV.x, -input.UV.y)) * float4(HSVtoRGB(input.Color.rgb), input.Color.a);
 }

@@ -1,4 +1,5 @@
 #include "ParticlesInclude.hlsl"
+#include "ColorCommon.hlsl"
 
 SamplerState gsamPointWrap : register(s0);
 SamplerState gsamPointClamp : register(s1);
@@ -38,8 +39,8 @@ void main(uint id : SV_DispatchThreadID)
     float normAge = particle.Age / gLifeTime;
     
     if (length(particle.Velocity) > 0)
-        particle.Velocity += -normalize(particle.Velocity) * step(normAge, gDragTime) * gDragForce * gDeltaTime;
-     
+        particle.Velocity += -normalize(particle.Velocity) * step(gDragTime, normAge) * gDragForce * gDeltaTime;
+    
     particle.Color = lerp(particle.StartColor, gEndColor, normAge);
     particle.Size = lerp(particle.StartSize, gEndSize, normAge);
     
@@ -62,7 +63,9 @@ void main(uint id : SV_DispatchThreadID)
 
         if (viewPos.z > linearEyeDepth - radius && viewPos.z < linearEyeDepth + radius + surfaceThickness)
 		{
-            particle.Velocity = normalize(normalValue) * length(particle.Velocity);
+            float3 normal = normalize(normalValue);
+            particle.Velocity = particle.Velocity - 2.0 * dot(particle.Velocity, normal) * normal;
+            particle.Velocity *= gCollisionEnergyLoss;
         }
 	}
 #endif

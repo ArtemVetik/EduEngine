@@ -13,6 +13,8 @@ namespace EduEngine
 	public:
 		float EmissionRate;
 		bool ScreenSpaceCollision;
+		bool EmissionEnabled;
+
 		UINT ShapeType;
 		Vector3 ShapeSize;
 		UINT MaxParticles;
@@ -29,8 +31,7 @@ namespace EduEngine
 		Vector3 MaxStartVelocity;
 		float DragTime;
 		Vector3 Acceleration;
-	private:
-		UINT Padding;
+		float CollisionEnergyLoss;
 	};
 
 	private ref class NativeParticleSystemWrapper

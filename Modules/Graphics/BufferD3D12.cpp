@@ -74,16 +74,20 @@ namespace EduEngine
 		// Schedule to copy the data to the default buffer resource.  At a high level, the helper function UpdateSubresources
 		// will copy the CPU memory into the intermediate upload heap.  Then, using ID3D12CommandList::CopySubresourceRegion,
 		// the intermediate upload heap data will be copied to mBuffer.
-		auto& cmdContext = m_Device->GetCommandContext(D3D12_COMMAND_LIST_TYPE_DIRECT);
+		auto& cmdContext = m_QueueId == QueueID::Compute
+			? m_Device->GetCommandContext(D3D12_COMMAND_LIST_TYPE_COMPUTE)
+			: m_Device->GetCommandContext(D3D12_COMMAND_LIST_TYPE_DIRECT);
+
+		auto beforeState = m_QueueId == QueueID::Compute ? D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE : D3D12_RESOURCE_STATE_GENERIC_READ;
 
 		cmdContext.ResourceBarrier(CD3DX12_RESOURCE_BARRIER::Transition(m_d3d12Resource.Get(),
-			D3D12_RESOURCE_STATE_GENERIC_READ, D3D12_RESOURCE_STATE_COPY_DEST));
+			beforeState, D3D12_RESOURCE_STATE_COPY_DEST));
 		cmdContext.FlushResourceBarriers();
 
 		cmdContext.UpdateSubresource(m_d3d12Resource.Get(), uploadBuffer.Get(), &subResourceData);
 
 		cmdContext.ResourceBarrier(CD3DX12_RESOURCE_BARRIER::Transition(m_d3d12Resource.Get(),
-			D3D12_RESOURCE_STATE_COPY_DEST, D3D12_RESOURCE_STATE_GENERIC_READ));
+			D3D12_RESOURCE_STATE_COPY_DEST, beforeState));
 		cmdContext.FlushResourceBarriers();
 
 		// Note: uploadBuffer has to be kept alive after the above function calls because

@@ -24,22 +24,22 @@ void main(uint id : SV_DispatchThreadID)
     }
     else if (gShapeType == 1) // inside sphere
     {
-        float radius = random(gRandSeed + id.x + 1, 0.0f, gShapeSize.x);
-        emitParticle.Position = gCenterPos + randomUnitVector(gRandSeed + id.x) * radius;
+        float radius = random(gRandSeed + id.x) * gShapeSize.x;
+        emitParticle.Position = gCenterPos + randomUnitVector(gRandSeed + id.x + 1) * radius;
     }
     else if (gShapeType == 2) // sphere contour
     {
-        emitParticle.Position = gCenterPos + randomUnitVector(gRandSeed + id.x) * gShapeSize.x;
+        emitParticle.Position = gCenterPos + randomUnitVector(gRandSeed + id.x + 2) * gShapeSize.x;
     }
     
     if (gRandVelocityOnBound)
         emitParticle.Velocity = randomUnitVector(gRandSeed + id.x + 3) * gMinStartVelocity.x;
     else
-        emitParticle.Velocity = random(gRandSeed + id.x + 3, gMinStartVelocity, gMaxStartVelocity);
+        emitParticle.Velocity = random(gRandSeed + id.x + 4, gMinStartVelocity, gMaxStartVelocity);
     
-    emitParticle.StartColor = random(gRandSeed + id.x + 3, gMinStartColor, gMaxStartColor);
+    emitParticle.StartColor = random(gRandSeed + id.x + 5, gMinStartColor, gMaxStartColor);
     emitParticle.Age = 0.0f;
-    emitParticle.StartSize = random(gRandSeed + id.x + 4, gMinStartSize, gMaxStartSize);
+    emitParticle.StartSize = random(gRandSeed + id.x + 6, gMinStartSize, gMaxStartSize);
     emitParticle.Alive = 1.0f;
     
     ParticlePool[emitIndex] = emitParticle;

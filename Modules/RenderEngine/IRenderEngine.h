@@ -90,13 +90,14 @@ namespace EduEngine
 		DirectX::XMFLOAT3 MaxStartVelocity;
 		float DragTime;
 		DirectX::XMFLOAT3 Acceleration;
-		UINT Padding;
+		float CollisionEnergyLoss;
 	};
 
 	struct RENDERENGINE_API ParticleStaticData
 	{
 		float EmissionRate = 0.0f;
 		bool ScreenSpaceCollision = false;
+		bool EmissionEnabled = true;
 
 		ParticleStaticBufferData BufferData;
 	};

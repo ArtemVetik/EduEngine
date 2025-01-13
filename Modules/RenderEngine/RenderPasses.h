@@ -125,7 +125,7 @@ namespace EduEngine
 			};
 
 			D3D12_RASTERIZER_DESC rast = CD3DX12_RASTERIZER_DESC(D3D12_DEFAULT);
-			rast.DepthBias = 100000;
+			rast.DepthBias = 10000;
 			rast.DepthBiasClamp = 0.0f;
 			rast.SlopeScaledDepthBias = 1.0f;
 
@@ -701,10 +701,10 @@ namespace EduEngine
 			transparencyBlendDesc.BlendEnable = true;
 			transparencyBlendDesc.BlendOp = D3D12_BLEND_OP_ADD;
 			transparencyBlendDesc.SrcBlend = D3D12_BLEND_SRC_ALPHA;
-			transparencyBlendDesc.DestBlend = D3D12_BLEND_ONE;
+			transparencyBlendDesc.DestBlend = D3D12_BLEND_INV_SRC_ALPHA;
 			transparencyBlendDesc.BlendOpAlpha = D3D12_BLEND_OP_ADD;
-			transparencyBlendDesc.SrcBlendAlpha = D3D12_BLEND_ZERO;
-			transparencyBlendDesc.DestBlendAlpha = D3D12_BLEND_ONE;
+			transparencyBlendDesc.SrcBlendAlpha = D3D12_BLEND_ONE;
+			transparencyBlendDesc.DestBlendAlpha = D3D12_BLEND_ZERO;
 			transparencyBlendDesc.RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;
 
 			m_Pso.SetRootSignature(&m_RootSignature);

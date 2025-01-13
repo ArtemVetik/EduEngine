@@ -46,5 +46,5 @@ cbuffer particleData : register(b1)
     float3 gMaxStartVelocity;
     float gDragTime;
     float3 gAcceleration;
-    uint gPadding3;
+    float gCollisionEnergyLoss;
 }

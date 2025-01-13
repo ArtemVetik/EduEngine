@@ -27,13 +27,19 @@ namespace EduEngine
 		if (m_ParticleData.EmissionRate == 0)
 			return;
 
-		m_Timer += timer.GetDeltaTime();
+		if (m_ParticleData.EmissionEnabled)
+			m_Timer += timer.GetDeltaTime();
 
 		if (m_AsyncCompute != m_RenderSettings->GetAsyncComputeParticles())
+		{
 			m_DirtyBuffers = true;
+		}
 
 		if (m_DirtyBuffers)
+		{
 			InitBuffers(m_ParticleData.BufferData.MaxParticles);
+			SetParticlesData(m_ParticleData);
+		}
 
 		float timeBetweenEmit = 1.0f / m_ParticleData.EmissionRate;
 
@@ -187,7 +193,7 @@ namespace EduEngine
 		desc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
 		desc.Flags = D3D12_RESOURCE_FLAG_NONE;
 
-		m_ParticleDataBuffer = std::make_unique<BufferD3D12>(m_Device, desc, &uploadData, m_AsyncCompute ? QueueID::Both : QueueID::Direct);
+		m_ParticleDataBuffer = std::make_unique<BufferD3D12>(m_Device, desc, &uploadData, m_AsyncCompute ? QueueID::Compute : QueueID::Direct);
 	}
 
 	void ParticleSystemD3D12::SetCenterPos(DirectX::XMFLOAT3 pos)
@@ -300,6 +306,6 @@ namespace EduEngine
 			{ NULL, NULL }
 		};
 
-		m_ComputePass = std::make_unique<ParticlesComputePass>(m_Device, m_AsyncCompute ? QueueID::Both : QueueID::Direct, macros);
+		m_ComputePass = std::make_unique<ParticlesComputePass>(m_Device, m_AsyncCompute ? QueueID::Compute : QueueID::Direct, macros);
 	}
 }
