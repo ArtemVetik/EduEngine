@@ -28,11 +28,17 @@ cbuffer cbPass : register(b0)
     float4 gAmbientLight;
 };
 
+cbuffer cbCameraViewport : register(b1)
+{
+    float4 gViewport;
+}
+
 struct VertexIn
 {
     float3 PosL : POSITION;
     float2 TexC : TEXCOORD;
 };
+
 struct VertexOut
 {
     float4 PosH : SV_POSITION;
@@ -43,7 +49,7 @@ VertexOut VS(VertexIn vIn)
 {
     VertexOut vOut;
     vOut.PosH = float4(vIn.PosL, 1.0f);
-    vOut.TexC = vIn.TexC;
+    vOut.TexC = gViewport.xy + vIn.TexC * gViewport.zw;
     return vOut;
 }
 

@@ -119,7 +119,10 @@ namespace EduEngine
 		m_NearValue = max(m_NearValue, FLT_MIN);
 		m_FarValue = max(m_FarValue, m_NearValue + 0.1f);
 
-		auto aspectRatio = (float)m_ScreenWidth / (float)m_ScreenHeight;
+		auto aspectRatio = ((float)m_ScreenWidth * m_Viewport.z) / ((float)m_ScreenHeight * m_Viewport.w);
+		if (aspectRatio == 0)
+			aspectRatio = FLT_MAX;
+
 		auto nearWindowHeight = 2.0f * m_NearValue * tanf(0.5f * m_FovY);
 		float halfWidth = 0.5f * aspectRatio * nearWindowHeight;
 		m_FovX = 2.0f * atan(halfWidth / m_NearValue);
@@ -130,7 +133,7 @@ namespace EduEngine
 			m_NearValue,
 			m_FarValue
 		);
-		XMStoreFloat4x4(&m_ProjectionMatrix, (P));
+ 		XMStoreFloat4x4(&m_ProjectionMatrix, (P));
 	}
 
 	void CameraInternal::Update(DirectX::XMFLOAT3 look, DirectX::XMFLOAT3 right, DirectX::XMFLOAT3 up, DirectX::XMFLOAT3 pos)
@@ -182,6 +185,7 @@ namespace EduEngine
 	void CameraInternal::SetViewport(XMFLOAT4 viewport)
 	{
 		m_Viewport = viewport;
+		SetProjectionMatrix(nullptr, nullptr, nullptr);
 	}
 
 	void CameraInternal::SetBackgroundColor(XMFLOAT4 color)

@@ -283,6 +283,8 @@ namespace EduEngine
 
 			m_RootSignature.AddConstantBufferView(0); // pass constants
 
+			m_RootSignature.AddConstants(4, 1); // camera viewport
+
 			m_RootSignature.Build(device, QueueID::Direct);
 
 			std::vector<D3D12_INPUT_ELEMENT_DESC> mInputLayout =
@@ -326,6 +328,8 @@ namespace EduEngine
 			CD3DX12_DESCRIPTOR_RANGE accumTex;
 			accumTex.Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 0);
 			m_RootSignature.AddDescriptorParameter(1, &accumTex); // accumulation buffer
+
+			m_RootSignature.AddConstants(4, 1); // camera viewport
 
 			m_RootSignature.Build(device, QueueID::Direct);
 

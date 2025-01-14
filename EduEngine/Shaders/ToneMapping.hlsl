@@ -8,6 +8,11 @@ SamplerState gsamAnisotropicWrap : register(s4);
 SamplerState gsamAnisotropicClamp : register(s5);
 SamplerComparisonState gsamShadow : register(s6);
 
+cbuffer cbCameraViewport : register(b1)
+{
+    float4 gViewport;
+}
+
 struct VertexIn
 {
     float3 PosL : POSITION;
@@ -24,7 +29,7 @@ VertexOut VS(VertexIn vIn)
 {
     VertexOut vOut;
     vOut.PosH = float4(vIn.PosL, 1.0f);
-    vOut.TexC = vIn.TexC;
+    vOut.TexC = gViewport.xy + vIn.TexC * gViewport.zw;
     return vOut;
 }
 

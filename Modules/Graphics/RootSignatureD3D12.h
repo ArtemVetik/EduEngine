@@ -18,6 +18,11 @@ namespace EduEngine
 									CD3DX12_DESCRIPTOR_RANGE* rangeParameters,
 									D3D12_SHADER_VISIBILITY	  visibility = D3D12_SHADER_VISIBILITY_ALL);
 
+		void AddConstants(UINT num32BitValues,
+						  UINT shaderRegister,
+						  UINT registerSpace = 0,
+						  D3D12_SHADER_VISIBILITY visibility = D3D12_SHADER_VISIBILITY_ALL);
+
 		void Build(RenderDeviceD3D12* pDevice, QueueID queueId);
 
 		void SetName(const wchar_t* name);

@@ -248,13 +248,19 @@ namespace EduEngine
 	{
 		auto& commandContext = m_Device->GetCommandContext(D3D12_COMMAND_LIST_TYPE_DIRECT);
 
-		D3D12_RECT scissorRect[1] =
-		{
-			m_Viewport.TopLeftX + m_Viewport.Width * camera->GetViewport().x,
-			m_Viewport.TopLeftY + m_Viewport.Height * camera->GetViewport().y,
-			m_Viewport.Width * camera->GetViewport().z,
-			m_Viewport.Height * camera->GetViewport().w
-		};
+		D3D12_VIEWPORT viewport = {};
+		viewport.TopLeftX = m_Viewport.Width * camera->GetViewport().x;
+		viewport.TopLeftY = m_Viewport.Height * camera->GetViewport().y;
+		viewport.Width = m_Viewport.Width * camera->GetViewport().z;
+		viewport.Height = m_Viewport.Height * camera->GetViewport().w;
+		viewport.MinDepth = m_Viewport.MinDepth;
+		viewport.MaxDepth = m_Viewport.MaxDepth;
+
+		D3D12_RECT scissorRect[1] = {};
+		scissorRect[0].left = m_Viewport.Width * camera->GetViewport().x;
+		scissorRect[0].top = m_Viewport.Height * camera->GetViewport().y;
+		scissorRect[0].right = scissorRect[0].left + m_Viewport.Width * camera->GetViewport().z;
+		scissorRect[0].bottom = scissorRect[0].right + m_Viewport.Height * camera->GetViewport().w;
 
 		for (int i = 0; i < m_Lights.size(); i++)
 		{
@@ -265,7 +271,7 @@ namespace EduEngine
 			}
 		}
 
-		commandContext.SetViewports(&m_Viewport, 1);
+		commandContext.SetViewports(&viewport, 1);
 		commandContext.SetScissorRects(scissorRect, 1);
 
 		m_DeferredRendering->PrepareRenderGeometry(camera, m_CSMRendering.get(), scissorRect);
@@ -287,7 +293,7 @@ namespace EduEngine
 			D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_GENERIC_READ));
 		commandContext.FlushResourceBarriers();
 
-		m_DeferredRendering->RenderToneMapping();
+		m_DeferredRendering->RenderToneMapping(camera);
 
 		for (int i = 0; i < GBufferPass::GBufferCount; i++)
 			commandContext.ResourceBarrier(CD3DX12_RESOURCE_BARRIER::Transition(m_DeferredRendering->GetGBuffer()->GetGBuffer(i),
@@ -312,7 +318,7 @@ namespace EduEngine
 
 			ID3D12DescriptorHeap* descriptorHeaps[] = { m_Device->GetD3D12DescriptorHeap() };
 			commandContext.GetCmdList()->SetDescriptorHeaps(_countof(descriptorHeaps), descriptorHeaps);
-			commandContext.SetViewports(&m_Viewport, 1);
+			commandContext.SetViewports(&viewport, 1);
 			commandContext.SetScissorRects(scissorRect, 1);
 			commandContext.SetRenderTargets(1, &(m_SwapChain->CurrentBackBufferView()), true, &(m_SwapChain->DepthStencilView()));
 		}
@@ -367,7 +373,6 @@ namespace EduEngine
 		auto& commandQueue = m_Device->GetCommandQueue(D3D12_COMMAND_LIST_TYPE_DIRECT);
 
 		commandContext.Reset();
-
 		m_SwapChain->Resize(w, h);
 		m_DeferredRendering->GetGBuffer()->Resize(m_Device.get(), w, h);
 

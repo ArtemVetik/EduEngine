@@ -38,6 +38,16 @@ namespace EduEngine
 		m_SlotParameters.emplace_back(slotParameter);
 	}
 
+	void RootSignatureD3D12::AddConstants(UINT					  num32BitValues,
+										  UINT					  shaderRegister,
+										  UINT					  registerSpace,
+										  D3D12_SHADER_VISIBILITY visibility /* = D3D12_SHADER_VISIBILITY_ALL */)
+	{
+		CD3DX12_ROOT_PARAMETER slotParameter;
+		slotParameter.InitAsConstants(num32BitValues, shaderRegister, registerSpace, visibility);
+		m_SlotParameters.emplace_back(slotParameter);
+	}
+
 	void RootSignatureD3D12::Build(RenderDeviceD3D12* pDevice, QueueID queueId)
 	{
 		assert(m_Device == nullptr);

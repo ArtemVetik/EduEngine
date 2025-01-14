@@ -10,7 +10,7 @@ namespace EduEngine
         [SerializeField, Min(0.1f)] private float _far = 1000.0f;
         [SerializeField] private Texture _skyTexture;
         [SerializeField, Color] private Vector4 _backgroundColor = new Vector4(0, 0, 0, 1);
-        [SerializeField, Range(0.0f, 1.0f)] private Vector4 _viewport = new Vector4(0, 0, 1, 1);
+        [SerializeField] private Vector4 _viewport = new Vector4(0, 0, 1, 1);
         [SerializeField] private bool _debugDraw = false;
 
         private NativeCameraWrapper _camera;

@@ -197,10 +197,12 @@ namespace EduEngine
 			commandContext.GetCmdList()->SetGraphicsRootDescriptorTable(4, textDesc);
 		}
 
+		commandContext.GetCmdList()->SetGraphicsRoot32BitConstants(7, 4, &camera->GetViewport(), 0);
+
 		commandContext.GetCmdList()->DrawIndexedInstanced(6, 1, 0, 0, 0);
 	}
 
-	void DeferredRendering::RenderToneMapping()
+	void DeferredRendering::RenderToneMapping(Camera* camera)
 	{
 		auto& commandContext = m_Device->GetCommandContext(D3D12_COMMAND_LIST_TYPE_DIRECT);
 
@@ -214,6 +216,9 @@ namespace EduEngine
 		commandContext.GetCmdList()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 		commandContext.GetCmdList()->SetGraphicsRootDescriptorTable(0, m_GBuffer->GetAccumBuffSRVView());
+		
+		commandContext.GetCmdList()->SetGraphicsRoot32BitConstants(1, 4, &camera->GetViewport(), 0);
+
 		commandContext.GetCmdList()->DrawIndexedInstanced(6, 1, 0, 0, 0);
 	}
 }
