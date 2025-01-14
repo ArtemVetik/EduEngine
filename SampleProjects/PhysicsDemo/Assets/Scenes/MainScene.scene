@@ -22,9 +22,9 @@
       "Name": "Ground",
       "Parent": -1,
       "Components": [
-        199,
         200,
-        201
+        201,
+        202
       ]
     },
     {
@@ -49,7 +49,7 @@
       "Name": "Directional Light",
       "Parent": -1,
       "Components": [
-        202
+        203
       ]
     },
     {
@@ -74,7 +74,6 @@
       "Name": "Camera",
       "Parent": -1,
       "Components": [
-        203,
         204,
         205,
         206
@@ -5358,9 +5357,9 @@
     {
       "FileId": 197,
       "LocalPosition": {
-        "X": 0.0,
-        "Y": 2.5,
-        "Z": -10.4
+        "X": -0.00026130676,
+        "Y": 2.4964755,
+        "Z": -10.403204
       },
       "LocalRotation": {
         "X": -0.17364818,
@@ -5406,12 +5405,39 @@
       "Components": [
         844
       ]
+    },
+    {
+      "FileId": 199,
+      "LocalPosition": {
+        "X": 12.631515,
+        "Y": 13.490871,
+        "Z": -19.646852
+      },
+      "LocalRotation": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 0.0,
+        "W": 1.0,
+        "IsIdentity": true
+      },
+      "LocalScale": {
+        "X": 0.27466053,
+        "Y": 2.1601622,
+        "Z": 9.907371
+      },
+      "Name": "FreezeRotator",
+      "Parent": -1,
+      "Components": [
+        845,
+        846,
+        847
+      ]
     }
   ],
   "Components": [
     {
       "Type": "EduEngine.Renderer",
-      "FileId": 199,
+      "FileId": 200,
       "Parameters": {
         "_mesh": "27196449-62bc-424f-b32b-117e44b5146b",
         "_material": "5d46adff-e093-43da-9954-b38b7d9a7707",
@@ -5423,7 +5449,7 @@
     },
     {
       "Type": "EduEngine.BoxCollider",
-      "FileId": 200,
+      "FileId": 201,
       "Parameters": {
         "_width": 1.0,
         "_height": 1.0,
@@ -5433,15 +5459,21 @@
     },
     {
       "Type": "EduEngine.RigidBody",
-      "FileId": 201,
+      "FileId": 202,
       "Parameters": {
         "_isStatic": true,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
       "Type": "EduEngine.Light",
-      "FileId": 202,
+      "FileId": 203,
       "Parameters": {
         "_type": 0,
         "_color": {
@@ -5457,7 +5489,7 @@
     },
     {
       "Type": "EduEngine.GameCamera",
-      "FileId": 203,
+      "FileId": 204,
       "Parameters": {
         "_fov": 55.0,
         "_near": 0.3,
@@ -5480,7 +5512,7 @@
     },
     {
       "Type": "EduEngine.Scripts.SampleCameraController",
-      "FileId": 204,
+      "FileId": 205,
       "Parameters": {
         "_moveSpeed": 20.0,
         "_moveStrength": 8.0,
@@ -5489,25 +5521,13 @@
     },
     {
       "Type": "Script",
-      "FileId": 205,
+      "FileId": 206,
       "Parameters": {
         "_camera": 2,
         "_sphereMesh": "71f90207-01d7-4770-b1e5-93b3be170e78",
         "_cubeMesh": "27196449-62bc-424f-b32b-117e44b5146b",
         "_material": "1b407158-5bf4-4c15-a5f4-1cbf2ebd552e",
         "script_guid": "421aa23e-706e-4138-b438-6b1a10f879a7"
-      }
-    },
-    {
-      "Type": "EduEngine.Renderer",
-      "FileId": 206,
-      "Parameters": {
-        "_mesh": "27196449-62bc-424f-b32b-117e44b5146b",
-        "_material": null,
-        "_texScale": {
-          "X": 1.0,
-          "Y": 1.0
-        }
       }
     },
     {
@@ -5545,7 +5565,13 @@
       "FileId": 210,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -5635,7 +5661,13 @@
       "FileId": 219,
       "Parameters": {
         "_isStatic": true,
-        "_mass": 1000.0
+        "_mass": 1000.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -5700,7 +5732,13 @@
       "FileId": 226,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 0.1
+        "_mass": 0.1,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -5716,7 +5754,13 @@
       "FileId": 228,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 0.1
+        "_mass": 0.1,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -5746,7 +5790,13 @@
       "FileId": 231,
       "Parameters": {
         "_isStatic": true,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -5784,7 +5834,13 @@
       "FileId": 235,
       "Parameters": {
         "_isStatic": true,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -5880,7 +5936,13 @@
       "FileId": 244,
       "Parameters": {
         "_isStatic": true,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -5917,7 +5979,13 @@
       "FileId": 248,
       "Parameters": {
         "_isStatic": true,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -6007,7 +6075,13 @@
       "FileId": 257,
       "Parameters": {
         "_isStatic": true,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -6037,7 +6111,13 @@
       "FileId": 260,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -6193,7 +6273,13 @@
       "FileId": 275,
       "Parameters": {
         "_isStatic": true,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -6309,7 +6395,13 @@
       "FileId": 286,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -6345,7 +6437,13 @@
       "FileId": 290,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -6381,7 +6479,13 @@
       "FileId": 294,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -6417,7 +6521,13 @@
       "FileId": 298,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -6453,7 +6563,13 @@
       "FileId": 302,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -6489,7 +6605,13 @@
       "FileId": 306,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -6525,7 +6647,13 @@
       "FileId": 310,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -6561,7 +6689,13 @@
       "FileId": 314,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -6597,7 +6731,13 @@
       "FileId": 318,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -6633,7 +6773,13 @@
       "FileId": 322,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -6669,7 +6815,13 @@
       "FileId": 326,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -6705,7 +6857,13 @@
       "FileId": 330,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -6741,7 +6899,13 @@
       "FileId": 334,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -6777,7 +6941,13 @@
       "FileId": 338,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -6813,7 +6983,13 @@
       "FileId": 342,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -6849,7 +7025,13 @@
       "FileId": 346,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -6885,7 +7067,13 @@
       "FileId": 350,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -6921,7 +7109,13 @@
       "FileId": 354,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -6957,7 +7151,13 @@
       "FileId": 358,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -7053,7 +7253,13 @@
       "FileId": 368,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 0.1
+        "_mass": 0.1,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -7089,7 +7295,13 @@
       "FileId": 372,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 0.1
+        "_mass": 0.1,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -7105,7 +7317,13 @@
       "FileId": 374,
       "Parameters": {
         "_isStatic": true,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -7265,7 +7483,13 @@
       "FileId": 389,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -7301,7 +7525,13 @@
       "FileId": 393,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -7337,7 +7567,13 @@
       "FileId": 397,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -7373,7 +7609,13 @@
       "FileId": 401,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -7409,7 +7651,13 @@
       "FileId": 405,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -7445,7 +7693,13 @@
       "FileId": 409,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -7481,7 +7735,13 @@
       "FileId": 413,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -7517,7 +7777,13 @@
       "FileId": 417,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -7553,7 +7819,13 @@
       "FileId": 421,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -7589,7 +7861,13 @@
       "FileId": 425,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -7625,7 +7903,13 @@
       "FileId": 429,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -7661,7 +7945,13 @@
       "FileId": 433,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -7697,7 +7987,13 @@
       "FileId": 437,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -7733,7 +8029,13 @@
       "FileId": 441,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -7769,7 +8071,13 @@
       "FileId": 445,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -7805,7 +8113,13 @@
       "FileId": 449,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -7841,7 +8155,13 @@
       "FileId": 453,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -7877,7 +8197,13 @@
       "FileId": 457,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -7913,7 +8239,13 @@
       "FileId": 461,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -7949,7 +8281,13 @@
       "FileId": 465,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -7985,7 +8323,13 @@
       "FileId": 469,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -8021,7 +8365,13 @@
       "FileId": 473,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -8057,7 +8407,13 @@
       "FileId": 477,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -8093,7 +8449,13 @@
       "FileId": 481,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -8129,7 +8491,13 @@
       "FileId": 485,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -8165,7 +8533,13 @@
       "FileId": 489,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -8201,7 +8575,13 @@
       "FileId": 493,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -8237,7 +8617,13 @@
       "FileId": 497,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -8273,7 +8659,13 @@
       "FileId": 501,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -8309,7 +8701,13 @@
       "FileId": 505,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -8345,7 +8743,13 @@
       "FileId": 509,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -8381,7 +8785,13 @@
       "FileId": 513,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -8417,7 +8827,13 @@
       "FileId": 517,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -8453,7 +8869,13 @@
       "FileId": 521,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -8489,7 +8911,13 @@
       "FileId": 525,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -8525,7 +8953,13 @@
       "FileId": 529,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -8561,7 +8995,13 @@
       "FileId": 533,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -8597,7 +9037,13 @@
       "FileId": 537,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -8635,7 +9081,13 @@
       "FileId": 541,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -8673,7 +9125,13 @@
       "FileId": 545,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -8711,7 +9169,13 @@
       "FileId": 549,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -8749,7 +9213,13 @@
       "FileId": 553,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -8787,7 +9257,13 @@
       "FileId": 557,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -8825,7 +9301,13 @@
       "FileId": 561,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -8863,7 +9345,13 @@
       "FileId": 565,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -8901,7 +9389,13 @@
       "FileId": 569,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -8939,7 +9433,13 @@
       "FileId": 573,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -8977,7 +9477,13 @@
       "FileId": 577,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -9015,7 +9521,13 @@
       "FileId": 581,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -9053,7 +9565,13 @@
       "FileId": 585,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -9091,7 +9609,13 @@
       "FileId": 589,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -9129,7 +9653,13 @@
       "FileId": 593,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -9167,7 +9697,13 @@
       "FileId": 597,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -9205,7 +9741,13 @@
       "FileId": 601,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -9243,7 +9785,13 @@
       "FileId": 605,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -9281,7 +9829,13 @@
       "FileId": 609,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -9319,7 +9873,13 @@
       "FileId": 613,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -9357,7 +9917,13 @@
       "FileId": 617,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -9395,7 +9961,13 @@
       "FileId": 621,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -9433,7 +10005,13 @@
       "FileId": 625,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -9471,7 +10049,13 @@
       "FileId": 629,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -9509,7 +10093,13 @@
       "FileId": 633,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -9547,7 +10137,13 @@
       "FileId": 637,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -9585,7 +10181,13 @@
       "FileId": 641,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -9623,7 +10225,13 @@
       "FileId": 645,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -9661,7 +10269,13 @@
       "FileId": 649,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -9707,7 +10321,13 @@
       "FileId": 654,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -9745,7 +10365,13 @@
       "FileId": 658,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -9783,7 +10409,13 @@
       "FileId": 662,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -9821,7 +10453,13 @@
       "FileId": 666,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -9859,7 +10497,13 @@
       "FileId": 670,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -9897,7 +10541,13 @@
       "FileId": 674,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -9935,7 +10585,13 @@
       "FileId": 678,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -9973,7 +10629,13 @@
       "FileId": 682,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -10011,7 +10673,13 @@
       "FileId": 686,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -10049,7 +10717,13 @@
       "FileId": 690,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -10087,7 +10761,13 @@
       "FileId": 694,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -10125,7 +10805,13 @@
       "FileId": 698,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -10163,7 +10849,13 @@
       "FileId": 702,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -10201,7 +10893,13 @@
       "FileId": 706,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -10239,7 +10937,13 @@
       "FileId": 710,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -10269,7 +10973,13 @@
       "FileId": 713,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -10307,7 +11017,13 @@
       "FileId": 717,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -10345,7 +11061,13 @@
       "FileId": 721,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -10383,7 +11105,13 @@
       "FileId": 725,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -10421,7 +11149,13 @@
       "FileId": 729,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -10459,7 +11193,13 @@
       "FileId": 733,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -10497,7 +11237,13 @@
       "FileId": 737,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -10535,7 +11281,13 @@
       "FileId": 741,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -10573,7 +11325,13 @@
       "FileId": 745,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -10611,7 +11369,13 @@
       "FileId": 749,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -10649,7 +11413,13 @@
       "FileId": 753,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -10687,7 +11457,13 @@
       "FileId": 757,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -10725,7 +11501,13 @@
       "FileId": 761,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -10763,7 +11545,13 @@
       "FileId": 765,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -10801,7 +11589,13 @@
       "FileId": 769,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -10839,7 +11633,13 @@
       "FileId": 773,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -10877,7 +11677,13 @@
       "FileId": 777,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -10915,7 +11721,13 @@
       "FileId": 781,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -10953,7 +11765,13 @@
       "FileId": 785,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -10991,7 +11809,13 @@
       "FileId": 789,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -11029,7 +11853,13 @@
       "FileId": 793,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -11067,7 +11897,13 @@
       "FileId": 797,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -11105,7 +11941,13 @@
       "FileId": 801,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -11143,7 +11985,13 @@
       "FileId": 805,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -11181,7 +12029,13 @@
       "FileId": 809,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -11219,7 +12073,13 @@
       "FileId": 813,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -11257,7 +12117,13 @@
       "FileId": 817,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -11295,7 +12161,13 @@
       "FileId": 821,
       "Parameters": {
         "_isStatic": false,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -11333,7 +12205,13 @@
       "FileId": 825,
       "Parameters": {
         "_isStatic": true,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -11363,7 +12241,13 @@
       "FileId": 828,
       "Parameters": {
         "_isStatic": true,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -11393,7 +12277,13 @@
       "FileId": 831,
       "Parameters": {
         "_isStatic": true,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -11423,7 +12313,13 @@
       "FileId": 834,
       "Parameters": {
         "_isStatic": true,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -11453,7 +12349,13 @@
       "FileId": 837,
       "Parameters": {
         "_isStatic": true,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -11483,7 +12385,13 @@
       "FileId": 840,
       "Parameters": {
         "_isStatic": true,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -11513,7 +12421,13 @@
       "FileId": 843,
       "Parameters": {
         "_isStatic": true,
-        "_mass": 1.0
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
       }
     },
     {
@@ -11523,10 +12437,46 @@
         "_boxMesh": "27196449-62bc-424f-b32b-117e44b5146b",
         "_defaultMaterial": "21ec80b3-deb9-4e2b-8404-21501052fb7c",
         "_collideMaterial": "46e514bc-5093-4a7c-b1ac-40bb37b583b7",
-        "_width": 8,
-        "_depth": 8,
+        "_width": 6,
+        "_depth": 6,
         "_height": 8,
         "script_guid": "bbe77b28-3f93-41c4-a6a3-998a0d4c8c34"
+      }
+    },
+    {
+      "Type": "EduEngine.Renderer",
+      "FileId": 845,
+      "Parameters": {
+        "_mesh": "27196449-62bc-424f-b32b-117e44b5146b",
+        "_material": "ada96b37-371b-4aa2-8509-cf122a58c131",
+        "_texScale": {
+          "X": 4.0,
+          "Y": 16.0
+        }
+      }
+    },
+    {
+      "Type": "EduEngine.BoxCollider",
+      "FileId": 846,
+      "Parameters": {
+        "_width": 1.0,
+        "_height": 1.0,
+        "_depth": 1.0,
+        "_isTrigger": false
+      }
+    },
+    {
+      "Type": "EduEngine.RigidBody",
+      "FileId": 847,
+      "Parameters": {
+        "_isStatic": false,
+        "_mass": 1.0,
+        "_freezePositionX": true,
+        "_freezePositionY": true,
+        "_freezePositionZ": true,
+        "_freezeRotationX": true,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": true
       }
     }
   ]

@@ -22,6 +22,8 @@ namespace EduEngine
         void AttachShape(IPhysicsShape* shape) override;
         void DetachShape(IPhysicsShape* shape) override;
 
+        void FreezePosition(bool x, bool y, bool z) override;
+        void FreezeRotation(bool x, bool y, bool z) override;
         void SetGlobalTransform(DirectX::SimpleMath::Vector3 position, DirectX::SimpleMath::Quaternion rotation) override;
         void SetMass(float mass) override;
         DirectX::SimpleMath::Vector3 GetLinearVelocity() override;

@@ -7,6 +7,12 @@ namespace EduEngine
     {
         [SerializeField] private bool _isStatic = false;
         [SerializeField] private float _mass = 1.0f;
+        [SerializeField] private bool _freezePositionX = false;
+        [SerializeField] private bool _freezePositionY = false;
+        [SerializeField] private bool _freezePositionZ = false;
+        [SerializeField] private bool _freezeRotationX = false;
+        [SerializeField] private bool _freezeRotationY = false;
+        [SerializeField] private bool _freezeRotationZ = false;
 
         private NativePhysicsObjectWrapper _physicObject;
 
@@ -29,15 +35,19 @@ namespace EduEngine
 
                 _isStatic = value;
                 _physicObject.Dispose();
-                _physicObject = new NativePhysicsObjectWrapper(GameObject.Transform.Position, GameObject.Transform.Rotation, IsStatic);
-                AttachAllColliders();
+                OnAddComponent();
             }
         }
 
         public override void OnAddComponent()
         {
             _physicObject = new NativePhysicsObjectWrapper(GameObject.Transform.Position, GameObject.Transform.Rotation, IsStatic);
+            _physicObject.SetMass(_mass);
+
             AttachAllColliders();
+
+            _physicObject.FreezePosition(_freezePositionX, _freezePositionY, _freezePositionZ);
+            _physicObject.FreezeRotation(_freezeRotationX, _freezeRotationY, _freezeRotationZ);
         }
 
         public void Dispose()
@@ -108,6 +118,9 @@ namespace EduEngine
                 IsStatic = _isStatic;
             if (fieldName == nameof(_mass))
                 _physicObject.SetMass(_mass);
+
+            _physicObject.FreezePosition(_freezePositionX, _freezePositionY, _freezePositionZ);
+            _physicObject.FreezeRotation(_freezeRotationX, _freezeRotationY, _freezeRotationZ);
         }
     }
 }

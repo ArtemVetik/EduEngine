@@ -26,6 +26,8 @@ namespace EduEngine
 		!NativePhysicsObjectWrapper();
 
 		void SetGlobalTransform(Numerics::Vector3 position, Numerics::Quaternion rotation);
+		void FreezePosition(bool x, bool y, bool z);
+		void FreezeRotation(bool x, bool y, bool z);
 		void SetMass(float mass);
 		void AddForce(Numerics::Vector3 force, ForceMode forceMode);
 		void AttachShape(NativePhysicsShapeWrapper^ shape);

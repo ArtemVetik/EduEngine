@@ -85,6 +85,60 @@ namespace EduEngine
 		}
 	}
 
+	void PhysXObject::FreezePosition(bool x, bool y, bool z)
+	{
+		if (!m_Static)
+		{
+			auto dynamicActor = m_Actor->is<PxRigidDynamic>();
+
+			auto flags = dynamicActor->getRigidDynamicLockFlags();
+
+			if (x)
+				flags |= PxRigidDynamicLockFlag::eLOCK_LINEAR_X;
+			else
+				flags &= ~PxRigidDynamicLockFlag::eLOCK_LINEAR_X;
+
+			if (y)
+				flags |= PxRigidDynamicLockFlag::eLOCK_LINEAR_Y;
+			else
+				flags &= ~PxRigidDynamicLockFlag::eLOCK_LINEAR_Y;
+
+			if (z)
+				flags |= PxRigidDynamicLockFlag::eLOCK_LINEAR_Z;
+			else
+				flags &= ~PxRigidDynamicLockFlag::eLOCK_LINEAR_Z;
+
+			dynamicActor->setRigidDynamicLockFlags(flags);
+		}
+	}
+
+	void PhysXObject::FreezeRotation(bool x, bool y, bool z)
+	{
+		if (!m_Static)
+		{
+			auto dynamicActor = m_Actor->is<PxRigidDynamic>();
+
+			auto flags = dynamicActor->getRigidDynamicLockFlags();
+
+			if (x)
+				flags |= PxRigidDynamicLockFlag::eLOCK_ANGULAR_X;
+			else
+				flags &= ~PxRigidDynamicLockFlag::eLOCK_ANGULAR_X;
+
+			if (y)
+				flags |= PxRigidDynamicLockFlag::eLOCK_ANGULAR_Y;
+			else
+				flags &= ~PxRigidDynamicLockFlag::eLOCK_ANGULAR_Y;
+
+			if (z)
+				flags |= PxRigidDynamicLockFlag::eLOCK_ANGULAR_Z;
+			else
+				flags &= ~PxRigidDynamicLockFlag::eLOCK_ANGULAR_Z;
+
+			dynamicActor->setRigidDynamicLockFlags(flags);
+		}
+	}
+
 	void PhysXObject::SetGlobalTransform(DirectX::SimpleMath::Vector3 position, DirectX::SimpleMath::Quaternion rotation)
 	{
 		PxTransform pos = {};

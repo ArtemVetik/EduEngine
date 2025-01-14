@@ -31,6 +31,16 @@ namespace EduEngine
 		);
 	}
 
+	void NativePhysicsObjectWrapper::FreezePosition(bool x, bool y, bool z)
+	{
+		m_NativeObject->FreezePosition(x, y, z);
+	}
+
+	void NativePhysicsObjectWrapper::FreezeRotation(bool x, bool y, bool z)
+	{
+		m_NativeObject->FreezeRotation(x, y, z);
+	}
+
 	void NativePhysicsObjectWrapper::SetMass(float mass)
 	{
 		m_NativeObject->SetMass(mass);
