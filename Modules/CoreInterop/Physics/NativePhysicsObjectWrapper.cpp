@@ -51,6 +51,11 @@ namespace EduEngine
 		m_NativeObject->SetLinearVelocity({ velocity.X, velocity.Y, velocity.Z });
 	}
 
+	void NativePhysicsObjectWrapper::SetAngularVelocity(Numerics::Vector3 velocity)
+	{
+		m_NativeObject->SetAngularVelocity({ velocity.X, velocity.Y, velocity.Z });
+	}
+
 	void NativePhysicsObjectWrapper::AddForce(Numerics::Vector3 force, ForceMode forceMode)
 	{
 		m_NativeObject->AddForce({ force.X, force.Y, force.Z }, (NativeForceMode)forceMode);
@@ -81,6 +86,12 @@ namespace EduEngine
 	Numerics::Vector3 NativePhysicsObjectWrapper::GetLinearVelocity()
 	{
 		auto velocity = m_NativeObject->GetLinearVelocity();
+		return System::Numerics::Vector3(velocity.x, velocity.y, velocity.z);
+	}
+
+	Numerics::Vector3 NativePhysicsObjectWrapper::GetAngularVelocity()
+	{
+		auto velocity = m_NativeObject->GetAngularVelocity();
 		return System::Numerics::Vector3(velocity.x, velocity.y, velocity.z);
 	}
 }

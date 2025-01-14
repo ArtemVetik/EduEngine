@@ -13,6 +13,11 @@ namespace EduEngine
 			GameplayFramework::Update();
 		}
 
+		static void PhysicsUpdate()
+		{
+			GameplayFramework::PhysicsUpdate();
+		}
+
 		static void Render()
 		{
 			GameplayFramework::Render();

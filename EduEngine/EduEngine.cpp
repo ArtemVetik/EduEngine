@@ -119,6 +119,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance,
 
 						if (physixsAccumulator >= fixedTimeStep)
 						{
+							GameplayInterop::PhysicsUpdate();
 							physicsWorld->Update();
 							physixsAccumulator = 0.0f;
 						}

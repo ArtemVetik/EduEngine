@@ -20,6 +20,7 @@ namespace EduEngine
 	{
 	public:
 		static void Update();
+		static void PhysicsUpdate();
 		static void Render();
 		static void Destroy();
 	};

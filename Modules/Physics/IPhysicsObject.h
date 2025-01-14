@@ -21,6 +21,8 @@ namespace EduEngine
 		virtual void SetGlobalTransform(DirectX::SimpleMath::Vector3 position, DirectX::SimpleMath::Quaternion rotation) = 0;
 		virtual void SetMass(float mass) = 0;
 		virtual void SetLinearVelocity(DirectX::SimpleMath::Vector3 velocity) = 0;
+		virtual void SetAngularVelocity(DirectX::SimpleMath::Vector3 velocity) = 0;
 		virtual DirectX::SimpleMath::Vector3 GetLinearVelocity() = 0;
+		virtual DirectX::SimpleMath::Vector3 GetAngularVelocity() = 0;
 	};
 }

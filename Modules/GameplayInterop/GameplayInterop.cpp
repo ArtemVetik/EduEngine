@@ -8,6 +8,11 @@ namespace EduEngine
 		InternalGameplayInterop::Update();
 	}
 
+	void GameplayInterop::PhysicsUpdate()
+	{
+		InternalGameplayInterop::PhysicsUpdate();
+	}
+
 	void GameplayInterop::Render()
 	{
 		InternalGameplayInterop::Render();

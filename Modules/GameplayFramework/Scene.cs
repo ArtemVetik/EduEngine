@@ -57,6 +57,12 @@ namespace EduEngine
             ui?.EndContext();
         }
 
+        internal void PhysicsUpdate()
+        {
+            foreach (var gameObject in _gameObjects)
+                gameObject.PhysicsUpdate();
+        }
+
         internal void Render()
         {
             foreach (var gameObject in _gameObjects)

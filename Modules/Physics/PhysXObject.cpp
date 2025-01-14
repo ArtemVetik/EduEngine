@@ -166,15 +166,33 @@ namespace EduEngine
 			dynamicActor->setLinearVelocity({ velocity.x, velocity.y, velocity.z });
 	}
 
-	DirectX::SimpleMath::Vector3 PhysXObject::GetLinearVelocity()
+	void PhysXObject::SetAngularVelocity(DirectX::SimpleMath::Vector3 velocity)
 	{
 		auto dynamicActor = m_Actor->is<PxRigidDynamic>();
 
-		PxVec3 velocity = { 0, 0, 0 };
-
 		if (dynamicActor)
-			velocity = dynamicActor->getLinearVelocity();
+			dynamicActor->setAngularVelocity({ velocity.x, velocity.y, velocity.z });
+	}
 
-		return DirectX::SimpleMath::Vector3(velocity.x, velocity.y, velocity.z);
+	DirectX::SimpleMath::Vector3 PhysXObject::GetLinearVelocity()
+	{
+		if (auto dynamicActor = m_Actor->is<PxRigidDynamic>())
+		{
+			PxVec3 velocity = dynamicActor->getLinearVelocity();
+			return DirectX::SimpleMath::Vector3(velocity.x, velocity.y, velocity.z);
+		}
+
+		return DirectX::SimpleMath::Vector3::Zero;
+	}
+
+	DirectX::SimpleMath::Vector3 PhysXObject::GetAngularVelocity()
+	{
+		if (auto dynamicActor = m_Actor->is<PxRigidDynamic>())
+		{
+			PxVec3 velocity = dynamicActor->getAngularVelocity();
+			return DirectX::SimpleMath::Vector3(velocity.x, velocity.y, velocity.z);
+		}
+
+		return DirectX::SimpleMath::Vector3::Zero;
 	}
 }

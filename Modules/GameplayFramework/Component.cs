@@ -19,6 +19,7 @@
         public virtual void OnGameStart() { }
         public virtual void OnDestroy() { }
         public virtual void Update() { }
+        public virtual void PhysicsUpdate() { }
         public virtual void UpdateEditor() { }
         public virtual void OnRender() { }
         public virtual void OnScaleChanged() { }

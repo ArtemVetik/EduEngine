@@ -30,12 +30,14 @@ namespace EduEngine
 		void FreezeRotation(bool x, bool y, bool z);
 		void SetMass(float mass);
 		void SetLinearVelocity(Numerics::Vector3 velocity);
+		void SetAngularVelocity(Numerics::Vector3 velocity);
 		void AddForce(Numerics::Vector3 force, ForceMode forceMode);
 		void AttachShape(NativePhysicsShapeWrapper^ shape);
 		void DetachShape(NativePhysicsShapeWrapper^ shape);
 		Numerics::Vector3 GetPosition();
 		Numerics::Quaternion GetRotation();
 		Numerics::Vector3 GetLinearVelocity();
+		Numerics::Vector3 GetAngularVelocity();
 
 		IPhysicsObject* GetNativeObject() { return m_NativeObject; }
 	};

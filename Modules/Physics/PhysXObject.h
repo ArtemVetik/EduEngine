@@ -27,7 +27,9 @@ namespace EduEngine
         void SetGlobalTransform(DirectX::SimpleMath::Vector3 position, DirectX::SimpleMath::Quaternion rotation) override;
         void SetMass(float mass) override;
         void SetLinearVelocity(DirectX::SimpleMath::Vector3 velocity) override;
+        void SetAngularVelocity(DirectX::SimpleMath::Vector3 velocity) override;
         DirectX::SimpleMath::Vector3 GetLinearVelocity() override;
+        DirectX::SimpleMath::Vector3 GetAngularVelocity() override;
 
         PxRigidActor& GetActor() const { return *m_Actor; }
 

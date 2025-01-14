@@ -109,6 +109,20 @@ namespace EduEngine
             }
         }
 
+        public void PhysicsUpdate()
+        {
+            if (IsRuntime == false)
+                return;
+
+            lock (Lock)
+            {
+                for (int i = 0; i < _components.Count; i++)
+                {
+                    _components[i].PhysicsUpdate();
+                }
+            }
+        }
+
         public T AddComponent<T>() where T : Component
         {
             lock (Lock)
