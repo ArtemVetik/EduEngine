@@ -29,6 +29,7 @@ namespace EduEngine
 		void FreezePosition(bool x, bool y, bool z);
 		void FreezeRotation(bool x, bool y, bool z);
 		void SetMass(float mass);
+		void SetLinearVelocity(Numerics::Vector3 velocity);
 		void AddForce(Numerics::Vector3 force, ForceMode forceMode);
 		void AttachShape(NativePhysicsShapeWrapper^ shape);
 		void DetachShape(NativePhysicsShapeWrapper^ shape);

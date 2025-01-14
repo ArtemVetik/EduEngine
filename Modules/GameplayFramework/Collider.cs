@@ -6,6 +6,9 @@ namespace EduEngine
     public abstract class Collider : Component, IDisposable
     {
         [SerializeField] private bool _isTrigger = false;
+        [SerializeField] private float _staticFriction = 0.5f;
+        [SerializeField] private float _dynamicFriction = 0.5f;
+        [SerializeField] private float _restitution = 0.5f;
 
         private readonly List<Collider> _onTriggerEnter = new();
         private readonly List<Collider> _onTriggerExit = new();
@@ -29,6 +32,7 @@ namespace EduEngine
         public override void OnAddComponent()
         {
             SetTrigger(_isTrigger);
+            SetMaterial(_staticFriction, _dynamicFriction, _restitution);
             var rigidbodyList = GameObject.GetComponentsInParent<RigidBody>();
 
             if (rigidbodyList.Length > 0)
@@ -50,6 +54,11 @@ namespace EduEngine
         public void SetTrigger(bool isTrigger)
         {
             _nativeShape?.SetTrigger(isTrigger);
+        }
+
+        public void SetMaterial(float staticFriction, float dynamicFriction, float restitution)
+        {
+            _nativeShape?.SetMaterial(staticFriction, dynamicFriction, restitution);
         }
 
         public override void Update()
@@ -122,6 +131,7 @@ namespace EduEngine
         private void OnFieldChangedByReflection(string fieldName)
         {
             SetTrigger(_isTrigger);
+            SetMaterial(_staticFriction, _dynamicFriction, _restitution);
         }
     }
 }

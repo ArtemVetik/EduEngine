@@ -23,7 +23,11 @@ namespace EduEngine
         {
         }
 
-        public Vector3 Velocity => _physicObject.GetLinearVelocity();
+        public Vector3 Velocity
+        {
+            get => _physicObject.GetLinearVelocity();
+            set => _physicObject.SetLinearVelocity(value);
+        }
 
         public bool IsStatic
         {

@@ -158,6 +158,14 @@ namespace EduEngine
 		}
 	}
 
+	void PhysXObject::SetLinearVelocity(DirectX::SimpleMath::Vector3 velocity)
+	{
+		auto dynamicActor = m_Actor->is<PxRigidDynamic>();
+
+		if (dynamicActor)
+			dynamicActor->setLinearVelocity({ velocity.x, velocity.y, velocity.z });
+	}
+
 	DirectX::SimpleMath::Vector3 PhysXObject::GetLinearVelocity()
 	{
 		auto dynamicActor = m_Actor->is<PxRigidDynamic>();

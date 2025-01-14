@@ -26,6 +26,7 @@ namespace EduEngine
         void FreezeRotation(bool x, bool y, bool z) override;
         void SetGlobalTransform(DirectX::SimpleMath::Vector3 position, DirectX::SimpleMath::Quaternion rotation) override;
         void SetMass(float mass) override;
+        void SetLinearVelocity(DirectX::SimpleMath::Vector3 velocity) override;
         DirectX::SimpleMath::Vector3 GetLinearVelocity() override;
 
         PxRigidActor& GetActor() const { return *m_Actor; }

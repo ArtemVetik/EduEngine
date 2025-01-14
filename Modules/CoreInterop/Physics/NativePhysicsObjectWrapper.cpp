@@ -46,6 +46,11 @@ namespace EduEngine
 		m_NativeObject->SetMass(mass);
 	}
 
+	void NativePhysicsObjectWrapper::SetLinearVelocity(Numerics::Vector3 velocity)
+	{
+		m_NativeObject->SetLinearVelocity({ velocity.X, velocity.Y, velocity.Z });
+	}
+
 	void NativePhysicsObjectWrapper::AddForce(Numerics::Vector3 force, ForceMode forceMode)
 	{
 		m_NativeObject->AddForce({ force.X, force.Y, force.Z }, (NativeForceMode)forceMode);
