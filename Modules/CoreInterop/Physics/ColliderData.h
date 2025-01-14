@@ -46,4 +46,23 @@ namespace EduEngine
 			return ColliderShape(m_Radius);
 		}
 	};
+
+	private ref class CapsuleColliderData : public ColliderData
+	{
+	private:
+		float m_Radius;
+		float m_Height;
+
+	public:
+		CapsuleColliderData(float r, float h) :
+			m_Radius(r),
+			m_Height(h)
+		{
+		}
+
+		ColliderShape ToNative() override
+		{
+			return ColliderShape(m_Radius, m_Height);
+		}
+	};
 }

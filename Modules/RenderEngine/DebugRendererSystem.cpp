@@ -63,8 +63,10 @@ namespace EduEngine
 
 	void DebugRendererSystem::DrawCapsule(const double& radius, const double& halfHeight, const DirectX::XMVECTOR& color, const DirectX::XMMATRIX& transform, int density)
 	{
-		DrawCircle(radius, color, DirectX::XMMatrixTranslation(0, 0, halfHeight) * transform, density);
-		DrawCircle(radius, color, DirectX::XMMatrixTranslation(0, 0, -halfHeight) * transform, density);
+		auto newTransform = XMMatrixMultiply(XMMatrixRotationY(XM_PIDIV2), transform);
+
+		DrawCircle(radius, color, DirectX::XMMatrixTranslation(0, 0, halfHeight) * newTransform, density);
+		DrawCircle(radius, color, DirectX::XMMatrixTranslation(0, 0, -halfHeight) * newTransform, density);
 
 		double angleStep = DirectX::XM_PI * 2 / density;
 
@@ -84,8 +86,8 @@ namespace EduEngine
 				static_cast<float>(-halfHeight),
 			};
 
-			auto p0 = DirectX::XMVector3Transform(DirectX::XMLoadFloat3(&point0), transform);
-			auto p1 = DirectX::XMVector3Transform(DirectX::XMLoadFloat3(&point1), transform);
+			auto p0 = DirectX::XMVector3Transform(DirectX::XMLoadFloat3(&point0), newTransform);
+			auto p1 = DirectX::XMVector3Transform(DirectX::XMLoadFloat3(&point1), newTransform);
 
 			DirectX::XMStoreFloat3(&point0, p0);
 			DirectX::XMStoreFloat3(&point1, p1);

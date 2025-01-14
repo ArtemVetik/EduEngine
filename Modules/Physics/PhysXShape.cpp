@@ -127,7 +127,8 @@ namespace EduEngine
 		switch (shape.type)
 		{
 		case ColliderType::Box: return new PxBoxGeometry(shape.box.width, shape.box.height, shape.box.depth);
-		case ColliderType::Capsule: return new PxCapsuleGeometry(shape.capsule.radius, shape.capsule.halfHeight);
+		case ColliderType::Capsule:
+			return new PxCapsuleGeometry(shape.capsule.radius, shape.capsule.halfHeight);
 		case ColliderType::Sphere: return new PxSphereGeometry(shape.sphere.radius);
 		default: return nullptr;
 		}
