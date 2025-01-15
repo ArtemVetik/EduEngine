@@ -58,20 +58,16 @@ namespace EduEngine.Editor
                     onSelected?.Invoke(null);
                 }
 
-                int idx = 0;
                 foreach (var option in FilterGameObjects(ignoreObjects))
                 {
-                    if (ImGui.Selectable($"{option.Name}##{idx++}"))
+                    if (ImGui.Selectable($"{option.Name}##{option.Guid}"))
                     {
                         onSelected?.Invoke(option);
+                        _filter = string.Empty;
                     }
                 }
 
                 ImGui.EndCombo();
-            }
-            else
-            {
-                _filter = string.Empty;
             }
         }
 

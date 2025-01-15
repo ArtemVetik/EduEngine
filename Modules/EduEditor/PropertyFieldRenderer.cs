@@ -117,7 +117,7 @@ namespace EduEngine.Editor
             }
             else if (field.FieldType == typeof(GameObject))
             {
-                ImGuiEx.RenderGameObjectSelect(fieldValue as GameObject, field.Name, (selectedGameObject) =>
+                ImGuiEx.RenderGameObjectSelect(fieldValue as GameObject, $"{field.Name}##{obj.GetHashCode()}", (selectedGameObject) =>
                 {
                     ReflectField.Set(field, obj, selectedGameObject);
                 });
