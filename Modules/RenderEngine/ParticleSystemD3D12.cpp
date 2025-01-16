@@ -177,6 +177,12 @@ namespace EduEngine
 		if (m_ParticleData.ScreenSpaceCollision != data.ScreenSpaceCollision)
 			InitComputePass(data.ScreenSpaceCollision);
 
+		if (memcmp(&m_ParticleData.BufferData, &data.BufferData, sizeof(ParticleStaticBufferData)) == 0)
+		{
+			m_ParticleData = data;
+			return;
+		}
+		
 		m_ParticleData = data;
 
 		ParticlesComputePass::ParticleData uploadData = {};
