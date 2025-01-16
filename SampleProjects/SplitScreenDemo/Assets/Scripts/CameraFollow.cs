@@ -8,13 +8,13 @@ namespace SplitScreenDemo
         [SerializeField] private GameObject _target;
         [SerializeField] private Vector3 _positionOffset;
         [SerializeField] private float _lookOffset;
-        [SerializeField] private float _lerpForce = 50.0f;
+        [SerializeField] private float _lerpForce = 10.0f;
 
         public CameraFollow(GameObject parent)
             : base(parent)
         { }
 
-        public override void PhysicsUpdate()
+        public override void Update()
         {
             var targetPosition = _target.Transform.Position - 
                                             _target.Transform.Forward * _positionOffset.Z +

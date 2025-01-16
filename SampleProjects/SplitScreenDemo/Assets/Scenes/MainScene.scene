@@ -22,7 +22,7 @@
       "Name": "DirectionalLight",
       "Parent": -1,
       "Components": [
-        128
+        131
       ]
     },
     {
@@ -47,8 +47,8 @@
       "Name": "CameraLeft",
       "Parent": -1,
       "Components": [
-        129,
-        130
+        132,
+        133
       ]
     },
     {
@@ -73,7 +73,7 @@
       "Name": "Bridge",
       "Parent": 8,
       "Components": [
-        131
+        134
       ]
     },
     {
@@ -98,7 +98,7 @@
       "Name": "Model",
       "Parent": 20,
       "Components": [
-        132
+        135
       ]
     },
     {
@@ -123,8 +123,8 @@
       "Name": "PlayerLeft",
       "Parent": -1,
       "Components": [
-        133,
-        134
+        136,
+        137
       ]
     },
     {
@@ -149,8 +149,8 @@
       "Name": "CameraRight",
       "Parent": -1,
       "Components": [
-        135,
-        136
+        138,
+        139
       ]
     },
     {
@@ -175,9 +175,9 @@
       "Name": "UIRoot",
       "Parent": -1,
       "Components": [
-        137,
-        138,
-        139
+        140,
+        141,
+        142
       ]
     },
     {
@@ -202,7 +202,7 @@
       "Name": "Collider",
       "Parent": 4,
       "Components": [
-        140
+        143
       ]
     },
     {
@@ -227,8 +227,8 @@
       "Name": "BridgeRoot",
       "Parent": -1,
       "Components": [
-        141,
-        142
+        144,
+        145
       ]
     },
     {
@@ -253,9 +253,9 @@
       "Name": "Trigger",
       "Parent": 45,
       "Components": [
-        143,
-        144,
-        145
+        146,
+        147,
+        148
       ]
     },
     {
@@ -280,9 +280,9 @@
       "Name": "FirstPlatform",
       "Parent": 36,
       "Components": [
-        146,
-        147,
-        148
+        149,
+        150,
+        151
       ]
     },
     {
@@ -307,8 +307,8 @@
       "Name": "FallStairsRoot",
       "Parent": 45,
       "Components": [
-        149,
-        150
+        152,
+        153
       ]
     },
     {
@@ -333,7 +333,7 @@
       "Name": "Tree",
       "Parent": 11,
       "Components": [
-        151
+        154
       ]
     },
     {
@@ -358,11 +358,11 @@
       "Name": "HeadButton1",
       "Parent": 38,
       "Components": [
-        152,
-        153,
-        154,
         155,
-        156
+        156,
+        157,
+        158,
+        159
       ]
     },
     {
@@ -387,7 +387,7 @@
       "Name": "Collider",
       "Parent": 64,
       "Components": [
-        157
+        160
       ]
     },
     {
@@ -412,9 +412,9 @@
       "Name": "Ground",
       "Parent": 45,
       "Components": [
-        158,
-        159,
-        160
+        161,
+        162,
+        163
       ]
     },
     {
@@ -439,9 +439,9 @@
       "Name": "FallPlatform",
       "Parent": 52,
       "Components": [
-        161,
-        162,
-        163
+        164,
+        165,
+        166
       ]
     },
     {
@@ -466,7 +466,7 @@
       "Name": "Model",
       "Parent": 16,
       "Components": [
-        164
+        167
       ]
     },
     {
@@ -491,9 +491,9 @@
       "Name": "FallPlatform",
       "Parent": 52,
       "Components": [
-        165,
-        166,
-        167
+        168,
+        169,
+        170
       ]
     },
     {
@@ -518,9 +518,9 @@
       "Name": "FallPlatform",
       "Parent": 52,
       "Components": [
-        168,
-        169,
-        170
+        171,
+        172,
+        173
       ]
     },
     {
@@ -545,9 +545,9 @@
       "Name": "FallPlatform",
       "Parent": 52,
       "Components": [
-        171,
-        172,
-        173
+        174,
+        175,
+        176
       ]
     },
     {
@@ -572,9 +572,9 @@
       "Name": "Ground",
       "Parent": 58,
       "Components": [
-        174,
-        175,
-        176
+        177,
+        178,
+        179
       ]
     },
     {
@@ -599,9 +599,9 @@
       "Name": "Wall",
       "Parent": 58,
       "Components": [
-        177,
-        178,
-        179
+        180,
+        181,
+        182
       ]
     },
     {
@@ -626,7 +626,7 @@
       "Name": "MillPlatform2",
       "Parent": 61,
       "Components": [
-        180
+        183
       ]
     },
     {
@@ -651,7 +651,7 @@
       "Name": "Jetpack",
       "Parent": 79,
       "Components": [
-        181
+        184
       ]
     },
     {
@@ -676,9 +676,9 @@
       "Name": "WoodenBox",
       "Parent": 58,
       "Components": [
-        182,
-        183,
-        184
+        185,
+        186,
+        187
       ]
     },
     {
@@ -726,7 +726,7 @@
       "Name": "Main",
       "Parent": 26,
       "Components": [
-        185
+        188
       ]
     },
     {
@@ -751,7 +751,7 @@
       "Name": "Back",
       "Parent": 26,
       "Components": [
-        186
+        189
       ]
     },
     {
@@ -776,7 +776,7 @@
       "Name": "Hat",
       "Parent": 26,
       "Components": [
-        187
+        190
       ]
     },
     {
@@ -801,8 +801,8 @@
       "Name": "PlayerRight",
       "Parent": -1,
       "Components": [
-        188,
-        189
+        191,
+        192
       ]
     },
     {
@@ -827,7 +827,7 @@
       "Name": "Collider",
       "Parent": 30,
       "Components": [
-        190
+        193
       ]
     },
     {
@@ -875,7 +875,7 @@
       "Name": "Main",
       "Parent": 32,
       "Components": [
-        191
+        194
       ]
     },
     {
@@ -900,7 +900,7 @@
       "Name": "Back",
       "Parent": 32,
       "Components": [
-        192
+        195
       ]
     },
     {
@@ -925,7 +925,7 @@
       "Name": "Hat",
       "Parent": 32,
       "Components": [
-        193
+        196
       ]
     },
     {
@@ -973,7 +973,7 @@
       "Name": "Dirt",
       "Parent": 58,
       "Components": [
-        194
+        197
       ]
     },
     {
@@ -1021,8 +1021,8 @@
       "Name": "Base",
       "Parent": 38,
       "Components": [
-        195,
-        196
+        198,
+        199
       ]
     },
     {
@@ -1047,7 +1047,7 @@
       "Name": "Screw",
       "Parent": 39,
       "Components": [
-        197
+        200
       ]
     },
     {
@@ -1072,7 +1072,7 @@
       "Name": "Base",
       "Parent": 39,
       "Components": [
-        198
+        201
       ]
     },
     {
@@ -1120,7 +1120,7 @@
       "Name": "Model",
       "Parent": 42,
       "Components": [
-        199
+        202
       ]
     },
     {
@@ -1145,7 +1145,7 @@
       "Name": "Model",
       "Parent": 42,
       "Components": [
-        200
+        203
       ]
     },
     {
@@ -1193,7 +1193,7 @@
       "Name": "Model",
       "Parent": 11,
       "Components": [
-        201
+        204
       ]
     },
     {
@@ -1218,7 +1218,7 @@
       "Name": "Model",
       "Parent": 11,
       "Components": [
-        202
+        205
       ]
     },
     {
@@ -1243,7 +1243,7 @@
       "Name": "Model",
       "Parent": 11,
       "Components": [
-        203
+        206
       ]
     },
     {
@@ -1268,7 +1268,7 @@
       "Name": "Model",
       "Parent": 11,
       "Components": [
-        204
+        207
       ]
     },
     {
@@ -1293,7 +1293,7 @@
       "Name": "FirstPlatformDirt",
       "Parent": 36,
       "Components": [
-        205
+        208
       ]
     },
     {
@@ -1318,7 +1318,7 @@
       "Name": "Model",
       "Parent": 18,
       "Components": [
-        206
+        209
       ]
     },
     {
@@ -1366,7 +1366,7 @@
       "Name": "Model",
       "Parent": 19,
       "Components": [
-        207
+        210
       ]
     },
     {
@@ -1391,9 +1391,9 @@
       "Name": "FallPlatform",
       "Parent": 52,
       "Components": [
-        208,
-        209,
-        210
+        211,
+        212,
+        213
       ]
     },
     {
@@ -1418,7 +1418,7 @@
       "Name": "Model",
       "Parent": 54,
       "Components": [
-        211
+        214
       ]
     },
     {
@@ -1443,9 +1443,9 @@
       "Name": "FallPlatform",
       "Parent": 52,
       "Components": [
-        212,
-        213,
-        214
+        215,
+        216,
+        217
       ]
     },
     {
@@ -1470,7 +1470,7 @@
       "Name": "Model",
       "Parent": 56,
       "Components": [
-        215
+        218
       ]
     },
     {
@@ -1518,7 +1518,7 @@
       "Name": "SecondPlatformDirt",
       "Parent": 45,
       "Components": [
-        216
+        219
       ]
     },
     {
@@ -1543,7 +1543,7 @@
       "Name": "WallDirt",
       "Parent": 22,
       "Components": [
-        217
+        220
       ]
     },
     {
@@ -1589,7 +1589,7 @@
         "Z": 1.0
       },
       "Name": "Colliders",
-      "Parent": 95,
+      "Parent": 93,
       "Components": []
     },
     {
@@ -1614,7 +1614,7 @@
       "Name": "Collider",
       "Parent": 62,
       "Components": [
-        218
+        221
       ]
     },
     {
@@ -1639,8 +1639,8 @@
       "Name": "MillRoot",
       "Parent": 58,
       "Components": [
-        219,
-        220
+        222,
+        223
       ]
     },
     {
@@ -1665,7 +1665,7 @@
       "Name": "MillModel",
       "Parent": 64,
       "Components": [
-        221
+        224
       ]
     },
     {
@@ -1690,7 +1690,7 @@
       "Name": "MillModel",
       "Parent": 64,
       "Components": [
-        222
+        225
       ]
     },
     {
@@ -1715,8 +1715,8 @@
       "Name": "MillRoot",
       "Parent": 61,
       "Components": [
-        223,
-        224
+        226,
+        227
       ]
     },
     {
@@ -1741,7 +1741,7 @@
       "Name": "Collider",
       "Parent": 67,
       "Components": [
-        225
+        228
       ]
     },
     {
@@ -1766,7 +1766,7 @@
       "Name": "MillModel",
       "Parent": 67,
       "Components": [
-        226
+        229
       ]
     },
     {
@@ -1791,7 +1791,7 @@
       "Name": "MillModel",
       "Parent": 67,
       "Components": [
-        227
+        230
       ]
     },
     {
@@ -1816,7 +1816,7 @@
       "Name": "MillPlatform",
       "Parent": 61,
       "Components": [
-        228
+        231
       ]
     },
     {
@@ -1841,7 +1841,7 @@
       "Name": "Collider",
       "Parent": 71,
       "Components": [
-        229
+        232
       ]
     },
     {
@@ -1866,7 +1866,7 @@
       "Name": "Model",
       "Parent": 71,
       "Components": [
-        230
+        233
       ]
     },
     {
@@ -1891,7 +1891,7 @@
       "Name": "Collider",
       "Parent": 23,
       "Components": [
-        231
+        234
       ]
     },
     {
@@ -1916,7 +1916,7 @@
       "Name": "Model",
       "Parent": 23,
       "Components": [
-        232
+        235
       ]
     },
     {
@@ -1964,9 +1964,9 @@
       "Name": "Wall",
       "Parent": 61,
       "Components": [
-        233,
-        234,
-        235
+        236,
+        237,
+        238
       ]
     },
     {
@@ -1991,15 +1991,15 @@
       "Name": "WallDirt",
       "Parent": 77,
       "Components": [
-        236
+        239
       ]
     },
     {
       "FileId": 79,
       "LocalPosition": {
-        "X": 7.158661,
-        "Y": 4.847204,
-        "Z": -3.9149857
+        "X": -2.8386503E-07,
+        "Y": 3.247042,
+        "Z": -6.1331897
       },
       "LocalRotation": {
         "X": -4.371139E-08,
@@ -2014,34 +2014,7 @@
         "Z": 1.0
       },
       "Name": "JetpackRoot2",
-      "Parent": 61,
-      "Components": [
-        237,
-        238,
-        239
-      ]
-    },
-    {
-      "FileId": 80,
-      "LocalPosition": {
-        "X": 7.158661,
-        "Y": 4.847204,
-        "Z": 4.0254593
-      },
-      "LocalRotation": {
-        "X": 0.0,
-        "Y": 0.0,
-        "Z": 0.0,
-        "W": 1.0,
-        "IsIdentity": true
-      },
-      "LocalScale": {
-        "X": 1.0,
-        "Y": 1.0,
-        "Z": 1.0
-      },
-      "Name": "JetpackRoot1",
-      "Parent": 61,
+      "Parent": -1,
       "Components": [
         240,
         241,
@@ -2049,32 +2022,7 @@
       ]
     },
     {
-      "FileId": 81,
-      "LocalPosition": {
-        "X": 0.0,
-        "Y": -0.521018,
-        "Z": -0.4271469
-      },
-      "LocalRotation": {
-        "X": 0.0,
-        "Y": 0.0,
-        "Z": 0.0,
-        "W": 1.0,
-        "IsIdentity": true
-      },
-      "LocalScale": {
-        "X": 1.0,
-        "Y": 1.0,
-        "Z": 1.0
-      },
-      "Name": "Jetpack",
-      "Parent": 80,
-      "Components": [
-        243
-      ]
-    },
-    {
-      "FileId": 82,
+      "FileId": 80,
       "LocalPosition": {
         "X": 0.0,
         "Y": 8.791351,
@@ -2095,13 +2043,13 @@
       "Name": "FinishTrigger",
       "Parent": 76,
       "Components": [
+        243,
         244,
-        245,
-        246
+        245
       ]
     },
     {
-      "FileId": 83,
+      "FileId": 81,
       "LocalPosition": {
         "X": -7.498223,
         "Y": 2.533815,
@@ -2120,13 +2068,13 @@
         "Z": 1.0
       },
       "Name": "Grass",
-      "Parent": 86,
+      "Parent": 84,
       "Components": [
-        247
+        246
       ]
     },
     {
-      "FileId": 84,
+      "FileId": 82,
       "LocalPosition": {
         "X": 7.980934,
         "Y": 3.6815968,
@@ -2145,13 +2093,13 @@
         "Z": 0.8500008
       },
       "Name": "TreeFree03",
-      "Parent": 109,
+      "Parent": 107,
       "Components": [
-        248
+        247
       ]
     },
     {
-      "FileId": 85,
+      "FileId": 83,
       "LocalPosition": {
         "X": -10.451485,
         "Y": 0.9705957,
@@ -2170,13 +2118,13 @@
         "Z": 1.0000017
       },
       "Name": "TreeFree01",
-      "Parent": 103,
+      "Parent": 101,
       "Components": [
-        249
+        248
       ]
     },
     {
-      "FileId": 86,
+      "FileId": 84,
       "LocalPosition": {
         "X": 0.0,
         "Y": -1.5,
@@ -2199,7 +2147,7 @@
       "Components": []
     },
     {
-      "FileId": 87,
+      "FileId": 85,
       "LocalPosition": {
         "X": 7.1829333,
         "Y": 2.5277877,
@@ -2218,13 +2166,13 @@
         "Z": 1.0000001
       },
       "Name": "Grass",
-      "Parent": 86,
+      "Parent": 84,
       "Components": [
-        250
+        249
       ]
     },
     {
-      "FileId": 88,
+      "FileId": 86,
       "LocalPosition": {
         "X": -6.8921523,
         "Y": 2.532902,
@@ -2243,13 +2191,13 @@
         "Z": 1.0
       },
       "Name": "Grass",
-      "Parent": 86,
+      "Parent": 84,
       "Components": [
-        251
+        250
       ]
     },
     {
-      "FileId": 89,
+      "FileId": 87,
       "LocalPosition": {
         "X": -8.326982,
         "Y": 2.5341387,
@@ -2268,13 +2216,13 @@
         "Z": 1.0000008
       },
       "Name": "Grass",
-      "Parent": 86,
+      "Parent": 84,
       "Components": [
-        252
+        251
       ]
     },
     {
-      "FileId": 90,
+      "FileId": 88,
       "LocalPosition": {
         "X": -8.122732,
         "Y": 2.5322628,
@@ -2293,13 +2241,13 @@
         "Z": 0.99999994
       },
       "Name": "Grass",
-      "Parent": 86,
+      "Parent": 84,
       "Components": [
-        253
+        252
       ]
     },
     {
-      "FileId": 91,
+      "FileId": 89,
       "LocalPosition": {
         "X": 8.029841,
         "Y": 2.5255964,
@@ -2318,13 +2266,13 @@
         "Z": 1.0
       },
       "Name": "Grass",
-      "Parent": 86,
+      "Parent": 84,
       "Components": [
-        254
+        253
       ]
     },
     {
-      "FileId": 92,
+      "FileId": 90,
       "LocalPosition": {
         "X": 7.9536796,
         "Y": 2.5263093,
@@ -2343,13 +2291,13 @@
         "Z": 1.0
       },
       "Name": "Grass",
-      "Parent": 86,
+      "Parent": 84,
       "Components": [
-        255
+        254
       ]
     },
     {
-      "FileId": 93,
+      "FileId": 91,
       "LocalPosition": {
         "X": 5.983089,
         "Y": 2.5265946,
@@ -2368,13 +2316,13 @@
         "Z": 0.9999999
       },
       "Name": "Grass",
-      "Parent": 86,
+      "Parent": 84,
       "Components": [
-        256
+        255
       ]
     },
     {
-      "FileId": 94,
+      "FileId": 92,
       "LocalPosition": {
         "X": 6.3806143,
         "Y": 2.5279737,
@@ -2393,13 +2341,13 @@
         "Z": 1.0000004
       },
       "Name": "Grass",
-      "Parent": 86,
+      "Parent": 84,
       "Components": [
-        257
+        256
       ]
     },
     {
-      "FileId": 95,
+      "FileId": 93,
       "LocalPosition": {
         "X": 0.0,
         "Y": 1.29935,
@@ -2420,12 +2368,12 @@
       "Name": "FairyIsland",
       "Parent": 76,
       "Components": [
-        258,
-        259
+        257,
+        258
       ]
     },
     {
-      "FileId": 96,
+      "FileId": 94,
       "LocalPosition": {
         "X": 7.030231,
         "Y": 0.89628506,
@@ -2444,13 +2392,13 @@
         "Z": 1.0
       },
       "Name": "Rock",
-      "Parent": 100,
+      "Parent": 98,
       "Components": [
-        260
+        259
       ]
     },
     {
-      "FileId": 97,
+      "FileId": 95,
       "LocalPosition": {
         "X": 8.138382,
         "Y": 0.9121251,
@@ -2469,13 +2417,13 @@
         "Z": 1.0
       },
       "Name": "Rock",
-      "Parent": 103,
+      "Parent": 101,
       "Components": [
-        261
+        260
       ]
     },
     {
-      "FileId": 98,
+      "FileId": 96,
       "LocalPosition": {
         "X": -6.4848595,
         "Y": 1.0100799,
@@ -2494,13 +2442,13 @@
         "Z": 1.0000018
       },
       "Name": "Flower2",
-      "Parent": 100,
+      "Parent": 98,
       "Components": [
-        262
+        261
       ]
     },
     {
-      "FileId": 99,
+      "FileId": 97,
       "LocalPosition": {
         "X": -7.0298038,
         "Y": 1.0102746,
@@ -2519,13 +2467,13 @@
         "Z": 1.0
       },
       "Name": "Bush",
-      "Parent": 100,
+      "Parent": 98,
       "Components": [
-        263
+        262
       ]
     },
     {
-      "FileId": 100,
+      "FileId": 98,
       "LocalPosition": {
         "X": 0.0,
         "Y": 0.0,
@@ -2548,7 +2496,7 @@
       "Components": []
     },
     {
-      "FileId": 101,
+      "FileId": 99,
       "LocalPosition": {
         "X": -7.2655473,
         "Y": 1.0100799,
@@ -2567,13 +2515,13 @@
         "Z": 0.99999976
       },
       "Name": "Flower2",
-      "Parent": 100,
+      "Parent": 98,
       "Components": [
-        264
+        263
       ]
     },
     {
-      "FileId": 102,
+      "FileId": 100,
       "LocalPosition": {
         "X": -7.9074483,
         "Y": 1.0102909,
@@ -2592,13 +2540,13 @@
         "Z": 1.0
       },
       "Name": "Flower1",
-      "Parent": 100,
+      "Parent": 98,
       "Components": [
-        265
+        264
       ]
     },
     {
-      "FileId": 103,
+      "FileId": 101,
       "LocalPosition": {
         "X": 0.0,
         "Y": 0.0,
@@ -2621,7 +2569,7 @@
       "Components": []
     },
     {
-      "FileId": 104,
+      "FileId": 102,
       "LocalPosition": {
         "X": -5.9273453,
         "Y": 1.0102909,
@@ -2640,13 +2588,13 @@
         "Z": 1.0
       },
       "Name": "Flower1",
-      "Parent": 100,
+      "Parent": 98,
       "Components": [
-        266
+        265
       ]
     },
     {
-      "FileId": 105,
+      "FileId": 103,
       "LocalPosition": {
         "X": 9.897525,
         "Y": 6.7196345,
@@ -2665,13 +2613,13 @@
         "Z": 0.9999994
       },
       "Name": "Bush",
-      "Parent": 103,
+      "Parent": 101,
       "Components": [
-        267
+        266
       ]
     },
     {
-      "FileId": 106,
+      "FileId": 104,
       "LocalPosition": {
         "X": -1.9363391,
         "Y": 0.91158223,
@@ -2690,13 +2638,13 @@
         "Z": 1.0
       },
       "Name": "Mushroom",
-      "Parent": 103,
+      "Parent": 101,
       "Components": [
-        268
+        267
       ]
     },
     {
-      "FileId": 107,
+      "FileId": 105,
       "LocalPosition": {
         "X": -1.1177181,
         "Y": 0.9121251,
@@ -2715,13 +2663,13 @@
         "Z": 1.0
       },
       "Name": "Rock",
-      "Parent": 103,
+      "Parent": 101,
       "Components": [
-        269
+        268
       ]
     },
     {
-      "FileId": 108,
+      "FileId": 106,
       "LocalPosition": {
         "X": -8.10181,
         "Y": 2.5317686,
@@ -2740,13 +2688,13 @@
         "Z": 0.99999994
       },
       "Name": "TreeFree01",
-      "Parent": 86,
+      "Parent": 84,
       "Components": [
-        270
+        269
       ]
     },
     {
-      "FileId": 109,
+      "FileId": 107,
       "LocalPosition": {
         "X": 0.0,
         "Y": 0.0,
@@ -2769,7 +2717,7 @@
       "Components": []
     },
     {
-      "FileId": 110,
+      "FileId": 108,
       "LocalPosition": {
         "X": -0.74363184,
         "Y": 0.91193855,
@@ -2788,13 +2736,13 @@
         "Z": 1.0
       },
       "Name": "Mushroom",
-      "Parent": 103,
+      "Parent": 101,
       "Components": [
-        271
+        270
       ]
     },
     {
-      "FileId": 111,
+      "FileId": 109,
       "LocalPosition": {
         "X": 9.654464,
         "Y": 6.7196345,
@@ -2813,13 +2761,13 @@
         "Z": 1.0
       },
       "Name": "Mushroom",
-      "Parent": 103,
+      "Parent": 101,
       "Components": [
-        272
+        271
       ]
     },
     {
-      "FileId": 112,
+      "FileId": 110,
       "LocalPosition": {
         "X": 10.210206,
         "Y": 6.7196345,
@@ -2838,13 +2786,13 @@
         "Z": 0.9999998
       },
       "Name": "Flower1",
-      "Parent": 103,
+      "Parent": 101,
       "Components": [
-        273
+        272
       ]
     },
     {
-      "FileId": 113,
+      "FileId": 111,
       "LocalPosition": {
         "X": 9.278901,
         "Y": 6.7196345,
@@ -2863,13 +2811,13 @@
         "Z": 1.0000004
       },
       "Name": "Flower2",
-      "Parent": 103,
+      "Parent": 101,
       "Components": [
-        274
+        273
       ]
     },
     {
-      "FileId": 114,
+      "FileId": 112,
       "LocalPosition": {
         "X": 7.8995805,
         "Y": 1.0328465,
@@ -2888,9 +2836,59 @@
         "Z": 1.0
       },
       "Name": "TreeFree03",
-      "Parent": 100,
+      "Parent": 98,
+      "Components": [
+        274
+      ]
+    },
+    {
+      "FileId": 113,
+      "LocalPosition": {
+        "X": 0.0,
+        "Y": 0.25,
+        "Z": 0.0
+      },
+      "LocalRotation": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 0.0,
+        "W": 1.0,
+        "IsIdentity": true
+      },
+      "LocalScale": {
+        "X": 1.0,
+        "Y": 1.0,
+        "Z": 1.0
+      },
+      "Name": "JumpEffectP2",
+      "Parent": 30,
       "Components": [
         275
+      ]
+    },
+    {
+      "FileId": 114,
+      "LocalPosition": {
+        "X": 0.13183022,
+        "Y": 0.4052925,
+        "Z": -1.2668328
+      },
+      "LocalRotation": {
+        "X": -0.70710665,
+        "Y": 0.0,
+        "Z": 0.0,
+        "W": 0.7071069,
+        "IsIdentity": false
+      },
+      "LocalScale": {
+        "X": 1.0,
+        "Y": 1.0,
+        "Z": 1.0
+      },
+      "Name": "FallStairsEffect",
+      "Parent": 11,
+      "Components": [
+        276
       ]
     },
     {
@@ -2912,64 +2910,14 @@
         "Y": 1.0,
         "Z": 1.0
       },
-      "Name": "JumpEffectP2",
-      "Parent": 30,
-      "Components": [
-        276
-      ]
-    },
-    {
-      "FileId": 116,
-      "LocalPosition": {
-        "X": 0.13183022,
-        "Y": 0.4052925,
-        "Z": -1.2668328
-      },
-      "LocalRotation": {
-        "X": -0.70710665,
-        "Y": 0.0,
-        "Z": 0.0,
-        "W": 0.7071069,
-        "IsIdentity": false
-      },
-      "LocalScale": {
-        "X": 1.0,
-        "Y": 1.0,
-        "Z": 1.0
-      },
-      "Name": "FallStairsEffect",
-      "Parent": 11,
+      "Name": "JumpEffectP1",
+      "Parent": 4,
       "Components": [
         277
       ]
     },
     {
-      "FileId": 117,
-      "LocalPosition": {
-        "X": 0.0,
-        "Y": 0.25,
-        "Z": 0.0
-      },
-      "LocalRotation": {
-        "X": 0.0,
-        "Y": 0.0,
-        "Z": 0.0,
-        "W": 1.0,
-        "IsIdentity": true
-      },
-      "LocalScale": {
-        "X": 1.0,
-        "Y": 1.0,
-        "Z": 1.0
-      },
-      "Name": "JumpEffectP1",
-      "Parent": 4,
-      "Components": [
-        278
-      ]
-    },
-    {
-      "FileId": 118,
+      "FileId": 116,
       "LocalPosition": {
         "X": 0.0,
         "Y": -0.15422934,
@@ -2988,13 +2936,13 @@
         "Z": 1.0
       },
       "Name": "FinishParticles",
-      "Parent": 82,
+      "Parent": 80,
       "Components": [
-        279
+        278
       ]
     },
     {
-      "FileId": 119,
+      "FileId": 117,
       "LocalPosition": {
         "X": 7.1525574E-07,
         "Y": 0.11017519,
@@ -3015,36 +2963,11 @@
       "Name": "ButtonEffect",
       "Parent": 38,
       "Components": [
-        280
+        279
       ]
     },
     {
-      "FileId": 120,
-      "LocalPosition": {
-        "X": 0.0,
-        "Y": -0.3567953,
-        "Z": -0.63106537
-      },
-      "LocalRotation": {
-        "X": 0.0,
-        "Y": 0.0,
-        "Z": 0.0,
-        "W": 1.0,
-        "IsIdentity": true
-      },
-      "LocalScale": {
-        "X": 1.0,
-        "Y": 1.0,
-        "Z": 1.0
-      },
-      "Name": "JetpackEffect",
-      "Parent": 80,
-      "Components": [
-        281
-      ]
-    },
-    {
-      "FileId": 121,
+      "FileId": 118,
       "LocalPosition": {
         "X": 0.0,
         "Y": -0.35679626,
@@ -3065,11 +2988,11 @@
       "Name": "JetpackEffect",
       "Parent": 79,
       "Components": [
-        282
+        280
       ]
     },
     {
-      "FileId": 122,
+      "FileId": 119,
       "LocalPosition": {
         "X": -1.5297201,
         "Y": -1.5132759,
@@ -3088,13 +3011,13 @@
         "Z": 1.0
       },
       "Name": "FireworkEffect",
-      "Parent": 82,
+      "Parent": 80,
       "Components": [
-        283
+        281
       ]
     },
     {
-      "FileId": 123,
+      "FileId": 120,
       "LocalPosition": {
         "X": 1.109036,
         "Y": -1.0797355,
@@ -3113,13 +3036,13 @@
         "Z": 1.0
       },
       "Name": "FireworkEffect",
-      "Parent": 82,
+      "Parent": 80,
       "Components": [
-        284
+        282
       ]
     },
     {
-      "FileId": 124,
+      "FileId": 121,
       "LocalPosition": {
         "X": -0.19251895,
         "Y": -0.4582065,
@@ -3138,13 +3061,13 @@
         "Z": 1.0
       },
       "Name": "FireworkEffect",
-      "Parent": 82,
+      "Parent": 80,
       "Components": [
-        285
+        283
       ]
     },
     {
-      "FileId": 125,
+      "FileId": 122,
       "LocalPosition": {
         "X": -0.86302114,
         "Y": 0.10998148,
@@ -3163,13 +3086,13 @@
         "Z": 1.0
       },
       "Name": "FireworkEffect",
-      "Parent": 82,
+      "Parent": 80,
       "Components": [
-        286
+        284
       ]
     },
     {
-      "FileId": 126,
+      "FileId": 123,
       "LocalPosition": {
         "X": 0.0,
         "Y": 0.64174074,
@@ -3188,13 +3111,13 @@
         "Z": 1.0
       },
       "Name": "FireworkEffect",
-      "Parent": 82,
+      "Parent": 80,
       "Components": [
-        287
+        285
       ]
     },
     {
-      "FileId": 127,
+      "FileId": 124,
       "LocalPosition": {
         "X": 1.1395469,
         "Y": -0.29814762,
@@ -3213,16 +3136,170 @@
         "Z": 1.0
       },
       "Name": "FireworkEffect",
-      "Parent": 82,
+      "Parent": 80,
       "Components": [
-        288
+        286
+      ]
+    },
+    {
+      "FileId": 125,
+      "LocalPosition": {
+        "X": 7.158661,
+        "Y": 4.847204,
+        "Z": 4.0254593
+      },
+      "LocalRotation": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 0.0,
+        "W": 1.0,
+        "IsIdentity": true
+      },
+      "LocalScale": {
+        "X": 1.0,
+        "Y": 1.0,
+        "Z": 1.0
+      },
+      "Name": "JetpackRoot1",
+      "Parent": 61,
+      "Components": [
+        287,
+        288,
+        289
+      ]
+    },
+    {
+      "FileId": 126,
+      "LocalPosition": {
+        "X": 0.0,
+        "Y": -0.521018,
+        "Z": -0.4271469
+      },
+      "LocalRotation": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 0.0,
+        "W": 1.0,
+        "IsIdentity": true
+      },
+      "LocalScale": {
+        "X": 1.0,
+        "Y": 1.0,
+        "Z": 1.0
+      },
+      "Name": "Jetpack",
+      "Parent": 125,
+      "Components": [
+        290
+      ]
+    },
+    {
+      "FileId": 127,
+      "LocalPosition": {
+        "X": 0.0,
+        "Y": -0.3567953,
+        "Z": -0.63106537
+      },
+      "LocalRotation": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 0.0,
+        "W": 1.0,
+        "IsIdentity": true
+      },
+      "LocalScale": {
+        "X": 1.0,
+        "Y": 1.0,
+        "Z": 1.0
+      },
+      "Name": "JetpackEffect",
+      "Parent": 125,
+      "Components": [
+        291
+      ]
+    },
+    {
+      "FileId": 128,
+      "LocalPosition": {
+        "X": 7.158661,
+        "Y": 4.847204,
+        "Z": -3.9149857
+      },
+      "LocalRotation": {
+        "X": -4.371139E-08,
+        "Y": 1.0,
+        "Z": -4.371139E-08,
+        "W": 1.9106855E-15,
+        "IsIdentity": false
+      },
+      "LocalScale": {
+        "X": 1.0,
+        "Y": 1.0,
+        "Z": 1.0
+      },
+      "Name": "JetpackRoot2",
+      "Parent": 61,
+      "Components": [
+        292,
+        293,
+        294
+      ]
+    },
+    {
+      "FileId": 129,
+      "LocalPosition": {
+        "X": 0.0,
+        "Y": -0.521018,
+        "Z": -0.4271469
+      },
+      "LocalRotation": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 0.0,
+        "W": 1.0,
+        "IsIdentity": true
+      },
+      "LocalScale": {
+        "X": 1.0,
+        "Y": 1.0,
+        "Z": 1.0
+      },
+      "Name": "Jetpack",
+      "Parent": 128,
+      "Components": [
+        295
+      ]
+    },
+    {
+      "FileId": 130,
+      "LocalPosition": {
+        "X": 0.0,
+        "Y": -0.35679626,
+        "Z": -0.62879944
+      },
+      "LocalRotation": {
+        "X": -4.371139E-08,
+        "Y": 1.0,
+        "Z": -4.371139E-08,
+        "W": -1.9106855E-15,
+        "IsIdentity": false
+      },
+      "LocalScale": {
+        "X": 1.0,
+        "Y": 1.0,
+        "Z": 1.0
+      },
+      "Name": "JetpackEffect",
+      "Parent": 128,
+      "Components": [
+        296
       ]
     }
   ],
   "Components": [
     {
       "Type": "EduEngine.Light",
-      "FileId": 128,
+      "FileId": 131,
       "Parameters": {
         "_type": 0,
         "_color": {
@@ -3238,7 +3315,7 @@
     },
     {
       "Type": "EduEngine.GameCamera",
-      "FileId": 129,
+      "FileId": 132,
       "Parameters": {
         "_fov": 55.0,
         "_near": 0.3,
@@ -3261,7 +3338,7 @@
     },
     {
       "Type": "Script",
-      "FileId": 130,
+      "FileId": 133,
       "Parameters": {
         "_target": 4,
         "_positionOffset": {
@@ -3270,13 +3347,13 @@
           "Z": 20.0
         },
         "_lookOffset": -0.2,
-        "_lerpForce": 50.0,
+        "_lerpForce": 5.0,
         "script_guid": "9e37ebc6-a2b3-4a8c-aca9-b142fe3470b6"
       }
     },
     {
       "Type": "EduEngine.BoxCollider",
-      "FileId": 131,
+      "FileId": 134,
       "Parameters": {
         "_width": 1.0,
         "_height": 1.0,
@@ -3289,7 +3366,7 @@
     },
     {
       "Type": "EduEngine.Renderer",
-      "FileId": 132,
+      "FileId": 135,
       "Parameters": {
         "_mesh": "b21aa47c-d02c-417b-aad7-3b405b3dc6b3",
         "_material": "946a3254-4f72-4708-ab45-0cd13b3bb3ab",
@@ -3301,7 +3378,7 @@
     },
     {
       "Type": "EduEngine.RigidBody",
-      "FileId": 133,
+      "FileId": 136,
       "Parameters": {
         "_isStatic": false,
         "_mass": 1.0,
@@ -3315,7 +3392,7 @@
     },
     {
       "Type": "Script",
-      "FileId": 134,
+      "FileId": 137,
       "Parameters": {
         "_playerType": 0,
         "_moveSpeed": 10.0,
@@ -3326,7 +3403,7 @@
     },
     {
       "Type": "EduEngine.GameCamera",
-      "FileId": 135,
+      "FileId": 138,
       "Parameters": {
         "_fov": 55.0,
         "_near": 0.3,
@@ -3349,7 +3426,7 @@
     },
     {
       "Type": "Script",
-      "FileId": 136,
+      "FileId": 139,
       "Parameters": {
         "_target": 30,
         "_positionOffset": {
@@ -3358,20 +3435,20 @@
           "Z": 20.0
         },
         "_lookOffset": 0.0,
-        "_lerpForce": 50.0,
+        "_lerpForce": 5.0,
         "script_guid": "9e37ebc6-a2b3-4a8c-aca9-b142fe3470b6"
       }
     },
     {
       "Type": "Script",
-      "FileId": 137,
+      "FileId": 140,
       "Parameters": {
         "script_guid": "0561544a-7984-48bb-8e0f-9d40703c2a5b"
       }
     },
     {
       "Type": "Script",
-      "FileId": 138,
+      "FileId": 141,
       "Parameters": {
         "_playerType": 0,
         "_playerObject": 4,
@@ -3380,7 +3457,7 @@
     },
     {
       "Type": "Script",
-      "FileId": 139,
+      "FileId": 142,
       "Parameters": {
         "_playerType": 1,
         "_playerObject": 30,
@@ -3389,48 +3466,13 @@
     },
     {
       "Type": "EduEngine.SphereCollider",
-      "FileId": 140,
+      "FileId": 143,
       "Parameters": {
         "_radius": 0.5,
         "_isTrigger": false,
         "_staticFriction": 0.1,
         "_dynamicFriction": 0.1,
         "_restitution": 0.01
-      }
-    },
-    {
-      "Type": "EduEngine.RigidBody",
-      "FileId": 141,
-      "Parameters": {
-        "_isStatic": true,
-        "_mass": 1.0,
-        "_freezePositionX": false,
-        "_freezePositionY": false,
-        "_freezePositionZ": false,
-        "_freezeRotationX": false,
-        "_freezeRotationY": false,
-        "_freezeRotationZ": false
-      }
-    },
-    {
-      "Type": "Script",
-      "FileId": 142,
-      "Parameters": {
-        "_speed": 5.0,
-        "script_guid": "b48c8128-39e5-428e-a459-4c8181d0aaba"
-      }
-    },
-    {
-      "Type": "EduEngine.BoxCollider",
-      "FileId": 143,
-      "Parameters": {
-        "_width": 1.0,
-        "_height": 1.0,
-        "_depth": 1.0,
-        "_isTrigger": true,
-        "_staticFriction": 0.5,
-        "_dynamicFriction": 0.5,
-        "_restitution": 0.5
       }
     },
     {
@@ -3451,32 +3493,18 @@
       "Type": "Script",
       "FileId": 145,
       "Parameters": {
-        "_targetObject0": 11,
-        "_targetObject1": null,
-        "_targetObject2": null,
-        "script_guid": "2891305d-8e70-4700-bd4c-8139831ffce0"
-      }
-    },
-    {
-      "Type": "EduEngine.Renderer",
-      "FileId": 146,
-      "Parameters": {
-        "_mesh": "bb7bf020-e3d1-4da7-9bc0-6be424f5126c",
-        "_material": "af705a84-70ca-4d12-ae10-ffd982c4b1f8",
-        "_texScale": {
-          "X": 32.0,
-          "Y": 32.0
-        }
+        "_speed": 5.0,
+        "script_guid": "b48c8128-39e5-428e-a459-4c8181d0aaba"
       }
     },
     {
       "Type": "EduEngine.BoxCollider",
-      "FileId": 147,
+      "FileId": 146,
       "Parameters": {
         "_width": 1.0,
         "_height": 1.0,
         "_depth": 1.0,
-        "_isTrigger": false,
+        "_isTrigger": true,
         "_staticFriction": 0.5,
         "_dynamicFriction": 0.5,
         "_restitution": 0.5
@@ -3484,21 +3512,7 @@
     },
     {
       "Type": "EduEngine.RigidBody",
-      "FileId": 148,
-      "Parameters": {
-        "_isStatic": true,
-        "_mass": 1.0,
-        "_freezePositionX": false,
-        "_freezePositionY": false,
-        "_freezePositionZ": false,
-        "_freezeRotationX": false,
-        "_freezeRotationY": false,
-        "_freezeRotationZ": false
-      }
-    },
-    {
-      "Type": "EduEngine.RigidBody",
-      "FileId": 149,
+      "FileId": 147,
       "Parameters": {
         "_isStatic": true,
         "_mass": 1.0,
@@ -3512,7 +3526,70 @@
     },
     {
       "Type": "Script",
+      "FileId": 148,
+      "Parameters": {
+        "_targetObject0": 11,
+        "_targetObject1": null,
+        "_targetObject2": null,
+        "script_guid": "2891305d-8e70-4700-bd4c-8139831ffce0"
+      }
+    },
+    {
+      "Type": "EduEngine.Renderer",
+      "FileId": 149,
+      "Parameters": {
+        "_mesh": "bb7bf020-e3d1-4da7-9bc0-6be424f5126c",
+        "_material": "af705a84-70ca-4d12-ae10-ffd982c4b1f8",
+        "_texScale": {
+          "X": 32.0,
+          "Y": 32.0
+        }
+      }
+    },
+    {
+      "Type": "EduEngine.BoxCollider",
       "FileId": 150,
+      "Parameters": {
+        "_width": 1.0,
+        "_height": 1.0,
+        "_depth": 1.0,
+        "_isTrigger": false,
+        "_staticFriction": 0.5,
+        "_dynamicFriction": 0.5,
+        "_restitution": 0.5
+      }
+    },
+    {
+      "Type": "EduEngine.RigidBody",
+      "FileId": 151,
+      "Parameters": {
+        "_isStatic": true,
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
+      }
+    },
+    {
+      "Type": "EduEngine.RigidBody",
+      "FileId": 152,
+      "Parameters": {
+        "_isStatic": true,
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
+      }
+    },
+    {
+      "Type": "Script",
+      "FileId": 153,
       "Parameters": {
         "_speed": 5.0,
         "script_guid": "95b47942-c02a-43a2-8c6b-6e4e888f86b9"
@@ -3520,7 +3597,7 @@
     },
     {
       "Type": "EduEngine.BoxCollider",
-      "FileId": 151,
+      "FileId": 154,
       "Parameters": {
         "_width": 1.0,
         "_height": 1.0,
@@ -3533,7 +3610,7 @@
     },
     {
       "Type": "EduEngine.Renderer",
-      "FileId": 152,
+      "FileId": 155,
       "Parameters": {
         "_mesh": "68f9a7f2-4140-4b2e-8797-1d0b15b09a1c",
         "_material": "9a546f2c-3644-4de1-ad97-3f208296a3de",
@@ -3545,7 +3622,7 @@
     },
     {
       "Type": "EduEngine.BoxCollider",
-      "FileId": 153,
+      "FileId": 156,
       "Parameters": {
         "_width": 0.25,
         "_height": 0.5,
@@ -3558,7 +3635,7 @@
     },
     {
       "Type": "EduEngine.RigidBody",
-      "FileId": 154,
+      "FileId": 157,
       "Parameters": {
         "_isStatic": true,
         "_mass": 1.0,
@@ -3572,7 +3649,7 @@
     },
     {
       "Type": "Script",
-      "FileId": 155,
+      "FileId": 158,
       "Parameters": {
         "_targetObject0": 8,
         "_targetObject1": 13,
@@ -3582,7 +3659,7 @@
     },
     {
       "Type": "Script",
-      "FileId": 156,
+      "FileId": 159,
       "Parameters": {
         "_pressedMaterial": "95fce34e-7431-4931-95f3-d285f91c3016",
         "script_guid": "0bf4918e-2dce-4673-83db-466616b33a9e"
@@ -3590,7 +3667,7 @@
     },
     {
       "Type": "EduEngine.BoxCollider",
-      "FileId": 157,
+      "FileId": 160,
       "Parameters": {
         "_width": 1.0,
         "_height": 1.0,
@@ -3603,7 +3680,7 @@
     },
     {
       "Type": "EduEngine.Renderer",
-      "FileId": 158,
+      "FileId": 161,
       "Parameters": {
         "_mesh": "bb7bf020-e3d1-4da7-9bc0-6be424f5126c",
         "_material": "af705a84-70ca-4d12-ae10-ffd982c4b1f8",
@@ -3615,7 +3692,7 @@
     },
     {
       "Type": "EduEngine.BoxCollider",
-      "FileId": 159,
+      "FileId": 162,
       "Parameters": {
         "_width": 1.0,
         "_height": 1.0,
@@ -3628,7 +3705,7 @@
     },
     {
       "Type": "EduEngine.RigidBody",
-      "FileId": 160,
+      "FileId": 163,
       "Parameters": {
         "_isStatic": true,
         "_mass": 1.0,
@@ -3642,7 +3719,7 @@
     },
     {
       "Type": "EduEngine.BoxCollider",
-      "FileId": 161,
+      "FileId": 164,
       "Parameters": {
         "_width": 1.0,
         "_height": 1.0,
@@ -3655,7 +3732,7 @@
     },
     {
       "Type": "EduEngine.RigidBody",
-      "FileId": 162,
+      "FileId": 165,
       "Parameters": {
         "_isStatic": true,
         "_mass": 1.0,
@@ -3669,7 +3746,7 @@
     },
     {
       "Type": "Script",
-      "FileId": 163,
+      "FileId": 166,
       "Parameters": {
         "_fallSpeed": 1.0,
         "script_guid": "bef7e1c0-a793-4006-8de5-b2be475adde4"
@@ -3677,7 +3754,7 @@
     },
     {
       "Type": "EduEngine.Renderer",
-      "FileId": 164,
+      "FileId": 167,
       "Parameters": {
         "_mesh": "b21aa47c-d02c-417b-aad7-3b405b3dc6b3",
         "_material": "946a3254-4f72-4708-ab45-0cd13b3bb3ab",
@@ -3685,41 +3762,6 @@
           "X": 2.0,
           "Y": -2.0
         }
-      }
-    },
-    {
-      "Type": "EduEngine.BoxCollider",
-      "FileId": 165,
-      "Parameters": {
-        "_width": 1.0,
-        "_height": 1.0,
-        "_depth": 1.0,
-        "_isTrigger": false,
-        "_staticFriction": 0.5,
-        "_dynamicFriction": 0.5,
-        "_restitution": 0.5
-      }
-    },
-    {
-      "Type": "EduEngine.RigidBody",
-      "FileId": 166,
-      "Parameters": {
-        "_isStatic": true,
-        "_mass": 1.0,
-        "_freezePositionX": false,
-        "_freezePositionY": false,
-        "_freezePositionZ": false,
-        "_freezeRotationX": false,
-        "_freezeRotationY": false,
-        "_freezeRotationZ": false
-      }
-    },
-    {
-      "Type": "Script",
-      "FileId": 167,
-      "Parameters": {
-        "_fallSpeed": 1.0,
-        "script_guid": "bef7e1c0-a793-4006-8de5-b2be475adde4"
       }
     },
     {
@@ -3793,20 +3835,8 @@
       }
     },
     {
-      "Type": "EduEngine.Renderer",
-      "FileId": 174,
-      "Parameters": {
-        "_mesh": "bb7bf020-e3d1-4da7-9bc0-6be424f5126c",
-        "_material": "af705a84-70ca-4d12-ae10-ffd982c4b1f8",
-        "_texScale": {
-          "X": 1.0,
-          "Y": 1.0
-        }
-      }
-    },
-    {
       "Type": "EduEngine.BoxCollider",
-      "FileId": 175,
+      "FileId": 174,
       "Parameters": {
         "_width": 1.0,
         "_height": 1.0,
@@ -3819,7 +3849,7 @@
     },
     {
       "Type": "EduEngine.RigidBody",
-      "FileId": 176,
+      "FileId": 175,
       "Parameters": {
         "_isStatic": true,
         "_mass": 1.0,
@@ -3829,6 +3859,14 @@
         "_freezeRotationX": false,
         "_freezeRotationY": false,
         "_freezeRotationZ": false
+      }
+    },
+    {
+      "Type": "Script",
+      "FileId": 176,
+      "Parameters": {
+        "_fallSpeed": 1.0,
+        "script_guid": "bef7e1c0-a793-4006-8de5-b2be475adde4"
       }
     },
     {
@@ -3871,8 +3909,47 @@
       }
     },
     {
-      "Type": "EduEngine.RigidBody",
+      "Type": "EduEngine.Renderer",
       "FileId": 180,
+      "Parameters": {
+        "_mesh": "bb7bf020-e3d1-4da7-9bc0-6be424f5126c",
+        "_material": "af705a84-70ca-4d12-ae10-ffd982c4b1f8",
+        "_texScale": {
+          "X": 1.0,
+          "Y": 1.0
+        }
+      }
+    },
+    {
+      "Type": "EduEngine.BoxCollider",
+      "FileId": 181,
+      "Parameters": {
+        "_width": 1.0,
+        "_height": 1.0,
+        "_depth": 1.0,
+        "_isTrigger": false,
+        "_staticFriction": 0.5,
+        "_dynamicFriction": 0.5,
+        "_restitution": 0.5
+      }
+    },
+    {
+      "Type": "EduEngine.RigidBody",
+      "FileId": 182,
+      "Parameters": {
+        "_isStatic": true,
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
+      }
+    },
+    {
+      "Type": "EduEngine.RigidBody",
+      "FileId": 183,
       "Parameters": {
         "_isStatic": true,
         "_mass": 100.0,
@@ -3886,7 +3963,7 @@
     },
     {
       "Type": "EduEngine.Renderer",
-      "FileId": 181,
+      "FileId": 184,
       "Parameters": {
         "_mesh": "bc6f90a6-7200-4e50-a976-169e25e52c9e",
         "_material": "44b578cd-56f8-48f7-a1a4-edaa42b33403",
@@ -3898,7 +3975,7 @@
     },
     {
       "Type": "EduEngine.Renderer",
-      "FileId": 182,
+      "FileId": 185,
       "Parameters": {
         "_mesh": "53b5061d-de60-4fa8-a7e5-ec4336571f97",
         "_material": "e49cf858-c394-4e25-b20c-73d1e84efd75",
@@ -3910,7 +3987,7 @@
     },
     {
       "Type": "EduEngine.BoxCollider",
-      "FileId": 183,
+      "FileId": 186,
       "Parameters": {
         "_width": 1.0,
         "_height": 1.0,
@@ -3923,7 +4000,7 @@
     },
     {
       "Type": "EduEngine.RigidBody",
-      "FileId": 184,
+      "FileId": 187,
       "Parameters": {
         "_isStatic": false,
         "_mass": 100.0,
@@ -3937,7 +4014,7 @@
     },
     {
       "Type": "EduEngine.Renderer",
-      "FileId": 185,
+      "FileId": 188,
       "Parameters": {
         "_mesh": "732daac6-155e-4357-920e-61b5532f95ea",
         "_material": "e67782d6-ede5-4934-9b5d-b529459b0568",
@@ -3949,7 +4026,7 @@
     },
     {
       "Type": "EduEngine.Renderer",
-      "FileId": 186,
+      "FileId": 189,
       "Parameters": {
         "_mesh": "732daac6-155e-4357-920e-61b5532f95ea",
         "_material": "e67782d6-ede5-4934-9b5d-b529459b0568",
@@ -3961,7 +4038,7 @@
     },
     {
       "Type": "EduEngine.Renderer",
-      "FileId": 187,
+      "FileId": 190,
       "Parameters": {
         "_mesh": "88d31797-d375-4f70-b3af-0ab0a273145b",
         "_material": "2c14abe4-4b66-40f7-8025-cf973ff02e24",
@@ -3973,7 +4050,7 @@
     },
     {
       "Type": "EduEngine.RigidBody",
-      "FileId": 188,
+      "FileId": 191,
       "Parameters": {
         "_isStatic": false,
         "_mass": 1.0,
@@ -3987,7 +4064,7 @@
     },
     {
       "Type": "Script",
-      "FileId": 189,
+      "FileId": 192,
       "Parameters": {
         "_playerType": 1,
         "_moveSpeed": 10.0,
@@ -3998,7 +4075,7 @@
     },
     {
       "Type": "EduEngine.SphereCollider",
-      "FileId": 190,
+      "FileId": 193,
       "Parameters": {
         "_radius": 0.5,
         "_isTrigger": false,
@@ -4009,7 +4086,7 @@
     },
     {
       "Type": "EduEngine.Renderer",
-      "FileId": 191,
+      "FileId": 194,
       "Parameters": {
         "_mesh": "732daac6-155e-4357-920e-61b5532f95ea",
         "_material": "38296601-024b-49dd-a9be-3d5c78dd58df",
@@ -4021,7 +4098,7 @@
     },
     {
       "Type": "EduEngine.Renderer",
-      "FileId": 192,
+      "FileId": 195,
       "Parameters": {
         "_mesh": "732daac6-155e-4357-920e-61b5532f95ea",
         "_material": "38296601-024b-49dd-a9be-3d5c78dd58df",
@@ -4033,7 +4110,7 @@
     },
     {
       "Type": "EduEngine.Renderer",
-      "FileId": 193,
+      "FileId": 196,
       "Parameters": {
         "_mesh": "a862307b-2173-42e0-92a2-9d2c58f96cca",
         "_material": "2c14abe4-4b66-40f7-8025-cf973ff02e24",
@@ -4045,7 +4122,7 @@
     },
     {
       "Type": "EduEngine.Renderer",
-      "FileId": 194,
+      "FileId": 197,
       "Parameters": {
         "_mesh": "bb7bf020-e3d1-4da7-9bc0-6be424f5126c",
         "_material": "33507971-d22e-451e-b2be-64b948a4ab4b",
@@ -4057,7 +4134,7 @@
     },
     {
       "Type": "EduEngine.BoxCollider",
-      "FileId": 195,
+      "FileId": 198,
       "Parameters": {
         "_width": 0.5,
         "_height": 0.2,
@@ -4070,7 +4147,7 @@
     },
     {
       "Type": "EduEngine.RigidBody",
-      "FileId": 196,
+      "FileId": 199,
       "Parameters": {
         "_isStatic": true,
         "_mass": 1.0,
@@ -4084,7 +4161,7 @@
     },
     {
       "Type": "EduEngine.Renderer",
-      "FileId": 197,
+      "FileId": 200,
       "Parameters": {
         "_mesh": "8a0e3ec6-4078-430e-8790-6957539b6ed6",
         "_material": "fda1d783-3b33-4824-9bec-d59a3179ab8f",
@@ -4096,7 +4173,7 @@
     },
     {
       "Type": "EduEngine.Renderer",
-      "FileId": 198,
+      "FileId": 201,
       "Parameters": {
         "_mesh": "7063297c-8cab-4297-aa32-728f7b67c4d3",
         "_material": "5b570095-51bc-4125-847e-752bd8bf4d7b",
@@ -4108,49 +4185,13 @@
     },
     {
       "Type": "EduEngine.Renderer",
-      "FileId": 199,
-      "Parameters": {
-        "_mesh": "751c2659-160a-4fec-b794-bd4759ebc402",
-        "_material": "9ed5775a-3882-425c-b728-7f3c06fd7024",
-        "_texScale": {
-          "X": 1.0,
-          "Y": -1.0
-        }
-      }
-    },
-    {
-      "Type": "EduEngine.Renderer",
-      "FileId": 200,
-      "Parameters": {
-        "_mesh": "751c2659-160a-4fec-b794-bd4759ebc402",
-        "_material": "9ed5775a-3882-425c-b728-7f3c06fd7024",
-        "_texScale": {
-          "X": 1.0,
-          "Y": -1.0
-        }
-      }
-    },
-    {
-      "Type": "EduEngine.Renderer",
-      "FileId": 201,
-      "Parameters": {
-        "_mesh": "c505436f-538e-4d2c-a187-2e5c3b7440d2",
-        "_material": "2675781b-fc37-4d76-843c-c2fd91415b15",
-        "_texScale": {
-          "X": 1.0,
-          "Y": 1.0
-        }
-      }
-    },
-    {
-      "Type": "EduEngine.Renderer",
       "FileId": 202,
       "Parameters": {
-        "_mesh": "c505436f-538e-4d2c-a187-2e5c3b7440d2",
-        "_material": "2675781b-fc37-4d76-843c-c2fd91415b15",
+        "_mesh": "751c2659-160a-4fec-b794-bd4759ebc402",
+        "_material": "9ed5775a-3882-425c-b728-7f3c06fd7024",
         "_texScale": {
           "X": 1.0,
-          "Y": 1.0
+          "Y": -1.0
         }
       }
     },
@@ -4158,11 +4199,11 @@
       "Type": "EduEngine.Renderer",
       "FileId": 203,
       "Parameters": {
-        "_mesh": "c505436f-538e-4d2c-a187-2e5c3b7440d2",
-        "_material": "2675781b-fc37-4d76-843c-c2fd91415b15",
+        "_mesh": "751c2659-160a-4fec-b794-bd4759ebc402",
+        "_material": "9ed5775a-3882-425c-b728-7f3c06fd7024",
         "_texScale": {
           "X": 1.0,
-          "Y": 1.0
+          "Y": -1.0
         }
       }
     },
@@ -4182,11 +4223,11 @@
       "Type": "EduEngine.Renderer",
       "FileId": 205,
       "Parameters": {
-        "_mesh": "bb7bf020-e3d1-4da7-9bc0-6be424f5126c",
-        "_material": "33507971-d22e-451e-b2be-64b948a4ab4b",
+        "_mesh": "c505436f-538e-4d2c-a187-2e5c3b7440d2",
+        "_material": "2675781b-fc37-4d76-843c-c2fd91415b15",
         "_texScale": {
-          "X": 4.0,
-          "Y": 16.0
+          "X": 1.0,
+          "Y": 1.0
         }
       }
     },
@@ -4194,11 +4235,11 @@
       "Type": "EduEngine.Renderer",
       "FileId": 206,
       "Parameters": {
-        "_mesh": "b21aa47c-d02c-417b-aad7-3b405b3dc6b3",
-        "_material": "946a3254-4f72-4708-ab45-0cd13b3bb3ab",
+        "_mesh": "c505436f-538e-4d2c-a187-2e5c3b7440d2",
+        "_material": "2675781b-fc37-4d76-843c-c2fd91415b15",
         "_texScale": {
-          "X": 2.0,
-          "Y": -2.0
+          "X": 1.0,
+          "Y": 1.0
         }
       }
     },
@@ -4206,111 +4247,17 @@
       "Type": "EduEngine.Renderer",
       "FileId": 207,
       "Parameters": {
-        "_mesh": "b21aa47c-d02c-417b-aad7-3b405b3dc6b3",
-        "_material": "946a3254-4f72-4708-ab45-0cd13b3bb3ab",
+        "_mesh": "c505436f-538e-4d2c-a187-2e5c3b7440d2",
+        "_material": "2675781b-fc37-4d76-843c-c2fd91415b15",
         "_texScale": {
-          "X": 2.0,
-          "Y": -2.0
+          "X": 1.0,
+          "Y": 1.0
         }
       }
     },
     {
-      "Type": "EduEngine.BoxCollider",
+      "Type": "EduEngine.Renderer",
       "FileId": 208,
-      "Parameters": {
-        "_width": 1.0,
-        "_height": 1.0,
-        "_depth": 1.0,
-        "_isTrigger": false,
-        "_staticFriction": 0.5,
-        "_dynamicFriction": 0.5,
-        "_restitution": 0.5
-      }
-    },
-    {
-      "Type": "EduEngine.RigidBody",
-      "FileId": 209,
-      "Parameters": {
-        "_isStatic": true,
-        "_mass": 1.0,
-        "_freezePositionX": false,
-        "_freezePositionY": false,
-        "_freezePositionZ": false,
-        "_freezeRotationX": false,
-        "_freezeRotationY": false,
-        "_freezeRotationZ": false
-      }
-    },
-    {
-      "Type": "Script",
-      "FileId": 210,
-      "Parameters": {
-        "_fallSpeed": 1.0,
-        "script_guid": "bef7e1c0-a793-4006-8de5-b2be475adde4"
-      }
-    },
-    {
-      "Type": "EduEngine.Renderer",
-      "FileId": 211,
-      "Parameters": {
-        "_mesh": "b21aa47c-d02c-417b-aad7-3b405b3dc6b3",
-        "_material": "946a3254-4f72-4708-ab45-0cd13b3bb3ab",
-        "_texScale": {
-          "X": 2.0,
-          "Y": -2.0
-        }
-      }
-    },
-    {
-      "Type": "EduEngine.BoxCollider",
-      "FileId": 212,
-      "Parameters": {
-        "_width": 1.0,
-        "_height": 1.0,
-        "_depth": 1.0,
-        "_isTrigger": false,
-        "_staticFriction": 0.5,
-        "_dynamicFriction": 0.5,
-        "_restitution": 0.5
-      }
-    },
-    {
-      "Type": "EduEngine.RigidBody",
-      "FileId": 213,
-      "Parameters": {
-        "_isStatic": true,
-        "_mass": 1.0,
-        "_freezePositionX": false,
-        "_freezePositionY": false,
-        "_freezePositionZ": false,
-        "_freezeRotationX": false,
-        "_freezeRotationY": false,
-        "_freezeRotationZ": false
-      }
-    },
-    {
-      "Type": "Script",
-      "FileId": 214,
-      "Parameters": {
-        "_fallSpeed": 1.0,
-        "script_guid": "bef7e1c0-a793-4006-8de5-b2be475adde4"
-      }
-    },
-    {
-      "Type": "EduEngine.Renderer",
-      "FileId": 215,
-      "Parameters": {
-        "_mesh": "b21aa47c-d02c-417b-aad7-3b405b3dc6b3",
-        "_material": "946a3254-4f72-4708-ab45-0cd13b3bb3ab",
-        "_texScale": {
-          "X": 2.0,
-          "Y": -2.0
-        }
-      }
-    },
-    {
-      "Type": "EduEngine.Renderer",
-      "FileId": 216,
       "Parameters": {
         "_mesh": "bb7bf020-e3d1-4da7-9bc0-6be424f5126c",
         "_material": "33507971-d22e-451e-b2be-64b948a4ab4b",
@@ -4322,7 +4269,137 @@
     },
     {
       "Type": "EduEngine.Renderer",
+      "FileId": 209,
+      "Parameters": {
+        "_mesh": "b21aa47c-d02c-417b-aad7-3b405b3dc6b3",
+        "_material": "946a3254-4f72-4708-ab45-0cd13b3bb3ab",
+        "_texScale": {
+          "X": 2.0,
+          "Y": -2.0
+        }
+      }
+    },
+    {
+      "Type": "EduEngine.Renderer",
+      "FileId": 210,
+      "Parameters": {
+        "_mesh": "b21aa47c-d02c-417b-aad7-3b405b3dc6b3",
+        "_material": "946a3254-4f72-4708-ab45-0cd13b3bb3ab",
+        "_texScale": {
+          "X": 2.0,
+          "Y": -2.0
+        }
+      }
+    },
+    {
+      "Type": "EduEngine.BoxCollider",
+      "FileId": 211,
+      "Parameters": {
+        "_width": 1.0,
+        "_height": 1.0,
+        "_depth": 1.0,
+        "_isTrigger": false,
+        "_staticFriction": 0.5,
+        "_dynamicFriction": 0.5,
+        "_restitution": 0.5
+      }
+    },
+    {
+      "Type": "EduEngine.RigidBody",
+      "FileId": 212,
+      "Parameters": {
+        "_isStatic": true,
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
+      }
+    },
+    {
+      "Type": "Script",
+      "FileId": 213,
+      "Parameters": {
+        "_fallSpeed": 1.0,
+        "script_guid": "bef7e1c0-a793-4006-8de5-b2be475adde4"
+      }
+    },
+    {
+      "Type": "EduEngine.Renderer",
+      "FileId": 214,
+      "Parameters": {
+        "_mesh": "b21aa47c-d02c-417b-aad7-3b405b3dc6b3",
+        "_material": "946a3254-4f72-4708-ab45-0cd13b3bb3ab",
+        "_texScale": {
+          "X": 2.0,
+          "Y": -2.0
+        }
+      }
+    },
+    {
+      "Type": "EduEngine.BoxCollider",
+      "FileId": 215,
+      "Parameters": {
+        "_width": 1.0,
+        "_height": 1.0,
+        "_depth": 1.0,
+        "_isTrigger": false,
+        "_staticFriction": 0.5,
+        "_dynamicFriction": 0.5,
+        "_restitution": 0.5
+      }
+    },
+    {
+      "Type": "EduEngine.RigidBody",
+      "FileId": 216,
+      "Parameters": {
+        "_isStatic": true,
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
+      }
+    },
+    {
+      "Type": "Script",
       "FileId": 217,
+      "Parameters": {
+        "_fallSpeed": 1.0,
+        "script_guid": "bef7e1c0-a793-4006-8de5-b2be475adde4"
+      }
+    },
+    {
+      "Type": "EduEngine.Renderer",
+      "FileId": 218,
+      "Parameters": {
+        "_mesh": "b21aa47c-d02c-417b-aad7-3b405b3dc6b3",
+        "_material": "946a3254-4f72-4708-ab45-0cd13b3bb3ab",
+        "_texScale": {
+          "X": 2.0,
+          "Y": -2.0
+        }
+      }
+    },
+    {
+      "Type": "EduEngine.Renderer",
+      "FileId": 219,
+      "Parameters": {
+        "_mesh": "bb7bf020-e3d1-4da7-9bc0-6be424f5126c",
+        "_material": "33507971-d22e-451e-b2be-64b948a4ab4b",
+        "_texScale": {
+          "X": 4.0,
+          "Y": 16.0
+        }
+      }
+    },
+    {
+      "Type": "EduEngine.Renderer",
+      "FileId": 220,
       "Parameters": {
         "_mesh": "bb7bf020-e3d1-4da7-9bc0-6be424f5126c",
         "_material": "33507971-d22e-451e-b2be-64b948a4ab4b",
@@ -4334,7 +4411,7 @@
     },
     {
       "Type": "EduEngine.BoxCollider",
-      "FileId": 218,
+      "FileId": 221,
       "Parameters": {
         "_width": 1.0,
         "_height": 1.0,
@@ -4347,7 +4424,7 @@
     },
     {
       "Type": "Script",
-      "FileId": 219,
+      "FileId": 222,
       "Parameters": {
         "_platform": 23,
         "_moveSpeed": 0.01,
@@ -4356,7 +4433,7 @@
     },
     {
       "Type": "EduEngine.RigidBody",
-      "FileId": 220,
+      "FileId": 223,
       "Parameters": {
         "_isStatic": false,
         "_mass": 1.0,
@@ -4370,7 +4447,7 @@
     },
     {
       "Type": "EduEngine.Renderer",
-      "FileId": 221,
+      "FileId": 224,
       "Parameters": {
         "_mesh": "d31541c7-aa22-4b14-8120-50d15eb37082",
         "_material": "2dfe6884-4db2-45bb-b022-b4305eda5ac1",
@@ -4382,7 +4459,7 @@
     },
     {
       "Type": "EduEngine.Renderer",
-      "FileId": 222,
+      "FileId": 225,
       "Parameters": {
         "_mesh": "b236f3d2-3bfa-4491-87c1-8df3a2a187ac",
         "_material": "2dfe6884-4db2-45bb-b022-b4305eda5ac1",
@@ -4394,7 +4471,7 @@
     },
     {
       "Type": "Script",
-      "FileId": 223,
+      "FileId": 226,
       "Parameters": {
         "_platform": 71,
         "_moveSpeed": 0.01,
@@ -4403,7 +4480,7 @@
     },
     {
       "Type": "EduEngine.RigidBody",
-      "FileId": 224,
+      "FileId": 227,
       "Parameters": {
         "_isStatic": false,
         "_mass": 1.0,
@@ -4417,7 +4494,7 @@
     },
     {
       "Type": "EduEngine.BoxCollider",
-      "FileId": 225,
+      "FileId": 228,
       "Parameters": {
         "_width": 1.0,
         "_height": 1.0,
@@ -4430,7 +4507,7 @@
     },
     {
       "Type": "EduEngine.Renderer",
-      "FileId": 226,
+      "FileId": 229,
       "Parameters": {
         "_mesh": "d31541c7-aa22-4b14-8120-50d15eb37082",
         "_material": "2dfe6884-4db2-45bb-b022-b4305eda5ac1",
@@ -4442,7 +4519,7 @@
     },
     {
       "Type": "EduEngine.Renderer",
-      "FileId": 227,
+      "FileId": 230,
       "Parameters": {
         "_mesh": "b236f3d2-3bfa-4491-87c1-8df3a2a187ac",
         "_material": "2dfe6884-4db2-45bb-b022-b4305eda5ac1",
@@ -4454,7 +4531,7 @@
     },
     {
       "Type": "EduEngine.RigidBody",
-      "FileId": 228,
+      "FileId": 231,
       "Parameters": {
         "_isStatic": true,
         "_mass": 100.0,
@@ -4468,63 +4545,26 @@
     },
     {
       "Type": "EduEngine.BoxCollider",
-      "FileId": 229,
-      "Parameters": {
-        "_width": 1.0,
-        "_height": 1.0,
-        "_depth": 1.0,
-        "_isTrigger": false,
-        "_staticFriction": 2.0,
-        "_dynamicFriction": 2.0,
-        "_restitution": 0.05
-      }
-    },
-    {
-      "Type": "EduEngine.Renderer",
-      "FileId": 230,
-      "Parameters": {
-        "_mesh": "17dc8977-b2d0-4281-a772-35c0bfd5c0d8",
-        "_material": "46f0a77d-7edb-4162-ad18-2b107a184ce7",
-        "_texScale": {
-          "X": 1.0,
-          "Y": -1.0
-        }
-      }
-    },
-    {
-      "Type": "EduEngine.BoxCollider",
-      "FileId": 231,
-      "Parameters": {
-        "_width": 1.0,
-        "_height": 1.0,
-        "_depth": 1.0,
-        "_isTrigger": false,
-        "_staticFriction": 2.0,
-        "_dynamicFriction": 2.0,
-        "_restitution": 0.05
-      }
-    },
-    {
-      "Type": "EduEngine.Renderer",
       "FileId": 232,
       "Parameters": {
-        "_mesh": "17dc8977-b2d0-4281-a772-35c0bfd5c0d8",
-        "_material": "46f0a77d-7edb-4162-ad18-2b107a184ce7",
-        "_texScale": {
-          "X": 1.0,
-          "Y": -1.0
-        }
+        "_width": 1.0,
+        "_height": 1.0,
+        "_depth": 1.0,
+        "_isTrigger": false,
+        "_staticFriction": 2.0,
+        "_dynamicFriction": 2.0,
+        "_restitution": 0.05
       }
     },
     {
       "Type": "EduEngine.Renderer",
       "FileId": 233,
       "Parameters": {
-        "_mesh": "bb7bf020-e3d1-4da7-9bc0-6be424f5126c",
-        "_material": "af705a84-70ca-4d12-ae10-ffd982c4b1f8",
+        "_mesh": "17dc8977-b2d0-4281-a772-35c0bfd5c0d8",
+        "_material": "46f0a77d-7edb-4162-ad18-2b107a184ce7",
         "_texScale": {
           "X": 1.0,
-          "Y": 1.0
+          "Y": -1.0
         }
       }
     },
@@ -4536,23 +4576,21 @@
         "_height": 1.0,
         "_depth": 1.0,
         "_isTrigger": false,
-        "_staticFriction": 0.5,
-        "_dynamicFriction": 0.5,
-        "_restitution": 0.5
+        "_staticFriction": 2.0,
+        "_dynamicFriction": 2.0,
+        "_restitution": 0.05
       }
     },
     {
-      "Type": "EduEngine.RigidBody",
+      "Type": "EduEngine.Renderer",
       "FileId": 235,
       "Parameters": {
-        "_isStatic": true,
-        "_mass": 1.0,
-        "_freezePositionX": false,
-        "_freezePositionY": false,
-        "_freezePositionZ": false,
-        "_freezeRotationX": false,
-        "_freezeRotationY": false,
-        "_freezeRotationZ": false
+        "_mesh": "17dc8977-b2d0-4281-a772-35c0bfd5c0d8",
+        "_material": "46f0a77d-7edb-4162-ad18-2b107a184ce7",
+        "_texScale": {
+          "X": 1.0,
+          "Y": -1.0
+        }
       }
     },
     {
@@ -4560,7 +4598,7 @@
       "FileId": 236,
       "Parameters": {
         "_mesh": "bb7bf020-e3d1-4da7-9bc0-6be424f5126c",
-        "_material": "33507971-d22e-451e-b2be-64b948a4ab4b",
+        "_material": "af705a84-70ca-4d12-ae10-ffd982c4b1f8",
         "_texScale": {
           "X": 1.0,
           "Y": 1.0
@@ -4574,10 +4612,10 @@
         "_width": 1.0,
         "_height": 1.0,
         "_depth": 1.0,
-        "_isTrigger": true,
-        "_staticFriction": 2.0,
-        "_dynamicFriction": 2.0,
-        "_restitution": 0.05
+        "_isTrigger": false,
+        "_staticFriction": 0.5,
+        "_dynamicFriction": 0.5,
+        "_restitution": 0.5
       }
     },
     {
@@ -4585,7 +4623,7 @@
       "FileId": 238,
       "Parameters": {
         "_isStatic": true,
-        "_mass": 100.0,
+        "_mass": 1.0,
         "_freezePositionX": false,
         "_freezePositionY": false,
         "_freezePositionZ": false,
@@ -4595,10 +4633,15 @@
       }
     },
     {
-      "Type": "Script",
+      "Type": "EduEngine.Renderer",
       "FileId": 239,
       "Parameters": {
-        "script_guid": "774564cb-119f-4102-a355-b2543c335fd4"
+        "_mesh": "bb7bf020-e3d1-4da7-9bc0-6be424f5126c",
+        "_material": "33507971-d22e-451e-b2be-64b948a4ab4b",
+        "_texScale": {
+          "X": 1.0,
+          "Y": 1.0
+        }
       }
     },
     {
@@ -4636,20 +4679,8 @@
       }
     },
     {
-      "Type": "EduEngine.Renderer",
-      "FileId": 243,
-      "Parameters": {
-        "_mesh": "bc6f90a6-7200-4e50-a976-169e25e52c9e",
-        "_material": "44b578cd-56f8-48f7-a1a4-edaa42b33403",
-        "_texScale": {
-          "X": 1.0,
-          "Y": -1.0
-        }
-      }
-    },
-    {
       "Type": "EduEngine.RigidBody",
-      "FileId": 244,
+      "FileId": 243,
       "Parameters": {
         "_isStatic": true,
         "_mass": 1.0,
@@ -4663,7 +4694,7 @@
     },
     {
       "Type": "EduEngine.BoxCollider",
-      "FileId": 245,
+      "FileId": 244,
       "Parameters": {
         "_width": 1.0,
         "_height": 1.0,
@@ -4676,14 +4707,14 @@
     },
     {
       "Type": "Script",
-      "FileId": 246,
+      "FileId": 245,
       "Parameters": {
         "script_guid": "b6201d6e-fd0d-42b3-b3ae-e29e4fa410b5"
       }
     },
     {
       "Type": "EduEngine.Renderer",
-      "FileId": 247,
+      "FileId": 246,
       "Parameters": {
         "_mesh": "68ce4e68-479a-449b-83f3-70889d2d5b19",
         "_material": "46bd186e-997c-4486-a4ed-3f0eb1e2e74c",
@@ -4695,7 +4726,7 @@
     },
     {
       "Type": "EduEngine.Renderer",
-      "FileId": 248,
+      "FileId": 247,
       "Parameters": {
         "_mesh": "c0f34005-da82-4216-90b2-d77289cfb328",
         "_material": "46bd186e-997c-4486-a4ed-3f0eb1e2e74c",
@@ -4707,9 +4738,21 @@
     },
     {
       "Type": "EduEngine.Renderer",
-      "FileId": 249,
+      "FileId": 248,
       "Parameters": {
         "_mesh": "8f80d15a-9746-46f2-9799-9e1f7b589267",
+        "_material": "46bd186e-997c-4486-a4ed-3f0eb1e2e74c",
+        "_texScale": {
+          "X": 1.0,
+          "Y": -1.0
+        }
+      }
+    },
+    {
+      "Type": "EduEngine.Renderer",
+      "FileId": 249,
+      "Parameters": {
+        "_mesh": "68ce4e68-479a-449b-83f3-70889d2d5b19",
         "_material": "46bd186e-997c-4486-a4ed-3f0eb1e2e74c",
         "_texScale": {
           "X": 1.0,
@@ -4805,18 +4848,6 @@
       "Type": "EduEngine.Renderer",
       "FileId": 257,
       "Parameters": {
-        "_mesh": "68ce4e68-479a-449b-83f3-70889d2d5b19",
-        "_material": "46bd186e-997c-4486-a4ed-3f0eb1e2e74c",
-        "_texScale": {
-          "X": 1.0,
-          "Y": -1.0
-        }
-      }
-    },
-    {
-      "Type": "EduEngine.Renderer",
-      "FileId": 258,
-      "Parameters": {
         "_mesh": "93cd09f9-2214-4fe0-bbe7-bac73f88b574",
         "_material": "6e790c53-0170-422f-9035-872dd2059105",
         "_texScale": {
@@ -4827,7 +4858,7 @@
     },
     {
       "Type": "EduEngine.RigidBody",
-      "FileId": 259,
+      "FileId": 258,
       "Parameters": {
         "_isStatic": true,
         "_mass": 1.0,
@@ -4837,6 +4868,18 @@
         "_freezeRotationX": false,
         "_freezeRotationY": false,
         "_freezeRotationZ": false
+      }
+    },
+    {
+      "Type": "EduEngine.Renderer",
+      "FileId": 259,
+      "Parameters": {
+        "_mesh": "05e8bf9d-a2e8-44d6-8416-b287e3df96a7",
+        "_material": "308a7213-d80d-4c67-9605-583aea9fbe19",
+        "_texScale": {
+          "X": 1.0,
+          "Y": -1.0
+        }
       }
     },
     {
@@ -4855,7 +4898,7 @@
       "Type": "EduEngine.Renderer",
       "FileId": 261,
       "Parameters": {
-        "_mesh": "05e8bf9d-a2e8-44d6-8416-b287e3df96a7",
+        "_mesh": "b87718d4-a2b1-453a-b8c7-3b282a9a4d96",
         "_material": "308a7213-d80d-4c67-9605-583aea9fbe19",
         "_texScale": {
           "X": 1.0,
@@ -4867,7 +4910,7 @@
       "Type": "EduEngine.Renderer",
       "FileId": 262,
       "Parameters": {
-        "_mesh": "b87718d4-a2b1-453a-b8c7-3b282a9a4d96",
+        "_mesh": "72567ced-0600-4dbd-bd09-845d8b591e67",
         "_material": "308a7213-d80d-4c67-9605-583aea9fbe19",
         "_texScale": {
           "X": 1.0,
@@ -4879,7 +4922,7 @@
       "Type": "EduEngine.Renderer",
       "FileId": 263,
       "Parameters": {
-        "_mesh": "72567ced-0600-4dbd-bd09-845d8b591e67",
+        "_mesh": "b87718d4-a2b1-453a-b8c7-3b282a9a4d96",
         "_material": "308a7213-d80d-4c67-9605-583aea9fbe19",
         "_texScale": {
           "X": 1.0,
@@ -4891,7 +4934,7 @@
       "Type": "EduEngine.Renderer",
       "FileId": 264,
       "Parameters": {
-        "_mesh": "b87718d4-a2b1-453a-b8c7-3b282a9a4d96",
+        "_mesh": "737e0051-b94a-458e-967a-360f915f0162",
         "_material": "308a7213-d80d-4c67-9605-583aea9fbe19",
         "_texScale": {
           "X": 1.0,
@@ -4915,7 +4958,7 @@
       "Type": "EduEngine.Renderer",
       "FileId": 266,
       "Parameters": {
-        "_mesh": "737e0051-b94a-458e-967a-360f915f0162",
+        "_mesh": "72567ced-0600-4dbd-bd09-845d8b591e67",
         "_material": "308a7213-d80d-4c67-9605-583aea9fbe19",
         "_texScale": {
           "X": 1.0,
@@ -4927,7 +4970,7 @@
       "Type": "EduEngine.Renderer",
       "FileId": 267,
       "Parameters": {
-        "_mesh": "72567ced-0600-4dbd-bd09-845d8b591e67",
+        "_mesh": "acfb6b7f-a404-4f73-88af-d033d567a32f",
         "_material": "308a7213-d80d-4c67-9605-583aea9fbe19",
         "_texScale": {
           "X": 1.0,
@@ -4939,7 +4982,7 @@
       "Type": "EduEngine.Renderer",
       "FileId": 268,
       "Parameters": {
-        "_mesh": "acfb6b7f-a404-4f73-88af-d033d567a32f",
+        "_mesh": "05e8bf9d-a2e8-44d6-8416-b287e3df96a7",
         "_material": "308a7213-d80d-4c67-9605-583aea9fbe19",
         "_texScale": {
           "X": 1.0,
@@ -4951,8 +4994,8 @@
       "Type": "EduEngine.Renderer",
       "FileId": 269,
       "Parameters": {
-        "_mesh": "05e8bf9d-a2e8-44d6-8416-b287e3df96a7",
-        "_material": "308a7213-d80d-4c67-9605-583aea9fbe19",
+        "_mesh": "8f80d15a-9746-46f2-9799-9e1f7b589267",
+        "_material": "46bd186e-997c-4486-a4ed-3f0eb1e2e74c",
         "_texScale": {
           "X": 1.0,
           "Y": -1.0
@@ -4963,8 +5006,8 @@
       "Type": "EduEngine.Renderer",
       "FileId": 270,
       "Parameters": {
-        "_mesh": "8f80d15a-9746-46f2-9799-9e1f7b589267",
-        "_material": "46bd186e-997c-4486-a4ed-3f0eb1e2e74c",
+        "_mesh": "acfb6b7f-a404-4f73-88af-d033d567a32f",
+        "_material": "308a7213-d80d-4c67-9605-583aea9fbe19",
         "_texScale": {
           "X": 1.0,
           "Y": -1.0
@@ -4987,7 +5030,7 @@
       "Type": "EduEngine.Renderer",
       "FileId": 272,
       "Parameters": {
-        "_mesh": "acfb6b7f-a404-4f73-88af-d033d567a32f",
+        "_mesh": "737e0051-b94a-458e-967a-360f915f0162",
         "_material": "308a7213-d80d-4c67-9605-583aea9fbe19",
         "_texScale": {
           "X": 1.0,
@@ -4999,7 +5042,7 @@
       "Type": "EduEngine.Renderer",
       "FileId": 273,
       "Parameters": {
-        "_mesh": "737e0051-b94a-458e-967a-360f915f0162",
+        "_mesh": "b87718d4-a2b1-453a-b8c7-3b282a9a4d96",
         "_material": "308a7213-d80d-4c67-9605-583aea9fbe19",
         "_texScale": {
           "X": 1.0,
@@ -5011,18 +5054,6 @@
       "Type": "EduEngine.Renderer",
       "FileId": 274,
       "Parameters": {
-        "_mesh": "b87718d4-a2b1-453a-b8c7-3b282a9a4d96",
-        "_material": "308a7213-d80d-4c67-9605-583aea9fbe19",
-        "_texScale": {
-          "X": 1.0,
-          "Y": -1.0
-        }
-      }
-    },
-    {
-      "Type": "EduEngine.Renderer",
-      "FileId": 275,
-      "Parameters": {
         "_mesh": "c0f34005-da82-4216-90b2-d77289cfb328",
         "_material": "46bd186e-997c-4486-a4ed-3f0eb1e2e74c",
         "_texScale": {
@@ -5033,7 +5064,7 @@
     },
     {
       "Type": "EduEngine.ParticleSystem",
-      "FileId": 276,
+      "FileId": 275,
       "Parameters": {
         "_emissionEnabled": false,
         "_maxParticlesCount": 40,
@@ -5108,7 +5139,7 @@
     },
     {
       "Type": "EduEngine.ParticleSystem",
-      "FileId": 277,
+      "FileId": 276,
       "Parameters": {
         "_emissionEnabled": false,
         "_maxParticlesCount": 100,
@@ -5183,7 +5214,7 @@
     },
     {
       "Type": "EduEngine.ParticleSystem",
-      "FileId": 278,
+      "FileId": 277,
       "Parameters": {
         "_emissionEnabled": false,
         "_maxParticlesCount": 40,
@@ -5258,7 +5289,7 @@
     },
     {
       "Type": "EduEngine.ParticleSystem",
-      "FileId": 279,
+      "FileId": 278,
       "Parameters": {
         "_emissionEnabled": true,
         "_maxParticlesCount": 1000,
@@ -5333,7 +5364,7 @@
     },
     {
       "Type": "EduEngine.ParticleSystem",
-      "FileId": 280,
+      "FileId": 279,
       "Parameters": {
         "_emissionEnabled": true,
         "_maxParticlesCount": 50,
@@ -5408,157 +5439,82 @@
     },
     {
       "Type": "EduEngine.ParticleSystem",
+      "FileId": 280,
+      "Parameters": {
+        "_emissionEnabled": false,
+        "_maxParticlesCount": 500,
+        "_shapeType": 0,
+        "_shapeSize": {
+          "X": 0.5,
+          "Y": 0.0,
+          "Z": 0.1
+        },
+        "_minStartSize": {
+          "X": 0.25,
+          "Y": 0.25,
+          "Z": 0.25
+        },
+        "_maxStartSize": {
+          "X": 0.25,
+          "Y": 0.25,
+          "Z": 0.25
+        },
+        "_endSize": {
+          "X": 0.25,
+          "Y": 0.25,
+          "Z": 0.25
+        },
+        "_offset": {
+          "X": 0.0,
+          "Y": 0.0,
+          "Z": 0.0
+        },
+        "_emissionRate": 50.0,
+        "_lifeTime": 1.5,
+        "_minStartVelocity": {
+          "X": 0.0,
+          "Y": -2.0,
+          "Z": 0.0
+        },
+        "_maxStartVelocity": {
+          "X": 0.0,
+          "Y": -2.0,
+          "Z": 0.0
+        },
+        "_randVelocityOnBound": false,
+        "_acceleration": {
+          "X": 0.0,
+          "Y": 0.0,
+          "Z": 0.0
+        },
+        "_minStartColor": {
+          "X": 1.0,
+          "Y": 1.0,
+          "Z": 1.0,
+          "W": 1.0
+        },
+        "_maxStartColor": {
+          "X": 1.0,
+          "Y": 1.0,
+          "Z": 1.0,
+          "W": 1.0
+        },
+        "_endColor": {
+          "X": 1.0,
+          "Y": 1.0,
+          "Z": 1.0,
+          "W": 0.0
+        },
+        "_dragTime": 0.5,
+        "_dragForce": 5.0,
+        "_colorTexture": "4a6c3e44-5581-450c-a1c7-c478f8677c18",
+        "_screenSpaceCollision": false,
+        "_collisionEnergyLoss": 0.0
+      }
+    },
+    {
+      "Type": "EduEngine.ParticleSystem",
       "FileId": 281,
-      "Parameters": {
-        "_emissionEnabled": false,
-        "_maxParticlesCount": 500,
-        "_shapeType": 0,
-        "_shapeSize": {
-          "X": 0.5,
-          "Y": 0.0,
-          "Z": 0.1
-        },
-        "_minStartSize": {
-          "X": 0.25,
-          "Y": 0.25,
-          "Z": 0.25
-        },
-        "_maxStartSize": {
-          "X": 0.25,
-          "Y": 0.25,
-          "Z": 0.25
-        },
-        "_endSize": {
-          "X": 0.25,
-          "Y": 0.25,
-          "Z": 0.25
-        },
-        "_offset": {
-          "X": 0.0,
-          "Y": 0.0,
-          "Z": 0.0
-        },
-        "_emissionRate": 50.0,
-        "_lifeTime": 1.5,
-        "_minStartVelocity": {
-          "X": 0.0,
-          "Y": -2.0,
-          "Z": 0.0
-        },
-        "_maxStartVelocity": {
-          "X": 0.0,
-          "Y": -2.0,
-          "Z": 0.0
-        },
-        "_randVelocityOnBound": false,
-        "_acceleration": {
-          "X": 0.0,
-          "Y": 0.0,
-          "Z": 0.0
-        },
-        "_minStartColor": {
-          "X": 1.0,
-          "Y": 1.0,
-          "Z": 1.0,
-          "W": 1.0
-        },
-        "_maxStartColor": {
-          "X": 1.0,
-          "Y": 1.0,
-          "Z": 1.0,
-          "W": 1.0
-        },
-        "_endColor": {
-          "X": 1.0,
-          "Y": 1.0,
-          "Z": 1.0,
-          "W": 0.0
-        },
-        "_dragTime": 0.5,
-        "_dragForce": 5.0,
-        "_colorTexture": "4a6c3e44-5581-450c-a1c7-c478f8677c18",
-        "_screenSpaceCollision": false,
-        "_collisionEnergyLoss": 0.0
-      }
-    },
-    {
-      "Type": "EduEngine.ParticleSystem",
-      "FileId": 282,
-      "Parameters": {
-        "_emissionEnabled": false,
-        "_maxParticlesCount": 500,
-        "_shapeType": 0,
-        "_shapeSize": {
-          "X": 0.5,
-          "Y": 0.0,
-          "Z": 0.1
-        },
-        "_minStartSize": {
-          "X": 0.25,
-          "Y": 0.25,
-          "Z": 0.25
-        },
-        "_maxStartSize": {
-          "X": 0.25,
-          "Y": 0.25,
-          "Z": 0.25
-        },
-        "_endSize": {
-          "X": 0.25,
-          "Y": 0.25,
-          "Z": 0.25
-        },
-        "_offset": {
-          "X": 0.0,
-          "Y": 0.0,
-          "Z": 0.0
-        },
-        "_emissionRate": 50.0,
-        "_lifeTime": 1.5,
-        "_minStartVelocity": {
-          "X": 0.0,
-          "Y": -2.0,
-          "Z": 0.0
-        },
-        "_maxStartVelocity": {
-          "X": 0.0,
-          "Y": -2.0,
-          "Z": 0.0
-        },
-        "_randVelocityOnBound": false,
-        "_acceleration": {
-          "X": 0.0,
-          "Y": 0.0,
-          "Z": 0.0
-        },
-        "_minStartColor": {
-          "X": 1.0,
-          "Y": 1.0,
-          "Z": 1.0,
-          "W": 1.0
-        },
-        "_maxStartColor": {
-          "X": 1.0,
-          "Y": 1.0,
-          "Z": 1.0,
-          "W": 1.0
-        },
-        "_endColor": {
-          "X": 1.0,
-          "Y": 1.0,
-          "Z": 1.0,
-          "W": 0.0
-        },
-        "_dragTime": 0.5,
-        "_dragForce": 5.0,
-        "_colorTexture": "4a6c3e44-5581-450c-a1c7-c478f8677c18",
-        "_screenSpaceCollision": false,
-        "_collisionEnergyLoss": 0.0
-      }
-    },
-    {
-      "Type": "EduEngine.ParticleSystem",
-      "FileId": 283,
       "Parameters": {
         "_emissionEnabled": false,
         "_maxParticlesCount": 1000,
@@ -5633,7 +5589,7 @@
     },
     {
       "Type": "EduEngine.ParticleSystem",
-      "FileId": 284,
+      "FileId": 282,
       "Parameters": {
         "_emissionEnabled": false,
         "_maxParticlesCount": 1000,
@@ -5708,7 +5664,7 @@
     },
     {
       "Type": "EduEngine.ParticleSystem",
-      "FileId": 285,
+      "FileId": 283,
       "Parameters": {
         "_emissionEnabled": false,
         "_maxParticlesCount": 1000,
@@ -5783,7 +5739,7 @@
     },
     {
       "Type": "EduEngine.ParticleSystem",
-      "FileId": 286,
+      "FileId": 284,
       "Parameters": {
         "_emissionEnabled": false,
         "_maxParticlesCount": 1000,
@@ -5858,7 +5814,7 @@
     },
     {
       "Type": "EduEngine.ParticleSystem",
-      "FileId": 287,
+      "FileId": 285,
       "Parameters": {
         "_emissionEnabled": false,
         "_maxParticlesCount": 1000,
@@ -5933,7 +5889,7 @@
     },
     {
       "Type": "EduEngine.ParticleSystem",
-      "FileId": 288,
+      "FileId": 286,
       "Parameters": {
         "_emissionEnabled": false,
         "_maxParticlesCount": 1000,
@@ -6002,6 +5958,248 @@
         "_dragTime": 0.3,
         "_dragForce": 5.0,
         "_colorTexture": "668bf6df-be37-4b5a-af92-6633aa8f08bd",
+        "_screenSpaceCollision": false,
+        "_collisionEnergyLoss": 0.0
+      }
+    },
+    {
+      "Type": "EduEngine.BoxCollider",
+      "FileId": 287,
+      "Parameters": {
+        "_width": 1.0,
+        "_height": 1.0,
+        "_depth": 1.0,
+        "_isTrigger": true,
+        "_staticFriction": 2.0,
+        "_dynamicFriction": 2.0,
+        "_restitution": 0.05
+      }
+    },
+    {
+      "Type": "EduEngine.RigidBody",
+      "FileId": 288,
+      "Parameters": {
+        "_isStatic": true,
+        "_mass": 100.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
+      }
+    },
+    {
+      "Type": "Script",
+      "FileId": 289,
+      "Parameters": {
+        "script_guid": "774564cb-119f-4102-a355-b2543c335fd4"
+      }
+    },
+    {
+      "Type": "EduEngine.Renderer",
+      "FileId": 290,
+      "Parameters": {
+        "_mesh": "bc6f90a6-7200-4e50-a976-169e25e52c9e",
+        "_material": "44b578cd-56f8-48f7-a1a4-edaa42b33403",
+        "_texScale": {
+          "X": 1.0,
+          "Y": -1.0
+        }
+      }
+    },
+    {
+      "Type": "EduEngine.ParticleSystem",
+      "FileId": 291,
+      "Parameters": {
+        "_emissionEnabled": false,
+        "_maxParticlesCount": 500,
+        "_shapeType": 0,
+        "_shapeSize": {
+          "X": 0.5,
+          "Y": 0.0,
+          "Z": 0.1
+        },
+        "_minStartSize": {
+          "X": 0.25,
+          "Y": 0.25,
+          "Z": 0.25
+        },
+        "_maxStartSize": {
+          "X": 0.25,
+          "Y": 0.25,
+          "Z": 0.25
+        },
+        "_endSize": {
+          "X": 0.25,
+          "Y": 0.25,
+          "Z": 0.25
+        },
+        "_offset": {
+          "X": 0.0,
+          "Y": 0.0,
+          "Z": 0.0
+        },
+        "_emissionRate": 50.0,
+        "_lifeTime": 1.5,
+        "_minStartVelocity": {
+          "X": 0.0,
+          "Y": -2.0,
+          "Z": 0.0
+        },
+        "_maxStartVelocity": {
+          "X": 0.0,
+          "Y": -2.0,
+          "Z": 0.0
+        },
+        "_randVelocityOnBound": false,
+        "_acceleration": {
+          "X": 0.0,
+          "Y": 0.0,
+          "Z": 0.0
+        },
+        "_minStartColor": {
+          "X": 1.0,
+          "Y": 1.0,
+          "Z": 1.0,
+          "W": 1.0
+        },
+        "_maxStartColor": {
+          "X": 1.0,
+          "Y": 1.0,
+          "Z": 1.0,
+          "W": 1.0
+        },
+        "_endColor": {
+          "X": 1.0,
+          "Y": 1.0,
+          "Z": 1.0,
+          "W": 0.0
+        },
+        "_dragTime": 0.5,
+        "_dragForce": 5.0,
+        "_colorTexture": "4a6c3e44-5581-450c-a1c7-c478f8677c18",
+        "_screenSpaceCollision": false,
+        "_collisionEnergyLoss": 0.0
+      }
+    },
+    {
+      "Type": "EduEngine.BoxCollider",
+      "FileId": 292,
+      "Parameters": {
+        "_width": 1.0,
+        "_height": 1.0,
+        "_depth": 1.0,
+        "_isTrigger": true,
+        "_staticFriction": 2.0,
+        "_dynamicFriction": 2.0,
+        "_restitution": 0.05
+      }
+    },
+    {
+      "Type": "EduEngine.RigidBody",
+      "FileId": 293,
+      "Parameters": {
+        "_isStatic": true,
+        "_mass": 100.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
+      }
+    },
+    {
+      "Type": "Script",
+      "FileId": 294,
+      "Parameters": {
+        "script_guid": "774564cb-119f-4102-a355-b2543c335fd4"
+      }
+    },
+    {
+      "Type": "EduEngine.Renderer",
+      "FileId": 295,
+      "Parameters": {
+        "_mesh": "bc6f90a6-7200-4e50-a976-169e25e52c9e",
+        "_material": "44b578cd-56f8-48f7-a1a4-edaa42b33403",
+        "_texScale": {
+          "X": 1.0,
+          "Y": -1.0
+        }
+      }
+    },
+    {
+      "Type": "EduEngine.ParticleSystem",
+      "FileId": 296,
+      "Parameters": {
+        "_emissionEnabled": false,
+        "_maxParticlesCount": 500,
+        "_shapeType": 0,
+        "_shapeSize": {
+          "X": 0.5,
+          "Y": 0.0,
+          "Z": 0.1
+        },
+        "_minStartSize": {
+          "X": 0.25,
+          "Y": 0.25,
+          "Z": 0.25
+        },
+        "_maxStartSize": {
+          "X": 0.25,
+          "Y": 0.25,
+          "Z": 0.25
+        },
+        "_endSize": {
+          "X": 0.25,
+          "Y": 0.25,
+          "Z": 0.25
+        },
+        "_offset": {
+          "X": 0.0,
+          "Y": 0.0,
+          "Z": 0.0
+        },
+        "_emissionRate": 50.0,
+        "_lifeTime": 1.5,
+        "_minStartVelocity": {
+          "X": 0.0,
+          "Y": -2.0,
+          "Z": 0.0
+        },
+        "_maxStartVelocity": {
+          "X": 0.0,
+          "Y": -2.0,
+          "Z": 0.0
+        },
+        "_randVelocityOnBound": false,
+        "_acceleration": {
+          "X": 0.0,
+          "Y": 0.0,
+          "Z": 0.0
+        },
+        "_minStartColor": {
+          "X": 1.0,
+          "Y": 1.0,
+          "Z": 1.0,
+          "W": 1.0
+        },
+        "_maxStartColor": {
+          "X": 1.0,
+          "Y": 1.0,
+          "Z": 1.0,
+          "W": 1.0
+        },
+        "_endColor": {
+          "X": 1.0,
+          "Y": 1.0,
+          "Z": 1.0,
+          "W": 0.0
+        },
+        "_dragTime": 0.5,
+        "_dragForce": 5.0,
+        "_colorTexture": "4a6c3e44-5581-450c-a1c7-c478f8677c18",
         "_screenSpaceCollision": false,
         "_collisionEnergyLoss": 0.0
       }
