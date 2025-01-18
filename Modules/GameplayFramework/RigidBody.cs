@@ -90,6 +90,22 @@ namespace EduEngine
             _physicObject?.AddForce(force, forceMode);
         }
 
+        public void FreezePosition(bool x, bool y, bool z)
+        {
+            _freezePositionX = x;
+            _freezePositionY = y;
+            _freezePositionZ = z;
+            _physicObject.FreezePosition(_freezePositionX, _freezePositionY, _freezePositionZ);
+        }
+
+        public void FreezeRotation(bool x, bool y, bool z)
+        {
+            _freezeRotationX = x;
+            _freezeRotationY = y;
+            _freezeRotationZ = z;
+            _physicObject.FreezeRotation(_freezeRotationX, _freezeRotationY, _freezeRotationZ);
+        }
+
         internal void AttachCollider(Collider collider)
         {
             _physicObject?.AttachShape(collider.GetShape());

@@ -81,6 +81,9 @@ namespace EduEngine
                 Transform.Position = position;
                 Transform.Rotation = rotation;
             }
+
+            for (int i = 0; i < _components.Count; i++)
+                _components[i].OnParentChanged();
         }
 
         public void Update()

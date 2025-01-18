@@ -27,19 +27,15 @@ namespace EduEngine
             _nativeShape.SetCollisionExitCallback(OnCollisionExit);
         }
 
-        public RigidBody ParentBody { get; internal set; } = null;
+        public RigidBody? ParentBody { get; internal set; } = null;
 
         public override void OnAddComponent()
         {
             SetTrigger(_isTrigger);
             SetMaterial(_staticFriction, _dynamicFriction, _restitution);
-            var rigidbodyList = GameObject.GetComponentsInParent<RigidBody>();
 
-            if (rigidbodyList.Length > 0)
-            {
-                rigidbodyList[0].AttachCollider(this);
-                ParentBody = rigidbodyList[0];
-            }
+            ParentBody = GameObject.GetComponentsInParent<RigidBody>().FirstOrDefault();
+            ParentBody?.AttachCollider(this);
         }
 
         public void Dispose()
@@ -49,6 +45,14 @@ namespace EduEngine
 
             _nativeShape.Dispose();
             _nativeShape = null;
+        }
+
+        public override void OnParentChanged()
+        {
+            ParentBody?.DetachCollider(this);
+
+            ParentBody = GameObject.GetComponentsInParent<RigidBody>().FirstOrDefault();
+            ParentBody?.AttachCollider(this);
         }
 
         public void SetTrigger(bool isTrigger)
@@ -68,7 +72,7 @@ namespace EduEngine
 
             if (_onTriggerEnter.Count > 0 || _onTriggerExit.Count > 0 || _onCollisionEnter.Count > 0 || _onCollisionExit.Count > 0)
             {
-                var components = GameObject.GetComponents<Component>();
+                var components = GameObject.GetComponentsInParent<Component>();
 
                 foreach (var component in components)
                 {
