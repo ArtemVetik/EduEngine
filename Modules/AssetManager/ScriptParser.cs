@@ -31,7 +31,7 @@ namespace EduEngine
 
                 var type = scriptAssembly.GetType(namespaceName + className);
 
-                if (type.IsSubclassOf(typeof(Component)))
+                if (type != null && type.IsSubclassOf(typeof(Component)))
                     return type;
             }
 
