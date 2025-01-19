@@ -17,6 +17,9 @@ namespace EduEngine
 
 	void RenderObject::SetMesh(IMesh* mesh)
 	{
+		if (m_Mesh == mesh)
+			return;
+
 		if (m_Mesh)
 			m_Mesh->Free();
 
@@ -28,6 +31,9 @@ namespace EduEngine
 
 	void RenderObject::SetMaterial(IMaterial* material)
 	{
+		if (m_Material == material)
+			return;
+
 		if (m_Material)
 			m_Material->Free();
 
