@@ -61,8 +61,7 @@ namespace EduEngine
 		void Draw(Camera* camera) override;
 		void EndDraw() override;
 		void MoveAndResize(UINT x, UINT y, UINT w, UINT h) override;
-
-		void Resize(UINT w, UINT h);
+		void PendingResize(UINT w, UINT h);
 
 		DirectX::SimpleMath::Vector2 GetScreenSize() const override;
 
@@ -73,6 +72,8 @@ namespace EduEngine
 
 		friend class RenderResourcesInfo;
 	private:
+		void Resize(UINT w, UINT h);
+
 		static RenderEngine* m_Instance;
 
 		std::unique_ptr<RenderDeviceD3D12> m_Device;

@@ -91,6 +91,6 @@ namespace EduEngine
 	void RuntimeWindow::OnResize(UINT w, UINT h)
 	{
 		if (RenderEngine::GetInstance())
-			RenderEngine::GetInstance()->Resize(w, h);
+			RenderEngine::GetInstance()->PendingResize(w, h);
 	}
 }

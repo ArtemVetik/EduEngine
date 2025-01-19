@@ -207,13 +207,6 @@ namespace EduEngine
 
 	void RenderEngine::BeginDraw()
 	{
-		if (m_PendingResize != EmptyResize)
-		{
-			RuntimeWindow::GetInstance()->SetPosition(m_PendingResize.x, m_PendingResize.y, m_PendingResize.width, m_PendingResize.height);
-			Resize(m_PendingResize.width, m_PendingResize.height);
-			m_PendingResize = EmptyResize;
-		}
-
 		ID3D12DescriptorHeap* descriptorHeaps[] = { m_Device->GetD3D12DescriptorHeap() };
 
 		auto& directCommandContext = m_Device->GetCommandContext(D3D12_COMMAND_LIST_TYPE_DIRECT);
@@ -355,6 +348,16 @@ namespace EduEngine
 		m_SwapChain->Present();
 		m_Device->FinishFrame();
 
+		// Resize should be at the end of the frame after the main ExecuteCommandList and FinishFrame.
+		// Since FinishFrame also occurs inside swapChain->Resize(), and it is not desirable
+		// that resources are removed before the end of rendering
+		if (m_PendingResize != EmptyResize)
+		{
+			RuntimeWindow::GetInstance()->SetPosition(m_PendingResize.x, m_PendingResize.y, m_PendingResize.width, m_PendingResize.height);
+			Resize(m_PendingResize.width, m_PendingResize.height);
+			m_PendingResize = EmptyResize;
+		}
+		commandContext.Reset();
 		m_RenderSettings.ApplyChanges();
 	}
 
@@ -365,6 +368,15 @@ namespace EduEngine
 
 		if (lx != x || ly != y || lw != w || lh != h)
 			m_PendingResize = { (long)x, (long)y, (long)w, (long)h };
+	}
+
+	void RenderEngine::PendingResize(UINT w, UINT h)
+	{
+		UINT lx, ly, lw, lh;
+		RuntimeWindow::GetInstance()->GetPosition(lx, ly, lw, lh);
+
+		if (lw != w || lh != h)
+			m_PendingResize = { (long)lx, (long)ly, (long)w, (long)h };
 	}
 
 	void RenderEngine::Resize(UINT w, UINT h)
