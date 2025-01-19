@@ -47,6 +47,8 @@ namespace BehaviorTreeDemo
                 _body.Velocity = new Vector3(moveDirection.X * _moveSpeed, _body.Velocity.Y, moveDirection.Z * _moveSpeed);
             }
 
+            _body.AngularVelocity = Vector3.Zero;
+
             ImGui.SetNextWindowPos(new Vector2(Screen.Size.X - 250, 50), ImGuiCond.Always);
             ImGui.SetNextWindowSize(Vector2.Zero, ImGuiCond.Always);
 
