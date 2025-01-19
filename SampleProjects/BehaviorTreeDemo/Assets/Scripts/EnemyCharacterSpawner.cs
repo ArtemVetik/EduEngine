@@ -39,7 +39,7 @@ namespace BehaviorTreeDemo
 
                 var x = (Random.Shared.NextSingle() * 2 - 1) * _spawnRange.X;
                 var z = (Random.Shared.NextSingle() * 2 - 1) * _spawnRange.Y;
-                instance.Transform.Position = new Vector3(x, 3, z);
+                instance.Transform.Position = new Vector3(x, 10, z);
                 collider.SetParent(instance);
                 rendererObject.SetParent(instance);
 
