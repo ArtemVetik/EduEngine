@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0-windows7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="AssetManager">
+      <HintPath>..\..\x64\Release\AssetManager.dll</HintPath>
+    </Reference>
+    <Reference Include="BananaParty.BehaviorTree">
+      <HintPath>..\..\x64\Release\BananaParty.BehaviorTree.dll</HintPath>
+    </Reference>
+    <Reference Include="CoreInterop">
+      <HintPath>..\..\x64\Release\CoreInterop.dll</HintPath>
+    </Reference>
+    <Reference Include="GameplayFramework">
+      <HintPath>..\..\x64\Release\GameplayFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="ImGui.NET">
+      <HintPath>..\..\x64\Release\ImGui.NET.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

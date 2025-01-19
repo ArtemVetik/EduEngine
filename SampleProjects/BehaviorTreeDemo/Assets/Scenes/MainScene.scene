@@ -1,0 +1,728 @@
+{
+  "GameObjects": [
+    {
+      "FileId": 0,
+      "LocalPosition": {
+        "X": 0.0,
+        "Y": 8.938376,
+        "Z": -7.296531
+      },
+      "LocalRotation": {
+        "X": 0.11320103,
+        "Y": 0.0,
+        "Z": 0.0,
+        "W": 0.9935721,
+        "IsIdentity": false
+      },
+      "LocalScale": {
+        "X": 1.0,
+        "Y": 0.99999887,
+        "Z": 0.99999887
+      },
+      "Name": "Camera",
+      "Parent": -1,
+      "Components": [
+        15,
+        16
+      ]
+    },
+    {
+      "FileId": 1,
+      "LocalPosition": {
+        "X": 0.0,
+        "Y": 10.0,
+        "Z": 0.0
+      },
+      "LocalRotation": {
+        "X": 0.4261359,
+        "Y": 0.0,
+        "Z": 0.0,
+        "W": 0.90465915,
+        "IsIdentity": false
+      },
+      "LocalScale": {
+        "X": 1.0,
+        "Y": 1.0,
+        "Z": 1.0
+      },
+      "Name": "Directional Light",
+      "Parent": -1,
+      "Components": [
+        17
+      ]
+    },
+    {
+      "FileId": 2,
+      "LocalPosition": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 0.0
+      },
+      "LocalRotation": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 0.0,
+        "W": 1.0,
+        "IsIdentity": true
+      },
+      "LocalScale": {
+        "X": 50.0,
+        "Y": 1.0,
+        "Z": 50.0
+      },
+      "Name": "Ground",
+      "Parent": 7,
+      "Components": [
+        18,
+        19,
+        20
+      ]
+    },
+    {
+      "FileId": 3,
+      "LocalPosition": {
+        "X": 0.0,
+        "Y": 2.3924031,
+        "Z": 0.0
+      },
+      "LocalRotation": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 0.0,
+        "W": 1.0,
+        "IsIdentity": true
+      },
+      "LocalScale": {
+        "X": 1.0,
+        "Y": 1.0,
+        "Z": 1.0
+      },
+      "Name": "PlayerRoot",
+      "Parent": -1,
+      "Components": [
+        21,
+        22
+      ]
+    },
+    {
+      "FileId": 4,
+      "LocalPosition": {
+        "X": 0.0,
+        "Y": -1.0,
+        "Z": 0.0
+      },
+      "LocalRotation": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 0.0,
+        "W": 1.0,
+        "IsIdentity": true
+      },
+      "LocalScale": {
+        "X": 2.0,
+        "Y": 2.0,
+        "Z": 2.0
+      },
+      "Name": "Model",
+      "Parent": 3,
+      "Components": [
+        23
+      ]
+    },
+    {
+      "FileId": 5,
+      "LocalPosition": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 0.0
+      },
+      "LocalRotation": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 0.70710677,
+        "W": 0.70710677,
+        "IsIdentity": false
+      },
+      "LocalScale": {
+        "X": 1.0,
+        "Y": 1.0,
+        "Z": 1.0
+      },
+      "Name": "Collider",
+      "Parent": 3,
+      "Components": [
+        24
+      ]
+    },
+    {
+      "FileId": 6,
+      "LocalPosition": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": -25.0
+      },
+      "LocalRotation": {
+        "X": 0.0,
+        "Y": 0.70710677,
+        "Z": 0.0,
+        "W": 0.70710677,
+        "IsIdentity": false
+      },
+      "LocalScale": {
+        "X": 1.0,
+        "Y": 2.0,
+        "Z": 50.0
+      },
+      "Name": "Wall",
+      "Parent": 7,
+      "Components": [
+        25,
+        26,
+        27
+      ]
+    },
+    {
+      "FileId": 7,
+      "LocalPosition": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 0.0
+      },
+      "LocalRotation": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 0.0,
+        "W": 1.0,
+        "IsIdentity": true
+      },
+      "LocalScale": {
+        "X": 1.0,
+        "Y": 1.0,
+        "Z": 1.0
+      },
+      "Name": "Map",
+      "Parent": -1,
+      "Components": []
+    },
+    {
+      "FileId": 8,
+      "LocalPosition": {
+        "X": -25.0,
+        "Y": 0.0,
+        "Z": 0.0
+      },
+      "LocalRotation": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 0.0,
+        "W": 1.0,
+        "IsIdentity": true
+      },
+      "LocalScale": {
+        "X": 1.0,
+        "Y": 2.0,
+        "Z": 50.0
+      },
+      "Name": "Wall",
+      "Parent": 7,
+      "Components": [
+        28,
+        29,
+        30
+      ]
+    },
+    {
+      "FileId": 9,
+      "LocalPosition": {
+        "X": 25.0,
+        "Y": 0.0,
+        "Z": 0.0
+      },
+      "LocalRotation": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 0.0,
+        "W": 1.0,
+        "IsIdentity": true
+      },
+      "LocalScale": {
+        "X": 1.0,
+        "Y": 2.0,
+        "Z": 50.0
+      },
+      "Name": "Wall",
+      "Parent": 7,
+      "Components": [
+        31,
+        32,
+        33
+      ]
+    },
+    {
+      "FileId": 10,
+      "LocalPosition": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 25.0
+      },
+      "LocalRotation": {
+        "X": 0.0,
+        "Y": 0.70710677,
+        "Z": 0.0,
+        "W": 0.70710677,
+        "IsIdentity": false
+      },
+      "LocalScale": {
+        "X": 1.0,
+        "Y": 2.0,
+        "Z": 50.0
+      },
+      "Name": "Wall",
+      "Parent": 7,
+      "Components": [
+        34,
+        35,
+        36
+      ]
+    },
+    {
+      "FileId": 11,
+      "LocalPosition": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 0.0
+      },
+      "LocalRotation": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 0.0,
+        "W": 1.0,
+        "IsIdentity": true
+      },
+      "LocalScale": {
+        "X": 1.0,
+        "Y": 1.0,
+        "Z": 1.0
+      },
+      "Name": "MobSpawner",
+      "Parent": 12,
+      "Components": [
+        37
+      ]
+    },
+    {
+      "FileId": 12,
+      "LocalPosition": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 0.0
+      },
+      "LocalRotation": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 0.0,
+        "W": 1.0,
+        "IsIdentity": true
+      },
+      "LocalScale": {
+        "X": 1.0,
+        "Y": 1.0,
+        "Z": 1.0
+      },
+      "Name": "SpawnerRoot",
+      "Parent": -1,
+      "Components": [
+        38
+      ]
+    },
+    {
+      "FileId": 13,
+      "LocalPosition": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 0.0
+      },
+      "LocalRotation": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 0.0,
+        "W": 1.0,
+        "IsIdentity": true
+      },
+      "LocalScale": {
+        "X": 1.0,
+        "Y": 1.0,
+        "Z": 1.0
+      },
+      "Name": "CharacterSpawner",
+      "Parent": 12,
+      "Components": [
+        39
+      ]
+    },
+    {
+      "FileId": 14,
+      "LocalPosition": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 0.0
+      },
+      "LocalRotation": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 0.0,
+        "W": 1.0,
+        "IsIdentity": true
+      },
+      "LocalScale": {
+        "X": 1.0,
+        "Y": 1.0,
+        "Z": 1.0
+      },
+      "Name": "UIRoot",
+      "Parent": -1,
+      "Components": [
+        40
+      ]
+    }
+  ],
+  "Components": [
+    {
+      "Type": "EduEngine.GameCamera",
+      "FileId": 15,
+      "Parameters": {
+        "_fov": 55.0,
+        "_near": 0.3,
+        "_far": 1000.0,
+        "_skyTexture": "95e43531-6310-42a8-bc7c-5bb9b25cbfa6",
+        "_backgroundColor": {
+          "X": 0.0,
+          "Y": 0.0,
+          "Z": 0.0,
+          "W": 1.0
+        },
+        "_viewport": {
+          "X": 0.0,
+          "Y": 0.0,
+          "Z": 1.0,
+          "W": 1.0
+        },
+        "_debugDraw": false
+      }
+    },
+    {
+      "Type": "Script",
+      "FileId": 16,
+      "Parameters": {
+        "_target": 3,
+        "_distance": 10.0,
+        "script_guid": "88c58cc9-7dc9-4c9e-8263-09fdf9cd8f56"
+      }
+    },
+    {
+      "Type": "EduEngine.Light",
+      "FileId": 17,
+      "Parameters": {
+        "_type": 0,
+        "_color": {
+          "X": 1.0,
+          "Y": 1.0,
+          "Z": 1.0
+        },
+        "_power": 1.0,
+        "_falloffStart": 0.0,
+        "_falloffEnd": 0.0,
+        "_spotPower": 0.0
+      }
+    },
+    {
+      "Type": "EduEngine.Renderer",
+      "FileId": 18,
+      "Parameters": {
+        "_mesh": "0652a4ab-0223-4274-93e6-c46c89b9f2c6",
+        "_material": "e5596b72-6151-4cf7-ad68-6f443973310f",
+        "_texScale": {
+          "X": 64.0,
+          "Y": 64.0
+        }
+      }
+    },
+    {
+      "Type": "EduEngine.RigidBody",
+      "FileId": 19,
+      "Parameters": {
+        "_isStatic": true,
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
+      }
+    },
+    {
+      "Type": "EduEngine.BoxCollider",
+      "FileId": 20,
+      "Parameters": {
+        "_width": 1.0,
+        "_height": 1.0,
+        "_depth": 1.0,
+        "_isTrigger": false,
+        "_staticFriction": 0.5,
+        "_dynamicFriction": 0.5,
+        "_restitution": 0.5
+      }
+    },
+    {
+      "Type": "Script",
+      "FileId": 21,
+      "Parameters": {
+        "_camera": 0,
+        "_moveSpeed": 5.0,
+        "script_guid": "c46b069f-c014-46da-ac80-e23e8958ea62"
+      }
+    },
+    {
+      "Type": "EduEngine.RigidBody",
+      "FileId": 22,
+      "Parameters": {
+        "_isStatic": false,
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": true,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": true
+      }
+    },
+    {
+      "Type": "EduEngine.Renderer",
+      "FileId": 23,
+      "Parameters": {
+        "_mesh": "85cbe142-9f29-4683-8ed5-5c263263be19",
+        "_material": "c6e5081d-7476-4427-aa71-919094490fa3",
+        "_texScale": {
+          "X": 1.0,
+          "Y": 1.0
+        }
+      }
+    },
+    {
+      "Type": "EduEngine.CapsuleCollider",
+      "FileId": 24,
+      "Parameters": {
+        "_radius": 0.5,
+        "_height": 0.5,
+        "_isTrigger": false,
+        "_staticFriction": 0.5,
+        "_dynamicFriction": 0.5,
+        "_restitution": 0.5
+      }
+    },
+    {
+      "Type": "EduEngine.Renderer",
+      "FileId": 25,
+      "Parameters": {
+        "_mesh": "0652a4ab-0223-4274-93e6-c46c89b9f2c6",
+        "_material": "e5596b72-6151-4cf7-ad68-6f443973310f",
+        "_texScale": {
+          "X": 0.5,
+          "Y": 32.0
+        }
+      }
+    },
+    {
+      "Type": "EduEngine.RigidBody",
+      "FileId": 26,
+      "Parameters": {
+        "_isStatic": true,
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
+      }
+    },
+    {
+      "Type": "EduEngine.BoxCollider",
+      "FileId": 27,
+      "Parameters": {
+        "_width": 1.0,
+        "_height": 2.0,
+        "_depth": 1.0,
+        "_isTrigger": false,
+        "_staticFriction": 0.5,
+        "_dynamicFriction": 0.5,
+        "_restitution": 0.5
+      }
+    },
+    {
+      "Type": "EduEngine.Renderer",
+      "FileId": 28,
+      "Parameters": {
+        "_mesh": "0652a4ab-0223-4274-93e6-c46c89b9f2c6",
+        "_material": "e5596b72-6151-4cf7-ad68-6f443973310f",
+        "_texScale": {
+          "X": 0.5,
+          "Y": 32.0
+        }
+      }
+    },
+    {
+      "Type": "EduEngine.RigidBody",
+      "FileId": 29,
+      "Parameters": {
+        "_isStatic": true,
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
+      }
+    },
+    {
+      "Type": "EduEngine.BoxCollider",
+      "FileId": 30,
+      "Parameters": {
+        "_width": 1.0,
+        "_height": 2.0,
+        "_depth": 1.0,
+        "_isTrigger": false,
+        "_staticFriction": 0.5,
+        "_dynamicFriction": 0.5,
+        "_restitution": 0.5
+      }
+    },
+    {
+      "Type": "EduEngine.Renderer",
+      "FileId": 31,
+      "Parameters": {
+        "_mesh": "0652a4ab-0223-4274-93e6-c46c89b9f2c6",
+        "_material": "e5596b72-6151-4cf7-ad68-6f443973310f",
+        "_texScale": {
+          "X": 0.5,
+          "Y": 32.0
+        }
+      }
+    },
+    {
+      "Type": "EduEngine.RigidBody",
+      "FileId": 32,
+      "Parameters": {
+        "_isStatic": true,
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
+      }
+    },
+    {
+      "Type": "EduEngine.BoxCollider",
+      "FileId": 33,
+      "Parameters": {
+        "_width": 1.0,
+        "_height": 2.0,
+        "_depth": 1.0,
+        "_isTrigger": false,
+        "_staticFriction": 0.5,
+        "_dynamicFriction": 0.5,
+        "_restitution": 0.5
+      }
+    },
+    {
+      "Type": "EduEngine.Renderer",
+      "FileId": 34,
+      "Parameters": {
+        "_mesh": "0652a4ab-0223-4274-93e6-c46c89b9f2c6",
+        "_material": "e5596b72-6151-4cf7-ad68-6f443973310f",
+        "_texScale": {
+          "X": 0.5,
+          "Y": 32.0
+        }
+      }
+    },
+    {
+      "Type": "EduEngine.RigidBody",
+      "FileId": 35,
+      "Parameters": {
+        "_isStatic": true,
+        "_mass": 1.0,
+        "_freezePositionX": false,
+        "_freezePositionY": false,
+        "_freezePositionZ": false,
+        "_freezeRotationX": false,
+        "_freezeRotationY": false,
+        "_freezeRotationZ": false
+      }
+    },
+    {
+      "Type": "EduEngine.BoxCollider",
+      "FileId": 36,
+      "Parameters": {
+        "_width": 1.0,
+        "_height": 2.0,
+        "_depth": 1.0,
+        "_isTrigger": false,
+        "_staticFriction": 0.5,
+        "_dynamicFriction": 0.5,
+        "_restitution": 0.5
+      }
+    },
+    {
+      "Type": "Script",
+      "FileId": 37,
+      "Parameters": {
+        "_spawnRange": {
+          "X": 20.0,
+          "Y": 20.0
+        },
+        "_spawnCount": 25,
+        "_smileMesh": "bf2e5b0e-eb17-4ff1-93fe-7026512b0a94",
+        "_cryMesh": "9ef018fb-5054-4cd0-bf91-000d8fd20f2c",
+        "_material": "ff39f6df-5bd8-476e-b11b-2d3256ba5e8d",
+        "_deadEffectTexture": "94a9e29f-4e84-4b2b-bdd4-8b7140175659",
+        "script_guid": "8fcba5e4-bdb8-4f82-982f-63f360d70eaf"
+      }
+    },
+    {
+      "Type": "Script",
+      "FileId": 38,
+      "Parameters": {
+        "_mobSpawnerObject": 11,
+        "_characterSpawnerObject": 13,
+        "script_guid": "c8d3b5a2-1bec-4dca-98ba-9116d3d1a529"
+      }
+    },
+    {
+      "Type": "Script",
+      "FileId": 39,
+      "Parameters": {
+        "_spawnRange": {
+          "X": 20.0,
+          "Y": 20.0
+        },
+        "_spawnCount": 3,
+        "_mesh": "85cbe142-9f29-4683-8ed5-5c263263be19",
+        "_material": "4448b2eb-ef69-46f0-ac10-3972a427c3f4",
+        "_playerCharacter": 3,
+        "script_guid": "1f29f54f-47f9-4b19-99bb-36ecbb61f1b2"
+      }
+    },
+    {
+      "Type": "Script",
+      "FileId": 40,
+      "Parameters": {
+        "script_guid": "d711d86b-43b4-44a5-b0e7-4eaf14117ed1"
+      }
+    }
+  ]
+}

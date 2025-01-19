@@ -71,6 +71,39 @@ namespace EduEngine
             InitParticles();
         }
 
+        public void SetStaticParticleData(ParticleData particleData)
+        {
+            _emissionRate = particleData.EmissionRate;
+            _screenSpaceCollision = particleData.ScreenSpaceCollision;
+            _emissionEnabled = particleData.EmissionEnabled;
+
+            _shapeType = (ShapeType)particleData.ShapeType;
+            _shapeSize = particleData.ShapeSize;
+            _maxParticlesCount = (int)particleData.MaxParticles;
+            _minStartSize = particleData.MinStartSize;
+            _lifeTime = particleData.LifeTime;
+            _maxStartSize = particleData.MaxStartSize;
+            _dragForce = particleData.DragForce;
+            _endSize = particleData.EndSize;
+            _minStartColor = particleData.MinStartColor;
+            _maxStartColor = particleData.MaxStartColor;
+            _endColor = particleData.EndColor;
+            _minStartVelocity = particleData.MinStartVelocity;
+            _randVelocityOnBound = particleData.RandVelocityOnBound;
+            _maxStartVelocity = particleData.MaxStartVelocity;
+            _dragTime = particleData.DragTime;
+            _acceleration = particleData.Acceleration;
+            _collisionEnergyLoss = particleData.CollisionEnergyLoss;
+
+            InitParticles();
+        }
+
+        public void SetColorTexture(Texture texture)
+        {
+            _colorTexture = texture;
+            _nativeParticles.SetColorTexture(texture?.GetWrapper());
+        }
+
         [DynamicDependency(nameof(OnFieldChangedByReflection))]
         private void OnFieldChangedByReflection(string fieldName)
         {
