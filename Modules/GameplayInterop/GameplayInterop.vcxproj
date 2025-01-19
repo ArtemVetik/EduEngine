@@ -135,6 +135,9 @@
     <Image Include="app.ico" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BananaParty.BehaviorTree\BananaParty.BehaviorTree.csproj">
+      <Project>{a067408b-b045-4833-b80c-bbf77fc9e5b7}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\EduEditor\EduEditor.csproj">
       <Project>{85f23792-124e-4ea8-aa4e-d734925629f4}</Project>
     </ProjectReference>

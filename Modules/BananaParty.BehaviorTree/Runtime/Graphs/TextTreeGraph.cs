@@ -43,7 +43,7 @@ namespace BananaParty.BehaviorTree
         {
             if (_childrenToDraw.Count > 0)
             {
-                _indentation += CurrentChildrenToDrawCount > 0 ? "│ " : "  ";
+                _indentation += CurrentChildrenToDrawCount > 0 ? "| " : "  ";
             }
             else
             {
@@ -51,7 +51,7 @@ namespace BananaParty.BehaviorTree
                 {
                     // Adding empty line after the root node.
                     _stringBuilder.Append('\n');
-                    _stringBuilder.Append('│');
+                    _stringBuilder.Append('|');
                 }
             }
 
@@ -64,7 +64,7 @@ namespace BananaParty.BehaviorTree
             {
                 _stringBuilder.Append('\n');
                 _stringBuilder.Append(_indentation);
-                _stringBuilder.Append(CurrentChildrenToDrawCount > 1 ? "├╴" : "└╴");
+                _stringBuilder.Append(CurrentChildrenToDrawCount > 1 ? "|-" : "\\-");
             }
 
             _stringBuilder.Append($"{behaviorNode.Name} {_statusToString[behaviorNode.Status]}");
