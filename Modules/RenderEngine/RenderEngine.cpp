@@ -356,8 +356,8 @@ namespace EduEngine
 			RuntimeWindow::GetInstance()->SetPosition(m_PendingResize.x, m_PendingResize.y, m_PendingResize.width, m_PendingResize.height);
 			Resize(m_PendingResize.width, m_PendingResize.height);
 			m_PendingResize = EmptyResize;
+			commandContext.Reset();
 		}
-		commandContext.Reset();
 		m_RenderSettings.ApplyChanges();
 	}
 

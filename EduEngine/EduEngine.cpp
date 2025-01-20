@@ -1,194 +1,176 @@
-#include <Windows.h>
-#include <thread>
-#include "Common.h"
-#include "RuntimeRender.h"
-#include "../Modules/InputSystem/InputManager.h"
-#include "../Modules/RenderEngine/Timer.h"
-#include "../Modules/RenderEngine/RuntimeWindow.h"
-#include "../Modules/RenderEngine/IRenderEngine.h"
-#include "../Modules/RenderEngine/Camera.h"
-#include "../Modules/RenderEngine/GeometryGenerator.h"
-#include "../Modules/Physics/PhysicsFactory.h"
-#include "../Modules/CoreInterop/CoreSystems.h"
-#include "../Modules/GameplayInterop/GameplayInterop.h"
+#include "EduEngine.h"
 
-#if 0
-#define EDU_NO_EDITOR
-#endif
-
-using namespace EduEngine;
-
-int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance,
-	PSTR cmdLine, int showCmd)
+namespace EduEngine
 {
-#if defined(DEBUG) | defined(_DEBUG)
-	AllocWinConsole();
-#endif
-
-	std::wstring folderPath = OpenFolderDialog();
-	if (folderPath.empty())
-		return 0;
-
-	std::wstring dllPath = OpenFolderDialog(false);
-	if (dllPath.empty())
-		return 0;
-
-	GeometryGenerator geoGen;
-
-	HWND editorWnd = 0;
-#ifndef EDU_NO_EDITOR
-	EditorWindow editorWindow(hInstance, 1280, 720);
-	editorWindow.Initialize();
-	editorWnd = editorWindow.GetMainWindow();
-#endif
-
-	RuntimeWindow runtimeWindow(hInstance, 1280, 720, editorWnd);
-	runtimeWindow.Initialize();
-
-#ifndef EDU_NO_EDITOR
-	InputManager::GetEditorInstance().Initialize(hInstance, editorWindow.GetMainWindow());
-#endif
-	InputManager::GetInstance().Initialize(hInstance, runtimeWindow.GetMainWindow());
-
-	Timer runtimeTimer = Timer(runtimeWindow.GetMainWindow(), L"EduEngine");
-#ifndef EDU_NO_EDITOR
-	Timer editorTimer = Timer(editorWindow.GetMainWindow(), L"EduEngine");
-#endif
-
-	std::shared_ptr<IRenderEngine> renderEngine = IRenderEngine::Create(runtimeWindow, runtimeTimer);
-#ifndef EDU_NO_EDITOR
-	std::shared_ptr<IEditorRenderEngine> editorRenderEngine = IEditorRenderEngine::Create(editorWindow);
-#endif
-
-	PhysicsFactory physicsFactory;
-	std::shared_ptr<IPhysicsWorld> physicsWorld = physicsFactory.Create();
-
-#ifndef EDU_NO_EDITOR
-	CoreSystems coreSystems(renderEngine.get(), editorRenderEngine.get(), physicsWorld.get(), &runtimeTimer, &editorTimer);
-#else
-	CoreSystems coreSystems(renderEngine.get(), nullptr, physicsWorld.get(), &runtimeTimer, nullptr);
-#endif
-
-#ifndef EDU_NO_EDITOR
-	EditorInterop::Initialize(folderPath, dllPath, true);
-#else
-	EditorInterop::Initialize(folderPath, dllPath, false);
-#endif
-
-	RuntimeRender runtimeRender(renderEngine.get());
-
-	const float fixedTimeStep = 1.0f / 120.0f;
-	float physixsAccumulator = 0.0f;
-
-	MSG msg = { 0 };
-
-	std::future<void> runtimeThread;
-#ifndef EDU_NO_EDITOR
-	std::future<void> editorThread;
-#endif
-
-	int runtimeFps = 0, editorFps = 0;
-	float runtimeMspf = 0.0f, editorMspf = 0.0f;
-
-	while (msg.message != WM_QUIT)
+	EduEngine::EduEngine(HINSTANCE hInstance)
 	{
-		if (PeekMessage(&msg, 0, 0, 0, PM_REMOVE))
-		{
-			TranslateMessage(&msg);
-			DispatchMessage(&msg);
-		}
-		else
-		{
+		std::wstring folderPath = Common::OpenFolderDialog();
+		if (folderPath.empty())
+			return;
+
+		std::wstring dllPath = Common::OpenFolderDialog(false);
+		if (dllPath.empty())
+			return;
+
+		HWND editorWnd = 0;
 #ifndef EDU_NO_EDITOR
-			if (!runtimeThread.valid() || future_is_ready(runtimeThread))
+		m_EditorWindow = std::make_unique<EditorWindow>(hInstance, 1280, 720);
+		m_EditorWindow->Initialize();
+		editorWnd = m_EditorWindow->GetMainWindow();
 #endif
-			{
-				runtimeTimer.UpdateTimer();
-				if (!runtimeWindow.IsPaused())
-				{
-					InputManager::GetInstance().Update();
 
-					if (runtimeTimer.UpdateTitleBarStats(runtimeFps, runtimeMspf))
-						UpdateWindowTitle(runtimeWindow.GetMainWindow(), runtimeFps, runtimeMspf, nullptr, nullptr);
+		m_RuntimeWindow = std::make_unique<RuntimeWindow>(hInstance, 1280, 720, editorWnd);
+		m_RuntimeWindow->Initialize();
 
 #ifndef EDU_NO_EDITOR
-					if (EditorInterop::GetEngineState() == EngineState::Runtime)
+		InputManager::GetEditorInstance().Initialize(hInstance, m_EditorWindow->GetMainWindow());
 #endif
-					{
-						physixsAccumulator += runtimeTimer.GetDeltaTime();
+		InputManager::GetInstance().Initialize(hInstance, m_RuntimeWindow->GetMainWindow());
 
-						if (physixsAccumulator >= fixedTimeStep)
-						{
-							GameplayInterop::PhysicsUpdate();
-							physicsWorld->Update();
-							physixsAccumulator = 0.0f;
-						}
-
-						GameplayInterop::Update();
-
+		m_RuntimeTimer = std::make_unique<Timer>(m_RuntimeWindow->GetMainWindow(), L"EduEngine");
 #ifndef EDU_NO_EDITOR
-						if (EditorInterop::InspectScene())
-						{
-							runtimeThread = std::async(std::launch::async, &RuntimeRender::RenderEditor, runtimeRender);
-						}
-						else
+		m_EditorTimer = std::make_unique<Timer>(m_EditorWindow->GetMainWindow(), L"EduEngine");
 #endif
-						{
+		m_RenderEngine = IRenderEngine::Create(*m_RuntimeWindow, *m_RuntimeTimer);
 #ifndef EDU_NO_EDITOR
-							runtimeThread = std::async(std::launch::async, &RuntimeRender::RenderRuntime, runtimeRender);
+		m_EditorRenderEngine = IEditorRenderEngine::Create(*m_EditorWindow);
+#endif
+
+		PhysicsFactory physicsFactory;
+		m_PhysicsWorld = physicsFactory.Create();
+
+#ifndef EDU_NO_EDITOR
+		m_CoreSystems = std::make_unique<CoreSystems>(m_RenderEngine.get(), m_EditorRenderEngine.get(), m_PhysicsWorld.get(), m_RuntimeTimer.get(), m_EditorTimer.get());
 #else
-							runtimeRender.RenderRuntime();
+		m_CoreSystems = std::make_unique<CoreSystems>(m_RenderEngine.get(), nullptr, m_PhysicsWorld.get(), m_RuntimeTimer.get(), nullptr);
 #endif
-						}
-					}
+
 #ifndef EDU_NO_EDITOR
-					else if (EditorInterop::GetEngineState() == EngineState::Editor)
-					{
-						GameplayInterop::Update();
-						runtimeThread = std::async(std::launch::async, &RuntimeRender::RenderEditor, runtimeRender);
-					}
+		EditorInterop::Initialize(folderPath, dllPath, true);
+#else
+		EditorInterop::Initialize(folderPath, dllPath, false);
 #endif
-				}
-				else
-				{
-					Sleep(100);
-				}
-			}
+
+		m_RuntimeRender = std::make_unique<RuntimeRender>(m_RenderEngine.get());
+	}
+
+	EduEngine::~EduEngine()
+	{
 #ifndef EDU_NO_EDITOR
-			if (!editorThread.valid() || future_is_ready(editorThread))
+		m_EditorThread.get();
+		m_RuntimeThread.get();
+
+		m_EditorRenderEngine.reset();
+#endif
+
+		EditorInterop::Destroy();
+		GameplayInterop::Destroy();
+
+		m_RenderEngine.reset();
+		m_PhysicsWorld.reset();
+	}
+
+	void EduEngine::Run()
+	{
+		static MSG msg = { 0 };
+
+		while (msg.message != WM_QUIT)
+		{
+			if (PeekMessage(&msg, 0, 0, 0, PM_REMOVE))
 			{
-				editorTimer.UpdateTimer();
-				if (!editorWindow.IsPaused())
-				{
-					if (editorTimer.UpdateTitleBarStats(editorFps, editorMspf))
-						UpdateWindowTitle(editorWindow.GetHostWindow(), runtimeFps, runtimeMspf, &editorFps, &editorMspf);
-
-					InputManager::GetEditorInstance().Update();
-
-					EditorInterop::Update();
-					editorThread = std::async(std::launch::async, &IEditorRenderEngine::Draw, editorRenderEngine.get());
-				}
-				else
-				{
-					Sleep(100);
-				}
+				TranslateMessage(&msg);
+				DispatchMessage(&msg);
 			}
+			else
+			{
+#ifndef EDU_NO_EDITOR
+				if (!m_RuntimeThread.valid() || Common::future_is_ready(m_RuntimeThread))
 #endif
+				{
+					RenderRuntime();
+				}
+#ifndef EDU_NO_EDITOR
+				if (!m_EditorThread.valid() || Common::future_is_ready(m_EditorThread))
+				{
+					RenderEditor();
+				}
+#endif
+			}
 		}
 	}
 
+	void EduEngine::RenderRuntime()
+	{
+		m_RuntimeTimer->UpdateTimer();
+		if (!m_RuntimeWindow->IsPaused())
+		{
+			InputManager::GetInstance().Update();
+
+			if (m_RuntimeTimer->UpdateTitleBarStats(m_RuntimeFps, m_RuntimeMspf))
+				Common::UpdateWindowTitle(m_RuntimeWindow->GetMainWindow(), m_RuntimeFps, m_RuntimeMspf, nullptr, nullptr);
+
 #ifndef EDU_NO_EDITOR
-	editorThread.get();
-	runtimeThread.get();
-
-	editorRenderEngine.reset();
+			if (EditorInterop::GetEngineState() == EngineState::Runtime)
 #endif
+			{
+				m_PhysixsAccumulator += m_RuntimeTimer->GetDeltaTime();
 
-	EditorInterop::Destroy();
-	GameplayInterop::Destroy();
+				if (m_PhysixsAccumulator >= m_FixedTimeStep)
+				{
+					GameplayInterop::PhysicsUpdate();
+					m_PhysicsWorld->Update();
+					m_PhysixsAccumulator = 0.0f;
+				}
 
-	renderEngine.reset();
-	physicsWorld.reset();
+				GameplayInterop::Update();
 
-	return 0;
+#ifndef EDU_NO_EDITOR
+				if (EditorInterop::InspectScene())
+				{
+					m_RuntimeThread = std::async(std::launch::async, &RuntimeRender::RenderEditor, *m_RuntimeRender);
+				}
+				else
+#endif
+				{
+#ifndef EDU_NO_EDITOR
+					m_RuntimeThread = std::async(std::launch::async, &RuntimeRender::RenderRuntime, *m_RuntimeRender);
+#else
+					m_RuntimeRender->RenderRuntime();
+#endif
+				}
+			}
+#ifndef EDU_NO_EDITOR
+			else if (EditorInterop::GetEngineState() == EngineState::Editor)
+			{
+				GameplayInterop::Update();
+				m_RuntimeThread = std::async(std::launch::async, &RuntimeRender::RenderEditor, *m_RuntimeRender);
+			}
+#endif
+		}
+		else
+		{
+			Sleep(100);
+		}
+	}
+
+	void EduEngine::RenderEditor()
+	{
+#ifndef EDU_NO_EDITOR
+		m_EditorTimer->UpdateTimer();
+		if (!m_EditorWindow->IsPaused())
+		{
+			if (m_EditorTimer->UpdateTitleBarStats(m_EditorFps, m_EditorMspf))
+				Common::UpdateWindowTitle(m_EditorWindow->GetHostWindow(), m_RuntimeFps, m_RuntimeMspf, &m_EditorFps, &m_EditorMspf);
+
+			InputManager::GetEditorInstance().Update();
+
+			EditorInterop::Update();
+			m_EditorThread = std::async(std::launch::async, &IEditorRenderEngine::Draw, m_EditorRenderEngine.get());
+		}
+		else
+		{
+			Sleep(100);
+		}
+#endif
+	}
 }

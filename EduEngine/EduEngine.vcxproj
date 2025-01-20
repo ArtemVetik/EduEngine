@@ -137,10 +137,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Common.cpp" />
     <ClCompile Include="EduEngine.cpp" />
+    <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Common.h" />
+    <ClInclude Include="EduEngine.h" />
     <ClInclude Include="RuntimeRender.h" />
   </ItemGroup>
   <ItemGroup>
