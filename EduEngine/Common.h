@@ -8,7 +8,7 @@ namespace EduEngine
 	class Common
 	{
 	public:
-		static std::wstring OpenFolderDialog(bool folder = true);
+		static std::wstring OpenFolderDialog(bool folder, const wchar_t* description);
 
 		static void UpdateWindowTitle(HWND window, int rFps, float rMspf, int* eFps, float* eMspf);
 

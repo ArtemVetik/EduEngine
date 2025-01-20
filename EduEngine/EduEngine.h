@@ -17,7 +17,7 @@ namespace EduEngine
 	class EduEngine
 	{
 	public:
-		EduEngine(HINSTANCE hInstance);
+		EduEngine(HINSTANCE hInstance, std::wstring folderPath, std::wstring dllPath);
 		~EduEngine();
 
 		void Run();

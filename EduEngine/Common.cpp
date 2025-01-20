@@ -2,7 +2,7 @@
 
 namespace EduEngine
 {
-    std::wstring Common::OpenFolderDialog(bool folder)
+    std::wstring Common::OpenFolderDialog(bool folder, const wchar_t* description)
     {
 		CoInitialize(nullptr);
 
@@ -16,6 +16,7 @@ namespace EduEngine
 			pFileDialog->GetOptions(&options);
 			pFileDialog->SetOptions(options | (folder ? FOS_PICKFOLDERS : FOS_FILEMUSTEXIST));
 
+			pFileDialog->SetTitle(description);
 			hr = pFileDialog->Show(nullptr);
 			if (SUCCEEDED(hr)) {
 				IShellItem* pItem = nullptr;

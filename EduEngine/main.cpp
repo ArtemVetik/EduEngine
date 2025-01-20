@@ -7,7 +7,15 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance,
 	EduEngine::Common::AllocWinConsole();
 #endif
 
-	EduEngine::EduEngine engine(hInstance);
+	std::wstring folderPath = EduEngine::Common::OpenFolderDialog(true, L"Select Assets folder");
+	if (folderPath.empty())
+		return 0;
+
+	std::wstring dllPath = EduEngine::Common::OpenFolderDialog(false, L"Select scripts DLL file");
+	if (dllPath.empty())
+		return 0;
+
+	EduEngine::EduEngine engine(hInstance, folderPath, dllPath);
 	engine.Run();
 
 	return 0;

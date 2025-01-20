@@ -2,16 +2,8 @@
 
 namespace EduEngine
 {
-	EduEngine::EduEngine(HINSTANCE hInstance)
+	EduEngine::EduEngine(HINSTANCE hInstance, std::wstring folderPath, std::wstring dllPath)
 	{
-		std::wstring folderPath = Common::OpenFolderDialog();
-		if (folderPath.empty())
-			return;
-
-		std::wstring dllPath = Common::OpenFolderDialog(false);
-		if (dllPath.empty())
-			return;
-
 		HWND editorWnd = 0;
 #ifndef EDU_NO_EDITOR
 		m_EditorWindow = std::make_unique<EditorWindow>(hInstance, 1280, 720);
