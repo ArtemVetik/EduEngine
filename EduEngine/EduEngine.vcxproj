@@ -165,6 +165,15 @@
       <Project>{8f2a71f1-7b8d-42d5-8b91-094ee2ca63ce}</Project>
     </ProjectReference>
   </ItemGroup>
+  <Target Name="CopyResources" AfterTargets="Build">
+    <ItemGroup>
+        <ShaderFiles Include="$(SolutionDir)EduEngine\Shaders\**\*" />
+    </ItemGroup>
+    <Copy SourceFiles="@(ShaderFiles)" DestinationFolder="$(OutDir)Shaders" />
+	
+    <Copy SourceFiles="$(SolutionDir)EduEngine\imgui.ini" DestinationFolder="$(OutDir)" />
+    <Copy SourceFiles="$(SolutionDir)EduEngine\renderSettings.ini" DestinationFolder="$(OutDir)" />
+  </Target>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />
 </Project>
