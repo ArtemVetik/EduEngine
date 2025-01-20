@@ -26,9 +26,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="RuntimeRender.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="EduEngine.h">
       <Filter>Header Files</Filter>
     </ClInclude>

@@ -42,15 +42,12 @@ namespace EduEngine
 #else
 		EditorInterop::Initialize(folderPath, dllPath, false);
 #endif
-
-		m_RuntimeRender = std::make_unique<RuntimeRender>(m_RenderEngine.get());
 	}
 
 	EduEngine::~EduEngine()
 	{
 #ifndef EDU_NO_EDITOR
 		m_EditorThread.get();
-		m_RuntimeThread.get();
 
 		m_EditorRenderEngine.reset();
 #endif
@@ -75,12 +72,8 @@ namespace EduEngine
 			}
 			else
 			{
-#ifndef EDU_NO_EDITOR
-				if (!m_RuntimeThread.valid() || Common::future_is_ready(m_RuntimeThread))
-#endif
-				{
-					RenderRuntime();
-				}
+				RenderRuntime();
+
 #ifndef EDU_NO_EDITOR
 				if (!m_EditorThread.valid() || Common::future_is_ready(m_EditorThread))
 				{
@@ -119,23 +112,25 @@ namespace EduEngine
 #ifndef EDU_NO_EDITOR
 				if (EditorInterop::InspectScene())
 				{
-					m_RuntimeThread = std::async(std::launch::async, &RuntimeRender::RenderEditor, *m_RuntimeRender);
+					m_RenderEngine->BeginDraw();
+					EditorInterop::RenderScene();
+					m_RenderEngine->EndDraw();
 				}
 				else
 #endif
 				{
-#ifndef EDU_NO_EDITOR
-					m_RuntimeThread = std::async(std::launch::async, &RuntimeRender::RenderRuntime, *m_RuntimeRender);
-#else
-					m_RuntimeRender->RenderRuntime();
-#endif
+					m_RenderEngine->BeginDraw();
+					GameplayInterop::Render();
+					m_RenderEngine->EndDraw();
 				}
 			}
 #ifndef EDU_NO_EDITOR
 			else if (EditorInterop::GetEngineState() == EngineState::Editor)
 			{
 				GameplayInterop::Update();
-				m_RuntimeThread = std::async(std::launch::async, &RuntimeRender::RenderEditor, *m_RuntimeRender);
+				m_RenderEngine->BeginDraw();
+				EditorInterop::RenderScene();
+				m_RenderEngine->EndDraw();
 			}
 #endif
 		}

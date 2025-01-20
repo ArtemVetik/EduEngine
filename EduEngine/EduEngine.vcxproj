@@ -144,7 +144,6 @@
   <ItemGroup>
     <ClInclude Include="Common.h" />
     <ClInclude Include="EduEngine.h" />
-    <ClInclude Include="RuntimeRender.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Modules\CoreInterop\CoreInterop.vcxproj">
