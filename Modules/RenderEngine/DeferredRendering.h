@@ -15,10 +15,10 @@ namespace EduEngine
 
 		void InitResources();
 
-		void PrepareRenderGeometry(Camera* camera, const CSMRendering* csmRendering, D3D12_RECT* scissorRect);
+		void PrepareRenderGeometry(Camera* camera, D3D12_RECT* scissorRect);
 		void RenderGeomerty(const RenderObject* renderObject);
 
-		void RenderLights(Camera* camera, const std::vector<std::shared_ptr<Light>>& lights, D3D12_RECT* scissorRect);
+		void RenderLights(Camera* camera, const std::vector<std::shared_ptr<Light>>& lights, const CSMRendering* csmRendering, D3D12_RECT* scissorRect);
 		void RenderToneMapping(Camera* camera);
 
 		GBuffer* GetGBuffer() const { return m_GBuffer.get(); }

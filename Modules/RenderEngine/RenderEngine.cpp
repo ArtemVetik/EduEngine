@@ -267,7 +267,7 @@ namespace EduEngine
 		commandContext.SetViewports(&viewport, 1);
 		commandContext.SetScissorRects(scissorRect, 1);
 
-		m_DeferredRendering->PrepareRenderGeometry(camera, m_CSMRendering.get(), scissorRect);
+		m_DeferredRendering->PrepareRenderGeometry(camera, scissorRect);
 
 		for (int i = 0; i < m_RenderObjects.size(); i++)
 			m_DeferredRendering->RenderGeomerty(m_RenderObjects[i].get());
@@ -280,7 +280,7 @@ namespace EduEngine
 			D3D12_RESOURCE_STATE_DEPTH_WRITE, D3D12_RESOURCE_STATE_GENERIC_READ));
 		commandContext.FlushResourceBarriers();
 
-		m_DeferredRendering->RenderLights(camera, m_Lights, scissorRect);
+		m_DeferredRendering->RenderLights(camera, m_Lights, m_CSMRendering.get(), scissorRect);
 
 		commandContext.ResourceBarrier(CD3DX12_RESOURCE_BARRIER::Transition(m_DeferredRendering->GetGBuffer()->GetAccumBuffer(),
 			D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_GENERIC_READ));

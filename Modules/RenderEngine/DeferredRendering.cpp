@@ -35,7 +35,7 @@ namespace EduEngine
 		m_NullTex = std::make_unique<TextureHeapView>(std::move(gpuAlloc), false);
 	}
 
-	void DeferredRendering::PrepareRenderGeometry(Camera* camera, const CSMRendering* csmRendering, D3D12_RECT* scissorRect)
+	void DeferredRendering::PrepareRenderGeometry(Camera* camera, D3D12_RECT* scissorRect)
 	{
 		auto& commandContext = m_Device->GetCommandContext(D3D12_COMMAND_LIST_TYPE_DIRECT);
 
@@ -55,23 +55,12 @@ namespace EduEngine
 
 		GBufferPass::PassConstants passConstants = {};
 		XMStoreFloat4x4(&passConstants.ViewProj, XMMatrixTranspose(camera->GetViewProjMatrix()));
-		XMStoreFloat4x4(&passConstants.View, XMMatrixTranspose(XMLoadFloat4x4(&camera->GetViewMatrix())));
 		passConstants.EyePosW = camera->GetPosition();
-		passConstants.CascadeCount = csmRendering->GetCascadeCount();
-
-		for (int i = 0; i < csmRendering->GetCascadeCount(); i++)
-		{
-			XMStoreFloat4x4(passConstants.CascadeTransform + i, XMMatrixTranspose(csmRendering->GetCascadeTransform(i)));
-			passConstants.CascadeDistance[i] = csmRendering->GetCascadeDistance(i);
-		}
 
 		DynamicUploadBuffer passUploadBuffer(m_Device, QueueID::Direct);
 		passUploadBuffer.LoadData(passConstants);
 
-		DynamicUploadBuffer shadowMapsUploadBuffer(m_Device, QueueID::Direct);
-
-		commandContext.GetCmdList()->SetGraphicsRootDescriptorTable(3, csmRendering->GetGPUHandle());
-		commandContext.GetCmdList()->SetGraphicsRootConstantBufferView(4, passUploadBuffer.GetAllocation().GPUAddress);
+		commandContext.GetCmdList()->SetGraphicsRootConstantBufferView(3, passUploadBuffer.GetAllocation().GPUAddress);
 	}
 
 	void DeferredRendering::RenderGeomerty(const RenderObject* renderObject)
@@ -121,7 +110,7 @@ namespace EduEngine
 		commandContext.GetCmdList()->DrawIndexedInstanced(renderObject->GetIndexBuffer()->GetLength(), 1, 0, 0, 0);
 	}
 
-	void DeferredRendering::RenderLights(Camera* camera, const std::vector<std::shared_ptr<Light>>& lights, D3D12_RECT* scissorRect)
+	void DeferredRendering::RenderLights(Camera* camera, const std::vector<std::shared_ptr<Light>>& lights, const CSMRendering* csmRendering, D3D12_RECT* scissorRect)
 	{
 		auto& commandContext = m_Device->GetCommandContext(D3D12_COMMAND_LIST_TYPE_DIRECT);
 
@@ -148,6 +137,7 @@ namespace EduEngine
 
 		XMStoreFloat4x4(&lightPassConstants.ProjInv, projInv);
 		XMStoreFloat4x4(&lightPassConstants.ViewInv, viewInv);
+		XMStoreFloat4x4(&lightPassConstants.View, XMMatrixTranspose(XMLoadFloat4x4(&camera->GetViewMatrix())));
 
 		lightPassConstants.EyePosW = camera->GetPosition();
 		lightPassConstants.ClearColor = camera->GetBackgroundColor();
@@ -160,6 +150,13 @@ namespace EduEngine
 				lightPassConstants.PointLightsCount++;
 			if (lights[i]->LightType == Light::Type::Spotlight)
 				lightPassConstants.SpotLightsCount++;
+		}
+		lightPassConstants.CascadeCount = csmRendering->GetCascadeCount();
+
+		for (int i = 0; i < csmRendering->GetCascadeCount(); i++)
+		{
+			XMStoreFloat4x4(lightPassConstants.CascadeTransform + i, XMMatrixTranspose(csmRendering->GetCascadeTransform(i)));
+			lightPassConstants.CascadeDistance[i] = csmRendering->GetCascadeDistance(i);
 		}
 
 		DynamicUploadBuffer lightPassUploadBuffer(m_Device, QueueID::Direct);
@@ -188,7 +185,8 @@ namespace EduEngine
 			commandContext.GetCmdList()->SetGraphicsRootDescriptorTable(5, lightsUploadBuffer.GetSRVDescriptorGPUHandle());
 		}
 
-		commandContext.GetCmdList()->SetGraphicsRootConstantBufferView(6, lightPassUploadBuffer.GetAllocation().GPUAddress);
+		commandContext.GetCmdList()->SetGraphicsRootDescriptorTable(6, csmRendering->GetGPUHandle());
+		commandContext.GetCmdList()->SetGraphicsRootConstantBufferView(7, lightPassUploadBuffer.GetAllocation().GPUAddress);
 
 		if (camera->GetSkyGPUPtr())
 		{
@@ -197,7 +195,7 @@ namespace EduEngine
 			commandContext.GetCmdList()->SetGraphicsRootDescriptorTable(4, textDesc);
 		}
 
-		commandContext.GetCmdList()->SetGraphicsRoot32BitConstants(7, 4, &camera->GetViewport(), 0);
+		commandContext.GetCmdList()->SetGraphicsRoot32BitConstants(8, 4, &camera->GetViewport(), 0);
 
 		commandContext.GetCmdList()->DrawIndexedInstanced(6, 1, 0, 0, 0);
 	}

@@ -1,3 +1,5 @@
+#define MAX_CASCADES 4
+
 #include "LightingUtil.hlsl"
 
 Texture2D gAlbedoTexture : register(t0);
@@ -6,6 +8,7 @@ Texture2D gMaterialTexture : register(t2);
 Texture2D gDepthTexture : register(t3);
 TextureCube gCubeMap : register(t4);
 StructuredBuffer<Light> gLights : register(t5);
+Texture2D gShadowMap[MAX_CASCADES] : register(t6);
 
 SamplerState gsamPointWrap : register(s0);
 SamplerState gsamPointClamp : register(s1);
@@ -19,13 +22,17 @@ cbuffer cbPass : register(b0)
 {
     float4x4 gProjInv;
     float4x4 gViewInv;
+    float4x4 gView;
     float3 gEyePosW;
     uint gDirectionalLightsCount;
     uint gPointLightsCount;
     uint gSpotLightsCount;
-    float2 gPadding;
+    uint gCascadeCount;
+    uint gPadding;
     float4 gClearColor;
     float4 gAmbientLight;
+    float4x4 gCascadeTransform[MAX_CASCADES];
+    float4 gCascadeDistance;
 };
 
 cbuffer cbCameraViewport : register(b1)
@@ -44,6 +51,39 @@ struct VertexOut
     float4 PosH : SV_POSITION;
     float2 TexC : TEXCOORD;
 };
+
+//---------------------------------------------------------------------------------------
+// PCF for shadow mapping.
+//---------------------------------------------------------------------------------------
+
+float CalcShadowFactor(float4 shadowPosH, uint mapIndex)
+{
+    shadowPosH.xyz /= shadowPosH.w;
+    
+    float depth = shadowPosH.z;
+
+    uint width, height, numMips;
+    gShadowMap[mapIndex].GetDimensions(0, width, height, numMips);
+	
+    float dx = 1.0f / (float) width;
+
+    float percentLit = 0.0f;
+    const float2 offsets[9] =
+    {
+        float2(-dx, -dx), float2(0.0f, -dx), float2(dx, -dx),
+        float2(-dx, 0.0f), float2(0.0f, 0.0f), float2(dx, 0.0f),
+        float2(-dx, +dx), float2(0.0f, +dx), float2(dx, +dx)
+    };
+	
+    [unroll]
+    for (int i = 0; i < 9; ++i)
+    {
+        percentLit += gShadowMap[mapIndex].SampleCmpLevelZero(gsamShadow,
+            shadowPosH.xy + offsets[i], depth).r;
+    }
+	
+    return percentLit / 9.0f;
+}
 
 VertexOut VS(VertexIn vIn)
 {
@@ -77,12 +117,31 @@ float4 PS(VertexOut pIn) : SV_TARGET
 	
     Material mat = { diffuseAlbedo, material.rgb, 1.0f - material.a };
 	
+    float viewDepth = mul(posW, gView).z;
+    
+    int4 comparisons = int4(viewDepth >= gCascadeDistance.r,
+                            viewDepth >= gCascadeDistance.g,
+                            viewDepth >= gCascadeDistance.b,
+                            viewDepth >= gCascadeDistance.a);
+    
+    int cascadeIndex = min(
+        MAX_CASCADES - 1,
+        dot(comparisons, int4(gCascadeCount > 0, gCascadeCount > 1, gCascadeCount > 2, gCascadeCount > 3))
+    );
+    
+    float4 shadowPosH = mul(float4(posW.xyz, 1), gCascadeTransform[cascadeIndex]);
+    float shadowFactor = CalcShadowFactor(shadowPosH, cascadeIndex);
+    
+    
+    float depthExceedsMax = step(gCascadeDistance.a, viewDepth);
+    shadowFactor = lerp(shadowFactor, 1.0f, depthExceedsMax);
+    
     float3 result = 0.0f;
     
     int i = 0;
     for (; i < gDirectionalLightsCount; i++)
     {
-        result += normal.a * ComputeDirectionalLight(gLights[i], mat, normal.rgb, toEyeW);
+        result += shadowFactor * ComputeDirectionalLight(gLights[i], mat, normal.rgb, toEyeW);
     }
     
     for (i = gDirectionalLightsCount; i < gDirectionalLightsCount + gPointLightsCount; i++)
@@ -107,3 +166,5 @@ float4 PS(VertexOut pIn) : SV_TARGET
 	
     return litColor;
 }
+
+#undef MAX_CASCADES

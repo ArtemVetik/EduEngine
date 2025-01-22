@@ -125,7 +125,7 @@ namespace EduEngine
 			};
 
 			D3D12_RASTERIZER_DESC rast = CD3DX12_RASTERIZER_DESC(D3D12_DEFAULT);
-			rast.DepthBias = 10000;
+			rast.DepthBias = 30000;
 			rast.DepthBiasClamp = 0.0f;
 			rast.SlopeScaledDepthBias = 1.0f;
 
@@ -161,11 +161,8 @@ namespace EduEngine
 		struct PassConstants
 		{
 			DirectX::XMFLOAT4X4 ViewProj;
-			DirectX::XMFLOAT4X4 View;
 			DirectX::XMFLOAT3 EyePosW;
-			UINT CascadeCount;
-			DirectX::XMFLOAT4X4 CascadeTransform[4];
-			float CascadeDistance[4] = { FLT_MAX, FLT_MAX, FLT_MAX, FLT_MAX };
+			UINT Padding;
 		};
 
 		static constexpr int GBufferCount = 3;
@@ -199,10 +196,6 @@ namespace EduEngine
 			albedoTexture.Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 0);
 			m_RootSignature.AddDescriptorParameter(1, &albedoTexture); // diffuse map
 
-			CD3DX12_DESCRIPTOR_RANGE shadowMaps;
-			shadowMaps.Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 4, 1);
-			m_RootSignature.AddDescriptorParameter(1, &shadowMaps); // shadow map
-
 			m_RootSignature.AddConstantBufferView(2); // pass constants
 
 			m_RootSignature.Build(device, QueueID::Direct);
@@ -235,13 +228,17 @@ namespace EduEngine
 		{
 			DirectX::XMFLOAT4X4 ProjInv;
 			DirectX::XMFLOAT4X4 ViewInv;
+			DirectX::XMFLOAT4X4 View;
 			DirectX::XMFLOAT3 EyePosW = { 0.0f, 0.0f, 0.0f };
 			UINT DirectionalLightsCount = 0;
 			UINT PointLightsCount = 0;
 			UINT SpotLightsCount = 0;
-			DirectX::XMFLOAT2 Padding;
+			UINT CascadeCount;
+			UINT Padding;
 			DirectX::XMFLOAT4 ClearColor;
 			DirectX::XMFLOAT4 AmbientLight = { 0.25f, 0.25f, 0.35f, 1.0f };
+			DirectX::XMFLOAT4X4 CascadeTransform[4];
+			float CascadeDistance[4] = { FLT_MAX, FLT_MAX, FLT_MAX, FLT_MAX };
 		};
 
 		static constexpr DXGI_FORMAT AccumBuffFormat = DXGI_FORMAT_R16G16B16A16_FLOAT;
@@ -280,6 +277,10 @@ namespace EduEngine
 			CD3DX12_DESCRIPTOR_RANGE lights;
 			lights.Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 5);
 			m_RootSignature.AddDescriptorParameter(1, &lights); // lights
+
+			CD3DX12_DESCRIPTOR_RANGE shadowMap;
+			shadowMap.Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 4, 6);
+			m_RootSignature.AddDescriptorParameter(1, &shadowMap); // shadow map
 
 			m_RootSignature.AddConstantBufferView(0); // pass constants
 
