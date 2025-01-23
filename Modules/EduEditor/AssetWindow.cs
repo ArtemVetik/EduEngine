@@ -5,6 +5,13 @@ namespace EduEngine.Editor
 {
     internal class AssetWindow
     {
+        internal struct AssetPopupInfo
+        {
+            public string Guid;
+            public bool Rename;
+            public bool Delete;
+        }
+
         private readonly Dictionary<AssetType, Vector4> _assetColors = new()
         {
             { AssetType.Scene, new Vector4(0.8f, 0.6f, 0.2f, 1.0f) },
@@ -20,6 +27,7 @@ namespace EduEngine.Editor
         private AssetType? _currentFilter = null;
         private string _popupInput = string.Empty;
         private float _buttonSize = 64.0f;
+        private AssetPopupInfo _popupInfo;
 
         public string SelectedAsset { get; private set; } = null;
 
@@ -33,8 +41,9 @@ namespace EduEngine.Editor
             RenderFilter();
 
             ImGui.Separator();
-            
+
             RenderAssets();
+            RenderAssetsPopup();
 
             ImGui.End();
         }
@@ -170,6 +179,26 @@ namespace EduEngine.Editor
                     SelectedAsset = asset.Key;
                 }
 
+                if (ImGui.IsItemClicked(ImGuiMouseButton.Right) && EngineStateManager.CurrentState != EngineState.Runtime)
+                {
+                    ImGui.OpenPopup("AssetItem##" + asset.Key);
+                }
+
+                if (ImGui.BeginPopup("AssetItem##" + asset.Key))
+                {
+                    if (ImGui.MenuItem("Rename"))
+                    {
+                        _popupInfo.Guid = asset.Key;
+                        _popupInfo.Rename = true;
+                    }
+                    if (ImGui.MenuItem("Delete"))
+                    {
+                        _popupInfo.Guid = asset.Key;
+                        _popupInfo.Delete = true;
+                    }
+                    ImGui.EndPopup();
+                }
+
                 ImGui.PopStyleColor();
                 ImGui.PopStyleColor();
                 ImGui.PopStyleColor();
@@ -189,6 +218,78 @@ namespace EduEngine.Editor
                 {
                     ImGui.SameLine();
                 }
+            }
+        }
+
+        private void RenderAssetsPopup()
+        {
+            if (EngineStateManager.CurrentState == EngineState.Runtime)
+                return;
+
+            if (_popupInfo.Delete)
+            {
+                ImGui.OpenPopup("Delete Asset");
+                _popupInfo.Delete = false;
+            }
+
+            if (ImGui.BeginPopupModal("Delete Asset", ImGuiWindowFlags.AlwaysAutoResize))
+            {
+                var asset = AssetDataBase.GetAssetData(_popupInfo.Guid);
+
+                ImGui.Text($"Delete Asset {asset.LocalPath}");
+
+                if (ImGui.Button("Yes"))
+                {
+                    File.Delete(asset.GlobalPath);
+                    AssetDataBase.Resolve();
+                    ImGui.CloseCurrentPopup();
+                }
+
+                ImGui.SameLine();
+
+                if (ImGui.Button("No"))
+                {
+                    ImGui.CloseCurrentPopup();
+                }
+
+                ImGui.EndPopup();
+            }
+
+            if (_popupInfo.Rename)
+            {
+                ImGui.OpenPopup("Rename Asset");
+                _popupInfo.Rename = false;
+            }
+
+            if (ImGui.BeginPopupModal("Rename Asset", ImGuiWindowFlags.AlwaysAutoResize))
+            {
+                var asset = AssetDataBase.GetAssetData(_popupInfo.Guid);
+
+                ImGui.InputText("New Name", ref _popupInput, 100);
+
+                ImGui.Text($"Rename Asset");
+                ImGui.Text($"From: {Path.GetFileName(asset.LocalPath)}");
+                ImGui.Text($"To: {_popupInput}{Path.GetExtension(asset.LocalPath)}");
+
+                if (ImGui.Button("Yes"))
+                {
+                    string directoryPath = Path.GetDirectoryName(asset.GlobalPath);
+                    string newFilePath = Path.Combine(directoryPath, _popupInput) + Path.GetExtension(asset.LocalPath);
+
+                    File.Move(asset.GlobalPath, newFilePath);
+                    File.Move(asset.GlobalPath + ".meta", newFilePath + ".meta");
+                    AssetDataBase.Resolve();
+                    ImGui.CloseCurrentPopup();
+                }
+
+                ImGui.SameLine();
+
+                if (ImGui.Button("No"))
+                {
+                    ImGui.CloseCurrentPopup();
+                }
+
+                ImGui.EndPopup();
             }
         }
     }
