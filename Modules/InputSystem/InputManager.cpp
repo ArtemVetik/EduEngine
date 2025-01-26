@@ -10,7 +10,8 @@ namespace EduEngine
 		m_keyboardState{},
 		m_prevKeyboardState{},
 		m_mouseState{},
-		m_prevMouseState{}
+		m_prevMouseState{},
+		m_VisibleCursor(true)
 	{ }
 
 	InputManager::~InputManager()
@@ -101,6 +102,15 @@ namespace EduEngine
 		{
 			m_mouseDevice->Acquire();
 			m_mouseDevice->GetDeviceState(sizeof(DIMOUSESTATE2), (LPVOID)&m_mouseState);
+		}
+	}
+
+	void InputManager::SetCursorVisibility(bool visible)
+	{
+		if (m_VisibleCursor != visible)
+		{
+			m_VisibleCursor = visible;
+			ShowCursor(visible);
 		}
 	}
 

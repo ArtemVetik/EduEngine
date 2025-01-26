@@ -17,6 +17,7 @@ namespace EduEngine
 	public:
 		InputSystemInterop(bool editor);
 
+		void SetCursorVisibility(bool visible);
 		bool IsAnyKeyPressed();
 		bool IsKeyPressed(BYTE key);
 		bool IsKeyDown(BYTE key);

@@ -80,6 +80,7 @@ namespace EduEngine.Editor
                 _hierarchyWindow.ResetSelected();
                 EngineStateManager.CurrentState = EngineState.Editor;
                 SceneImporter.LoadScene(_sceneData, SceneManager.CurrentScene.GUID, false);
+                Input.Runtime.SetCursorVisibility(true);
             }
 
             if (disabled)

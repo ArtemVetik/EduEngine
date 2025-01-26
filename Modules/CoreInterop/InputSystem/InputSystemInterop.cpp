@@ -9,6 +9,12 @@ namespace EduEngine
 		else
 			m_Input = &InputManager::GetInstance();
 	}
+
+	void InputSystemInterop::SetCursorVisibility(bool visible)
+	{
+		m_Input->SetCursorVisibility(visible);
+	}
+
 	bool InputSystemInterop::IsAnyKeyPressed()
 	{
 		return m_Input->IsAnyKeyPressed();

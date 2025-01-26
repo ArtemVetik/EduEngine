@@ -16,6 +16,7 @@ namespace EduEngine
 
         bool Initialize(HINSTANCE hInstance, HWND hWnd);
         void Update();
+        void SetCursorVisibility(bool visible);
         bool IsKeyPressed(BYTE key);
         bool IsKeyDown(BYTE key);
         bool IsKeyUp(BYTE key);
@@ -45,5 +46,6 @@ namespace EduEngine
         DIMOUSESTATE2 m_prevMouseState;
 
         HWND m_window;
+        bool m_VisibleCursor;
     };
 }

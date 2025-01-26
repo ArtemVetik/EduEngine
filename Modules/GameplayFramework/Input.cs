@@ -59,6 +59,12 @@ namespace EduEngine
                 return (prevMouseState.rgbButtons[(byte)mouseCode] & 0x80) != 0 &&
                        (mouseState.rgbButtons[(byte)mouseCode] & 0x80) == 0;
             }
+
+
+            public void SetCursorVisibility(bool visible)
+            {
+                _input.SetCursorVisibility(visible);
+            }
         }
     }
 }
