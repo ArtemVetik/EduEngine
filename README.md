@@ -64,9 +64,10 @@ This engine was developed as an educational project as part of the curriculum at
 - Asset references can be assigned from the editor
 - Keyboard and mouse input API
 - `IColliderCallback` interface
+- Custom in-game UI
 - Extensive API for modifying parameters of built-in components such as `Renderer`, `Rigidbody`, `Light`, and others
 - Support for any .NET libraries in scripts
-- [More on Wiki](https://github.com/ArtemVetik/EduEngine/wiki)
+- [More on Wiki - C# Scripts Feature](https://github.com/ArtemVetik/EduEngine/wiki/C%23-Scripts-Features)
 
 ### Asset Manager
 - Support for script, texture, mesh, material, and scene assets
