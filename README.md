@@ -21,6 +21,13 @@ This engine was developed as an educational project as part of the curriculum at
 |----|
 | [![SplitScreenDemo](https://img.youtube.com/vi/5VBvPJOgwn0/0.jpg)](https://www.youtube.com/watch?v=5VBvPJOgwn0)
 
+## Quick Start
+* [Submodule Initialization](https://github.com/ArtemVetik/EduEngine/wiki/Quick-Start#submodule-initialization)
+* [Building From Source](https://github.com/ArtemVetik/EduEngine/wiki/Quick-Start#building-from-source)
+* [Running Demo Projects](https://github.com/ArtemVetik/EduEngine/wiki/Quick-Start#running-demo-projects)
+
+> You can use [EduEngineLauncher](https://github.com/ArtemVetik/EduEngineLauncher) to open and create projects
+
 ## Core Features
 
 ### Rendering
@@ -78,9 +85,3 @@ This engine was developed as an educational project as part of the curriculum at
 - Editor and Play modes
 - Includes an `EDU_NO_EDITOR` flag to enable running the engine without loading editor resources
 - [More on Wiki](https://github.com/ArtemVetik/EduEngine/wiki)
-
-## How To Build
-In progress...
-
-## Documentation
-In progress...
