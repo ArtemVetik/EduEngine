@@ -17,6 +17,7 @@ namespace EduEngine
         bool Initialize(HINSTANCE hInstance, HWND hWnd);
         void Update();
         void SetCursorVisibility(bool visible);
+        void ClipCursorToWindow(bool clip);
         bool IsKeyPressed(BYTE key);
         bool IsKeyDown(BYTE key);
         bool IsKeyUp(BYTE key);

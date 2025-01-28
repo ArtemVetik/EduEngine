@@ -114,6 +114,20 @@ namespace EduEngine
 		}
 	}
 
+	void InputManager::ClipCursorToWindow(bool clip)
+	{
+		if (!clip)
+		{
+			ClipCursor(NULL);
+			return;
+		}
+
+		RECT rect;
+		GetClientRect(m_window, &rect);
+		MapWindowPoints(m_window, nullptr, (POINT*)&rect, 2);
+		ClipCursor(&rect);
+	}
+
 	bool InputManager::IsKeyPressed(BYTE key)
 	{
 		return m_keyboardState[key] & 0x80;

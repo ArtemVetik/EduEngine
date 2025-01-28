@@ -65,6 +65,11 @@ namespace EduEngine
             {
                 _input.SetCursorVisibility(visible);
             }
+
+            public void ClipCursorToWindow(bool clip)
+            {
+                _input.ClipCursorToWindow(clip);
+            }
         }
     }
 }

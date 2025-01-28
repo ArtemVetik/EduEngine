@@ -15,6 +15,11 @@ namespace EduEngine
 		m_Input->SetCursorVisibility(visible);
 	}
 
+	void InputSystemInterop::ClipCursorToWindow(bool clip)
+	{
+		m_Input->ClipCursorToWindow(clip);
+	}
+
 	bool InputSystemInterop::IsAnyKeyPressed()
 	{
 		return m_Input->IsAnyKeyPressed();
