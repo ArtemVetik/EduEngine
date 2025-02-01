@@ -50,30 +50,19 @@ namespace EduEngine
 		LoadData(initData);
 	}
 
-	void BufferD3D12::LoadData(const void* data)
+	void BufferD3D12::LoadData(const void* data, UINT* byteSize /* = nullptr */)
 	{
-		Microsoft::WRL::ComPtr<ID3D12Resource> uploadBuffer;
-		// In order to copy CPU memory data into our default buffer, we need to create
-		// an intermediate upload heap. 
-		HRESULT hr = m_Device->GetD3D12Device()->CreateCommittedResource(
-			&CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD),
-			D3D12_HEAP_FLAG_NONE,
-			&m_d3d12Resource->GetDesc(),
-			D3D12_RESOURCE_STATE_GENERIC_READ,
-			nullptr,
-			IID_PPV_ARGS(uploadBuffer.GetAddressOf()));
+		UINT64 uploadBufferSize = 0;
 
-		THROW_IF_FAILED(hr, L"Failed to create resource in upload heap");
+		if (byteSize)
+			uploadBufferSize = *byteSize;
+		else
+			m_Device->GetD3D12Device()->GetCopyableFootprints(&m_d3d12Resource->GetDesc(), 0, 1, 0, nullptr, nullptr, nullptr, &uploadBufferSize);
 
-		// Describe the data we want to copy into the default buffer.
-		D3D12_SUBRESOURCE_DATA subResourceData = {};
-		subResourceData.pData = data;
-		subResourceData.RowPitch = m_d3d12Resource->GetDesc().Width;
-		subResourceData.SlicePitch = subResourceData.RowPitch;
+		auto uploadBuff = m_Device->AllocateDynamicUploadGPUDescriptor(m_QueueId, uploadBufferSize);
 
-		// Schedule to copy the data to the default buffer resource.  At a high level, the helper function UpdateSubresources
-		// will copy the CPU memory into the intermediate upload heap.  Then, using ID3D12CommandList::CopySubresourceRegion,
-		// the intermediate upload heap data will be copied to mBuffer.
+		memcpy(reinterpret_cast<char*>(uploadBuff.CPUAddress), data, uploadBufferSize);
+
 		auto& cmdContext = m_QueueId == QueueID::Compute
 			? m_Device->GetCommandContext(D3D12_COMMAND_LIST_TYPE_COMPUTE)
 			: m_Device->GetCommandContext(D3D12_COMMAND_LIST_TYPE_DIRECT);
@@ -84,19 +73,11 @@ namespace EduEngine
 			beforeState, D3D12_RESOURCE_STATE_COPY_DEST));
 		cmdContext.FlushResourceBarriers();
 
-		cmdContext.UpdateSubresource(m_d3d12Resource.Get(), uploadBuffer.Get(), &subResourceData);
+		cmdContext.GetCmdList()->CopyBufferRegion(m_d3d12Resource.Get(), 0, uploadBuff.pBuffer, uploadBuff.Offset, uploadBufferSize);
 
 		cmdContext.ResourceBarrier(CD3DX12_RESOURCE_BARRIER::Transition(m_d3d12Resource.Get(),
 			D3D12_RESOURCE_STATE_COPY_DEST, beforeState));
 		cmdContext.FlushResourceBarriers();
-
-		// Note: uploadBuffer has to be kept alive after the above function calls because
-		// the command list has not been executed yet that performs the actual copy.
-		// The caller can Release the uploadBuffer after it knows the copy has been executed.
-
-		ReleaseResourceWrapper releaseObject;
-		releaseObject.AddResource(std::move(uploadBuffer));
-		m_Device->SafeReleaseObject(m_QueueId, std::move(releaseObject));
 	}
 
 	void BufferD3D12::CreateCBV()

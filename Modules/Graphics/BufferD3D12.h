@@ -38,7 +38,7 @@ namespace EduEngine
 					const void*				   initData,
 					QueueID					   queueId);
 
-		void LoadData(const void* data);
+		void LoadData(const void* data, UINT* byteSize = nullptr);
 
 		void CreateCBV();
 		void CreateSRV(const D3D12_SHADER_RESOURCE_VIEW_DESC* srvDesc);
@@ -57,11 +57,12 @@ namespace EduEngine
 	class GRAPHICS_API VertexBufferD3D12 : public BufferD3D12
 	{
 	public:
-		VertexBufferD3D12(RenderDeviceD3D12* pDevice,
-						  const void*		 initData,
-						  UINT				 byteStride,
-						  UINT				 bufferLength) :
-			BufferD3D12(pDevice, CD3DX12_RESOURCE_DESC::Buffer(byteStride * bufferLength), initData, QueueID::Direct)
+		VertexBufferD3D12(RenderDeviceD3D12*   pDevice,
+						  const void*		   initData,
+						  UINT				   byteStride,
+						  UINT				   bufferLength,
+						  D3D12_RESOURCE_FLAGS flags = D3D12_RESOURCE_FLAG_NONE) :
+			BufferD3D12(pDevice, CD3DX12_RESOURCE_DESC::Buffer(byteStride * bufferLength, flags), initData, QueueID::Direct)
 		{
 			m_View.BufferLocation = m_d3d12Resource->GetGPUVirtualAddress();
 			m_View.StrideInBytes = byteStride;
@@ -77,12 +78,13 @@ namespace EduEngine
 	class GRAPHICS_API IndexBufferD3D12 : public BufferD3D12
 	{
 	public:
-		IndexBufferD3D12(RenderDeviceD3D12* pDevice,
-						 const void*		initData,
-						 UINT				byteStride,
-						 UINT				bufferLength,
-						 DXGI_FORMAT		format) :
-			BufferD3D12(pDevice, CD3DX12_RESOURCE_DESC::Buffer(byteStride * bufferLength), initData, QueueID::Direct),
+		IndexBufferD3D12(RenderDeviceD3D12*   pDevice,
+						 const void*		  initData,
+						 UINT				  byteStride,
+						 UINT				  bufferLength,
+						 DXGI_FORMAT		  format,
+						 D3D12_RESOURCE_FLAGS flags = D3D12_RESOURCE_FLAG_NONE) :
+			BufferD3D12(pDevice, CD3DX12_RESOURCE_DESC::Buffer(byteStride * bufferLength, flags), initData, QueueID::Direct),
 			m_Length(bufferLength)
 		{
 			m_View.BufferLocation = m_d3d12Resource->GetGPUVirtualAddress();
