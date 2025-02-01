@@ -89,21 +89,23 @@ VertexOut VS(VertexIn vIn)
 {
     VertexOut vOut;
     vOut.PosH = float4(vIn.PosL, 1.0f);
-    vOut.TexC = gViewport.xy + vIn.TexC * gViewport.zw;
+    vOut.TexC = vIn.TexC;
     return vOut;
 }
 
 [earlydepthstencil]
 float4 PS(VertexOut pIn) : SV_TARGET
 {
-    float z = gDepthTexture.Sample(gsamPointWrap, pIn.TexC).r;
+    float2 vTexC = gViewport.xy + pIn.TexC * gViewport.zw;
+    
+    float z = gDepthTexture.Sample(gsamPointWrap, vTexC).r;
     
     if (z >= 1.0f)
         return gClearColor;
     
-    float4 diffuseAlbedo = gAlbedoTexture.Sample(gsamPointWrap, pIn.TexC);
-    float4 normal = gNormalTexture.Sample(gsamPointWrap, pIn.TexC);
-    float4 material = gMaterialTexture.Sample(gsamPointWrap, pIn.TexC);
+    float4 diffuseAlbedo = gAlbedoTexture.Sample(gsamPointWrap, vTexC);
+    float4 normal = gNormalTexture.Sample(gsamPointWrap, vTexC);
+    float4 material = gMaterialTexture.Sample(gsamPointWrap, vTexC);
 	
     float4 clipSpacePosition = float4(pIn.TexC * 2 - 1, z, 1);
     clipSpacePosition.y *= -1.0f;
@@ -112,7 +114,7 @@ float4 PS(VertexOut pIn) : SV_TARGET
     float4 worldSpacePosition = mul(gViewInv, viewSpacePosition);
 	
     float4 posW = worldSpacePosition;
-	
+    
     float3 toEyeW = normalize(gEyePosW - posW.rgb);
 	
     Material mat = { diffuseAlbedo, material.rgb, 1.0f - material.a };
