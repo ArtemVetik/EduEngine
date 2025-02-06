@@ -9,7 +9,7 @@ namespace EduEngine
 		m_Device(device),
 		m_SwapChain(swapChain)
 	{
-		m_GBuffer = std::make_unique<GBuffer>(GBufferPass::GBufferCount, GBufferPass::RtvFormats, DeferredLightPass::AccumBuffFormat);
+		m_GBuffer = std::make_unique<GBuffer>(GBufferPass::GBufferCount, GBufferPass::RtvFormats, 1, DeferredLightPass::AccumBuffFormat);
 		m_GBufferPass = std::make_unique<GBufferPass>(m_Device);
 		m_DeferredLightPass = std::make_unique<DeferredLightPass>(m_Device);
 		m_ToneMappingPass = std::make_unique<ToneMappingPass>(m_Device);
@@ -114,7 +114,7 @@ namespace EduEngine
 	{
 		auto& commandContext = m_Device->GetCommandContext(D3D12_COMMAND_LIST_TYPE_DIRECT);
 
-		commandContext.SetRenderTargets(1, &(m_GBuffer->GetAccumBuffRTVView()), true, nullptr);
+		commandContext.SetRenderTargets(1, &(m_GBuffer->GetAccumBuffRTVView(0)), true, nullptr);
 
 		const float color[4] = { 0, 0, 0, 1 };
 		commandContext.GetCmdList()->ClearRenderTargetView(m_SwapChain->CurrentBackBufferView(), color, 1, scissorRect);
@@ -213,7 +213,7 @@ namespace EduEngine
 		commandContext.GetCmdList()->IASetIndexBuffer(&(m_QuadIndexBuff->GetView()));
 		commandContext.GetCmdList()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
-		commandContext.GetCmdList()->SetGraphicsRootDescriptorTable(0, m_GBuffer->GetAccumBuffSRVView());
+		commandContext.GetCmdList()->SetGraphicsRootDescriptorTable(0, m_GBuffer->GetAccumBuffSRVView(0));
 		
 		commandContext.GetCmdList()->SetGraphicsRoot32BitConstants(1, 4, &camera->GetViewport(), 0);
 

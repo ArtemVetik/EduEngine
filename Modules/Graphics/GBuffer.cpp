@@ -2,20 +2,22 @@
 
 namespace EduEngine
 {
-	GBuffer::GBuffer(int count, const DXGI_FORMAT* formats, DXGI_FORMAT accumBuffFormat) :
-		m_bufferCount(count),
+	GBuffer::GBuffer(int gBufferCount, const DXGI_FORMAT* formats, int accumCount, DXGI_FORMAT accumBuffFormat) :
+		m_gBufferCount(gBufferCount),
+		m_accumCount(accumCount),
 		m_AccumBuffFormat(accumBuffFormat)
 	{
-		for (int i = 0; i < count; i++)
+		for (int i = 0; i < gBufferCount; i++)
 			m_Formats[i] = formats[i];
 	}
 
 	void GBuffer::Resize(RenderDeviceD3D12* device, UINT width, UINT height)
 	{
-		for (int i = 0; i < m_bufferCount; i++)
+		for (int i = 0; i < m_gBufferCount; i++)
 			m_GBuffers[i].reset();
 
-		m_AccumBuffer.reset();
+		for (int i = 0; i < m_accumCount; i++)
+			m_AccumBuffer[i].reset();
 
 		D3D12_RESOURCE_DESC resourceDesc;
 		ZeroMemory(&resourceDesc, sizeof(resourceDesc));
@@ -45,7 +47,7 @@ namespace EduEngine
 
 		auto& commandContext = device->GetCommandContext(D3D12_COMMAND_LIST_TYPE_DIRECT);
 
-		for (int i = 0; i < m_bufferCount; i++)
+		for (int i = 0; i < m_gBufferCount; i++)
 		{
 			resourceDesc.Format = m_Formats[i];
 			clearVal.Format = m_Formats[i];
@@ -70,16 +72,22 @@ namespace EduEngine
 		clearVal.Format = m_AccumBuffFormat;
 		gBuffDescSRV.Format = m_AccumBuffFormat;
 
-		m_AccumBuffer = std::make_unique<TextureD3D12>(device, resourceDesc, &clearVal, QueueID::Direct);
-		m_AccumBuffer->CreateSRVView(&gBuffDescSRV, false);
-		m_AccumBuffer->CreateRTVView(nullptr, true);
-		m_AccumBuffer->SetName(L"AccumulationBuffer");
+		for (int i = 0; i < m_accumCount; i++)
+		{
+			m_AccumBuffer[i] = std::make_unique<TextureD3D12>(device, resourceDesc, &clearVal, QueueID::Direct);
+			m_AccumBuffer[i]->CreateSRVView(&gBuffDescSRV, false);
+			m_AccumBuffer[i]->CreateRTVView(nullptr, true);
+			
+			wchar_t bufferName[32];
+			swprintf(bufferName, 32, L"AccumulationBuffer-%d", i);
+			m_AccumBuffer[i]->SetName(bufferName);
 
-		commandContext.ResourceBarrier(CD3DX12_RESOURCE_BARRIER::Transition(
-			m_AccumBuffer->GetD3D12Resource(),
-			D3D12_RESOURCE_STATE_COMMON,
-			D3D12_RESOURCE_STATE_RENDER_TARGET
-		));
+			commandContext.ResourceBarrier(CD3DX12_RESOURCE_BARRIER::Transition(
+				m_AccumBuffer[i]->GetD3D12Resource(),
+				D3D12_RESOURCE_STATE_COMMON,
+				D3D12_RESOURCE_STATE_RENDER_TARGET
+			));
+		}
 	}
 
 	ID3D12Resource* GBuffer::GetGBuffer(int index) const
@@ -97,18 +105,18 @@ namespace EduEngine
 		return m_GBuffers[index]->GetView(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV)->GetGpuHandle();
 	}
 
-	ID3D12Resource* GBuffer::GetAccumBuffer() const
+	ID3D12Resource* GBuffer::GetAccumBuffer(int index) const
 	{
-		return m_AccumBuffer->GetD3D12Resource();
+		return m_AccumBuffer[index]->GetD3D12Resource();
 	}
 
-	D3D12_CPU_DESCRIPTOR_HANDLE GBuffer::GetAccumBuffRTVView() const
+	D3D12_CPU_DESCRIPTOR_HANDLE GBuffer::GetAccumBuffRTVView(int index) const
 	{
-		return m_AccumBuffer->GetView(D3D12_DESCRIPTOR_HEAP_TYPE_RTV)->GetCpuHandle();
+		return m_AccumBuffer[index]->GetView(D3D12_DESCRIPTOR_HEAP_TYPE_RTV)->GetCpuHandle();
 	}
 
-	D3D12_GPU_DESCRIPTOR_HANDLE GBuffer::GetAccumBuffSRVView() const
+	D3D12_GPU_DESCRIPTOR_HANDLE GBuffer::GetAccumBuffSRVView(int index) const
 	{
-		return m_AccumBuffer->GetView(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV)->GetGpuHandle();
+		return m_AccumBuffer[index]->GetView(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV)->GetGpuHandle();
 	}
 }
