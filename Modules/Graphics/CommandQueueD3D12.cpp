@@ -71,7 +71,8 @@ namespace EduEngine
 				break;
 		}
 
-		m_DynUploadHeap->FinishFrame(m_NextCmdList.load(), numCompletedCmdLists);
+		auto nextCmdList = m_NextCmdList.load();
+		m_DynUploadHeap->FinishFrame({ nextCmdList , nextCmdList }, { numCompletedCmdLists , numCompletedCmdLists });
 	}
 
 	void CommandQueueD3D12::Flush()

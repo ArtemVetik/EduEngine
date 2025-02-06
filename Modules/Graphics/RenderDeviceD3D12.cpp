@@ -34,7 +34,7 @@ namespace EduEngine
 			{ m_GPUDescriptorHeaps[0], 2048, "CBV_SRV_UAV_DynSuballocationMgr" },
 			{ m_GPUDescriptorHeaps[1], 2048, "SAMPLER_DynSuballocationMgr" }
 		},
-		m_DynUploadHeap { true, this, 2048 }
+		m_DynUploadHeap{ true, this, 2048 }
 	{
 	}
 
@@ -114,14 +114,13 @@ namespace EduEngine
 		auto numDirectNextCmdLists = m_CommandQueues[0].GetNextCmdListNum();
 		auto numComputeNextCmdLists = m_CommandQueues[1].GetNextCmdListNum();
 
-		auto minCompletedCmdList = std::min(numDirectCompletedCmdLists, numComputeCompletedCmdLists);
-		auto maxNextCmdList = std::max(numDirectNextCmdLists, numComputeNextCmdLists);
+		FenceValues completedFences = { numDirectCompletedCmdLists, numComputeCompletedCmdLists };
 
 		while (!m_ReleaseObjectsQueue.empty())
 		{
 			auto& firstObj = m_ReleaseObjectsQueue.front();
 			// GPU must have been idled when ForceRelease == true 
-			if (firstObj.first < minCompletedCmdList || forceRelease)
+			if (firstObj.first < completedFences || forceRelease)
 				m_ReleaseObjectsQueue.pop_front();
 			else
 				break;
@@ -130,7 +129,7 @@ namespace EduEngine
 		for (size_t i = 0; i < 2; i++)
 			m_DynamicSuballocationMgr[i].DiscardAllocations();
 
-		m_DynUploadHeap.FinishFrame(maxNextCmdList, minCompletedCmdList);
+		m_DynUploadHeap.FinishFrame({ numDirectNextCmdLists, numComputeNextCmdLists }, { numDirectCompletedCmdLists, numComputeCompletedCmdLists });
 	}
 
 	void RenderDeviceD3D12::FlushQueues()
@@ -144,8 +143,6 @@ namespace EduEngine
 		uint64_t directNum = m_CommandQueues[0].GetNextCmdListNum();
 		uint64_t computeNum = m_CommandQueues[1].GetNextCmdListNum();
 
-		uint64_t max = directNum > computeNum ? directNum : computeNum;
-
-		m_ReleaseObjectsQueue.emplace_back(max, std::move(wrapper));
+		m_ReleaseObjectsQueue.emplace_back(FenceValues{ directNum, computeNum }, std::move(wrapper));
 	}
 }

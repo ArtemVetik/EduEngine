@@ -93,7 +93,7 @@ namespace EduEngine
 		return InvalidOffset;
 	}
 
-	void RingBuffer::FinishCurrentFrame(uint64_t fenceValue)
+	void RingBuffer::FinishCurrentFrame(FenceValues fenceValue)
 	{
 		if (m_CurrFrameSize != 0)
 		{
@@ -102,7 +102,7 @@ namespace EduEngine
 		}
 	}
 
-	void RingBuffer::ReleaseCompletedFrames(uint64_t completedFenceValue)
+	void RingBuffer::ReleaseCompletedFrames(FenceValues completedFenceValue)
 	{
 		// We can release all tails whose associated fence value is less than or equal to CompletedFenceValue
 		while (!m_CompletedFrameTails.empty() && m_CompletedFrameTails.front().FenceValue <= completedFenceValue)

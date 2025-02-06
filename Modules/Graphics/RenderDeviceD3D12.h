@@ -47,7 +47,7 @@ namespace EduEngine
 		GPUDescriptorHeap m_GPUDescriptorHeaps[2];
 		DynamicSuballocationsManager m_DynamicSuballocationMgr[2];
 
-		typedef std::pair<uint64_t, ReleaseResourceWrapper> ReleaseObject;
+		typedef std::pair<FenceValues, ReleaseResourceWrapper> ReleaseObject;
 
 		std::mutex m_ReleasedObjectsMutex;
 		DynamicUploadHeap m_DynUploadHeap; // must be before m_ReleaseObjectsQueue

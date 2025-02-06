@@ -19,7 +19,7 @@ namespace EduEngine
 
         DynamicAllocation Allocate(size_t sizeInBytes, size_t alignment = DEFAULT_ALIGN);
 
-        void FinishFrame(uint64_t fenceValue, uint64_t lastCompletedFenceValue);
+        void FinishFrame(FenceValues fenceValue, FenceValues lastCompletedFenceValue);
 
     private:
         const bool m_bIsCPUAccessible;

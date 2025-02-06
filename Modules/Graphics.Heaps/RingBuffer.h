@@ -1,5 +1,6 @@
 #pragma once
 #include "pch.h"
+#include "QueueID.h"
 
 namespace EduEngine
 {
@@ -8,14 +9,14 @@ namespace EduEngine
 	public:
 		struct GRAPHICS_HEAPS_API FrameTailAttribs
 		{
-			FrameTailAttribs(uint64_t fv, size_t off, size_t sz) :
+			FrameTailAttribs(FenceValues fv, size_t off, size_t sz) :
 				FenceValue(fv),
 				Offset(off),
 				Size(sz)
 			{}
 			// Fence value associated with the command list in which 
 			// the allocation could have been referenced last time
-			uint64_t FenceValue;
+			FenceValues FenceValue;
 			size_t Offset;
 			size_t Size;
 		};
@@ -32,8 +33,8 @@ namespace EduEngine
 
 		size_t Allocate(size_t size);
 
-		void FinishCurrentFrame(uint64_t fenceValue);
-		void ReleaseCompletedFrames(uint64_t completedFenceValue);
+		void FinishCurrentFrame(FenceValues fenceValue);
+		void ReleaseCompletedFrames(FenceValues completedFenceValue);
 
 		size_t GetMaxSize()const { return m_MaxSize; }
 		bool IsFull()const { return m_UsedSize == m_MaxSize; };

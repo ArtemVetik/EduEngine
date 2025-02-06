@@ -63,11 +63,11 @@ namespace EduEngine
 
 		memcpy(reinterpret_cast<char*>(uploadBuff.CPUAddress), data, uploadBufferSize);
 
-		auto& cmdContext = m_QueueId == QueueID::Compute
+		auto& cmdContext = m_QueueId != QueueID::Direct
 			? m_Device->GetCommandContext(D3D12_COMMAND_LIST_TYPE_COMPUTE)
 			: m_Device->GetCommandContext(D3D12_COMMAND_LIST_TYPE_DIRECT);
 
-		auto beforeState = m_QueueId == QueueID::Compute ? D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE : D3D12_RESOURCE_STATE_GENERIC_READ;
+		auto beforeState = m_QueueId != QueueID::Direct ? D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE : D3D12_RESOURCE_STATE_GENERIC_READ;
 
 		cmdContext.ResourceBarrier(CD3DX12_RESOURCE_BARRIER::Transition(m_d3d12Resource.Get(),
 			beforeState, D3D12_RESOURCE_STATE_COPY_DEST));

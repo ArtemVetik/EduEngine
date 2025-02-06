@@ -30,9 +30,10 @@ namespace EduEngine
         return dynAlloc;
 	}
 
-    void DynamicUploadHeap::FinishFrame(uint64_t fenceValue, uint64_t lastCompletedFenceValue)
+    void DynamicUploadHeap::FinishFrame(FenceValues fenceValue, FenceValues lastCompletedFenceValue)
     {
         size_t numBuffsToDelete = 0;
+
         for (size_t ind = 0; ind < m_RingBuffers.size(); ++ind)
         {
             auto& ringBuff = m_RingBuffers[ind];
