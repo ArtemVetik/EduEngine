@@ -13,6 +13,9 @@ namespace EduEngine
 	{
 		if (m_Mesh)
 			m_Mesh->Free();
+
+		if (m_Material)
+			m_Material->Free();
 	}
 
 	void RenderObject::SetMesh(IMesh* mesh)

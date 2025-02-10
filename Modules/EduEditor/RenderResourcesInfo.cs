@@ -14,10 +14,8 @@ namespace EduEngine.Editor
             if (Show)
             {
                 ImGui.Begin("Render Resources", ref Show, ImGuiWindowFlags.HorizontalScrollbar);
-
                 ImGui.Checkbox("Only Used", ref _onlyUsed);
-                ImGui.Text(_renderResourcesInfo.GetObjectsInfo(_onlyUsed));
-
+                ImGui.TextUnformatted(_renderResourcesInfo.GetObjectsInfo(_onlyUsed));
                 ImGui.End();
             }
         }
