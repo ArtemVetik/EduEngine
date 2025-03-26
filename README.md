@@ -17,9 +17,9 @@ This engine was developed as an educational project as part of the curriculum at
 |----|----|
 | [![ParticlesDemo](https://img.youtube.com/vi/BiBwVGlcFt8/0.jpg)](https://www.youtube.com/watch?v=BiBwVGlcFt8) | [![BehaviorTreeDemo](https://img.youtube.com/vi/3F0NJqq_Tek/0.jpg)](https://www.youtube.com/watch?v=3F0NJqq_Tek) |
 
-| Split Screen Game | 
-|----|
-| [![SplitScreenDemo](https://img.youtube.com/vi/5VBvPJOgwn0/0.jpg)](https://www.youtube.com/watch?v=5VBvPJOgwn0)
+| Split Screen Game | Engine Overview |
+|----|----|
+| [![SplitScreenDemo](https://img.youtube.com/vi/5VBvPJOgwn0/0.jpg)](https://www.youtube.com/watch?v=5VBvPJOgwn0) | [![EngineOverview](https://img.youtube.com/vi/mKZAKAFZq98/0.jpg)](https://www.youtube.com/watch?v=mKZAKAFZq98) |
 
 ## Quick Start
 * [Submodule Initialization](https://github.com/ArtemVetik/EduEngine/wiki/Quick-Start#submodule-initialization)
